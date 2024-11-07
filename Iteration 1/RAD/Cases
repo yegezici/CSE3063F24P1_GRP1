@@ -1,10 +1,12 @@
 Use Case:  Student assigns to a course
 1.	Student writes his identification number and password correctly.
+1a. If student enters wrong information, program returns log in screen and prints an error message.
 2.	Program shows student’s courses that are available to register.
 3.	Student chooses a course and send to advisor for approval.
 4.	Student exists from the system.
 Use Case: Advisor approves courses of a student
 1.	Advisor writes his identification number and password correctly.
+1a. If advisor enters wrong information, program returns log in screen and prints an error message
 2.	Program shows the list of students that are advised from this advisor. 
 3.	Advisor selects a student.
 4.	Program shows the list of courses that are waited for approval of that student.
@@ -12,8 +14,4 @@ Use Case: Advisor approves courses of a student
 6.	Program registers that student for those courses.
 7.	Advisor turns back and can choose another student.
 8.	If the advisor does not choose any student exists from the system.
-Use Case: User writes identification number or password incorrectly 
-1.	User writes his identification number and password.
-2.	System warns the user and prints an error message.
-3.	User tries again to enter the system.
 
