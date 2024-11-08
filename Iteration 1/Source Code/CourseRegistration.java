@@ -1,48 +1,53 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.util.Date;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class CourseRegistration {
-   // Student student = new Student("Ali", "Kocyigit",new Date(2002, 9, 18),'M',new  )
-
     public static void main(String[] args) {
-        String pass = "abc123";
-        String userid = "o150121031";
         while (true) {
-            Scanner scan = new Scanner(System.in);
-            //Login usage
-            login(userid, pass);
-            if (userid.charAt(0) == 'o')
-                System.out.println("Hello Hasan Erz.");
-                System.out.println("1. Transcript\n2. Register for course\n3.Log out");
-                int choice = scan.nextInt();
-                switch (choice){
-                    case 1: break;
-                    case 2: break;
-                    case 3:
-                        System.out.println("You are successfully logged out.\n");
-                        login(userid,pass);
-                }
-
-
-
-
+            // Login function
+            if (login()) {
+                System.out.println("Hello Hasan Erz. Check your transcript and register a course that is available for you.");
+                break;
+            }
         }
     }
-//login function
-     private static void login(String userid, String password){
-        while(true){
-         Scanner idscan = new Scanner(System.in);
-         Scanner passwordscan = new Scanner(System.in);
-         System.out.println("Please enter your User ID and Password");
-         System.out.println("User ID: ");
-         String id = idscan.nextLine();
-         System.out.println("Password: ");
-         String pass = passwordscan.nextLine();
-         if(!(userid.equals(id)) && !(pass.equals(password))){
-             System.out.println("Wrong username or password. Please try again");
-         } else
-             break;
 
-     }}
+    private static boolean login() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter your User ID and Password");
+        System.out.print("User ID: ");
+        String enteredUserId = scanner.nextLine();
+        System.out.print("Password: ");
+        String enteredPassword = scanner.nextLine();
 
+        JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader("C://Users//aliar//Desktop//OOP-Project-1//CSE3063F24P1_GRP1//Iteration 1//Source Code//login.json")) {
+            // JSON dosyasını okuyun ve parse edin
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+            JSONArray usersArray = (JSONArray) jsonObject.get("users");
+
+            for (Object userObj : usersArray) {
+                JSONObject user = (JSONObject) userObj;
+                String userId = (String) user.get("userID");
+                String password = (String) user.get("password");
+                
+                if (userId.equals(enteredUserId) && password.equals(enteredPassword)) {
+                    System.out.println("Login successful!");
+                    return true;
+                }
+            }
+
+            System.out.println("Wrong username or password. Please try again.");
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+}
