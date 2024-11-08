@@ -22,4 +22,17 @@ public class Transcript {
             System.out.println(e1.getMessage());
         }
     }
+
+    public void addCurrentCourse(Course course){
+        try {
+            if (course != null)
+                currentCourses.add(course);
+            else
+                System.out.println("The course object is null");
+        } catch (NullPointerException e) {
+            System.out.println("The completedCourses list has not been initialized.");
+        }catch (Exception e1){
+            System.out.println(e1.getMessage());
+        }
+    }
 }
