@@ -5,6 +5,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Scanner;
 
 public class CourseRegistration {
@@ -27,7 +28,7 @@ public class CourseRegistration {
         String enteredPassword = scanner.nextLine();
 
         JSONParser parser = new JSONParser();
-        try (FileReader reader = new FileReader("C://Users//aliar//Desktop//OOP-Project-1//CSE3063F24P1_GRP1//Iteration 1//Source Code//login.json")) {
+        try (FileReader reader = new FileReader("C:\\Users\\AB\\eclipse-workspace\\login.json")) {
             // JSON dosyasını okuyun ve parse edin
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             JSONArray usersArray = (JSONArray) jsonObject.get("users");
@@ -50,4 +51,32 @@ public class CourseRegistration {
 
         return false;
     }
+    
+  /*  public Student createStudent(String filePath) {
+        JSONParser jsonParser = new JSONParser();
+
+        try (FileReader reader = new FileReader(filePath)) {
+            
+            JSONObject studentJson = (JSONObject) jsonParser.parse(reader);
+
+            
+            String name = (String) studentJson.get("name");
+            String surname = (String) studentJson.get("surname");
+            String studentID = (String) studentJson.get("studentID");
+            char gender = ((String) studentJson.get("gender")).charAt(0);
+            Date birthdate = new Date((Long) studentJson.get("birthdate")); 
+            
+            
+            Transcript transcript = new Transcript(); 
+            Advisor advisor = new Advisor(); 
+
+          
+            Student student = new Student(name, surname, birthdate, gender, transcript, advisor, studentID);
+            return student;
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+            return null; 
+        }
+    } */
 }
