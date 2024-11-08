@@ -1,0 +1,76 @@
+{
+    "courses": [
+      {
+        "courseId": "CSE1113",
+        "name": "Introduction to Computer Science",
+        "credits": 3
+      },
+      {
+        "courseId": "CSE1035",
+        "name": "Discrete Mathematics",
+        "credits": 4
+      },
+      {
+        "courseId": "MATH1002",
+        "name": "Calculus I",
+        "credits": 5
+      },
+      {
+        "courseId": "CSE2020",
+        "name": "Data Structures",
+        "credits": 3
+      },
+      {
+        "courseId": "CSE2030",
+        "name": "Algorithms",
+        "credits": 3
+      },
+      {
+        "courseId": "MATH2001",
+        "name": "Linear Algebra",
+        "credits": 4
+      },
+      {
+        "courseId": "PHYS1010",
+        "name": "Physics I",
+        "credits": 4
+      },
+      {
+        "courseId": "CSE3030",
+        "name": "Operating Systems",
+        "credits": 3
+      },
+      {
+        "courseId": "CSE3110",
+        "name": "Software Engineering",
+        "credits": 3
+      },
+      {
+        "courseId": "CSE4100",
+        "name": "Computer Networks",
+        "credits": 4
+      }
+    ],
+    "students": [
+        {
+        "userID": "o150121031",
+        "password": "abc123",
+        "name": "John",
+        "surname": "Doe",
+        "birthdate": "2000-01-01",
+        "gender": "M",
+        "studentID": "150121031",
+        "advisor": "Dr. Smith"
+        },
+        {
+        "userID": "o150121032",
+        "password": "password2",
+        "name": "Jane",
+        "surname": "Smith",
+        "birthdate": "1999-02-14",
+        "gender": "F",
+        "studentID": "150121032",
+        "advisor": "Dr. Johnson"
+        }
+    ]
+  }
