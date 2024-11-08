@@ -5,7 +5,7 @@ public class Advisor extends Lecturer {
     private ArrayList<Student> students;
 
     public Advisor() {
-        suepr();
+        super();
     }
     public Advisor(String name, String surname){
       super(name,surname);
