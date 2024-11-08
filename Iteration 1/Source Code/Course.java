@@ -7,7 +7,8 @@ public class Course {
     private ArrayList<Student> students;
     private ArrayList<CourseSection> courseSections;
     private Course prerequisiteCourse;
-
+    private int credit;
+    
     public Course() {
     }
 
@@ -15,6 +16,7 @@ public class Course {
         this.courseId = courseId;
         this.courseName = courseName;
     }
+    
 
     public String getCourseId() {
         return courseId;
@@ -48,5 +50,5 @@ public class Course {
     public void setPrerequisiteCourse(Course prerequisiteCourse) {
         this.prerequisiteCourse = prerequisiteCourse;
     }
-    
+
 }
