@@ -1,4 +1,4 @@
-import java.util.List;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,10 +7,12 @@ public class Student extends Person{
 	private Transcript transcript;
 	private String studentID;
 	private Advisor advisor;
-	private List<Course> registeredCourse;
+	private ArrayList<Course> registeredCourse;
 	
-	
-	public Student(String name, String surname, Date birthdate, char Gender, String studentID) {
+	public Student() {
+		
+	}
+	public Student(String name, String surname, Date birthdate, char Gender, Transcript transcript, Advisor advisor, String studentID) {
         this.name = name;
         this.surname = surname;
         this.birthdate = birthdate;
@@ -22,7 +24,7 @@ public class Student extends Person{
     }
 	
 	public void registerCourse(Course course) {
-	
+		
 		
 	}
 
