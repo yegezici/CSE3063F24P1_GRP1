@@ -12,11 +12,11 @@ public class Student extends Person{
 		
 	}
 	
-	public Student(String name, String surname, Date birthdate, char Gender, Transcript transcript, Advisor advisor, String studentID) {
+	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, Advisor advisor, String studentID) {
         this.name = name;
         this.surname = surname;
         this.birthdate = birthdate;
-        this.Gender = Gender;
+        this.gender = gender;
         this.advisor = advisor;
         this.transcript = transcript;
         this.studentID = studentID;
@@ -24,7 +24,6 @@ public class Student extends Person{
     }
 	
 	public void registerCourse(Course course) {
-		
 		transcript.addWaitedCourse(course);
 		
 	}
