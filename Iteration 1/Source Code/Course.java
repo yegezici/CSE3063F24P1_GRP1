@@ -6,6 +6,7 @@ public class Course {
     private Lecturer lecturer;
     private ArrayList<Student> students;
     private ArrayList<CourseSection> courseSections;
+    private Course prerequisiteCourse;
 
     public Course() {
     }
@@ -35,9 +36,17 @@ public class Course {
                 System.out.println("The student object is null");
         } catch (NullPointerException e) {
             System.out.println("The students list has not been initialized.");
-        }catch (Exception e1){
+        } catch (Exception e1) {
             System.out.println(e1.getMessage());
         }
     }
 
+    public Course getPrerequisiteCourse() {
+        return prerequisiteCourse;
+    }
+
+    public void setPrerequisiteCourse(Course prerequisiteCourse) {
+        this.prerequisiteCourse = prerequisiteCourse;
+    }
+    
 }
