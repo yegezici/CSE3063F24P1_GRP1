@@ -10,7 +10,16 @@ public class Transcript {
         this.completedCourses = comp;
         this.currentCourses = current;
     };
-   public void addCourse(ArrayList<Course> current){
-       
-   }
+    public void addCompletedCourse(Course course){
+        try {
+            if (course != null)
+                completedCourses.add(course);
+            else
+                System.out.println("The course object is null");
+        } catch (NullPointerException e) {
+            System.out.println("The completedCourses list has not been initialized.");
+        }catch (Exception e1){
+            System.out.println(e1.getMessage());
+        }
+    }
 }
