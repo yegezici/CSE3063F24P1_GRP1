@@ -5,15 +5,19 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CourseRegistration {
     public static void main(String[] args) {
+
+        ArrayList<Course> courses = loadCourses("C://Users//aliar//Desktop//OOP-Project-1//CSE3063F24P1_GRP1//Iteration 1//Source Code//JsonFiles//parameters.json");
+
         while (true) {
             // Login function
             if (login()) {
-                System.out.println("Hello Hasan Erz. Check your transcript and register a course that is available for you.");
+                
+                //System.out.println("Hello Hasan Erz. Check your transcript and register a course that is available for you.");
                 break;
             }
         }
@@ -28,12 +32,12 @@ public class CourseRegistration {
         String enteredPassword = scanner.nextLine();
 
         JSONParser parser = new JSONParser();
-        try (FileReader reader = new FileReader("C:\\Users\\AB\\eclipse-workspace\\login.json")) {
+        try (FileReader reader = new FileReader("C://Users//aliar//Desktop//OOP-Project-1//CSE3063F24P1_GRP1//Iteration 1//Source Code//JsonFiles//parameters.json")) {
             // JSON dosyasını okuyun ve parse edin
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            JSONArray usersArray = (JSONArray) jsonObject.get("users");
+            JSONArray studentsArray = (JSONArray) jsonObject.get("students");
 
-            for (Object userObj : usersArray) {
+            for (Object userObj : studentsArray) {
                 JSONObject user = (JSONObject) userObj;
                 String userId = (String) user.get("userID");
                 String password = (String) user.get("password");
@@ -51,32 +55,32 @@ public class CourseRegistration {
 
         return false;
     }
+
+    public static ArrayList<Course> loadCourses(String fileName) {
+        ArrayList<Course> courses = new ArrayList<>();
+        try {
+            // JSON dosyasını okuma
+            JSONParser parser = new JSONParser();
+            FileReader reader = new FileReader(fileName);
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
     
-  /*  public Student createStudent(String filePath) {
-        JSONParser jsonParser = new JSONParser();
-
-        try (FileReader reader = new FileReader(filePath)) {
-            
-            JSONObject studentJson = (JSONObject) jsonParser.parse(reader);
-
-            
-            String name = (String) studentJson.get("name");
-            String surname = (String) studentJson.get("surname");
-            String studentID = (String) studentJson.get("studentID");
-            char gender = ((String) studentJson.get("gender")).charAt(0);
-            Date birthdate = new Date((Long) studentJson.get("birthdate")); 
-            
-            
-            Transcript transcript = new Transcript(); 
-            Advisor advisor = new Advisor(); 
-
-          
-            Student student = new Student(name, surname, birthdate, gender, transcript, advisor, studentID);
-            return student;
-
-        } catch (IOException | ParseException e) {
+            // Dersleri çekme
+            JSONArray coursesArray = (JSONArray) jsonObject.get("courses");
+    
+            for (Object obj : coursesArray) {
+                JSONObject courseObj = (JSONObject) obj;
+                String courseId = (String) courseObj.get("courseId");
+                String name = (String) courseObj.get("name");
+                Long credits = (Long) courseObj.get("credits"); // JSON'dan gelen veriyi Long olarak alırız
+    
+                // Course nesnesini oluşturup listeye ekleriz
+                courses.add(new Course(courseId, name, credits.intValue()));
+            }
+    
+        } catch (Exception e) {
             e.printStackTrace();
-            return null; 
         }
-    } */
+        return courses;
+    }
 }
+
