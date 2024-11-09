@@ -12,8 +12,8 @@ import java.util.Scanner;
 public class   CourseRegistration {
     public static void main(String[] args) {
 
-        //Student student = new Student("Hasan","Erz",new Date(2002,9,18),'m',"150121031",new Advisor(),new Transcript());
-        while (true) {
+        boolean isLogged = true;
+        while (isLogged) {
             // Login function
             Scanner scan = new Scanner(System.in);
             System.out.println("Please enter your User ID and Password");
@@ -33,6 +33,7 @@ public class   CourseRegistration {
                     case 2:
                         break;
                     case 3:
+                        isLogged = false;
                         System.out.println("You are successfully logged out.\n");
                         break;
                 }
@@ -61,31 +62,34 @@ public class   CourseRegistration {
         }
     }
          private static Person checkIdandPassword(String enteredUserId, String enteredPassword){
-             Advisor advisor = new Advisor();
+              Advisor advisor = new Advisor();
              JSONParser parser = new JSONParser();
-             try (FileReader reader = new FileReader("src/main/java/login.json")) {
-                 // JSON dosyasını okuyun ve parse edin
+             try (FileReader reader = new FileReader("src/main/java/parameters.json")) {
                  JSONObject jsonObject = (JSONObject) parser.parse(reader);
-                 JSONArray usersArray = (JSONArray) jsonObject.get("users");
+                 JSONArray studentsArray = (JSONArray) jsonObject.get("students");
 
-                 for (Object userObj : usersArray) {
-                     JSONObject user = (JSONObject) userObj;
-                     String userId = (String) user.get("userID");
-                     String password = (String) user.get("password");
+                 for (Object studentObj : studentsArray) {
+                     JSONObject student = (JSONObject) studentObj;
+                     String userId = (String) student.get("userID");
+                     String password = (String) student.get("password");
+                     String name = (String) student.get("name");
+                     String surname = (String) student.get("surname");
+                     String studentID = (String) student.get("studentID");
+
 
                      if (userId.equals(enteredUserId) && password.equals(enteredPassword)) {
                          System.out.println("Login successful!");
-                         String StudentID = (String) user.get("StudentID");
-                         Transcript transcript;
-                         transcript = createTranscript(StudentID);
-                         return new Student("Hasan", "Erz", new Date(2002,9,18),'m',transcript,new Advisor(),"150121031");
+                         System.out.println("Welcome, " + name + " " + surname);
+
+                         Transcript transcript = createTranscript(studentID);
+                         return new Student(name, surname, new Date(2002,9,18),'m',transcript,new Advisor(),studentID);
                      }
                  }
-
-                 System.out.println("Wrong username or password. Please try again.");
-             } catch (IOException | ParseException e) {
+                 System.out.println("Invalid User ID or Password.");
+             } catch (Exception e) {
                  e.printStackTrace();
              }
+
            return advisor;
          }
         }
