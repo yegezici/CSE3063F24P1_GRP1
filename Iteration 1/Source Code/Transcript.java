@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Transcript {
     private ArrayList<Course> completedCourses;
     private ArrayList<Course> currentCourses;
-    private ArrayList<Course> waitedCourses;
+    private ArrayList<Course> waitedCourses = new ArrayList<>();
 
     public Transcript(){
 
@@ -64,7 +64,7 @@ public class Transcript {
             System.out.println(e1.getMessage());
         }
     }
-    
+
     public void showWaitedCourses(){
         System.out.println("Courses that are waiting for approve listed below:");
         for(int i = 0; i < waitedCourses.size(); i++){
@@ -86,4 +86,27 @@ public class Transcript {
         }
     }
 
+    public void setCompletedCourses(ArrayList<Course> completedCourses) {
+        this.completedCourses = completedCourses;
+    }
+
+    public void setCurrentCourses(ArrayList<Course> currentCourses) {
+        this.currentCourses = currentCourses;
+    }
+
+    public void setWaitedCourses(ArrayList<Course> waitedCourses) {
+        this.waitedCourses = waitedCourses;
+    }
+
+    public ArrayList<Course> getCompletedCourses() {
+        return completedCourses;
+    }
+
+    public ArrayList<Course> getCurrentCourses() {
+        return currentCourses;
+    }
+
+    public ArrayList<Course> getWaitedCourses() {
+        return waitedCourses != null ? waitedCourses : new ArrayList<>();
+    }
 }
