@@ -18,6 +18,15 @@ public class Advisor extends Lecturer {
     public void approveCourse(Student student, Course course) {
         try {
             student.getTranscript().addCurrentCourse(course);
+            student.getTranscript().deleteFromWaitedCourse(course);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void rejectCourse(Student student, Course course) {
+        try {
+            student.getTranscript().deleteFromWaitedCourse(course);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -29,6 +38,10 @@ public class Advisor extends Lecturer {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public ArrayList<Student> getStudents() {
+        return this.students;
     }
 
 
