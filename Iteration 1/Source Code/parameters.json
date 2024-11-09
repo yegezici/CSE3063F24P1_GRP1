@@ -60,7 +60,7 @@
         "birthdate": "2000-01-01",
         "gender": "M",
         "studentID": "150121031",
-        "advisor": "Dr. Smith"
+        "advisor": "Murat Can Ganiz"
         },
         {
         "userID": "o150121032",
@@ -70,7 +70,18 @@
         "birthdate": "1999-02-14",
         "gender": "F",
         "studentID": "150121032",
-        "advisor": "Dr. Johnson"
+        "advisor": "Murat Can Ganiz"
+        }
+    ],
+    "advisors": [
+        {
+        "userID": "l123456",
+        "password": "ganiz123",
+        "name": "Murat Can",
+        "surname": "Ganiz",
+        "birthdate": "1975-01-01",
+        "gender": "M",
+        "ssn": "987654321"
         }
     ]
   }
