@@ -5,15 +5,15 @@ import java.util.Date;
 public class Student extends Person{
 	private Transcript transcript;
 	private String studentID;
-	private Advisor advisor;
+	private String advisorID;
 	
 	public Student() {
 		
 	}
 	
-	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, String studentID, Advisor advisor) {
+	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, String studentID, String advisorID) {
         super(name, surname, birthdate, gender);
-        this.advisor = advisor;
+        this.advisorID = advisorID;
         this.transcript = transcript;
         this.studentID = studentID;
     }
@@ -31,8 +31,8 @@ public class Student extends Person{
 		return studentID;
 	}
 
-	public Advisor getAdvisor() {
-		return advisor;
+	public String getAdvisorID() {
+		return advisorID;
 	}
 	
 }
