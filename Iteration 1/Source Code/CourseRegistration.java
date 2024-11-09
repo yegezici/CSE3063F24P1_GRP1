@@ -17,16 +17,18 @@ public class CourseRegistration {
     public static void main(String[] args) {
         loadCourses(); // Kursları yükle
         boolean isLogged = true;
+        
         Student currentStud = (Student) login();
         while (isLogged) {
             isLogged = showMenu(currentStud, isLogged);
         }
+
     }
 
     private static void loadCourses() {
         JSONParser parser = new JSONParser();
         String basePath = System.getProperty("user.dir");
-        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", "parameters.json").toString();
+        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "parameters.json").toString();
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -56,7 +58,7 @@ public class CourseRegistration {
     private static Transcript createTranscript(String studentID) {
         JSONParser parser = new JSONParser();
         String basePath = System.getProperty("user.dir");
-        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", studentID + ".json").toString();
+        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", studentID + ".json").toString();
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
@@ -175,7 +177,7 @@ public class CourseRegistration {
         Advisor advisor = new Advisor();
         JSONParser parser = new JSONParser();
         String basePath = System.getProperty("user.dir");
-        String filePath = "src/paramaters.json";
+        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "parameters.json").toString();
 
         try (FileReader reader = new FileReader(filePath)) {
             // JSON dosyasını okuyun ve parse edin
@@ -206,28 +208,28 @@ public class CourseRegistration {
                 System.out.println("If you are a student, you must add \"o\" as the first letter of your student number\n" +
                         "If you are a lecturer, you must add \"l\"");
 
-            } else if (isUserExist) {
+            } 
+            else if (isUserExist) {
                 if (userId.charAt(0) == 'o') {
                     System.out.println("Login successful!");
                     System.out.println("Welcome, " + name + " " + surname);
-                    String StudentID = (String) user.get("StudentID");
+                    String StudentID = (String) user.get("studentID");
                     
                     Transcript transcript;
                     transcript = createTranscript(StudentID);
                     return new Student(name, surname, new Date(2002,9,18), 'm', transcript,studentID, new Advisor());                } else if (userId.charAt(0) == 'l') {
                     return advisor;
                 }
-            } else {
+            } 
+            else {
                 System.out.println("Wrong username or password. Please try again.");
             }
-
-
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         return advisor;
     }
-       public static void advisorInterface(Advisor advisor){
+    public static void advisorInterface(Advisor advisor){
         Scanner scan = new Scanner(System.in);
         System.out.println("Students are shown below:");
         int numOfStudents = advisor.getStudents().size();
@@ -243,7 +245,7 @@ public class CourseRegistration {
             currentStudent.getTranscript().showWaitedCourses();
             System.out.print("Which course do you want  to select?: ");
             int courseIndex = scan.nextInt();
-            Course course = currentStudent.getTranscript().getWaitedCourse().get(courseIndex-1);
+            Course course = currentStudent.getTranscript().getWaitedCourses().get(courseIndex-1);
             System.out.println("Do you want to approve this course?(Y/N): ");
             String approve = scan.next();
             if(approve.equals("Y")){
@@ -254,44 +256,44 @@ public class CourseRegistration {
                 System.out.println("Enter Y or N.");
             }
         }
+    }
+    public static boolean studentInterface (Student student){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("1. Transcript\n2. Register for course\n3. Log out");
+        int choice = scan.nextInt();
+        switch (choice) {
+            case 1:
+                student.getTranscript().showCompletedCourses();
+                student.getTranscript().showWaitedCourses();
+                return true;
+            case 2:
 
-      public static void studentInterface (Student student){
-            Scanner scan = new Scanner(System.in);
-            System.out.println("1. Transcript\n2. Register for course\n3. Log out");
-            int choice = scan.nextInt();
-            switch (choice) {
-                case 1:
-                    student.getTranscript().showCompletedCourses();
-                    student.getTranscript().showWaitedCourses();
-                    break;
-                case 2:
-
-                    for (int j = 0; j < courses.size(); j++) {
-                        boolean isCompleted = false;
-                        // Check if the course is in the completed courses
-                        for (int k = 0; k < student.getTranscript().getCompletedCourses().size(); k++) {
-                            if (courses.get(j).getCourseId().equals(student.getTranscript().getCompletedCourses().get(k).getCourseId())) {
-                                isCompleted = true;
-                                break;
-                            }
-                        }
-                        // Register the course if it is not in the completed courses
-                        if (!isCompleted) {
-                            student.registerCourse(courses.get(j));
-                            addWaitedCourse(student, courses.get(j));
+                for (int j = 0; j < courses.size(); j++) {
+                    boolean isCompleted = false;
+                    // Check if the course is in the completed courses
+                    for (int k = 0; k < student.getTranscript().getCompletedCourses().size(); k++) {
+                        if (courses.get(j).getCourseId().equals(student.getTranscript().getCompletedCourses().get(k).getCourseId())) {
+                            isCompleted = true;
+                            break;
                         }
                     }
-                    System.out.println("These are the courses for registering.");
-                    student.getTranscript().showWaitedCourses();
-
-                    break;
-
-                case 3:
-                    System.out.println("You are successfully logged out.\n");
-                    break;
-            }
+                    // Register the course if it is not in the completed courses
+                    if (!isCompleted) {
+                        student.registerCourse(courses.get(j));
+                        addWaitedCourse(student, courses.get(j));
+                    }
+                }
+                System.out.println("These are the courses for registering.");
+                student.getTranscript().showWaitedCourses();
+                return true;
+            case 3:
+                System.out.println("You are successfully logged out.\n");
+                return false;
+            default: 
+                System.out.println("Please enter a valid operation.");
+                return true;
         }
-
+    }
     private static Person login(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter your User ID and Password");
@@ -304,13 +306,15 @@ public class CourseRegistration {
     }
     private static boolean showMenu(Person currentUser, boolean isLogged) {
         if (currentUser instanceof Student) {
-            studentInterface((Student) currentUser);
+            while(isLogged){
+                isLogged = studentInterface((Student) currentUser);
+            }
+            return false;
         }else if(currentUser instanceof Advisor){
             advisorInterface((Advisor) currentUser);
         }else {
             login();
         }
-
         return true;
     }
 }
