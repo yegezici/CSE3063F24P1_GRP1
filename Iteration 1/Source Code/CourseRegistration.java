@@ -78,7 +78,7 @@ public class   CourseRegistration {
                          String StudentID = (String) user.get("StudentID");
                          Transcript transcript;
                          transcript = createTranscript(StudentID);
-                         return new Student("Hasan", "Erz", new Date(2002,9,18),'m',"150121031",new Advisor(),transcript);
+                         return new Student("Hasan", "Erz", new Date(2002,9,18),'m',transcript,new Advisor(),"150121031");
                      }
                  }
 
