@@ -13,30 +13,12 @@ public class   CourseRegistration {
     public static void main(String[] args) {
 
         boolean isLogged = true;
+        Student currentStud = (Student) login();
         while (isLogged) {
-            // Login function
-            Scanner scan = new Scanner(System.in);
-            System.out.println("Please enter your User ID and Password");
-            System.out.print("User ID: ");
-            String enteredUserId = scan.nextLine();
-            System.out.print("Password: ");
-            String enteredPassword = scan.nextLine();
-            Student currentStud = (Student) checkIdandPassword(enteredUserId,enteredPassword);
+            //öğrencinin userid ve şifresine ait bilgilerle student objesi oluşturup onu döndürüyor
+            isLogged = showMenu(currentStud,isLogged);
 
-                //menu options with switch case
-                System.out.println("1. Transcript\n2. Register for course\n3. Log out");
-                int choice = scan.nextInt();
-                switch (choice) {
-                    case 1:
-                        currentStud.getTranscript().showCompletedCourses();
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        isLogged = false;
-                        System.out.println("You are successfully logged out.\n");
-                        break;
-                }
+
 
 
         }
@@ -91,5 +73,36 @@ public class   CourseRegistration {
              }
 
            return advisor;
+         }
+         private static boolean showMenu(Person currentUser, boolean isLogged){
+             System.out.println("1. Transcript\n2. Register for course\n3. Log out");
+             Scanner scan = new Scanner(System.in);
+             Student currentStud = (Student) currentUser;
+             int choice = scan.nextInt();
+             switch (choice) {
+                 case 1:
+                     currentStud.getTranscript().showCompletedCourses();
+                     break;
+                 case 2:
+                     break;
+                 case 3:
+                     System.out.println("You are successfully logged out.\n");
+                     return false;
+                 default:
+                     System.out.println("You entered a invalid choice. Please try again!");
+                     break;
+             }
+                 return true;
+         }
+
+         private static Person login(){
+             Scanner scan = new Scanner(System.in);
+             System.out.println("Please enter your User ID and Password");
+             System.out.print("User ID: ");
+             String enteredUserId = scan.nextLine();
+             System.out.print("Password: ");
+             String enteredPassword = scan.nextLine();
+             return (Student) checkIdandPassword(enteredUserId,enteredPassword);
+
          }
         }
