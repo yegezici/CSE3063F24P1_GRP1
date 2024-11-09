@@ -11,8 +11,9 @@ public class Advisor extends Lecturer {
       super(name,surname);
     }
 
-    public Advisor(String name, String surname, Date birthdate, char gender){
-        super(name, surname, birthdate, gender);
+    public Advisor(String name, String surname, Date birthdate, char gender, String ssn, ArrayList<Course> courses, ArrayList<Student> students){
+        super(name, surname, birthdate, gender, ssn, courses);
+        this.students = students;
     }
 
     public void approveCourse(Student student, Course course) {
@@ -41,7 +42,7 @@ public class Advisor extends Lecturer {
     }
 
     public ArrayList<Student> getStudents() {
-        return this.students;
+        return students;
     }
 
 
