@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class CourseRegistration {
     private static HashMap<String, Course> allCourses = new HashMap<>(); // Tüm kursları saklayacak hashmap
-
+    private static ArrayList<Course> courses = new ArrayList<>();
     public static void main(String[] args) {
         loadCourses(); // Kursları yükle
         boolean isLogged = true;
@@ -40,6 +40,7 @@ public class CourseRegistration {
 
                 Course course = new Course(courseId, courseName);
                 allCourses.put(courseId, course); // courseId'yi anahtar olarak kullanarak ekle
+                courses.add(course);
             }
             System.out.println("Courses loaded successfully!");
         } catch (IOException | ParseException e) {
@@ -56,55 +57,81 @@ public class CourseRegistration {
         JSONParser parser = new JSONParser();
         String basePath = System.getProperty("user.dir");
         String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", studentID + ".json").toString();
-        
+
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
 
         try (FileReader reader = new FileReader(filePath)) {
-            JSONArray coursesArray = (JSONArray) parser.parse(reader);
-            for (Object courseObj : coursesArray) {
-                JSONObject course = (JSONObject) courseObj;
-                String courseId = (String) course.get("courseID");
-                String courseName = (String) course.get("courseName");
-                completedCourses.add(new Course(courseId, courseName));
+            // Parse the JSON as an object (not an array)
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+
+            // Access and parse "completedCourses" array
+            JSONArray completedCoursesArray = (JSONArray) jsonObject.get("completedCourses");
+            if (completedCoursesArray != null) {
+                for (Object courseObj : completedCoursesArray) {
+                    JSONObject course = (JSONObject) courseObj;
+                    String courseId = (String) course.get("courseID");
+                    String courseName = (String) course.get("courseName");
+
+                    // Add to completedCourses without grade
+                    completedCourses.add(new Course(courseId, courseName));
+                }
             }
+
+            // Access and parse "currentCourses" array
+            JSONArray currentCoursesArray = (JSONArray) jsonObject.get("currentCourses");
+            if (currentCoursesArray != null) {
+                for (Object courseObj : currentCoursesArray) {
+                    JSONObject course = (JSONObject) courseObj;
+                    String courseId = (String) course.get("courseID");
+                    String courseName = (String) course.get("courseName");
+
+                    // Add to currentCourses without grade
+                    currentCourses.add(new Course(courseId, courseName));
+                }
+            }
+
+            // Return the Transcript with completed and current courses
             return new Transcript(completedCourses, currentCourses);
+
         } catch (Exception e) {
-            System.out.println("Error reading transcript for student ID: " + studentID);
+            System.out.println("Error reading or parsing the JSON file for student ID: " + studentID);
+            e.printStackTrace();
             return null;
         }
     }
-
     // JSON dosyasını aç, waitedCourses kısmını bul ve yeni dersi ekle
     // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
-    private static void addWaitedCourse(Student student, Course course) {
-        String basePath = System.getProperty("user.dir");
-        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", student.getStudentID() + ".json").toString();
-        
+  private static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
+        String filePath = "src/main/java/" + student.getStudentID() + ".json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject studentData = (JSONObject) parser.parse(reader);
-            JSONArray waitedCourses = (JSONArray) studentData.get("waitedCourses");
 
-            // Yeni ders bilgilerini içeren JSON nesnesi oluştur
+            // Check if "waitedCourses" exists and is initialized
+            JSONArray waitedCourses = (JSONArray) studentData.get("waitedCourses");
+            if (waitedCourses == null) {
+                waitedCourses = new JSONArray(); // Initialize as an empty array if null
+                studentData.put("waitedCourses", waitedCourses);
+            }
+
+            // Create a new JSON object for the course and add it to "waitedCourses"
             JSONObject newCourse = new JSONObject();
             newCourse.put("courseID", course.getCourseId());
             newCourse.put("courseName", course.getCourseName());
-
-            // waitedCourses'a yeni dersi ekle
             waitedCourses.add(newCourse);
 
-            // Güncellenmiş dosyayı tekrar yaz
+            // Write the updated data back to the file
             try (FileWriter writer = new FileWriter(filePath)) {
                 writer.write(studentData.toJSONString());
                 writer.flush();
             }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
-    
     // JSON dosyasını aç, courseID'yi waitedCourses'dan bul ve currentCourses kısmına ekle
     // Ardından, waitedCourses kısmından ilgili courseID'yi sil
     private static void acceptCourseRequest(Student student, Course course) {
@@ -228,21 +255,42 @@ public class CourseRegistration {
             }
         }
 
-      public static void studentInterface(Student student){
-        Scanner scan = new Scanner(System.in);
-        System.out.println("1. Transcript\n2. Register for course\n3. Log out");
-        int choice = scan.nextInt();
-        switch (choice) {
-            case 1:
-                student.getTranscript().showCompletedCourses();
-                break;
-            case 2:
-                break;
-            case 3:
-                System.out.println("You are successfully logged out.\n");
-                break;
+      public static void studentInterface (Student student){
+            Scanner scan = new Scanner(System.in);
+            System.out.println("1. Transcript\n2. Register for course\n3. Log out");
+            int choice = scan.nextInt();
+            switch (choice) {
+                case 1:
+                    student.getTranscript().showCompletedCourses();
+                    student.getTranscript().showWaitedCourses();
+                    break;
+                case 2:
+
+                    for (int j = 0; j < courses.size(); j++) {
+                        boolean isCompleted = false;
+                        // Check if the course is in the completed courses
+                        for (int k = 0; k < student.getTranscript().getCompletedCourses().size(); k++) {
+                            if (courses.get(j).getCourseId().equals(student.getTranscript().getCompletedCourses().get(k).getCourseId())) {
+                                isCompleted = true;
+                                break;
+                            }
+                        }
+                        // Register the course if it is not in the completed courses
+                        if (!isCompleted) {
+                            student.registerCourse(courses.get(j));
+                            addWaitedCourse(student, courses.get(j));
+                        }
+                    }
+                    System.out.println("These are the courses for registering.");
+                    student.getTranscript().showWaitedCourses();
+
+                    break;
+
+                case 3:
+                    System.out.println("You are successfully logged out.\n");
+                    break;
+            }
         }
-    }
 
     private static Person login(){
         Scanner scan = new Scanner(System.in);
