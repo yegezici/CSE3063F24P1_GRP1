@@ -56,6 +56,96 @@ public class CourseRegistration {
         return courses;
     }
 
+    public static Advisor getAdvisorByUserID(String userID) {
+        JSONParser parser = new JSONParser();
+        String basePath = System.getProperty("user.dir");
+        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", "parameters.json").toString();
+
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+            JSONArray advisorsArray = (JSONArray) jsonData.get("advisors");
+
+            for (Object advisorObj : advisorsArray) {
+                JSONObject advisorJson = (JSONObject) advisorObj;
+                String advisorUserID = (String) advisorJson.get("userID");
+
+                if (advisorUserID.equals(userID)) {
+                    String name = (String) advisorJson.get("name");
+                    String surname = (String) advisorJson.get("surname");
+                    Date birthdate = (Date) advisorJson.get("birthdate");
+                    char gender = (char) advisorJson.get("gender");
+                    String ssn = (String) advisorJson.get("ssn");
+
+                    // Öğrenci nesnelerini oluşturmak için studentID listesini al
+                    JSONArray studentIDs = (JSONArray) advisorJson.get("students");
+                    ArrayList<Student> students = new ArrayList<>();
+
+                    for (Object studentIDObj : studentIDs) {
+                        String studentID = (String) studentIDObj;
+                        Student student = getStudentByID(studentID);
+                        if (student != null) {
+                            students.add(student);
+                        }
+                    }
+
+                    // Advisor'ın verdiği derslerin objelerini oluştur.
+                    JSONArray courseIDs = (JSONArray) advisorJson.get("courses");
+                    ArrayList<Course> coursesOfLecturer = new ArrayList<>();
+
+                    for(Object courseIDObj : courseIDs){
+                        String courseID = (String) courseIDObj;
+                        for(Course course : courses){
+                            if(course.getCourseId().equals(courseID)){
+                                coursesOfLecturer.add(course);
+                            }
+                        }
+                    }
+
+                    return new Advisor(name, surname, birthdate, gender, ssn, coursesOfLecturer ,students);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        
+        System.out.println("Advisor with userID: " + userID + " not found.");
+        return null;
+    }
+
+    // JSON dosyasından öğrenci bilgilerini alıp Student nesnesi oluşturan yardımcı metod
+    private static Student getStudentByID(String studentID) {
+        JSONParser parser = new JSONParser();
+        String basePath = System.getProperty("user.dir");
+        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", "parameters.json").toString();
+
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+            JSONArray studentsArray = (JSONArray) jsonData.get("students");
+
+            for (Object studentObj : studentsArray) {
+                JSONObject studentJson = (JSONObject) studentObj;
+                String jsonStudentID = (String) studentJson.get("studentID");
+
+                if (jsonStudentID.equals(studentID)) {
+                    String userID = (String) studentJson.get("userID");
+                    String password = (String) studentJson.get("password");
+                    String name = (String) studentJson.get("name");
+                    String surname = (String) studentJson.get("surname");
+                    Date birthdate = (Date) studentJson.get("birthdate");
+                    char gender = (char) studentJson.get("gender");
+                    String advisorID = (String) studentJson.get("advisorID");
+                    Transcript transcript = createTranscript(studentID);
+
+                    return new Student(name, surname, birthdate, gender, transcript, studentID, advisorID);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
     private static Transcript createTranscript(String studentID) {
         JSONParser parser = new JSONParser();
