@@ -10,8 +10,9 @@ public class Lecturer extends Staff{
     public Lecturer(String name, String surname){
         super(name,surname);
     }
-    public Lecturer(String name, String surname, Date birthdate, char gender){
-        super(name, surname, birthdate, gender);
+    public Lecturer(String name, String surname, Date birthdate, char gender, String ssn, ArrayList<Course> courses){
+        super(name, surname, birthdate, gender, ssn);
+        this.courses = courses;
     }
 
     public ArrayList<Course> getCourses(){

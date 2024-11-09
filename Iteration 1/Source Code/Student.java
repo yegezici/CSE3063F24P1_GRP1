@@ -6,21 +6,16 @@ public class Student extends Person{
 	private Transcript transcript;
 	private String studentID;
 	private Advisor advisor;
-	private ArrayList<Course> registeredCourse;
 	
 	public Student() {
 		
 	}
 	
-	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, Advisor advisor, String studentID) {
-        this.name = name;
-        this.surname = surname;
-        this.birthdate = birthdate;
-        this.gender = gender;
+	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, String studentID, Advisor advisor) {
+        super(name, surname, birthdate, gender);
         this.advisor = advisor;
         this.transcript = transcript;
         this.studentID = studentID;
-        registeredCourse = new ArrayList<>(); 
     }
 	
 	public void registerCourse(Course course) {

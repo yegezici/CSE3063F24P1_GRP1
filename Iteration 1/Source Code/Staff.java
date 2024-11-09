@@ -11,12 +11,12 @@ public class Staff extends Person {
         super(name, surname);
     }
 
-    public Staff(String name, String surname, Date birthdate, char gender) {
+    public Staff(String name, String surname, Date birthdate, char gender, String ssn) {
         super(name, surname, birthdate, gender);
+        this.ssn = ssn;
     }
 
-
-    public Staff(String ssn) {
-        this.ssn = ssn;
+    public String getSsn(){
+        return ssn;
     }
 }
