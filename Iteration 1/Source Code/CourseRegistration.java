@@ -10,18 +10,15 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class   CourseRegistration {
-    public static void main(String[] args) {
-
+     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
         boolean isLogged = true;
-        Student currentStud = (Student) login();
-        while (isLogged) {
-            //öğrencinin userid ve şifresine ait bilgilerle student objesi oluşturup onu döndürüyor
-            isLogged = showMenu(currentStud,isLogged);
+        Person currentUser = login();
 
-
-
-
+        while (true) {
+            showMenu(currentUser,true, scan);
         }
+    }
     }
     private static Transcript createTranscript(String studentID) {
         JSONParser parser = new JSONParser();
@@ -74,35 +71,37 @@ public class   CourseRegistration {
 
            return advisor;
          }
-         private static boolean showMenu(Person currentUser, boolean isLogged){
-             System.out.println("1. Transcript\n2. Register for course\n3. Log out");
-             Scanner scan = new Scanner(System.in);
-             Student currentStud = (Student) currentUser;
-             int choice = scan.nextInt();
-             switch (choice) {
-                 case 1:
-                     currentStud.getTranscript().showCompletedCourses();
-                     break;
-                 case 2:
-                     break;
-                 case 3:
-                     System.out.println("You are successfully logged out.\n");
-                     return false;
-                 default:
-                     System.out.println("You entered a invalid choice. Please try again!");
-                     break;
-             }
-                 return true;
-         }
+       private static Person login(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter your User ID and Password");
+        System.out.print("User ID: ");
+        String enteredUserId = scan.nextLine();
+        System.out.print("Password: ");
+        String enteredPassword = scan.nextLine();
+        return  checkIdandPassword(enteredUserId,enteredPassword);
 
-         private static Person login(){
-             Scanner scan = new Scanner(System.in);
-             System.out.println("Please enter your User ID and Password");
-             System.out.print("User ID: ");
-             String enteredUserId = scan.nextLine();
-             System.out.print("Password: ");
-             String enteredPassword = scan.nextLine();
-             return (Student) checkIdandPassword(enteredUserId,enteredPassword);
+    }
+    private static boolean showMenu(Person currentUser, boolean isLogged, Scanner scan) {
+        if (currentUser instanceof Student) {
+            studentInterface(scan, (Student) currentUser);
+        }else{
+            login();
+        }
 
-         }
+        return true;
+    }
+    public static void studentInterface(Scanner scan, Student student){
+        System.out.println("1. Transcript\n2. Register for course\n3. Log out");
+        int choice = scan.nextInt();
+        switch (choice) {
+            case 1:
+                student.getTranscript().showCompletedCourses();
+                break;
+            case 2:
+                break;
+            case 3:
+                System.out.println("You are successfully logged out.\n");
+                break;
+        }
+    }
         }
