@@ -51,6 +51,20 @@ public class Transcript {
             System.out.println(e1.getMessage());
         }
     }
+
+    public void deleteFromWaitedCourse(Course course){
+        try {
+            if (course != null)
+                waitedCourses.remove(course);
+            else
+                System.out.println("The course object is null");
+        } catch (NullPointerException e) {
+            System.out.println("The waitedCourses list has not been initialized.");
+        }catch (Exception e1){
+            System.out.println(e1.getMessage());
+        }
+    }
+    
     public void showWaitedCourses(){
         System.out.println("Courses that are waiting for approve listed below:");
         for(int i = 0; i < waitedCourses.size(); i++){
