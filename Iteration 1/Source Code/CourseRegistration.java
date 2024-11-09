@@ -26,7 +26,7 @@ public class CourseRegistration {
     private static void loadCourses() {
         JSONParser parser = new JSONParser();
         String basePath = System.getProperty("user.dir");
-        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", "parameters.json").toString();
+        String filePath = Paths.get(basePath, "parameters.json").toString();
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -39,7 +39,7 @@ public class CourseRegistration {
                 int credits = ((Long) courseJson.get("credits")).intValue();
 
                 Course course = new Course(courseId, courseName);
-                allCourses.put(courseId, course); // courseId'yi anahtar olarak kullanarak ekle
+                allCourses.put(courseId, course); 
                 courses.add(course);
             }
             System.out.println("Courses loaded successfully!");
@@ -56,7 +56,7 @@ public class CourseRegistration {
     private static Transcript createTranscript(String studentID) {
         JSONParser parser = new JSONParser();
         String basePath = System.getProperty("user.dir");
-        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", studentID + ".json").toString();
+        String filePath = Paths.get(basePath, studentID + ".json").toString();
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
@@ -104,7 +104,8 @@ public class CourseRegistration {
     // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
   private static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/" + student.getStudentID() + ".json";
+        String basePath = System.getProperty("user.dir");
+        String filePath = Paths.get(basePath, "parameters.json").toString();
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject studentData = (JSONObject) parser.parse(reader);
@@ -136,7 +137,7 @@ public class CourseRegistration {
     // Ardından, waitedCourses kısmından ilgili courseID'yi sil
     private static void acceptCourseRequest(Student student, Course course) {
         String basePath = System.getProperty("user.dir");
-        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", student.getStudentID() + ".json").toString();
+        String filePath = Paths.get(basePath, "parameters.json").toString();
 
         JSONParser parser = new JSONParser();
 
@@ -175,7 +176,7 @@ public class CourseRegistration {
         Advisor advisor = new Advisor();
         JSONParser parser = new JSONParser();
         String basePath = System.getProperty("user.dir");
-        String filePath = "src/paramaters.json";
+        String filePath = Paths.get(basePath, "parameters.json").toString();
 
         try (FileReader reader = new FileReader(filePath)) {
             // JSON dosyasını okuyun ve parse edin
@@ -210,7 +211,7 @@ public class CourseRegistration {
                 if (userId.charAt(0) == 'o') {
                     System.out.println("Login successful!");
                     System.out.println("Welcome, " + name + " " + surname);
-                    String StudentID = (String) user.get("StudentID");
+                    String StudentID = (String) user.get("studentID");
                     
                     Transcript transcript;
                     transcript = createTranscript(StudentID);
@@ -243,7 +244,7 @@ public class CourseRegistration {
             currentStudent.getTranscript().showWaitedCourses();
             System.out.print("Which course do you want  to select?: ");
             int courseIndex = scan.nextInt();
-            Course course = currentStudent.getTranscript().getWaitedCourse().get(courseIndex-1);
+            Course course = currentStudent.getTranscript().getWaitedCourses().get(courseIndex-1);
             System.out.println("Do you want to approve this course?(Y/N): ");
             String approve = scan.next();
             if(approve.equals("Y")){
@@ -253,6 +254,7 @@ public class CourseRegistration {
             }else{
                 System.out.println("Enter Y or N.");
             }
+        }
         }
 
       public static void studentInterface (Student student){
