@@ -97,7 +97,7 @@ public class CourseRegistration {
                     System.out.println("Welcome, " + name + " " + surname);
 
                     Transcript transcript = createTranscript(studentID);
-                    return new Student(name, surname, new Date(2002,9,18), 'm', transcript, new Advisor(), studentID);
+                   return new Student(name, surname, new Date(2002,9,18), 'm', transcript,studentID, new Advisor());
                 }
             }
             System.out.println("Invalid User ID or Password.");
