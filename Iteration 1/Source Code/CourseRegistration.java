@@ -144,67 +144,125 @@ public class CourseRegistration {
         }
     }
 
-    private static Person checkIdandPassword(String enteredUserId, String enteredPassword) {
+  private static Person checkIdandPassword(String enteredUserId, String enteredPassword) {
         Advisor advisor = new Advisor();
         JSONParser parser = new JSONParser();
         String basePath = System.getProperty("user.dir");
-        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", "parameters.json").toString();
+        String filePath = "src/paramaters.json";
 
         try (FileReader reader = new FileReader(filePath)) {
+            // JSON dosyasını okuyun ve parse edin
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            JSONArray studentsArray = (JSONArray) jsonObject.get("students");
+            JSONArray usersArray = (JSONArray) jsonObject.get("students");
 
-            for (Object studentObj : studentsArray) {
-                JSONObject student = (JSONObject) studentObj;
-                String userId = (String) student.get("userID");
-                String password = (String) student.get("password");
-                String name = (String) student.get("name");
-                String surname = (String) student.get("surname");
-                String studentID = (String) student.get("studentID");
+            String userId = null;
+            String password = null;
+            String name = null;
+            String surname = null;
+            String studentID = null;
+            JSONObject user = null;
+            boolean isUserExist = false;
 
-                if (userId.equals(enteredUserId) && password.equals(enteredPassword)) {
+            for (Object userObj : usersArray) {
+                user = (JSONObject) userObj;
+                userId = (String) user.get("userID");
+                password = (String) user.get("password");
+                name = (String) user.get("name");
+                surname = (String) user.get("surname");
+                studentID = (String) user.get("studentID");
+                isUserExist = userId.equals(enteredUserId) && password.equals(enteredPassword);
+                if (isUserExist)
+                    break;
+            }
+
+            if (userId.charAt(0) != 'o' && userId.charAt(0) != 'l') {
+                System.out.println("If you are a student, you must add \"o\" as the first letter of your student number\n" +
+                        "If you are a lecturer, you must add \"l\"");
+
+            } else if (isUserExist) {
+                if (userId.charAt(0) == 'o') {
                     System.out.println("Login successful!");
                     System.out.println("Welcome, " + name + " " + surname);
-
-                    Transcript transcript = createTranscript(studentID);
-                   return new Student(name, surname, new Date(2002,9,18), 'm', transcript,studentID, new Advisor());
+                    String StudentID = (String) user.get("StudentID");
+                    
+                    Transcript transcript;
+                    transcript = createTranscript(StudentID);
+                    return new Student(name, surname, new Date(2002,9,18), 'm', transcript,studentID, new Advisor());                } else if (userId.charAt(0) == 'l') {
+                    return advisor;
                 }
+            } else {
+                System.out.println("Wrong username or password. Please try again.");
             }
-            System.out.println("Invalid User ID or Password.");
-        } catch (Exception e) {
+
+
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         return advisor;
     }
-
-    private static boolean showMenu(Person currentUser, boolean isLogged) {
-        System.out.println("1. Transcript\n2. Register for course\n3. Log out");
+       public static void advisorInterface(Advisor advisor){
         Scanner scan = new Scanner(System.in);
-        Student currentStud = (Student) currentUser;
+        System.out.println("Students are shown below:");
+        int numOfStudents = advisor.getStudents().size();
+        for(int i = 0; i < numOfStudents; i++){
+            System.out.println((i+1)+"." + advisor.getStudents().get(i).getStudentID());
+        }
+        System.out.print("Which student do you select? :");
+        int studentIndex = scan.nextInt() - 1;
+        Student currentStudent = advisor.getStudents().get(studentIndex);
+        if(currentStudent == null){
+            System.out.println("This student does not wait to enroll in any course");
+        }else {
+            currentStudent.getTranscript().showWaitedCourses();
+            System.out.print("Which course do you want  to select?: ");
+            int courseIndex = scan.nextInt();
+            Course course = currentStudent.getTranscript().getWaitedCourse().get(courseIndex-1);
+            System.out.println("Do you want to approve this course?(Y/N): ");
+            String approve = scan.next();
+            if(approve.equals("Y")){
+                advisor.approveCourse(currentStudent, course);
+            }else if(approve.equals("N")){
+                currentStudent.getTranscript().deleteFromWaitedCourse(course);
+            }else{
+                System.out.println("Enter Y or N.");
+            }
+        }
+
+      public static void studentInterface(Student student){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("1. Transcript\n2. Register for course\n3. Log out");
         int choice = scan.nextInt();
         switch (choice) {
             case 1:
-                currentStud.getTranscript().showCompletedCourses();
+                student.getTranscript().showCompletedCourses();
                 break;
             case 2:
                 break;
             case 3:
                 System.out.println("You are successfully logged out.\n");
-                return false;
-            default:
-                System.out.println("You entered an invalid choice. Please try again!");
                 break;
         }
-        return true;
     }
 
-    private static Person login() {
+    private static Person login(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter your User ID and Password");
         System.out.print("User ID: ");
         String enteredUserId = scan.nextLine();
         System.out.print("Password: ");
         String enteredPassword = scan.nextLine();
-        return checkIdandPassword(enteredUserId, enteredPassword);
+        return  checkIdandPassword(enteredUserId,enteredPassword);
+
+    }
+    private static boolean showMenu(Person currentUser, boolean isLogged) {
+        if (currentUser instanceof Student) {
+            studentInterface((Student) currentUser);
+        }else if(currentUser instanceof Advisor){
+            advisorInterface((Advisor) currentUser);
+        }else {
+            login();
+        }
+
+        return true;
     }
 }
