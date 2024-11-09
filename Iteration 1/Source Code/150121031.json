@@ -1,0 +1,33 @@
+{
+    "completedCourses": [
+        {
+            "courseID": "CSE1113",
+            "courseName": "Introduction to Computer Science",
+            "grade": "AA"
+        },
+        {
+            "courseID": "MATH1002",
+            "courseName": "Calculus I",
+            "grade": "BB"
+        },
+        {
+            "courseID": "PHYS1010",
+            "courseName": "Physics I",
+            "grade": "BA"
+        }
+    ],
+    "currentCourses": [
+        {
+            "courseID": "CSE2020",
+            "courseName": "Data Structures"
+        },
+        {
+            "courseID": "CSE2030",
+            "courseName": "Algorithms"
+        },
+        {
+            "courseID": "MATH2001",
+            "courseName": "Linear Algebra"
+        }
+    ]
+}
