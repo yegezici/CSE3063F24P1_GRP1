@@ -74,6 +74,75 @@ public class CourseRegistration {
         }
     }
 
+    // JSON dosyasını aç, waitedCourses kısmını bul ve yeni dersi ekle
+    // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
+    private static void addWaitedCourse(Student student, Course course) {
+        String basePath = System.getProperty("user.dir");
+        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", student.getStudentID() + ".json").toString();
+        
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject studentData = (JSONObject) parser.parse(reader);
+            JSONArray waitedCourses = (JSONArray) studentData.get("waitedCourses");
+
+            // Yeni ders bilgilerini içeren JSON nesnesi oluştur
+            JSONObject newCourse = new JSONObject();
+            newCourse.put("courseID", course.getCourseId());
+            newCourse.put("courseName", course.getCourseName());
+
+            // waitedCourses'a yeni dersi ekle
+            waitedCourses.add(newCourse);
+
+            // Güncellenmiş dosyayı tekrar yaz
+            try (FileWriter writer = new FileWriter(filePath)) {
+                writer.write(studentData.toJSONString());
+                writer.flush();
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // JSON dosyasını aç, courseID'yi waitedCourses'dan bul ve currentCourses kısmına ekle
+    // Ardından, waitedCourses kısmından ilgili courseID'yi sil
+    private static void acceptCourseRequest(Student student, Course course) {
+        String basePath = System.getProperty("user.dir");
+        String filePath = Paths.get(basePath, "Iteration 1", "Source Code", "JsonFiles", student.getStudentID() + ".json").toString();
+
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject studentData = (JSONObject) parser.parse(reader);
+            JSONArray waitedCourses = (JSONArray) studentData.get("waitedCourses");
+            JSONArray currentCourses = (JSONArray) studentData.get("currentCourses");
+
+            // waitedCourses'dan ilgili dersi bul ve kaldır
+            JSONObject courseToMove = null;
+            for (Object obj : waitedCourses) {
+                JSONObject waitedCourse = (JSONObject) obj;
+                if (waitedCourse.get("courseID").equals(course.getCourseId())) {
+                    courseToMove = waitedCourse;
+                    break;
+                }
+            }
+            if (courseToMove != null) {
+                // currentCourses kısmına dersi ekle
+                currentCourses.add(courseToMove);
+                // waitedCourses'dan dersi sil
+                waitedCourses.remove(courseToMove);
+            }
+
+            // Güncellenmiş dosyayı tekrar yaz
+            try (FileWriter writer = new FileWriter(filePath)) {
+                writer.write(studentData.toJSONString());
+                writer.flush();
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static Person checkIdandPassword(String enteredUserId, String enteredPassword) {
         Advisor advisor = new Advisor();
         JSONParser parser = new JSONParser();
