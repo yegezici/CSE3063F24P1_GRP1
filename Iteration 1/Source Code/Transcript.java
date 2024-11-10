@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Transcript {
     private ArrayList<Course> completedCourses;
     private ArrayList<Course> currentCourses;
-    private ArrayList<Course> waitedCourses = new ArrayList<>();
+    private ArrayList<Course> waitedCourses;
 
     public Transcript(){
 
@@ -13,6 +13,12 @@ public class Transcript {
         this.completedCourses = comp;
         this.currentCourses = current;
     };
+
+    public Transcript(ArrayList<Course> completedCourses, ArrayList<Course> currentCourses, ArrayList<Course> waitedCourses){
+        this.completedCourses = completedCourses;
+        this.currentCourses = currentCourses;
+        this.waitedCourses = waitedCourses;
+    }
 
     public void addCompletedCourse(Course course){
         try {
@@ -109,4 +115,8 @@ public class Transcript {
     public ArrayList<Course> getWaitedCourses() {
         return waitedCourses != null ? waitedCourses : new ArrayList<>();
     }
+
+
 }
+
+
