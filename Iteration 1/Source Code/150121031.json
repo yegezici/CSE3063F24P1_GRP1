@@ -3,31 +3,37 @@
         {
             "courseID": "CSE1241",
             "courseName": "Computer Programming I",
+            "credits": 6,
             "grade": "AA"
         },
         {
             "courseID": "MATH1002",
             "courseName": "Calculus I",
+            "credits": 5,
             "grade": "BB"
         },
         {
             "courseID": "CSE1242",
             "courseName": "Computer Programming II",
+            "credits": 6,
             "grade": "BA"
         }
     ],
     "currentCourses": [
         {
             "courseID": "CSE2020",
-            "courseName": "Data Structures"
+            "courseName": "Data Structures",
+            "credits": 7
         },
         {
             "courseID": "CSE2030",
-            "courseName": "Algorithms"
+            "courseName": "Algorithms",
+            "credits": 6
         },
         {
-            "courseID": "MATH2001",
-            "courseName": "Linear Algebra"
+            "courseID": "STAT2253",
+            "courseName": "Introduction to Probability and Statistics",
+            "credits": 5
         }
     ]
 }
