@@ -34,7 +34,7 @@ public class CourseRegistration {
     private static ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -61,7 +61,7 @@ public class CourseRegistration {
 
     public static Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray advisorsArray = (JSONArray) jsonData.get("advisors");
@@ -113,7 +113,7 @@ public class CourseRegistration {
     // JSON dosyasından öğrenci bilgilerini alıp Student nesnesi oluşturan yardımcı metod
     private static Student getStudentByID(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray studentsArray = (JSONArray) jsonData.get("students");
@@ -148,7 +148,7 @@ public class CourseRegistration {
 
     private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/" + studentID + ".json";
+        String filePath = "Iteration 1/Source Code/" + studentID + ".json";
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
@@ -218,7 +218,7 @@ public class CourseRegistration {
     // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
     private static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/" + student.getStudentID() + ".json";;
+        String filePath = "Iteration 1/Source Code/" + student.getStudentID() + ".json";;
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject studentData = (JSONObject) parser.parse(reader);
@@ -251,7 +251,7 @@ public class CourseRegistration {
     // Ardından, waitedCourses kısmından ilgili courseID'yi sil
     private static void acceptCourseRequest(Student student, Course course) {
 
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
 
         JSONParser parser = new JSONParser();
 
@@ -297,7 +297,7 @@ public class CourseRegistration {
             return null;
         } else {
             JSONParser parser = new JSONParser();
-            String filePath = "src/main/java/parameters.json";
+            String filePath = "Iteration 1/Source Code/parameters.json";
 
             if (enteredUserId.charAt(0) == 'o') {
                 try (FileReader reader = new FileReader(filePath)) {
