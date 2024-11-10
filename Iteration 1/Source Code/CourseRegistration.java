@@ -494,7 +494,7 @@ public class CourseRegistration {
     private static Person login(ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Welcome!\n1-   Login\nPress any key to exit\n");
-        if(scan.nextLine() == "1") {
+        if(scan.nextLine().equals("1")) {
             Scanner getUserInfo = new Scanner(System.in);
             System.out.println("Please enter your User ID and Password");
             System.out.print("User ID: ");
