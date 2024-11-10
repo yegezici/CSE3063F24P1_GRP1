@@ -385,7 +385,7 @@ public class CourseRegistration {
         }
     }
 
-    public static boolean studentInterface(Student student, ArrayList<Course> courses) {
+   public static boolean studentInterface(Student student, ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("1. Transcript\n2. Register for course\n3. Log out");
         boolean logout = false;
@@ -442,9 +442,15 @@ public class CourseRegistration {
                 int capacity = 5;
                 int takenCourseNumber = 0;
                 printList(selectingArray);
-                while (capacity > takenCourseNumber) {
+                while (true) {
+                    if (selectingArray.isEmpty()) {
+                        System.out.println("There is no course to register");
+                        break;
+                    }
+
                     int courseChoice = (scan.nextInt());
-                    if (courseChoice == 9) {
+
+                    if (courseChoice == -1) {
                         break;
                     }
 
@@ -452,13 +458,19 @@ public class CourseRegistration {
                         System.out.println("Please enter a valid choice.");
                         continue;
                     }
-                    student.registerCourse(selectingArray.get(courseChoice));
-                    addWaitedCourse(student, selectingArray.get(courseChoice));
-                    System.out.println(selectingArray.get(courseChoice).getCourseName() + " " + "is succesfully registered.");
-                    selectingArray.remove(courseChoice);
-                    printList(selectingArray);
-                    takenCourseNumber++;
+                    courseChoice += -1;
+                    if (takenCourseNumber == capacity) {
+                        System.out.println("You cannot register for a course more than 5.");
+                        break;
+                    } else {
+                        student.registerCourse(selectingArray.get(courseChoice));
+                        addWaitedCourse(student, selectingArray.get(courseChoice));
+                        System.out.println(selectingArray.get(courseChoice).getCourseName() + " " + "is succesfully registered.");
+                        selectingArray.remove(courseChoice);
+                        printList(selectingArray);
+                        takenCourseNumber++;
 
+                    }
                 }
                 break;
             case 3:
@@ -468,6 +480,7 @@ public class CourseRegistration {
         }
         return logout;
     }
+
 
     private static Person login(ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
