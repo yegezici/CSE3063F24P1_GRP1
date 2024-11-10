@@ -7,8 +7,9 @@ public class Course {
     private ArrayList<Student> students;
     private ArrayList<CourseSection> courseSections;
     private Course prerequisiteCourse;
-    private int credits;
-    
+    private String prerequisiteID;
+    private int credit;
+
     public Course() {
     }
 
@@ -16,11 +17,10 @@ public class Course {
         this.courseId = courseId;
         this.courseName = courseName;
     }
-
-    public Course(String courseId, String courseName, int credits) {
+    public Course(String courseId, String courseName, String prerequisiteID) {
         this.courseId = courseId;
         this.courseName = courseName;
-        this.credits = credits;
+        this.prerequisiteID = prerequisiteID;
     }
 
     public String getCourseId() {
@@ -33,10 +33,6 @@ public class Course {
 
     public Lecturer getLecturer() {
         return lecturer;
-    }
-
-    public int getCredits() {
-        return credits;
     }
 
     public void addStudent(Student student) {
@@ -58,6 +54,10 @@ public class Course {
 
     public void setPrerequisiteCourse(Course prerequisiteCourse) {
         this.prerequisiteCourse = prerequisiteCourse;
+    }
+
+    public String getPrerequisiteID() {
+        return prerequisiteID;
     }
 
 }
