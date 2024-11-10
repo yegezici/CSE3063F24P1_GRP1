@@ -141,13 +141,13 @@ public class CourseRegistration {
         }
         return null;
     }
-
-    private static Transcript createTranscript(String studentID) {
+private static Transcript createTranscript(String studentID) {
         JSONParser parser = new JSONParser();
         String filePath = "Iteration 1/Source Code/" + studentID + ".json";
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
+        ArrayList<Course> waitedCourses = new ArrayList<>();
 
         try (FileReader reader = new FileReader(filePath)) {
             // Parse the JSON as an object (not an array)
@@ -176,6 +176,18 @@ public class CourseRegistration {
 
                     // Add to currentCourses without grade
                     currentCourses.add(new Course(courseId, courseName));
+                }
+            }
+            JSONArray waitedCoursesArray = (JSONArray) jsonObject.get("waitedCourses");
+            if (waitedCoursesArray != null) {
+
+                for (Object courseObj : waitedCoursesArray) {
+                    JSONObject course = (JSONObject) courseObj;
+                    String courseId = (String) course.get("courseID");
+                    String courseName = (String) course.get("courseName");
+
+                    // Add to currentCourses without grade
+                    waitedCourses.add(new Course(courseId, courseName));
                 }
             }
 
