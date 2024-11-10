@@ -47,7 +47,7 @@ public class CourseRegistration {
                 int credits = ((Long) courseJson.get("credits")).intValue();
                 String prerequisite = (String) courseJson.get("prerequisite");
 
-                Course course = new Course(courseId, courseName);
+                Course course = new Course(courseId, courseName, credits);
 
                 courses.add(course);
             }
