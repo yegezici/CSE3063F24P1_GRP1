@@ -205,7 +205,7 @@ private static Transcript createTranscript(String studentID) {
     // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
     private static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/parameters.json";
+        String filePath = "Iteration 1/Source Code/"+ student.getStudentID() + ".json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject studentData = (JSONObject) parser.parse(reader);
