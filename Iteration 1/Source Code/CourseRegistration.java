@@ -34,7 +34,7 @@ public class CourseRegistration {
     private static ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        String filePath = "src/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -62,7 +62,7 @@ public class CourseRegistration {
 
     public static Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray advisorsArray = (JSONArray) jsonData.get("advisors");
@@ -114,7 +114,7 @@ public class CourseRegistration {
     // JSON dosyasından öğrenci bilgilerini alıp Student nesnesi oluşturan yardımcı metod
     private static Student getStudentByID(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray studentsArray = (JSONArray) jsonData.get("students");
@@ -148,7 +148,7 @@ public class CourseRegistration {
 
     private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/" + studentID + ".json";
+        String filePath = "Iteration 1/Source Code/" + studentID + ".json";
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
@@ -218,7 +218,7 @@ public class CourseRegistration {
     // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
     private static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/" + student.getStudentID() + ".json";
+        String filePath = "Iteration 1/Source Code/" + student.getStudentID() + ".json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject studentData = (JSONObject) parser.parse(reader);
@@ -250,7 +250,7 @@ public class CourseRegistration {
     // JSON dosyasını aç, courseID'yi waitedCourses'dan bul ve currentCourses kısmına ekle
     // Ardından, waitedCourses kısmından ilgili courseID'yi sil
     private static void acceptCourseRequest(Student student, Course course) {
-        String filePath = "src/" + student.getStudentID() + ".json";
+        String filePath = "Iteration 1/Source Code/" + student.getStudentID() + ".json";
 
         JSONParser parser = new JSONParser();
 
@@ -297,7 +297,7 @@ public class CourseRegistration {
             return null;
         } else {
             JSONParser parser = new JSONParser();
-            String filePath = "src/parameters.json";
+            String filePath = "Iteration 1/Source Code/parameters.json";
 
             if (enteredUserId.charAt(0) == 'o') {
                 try (FileReader reader = new FileReader(filePath)) {
@@ -373,8 +373,12 @@ public class CourseRegistration {
                         System.out.println("This student does not wait to enroll in any course");
                     else {
                         while (true) {
+                            if(currentStudent.getTranscript().getWaitedCourses().isEmpty()){
+                                System.out.println("All waited courses have been approved. You will be directed to main menu.");
+                                break;
+                            }
                             currentStudent.getTranscript().showWaitedCourses();
-                            System.out.print("Which course do you want  to select?: ");
+                            System.out.print("Which course do you want  to select?:\n ");
                             int courseIndex = -1;
 
                             try {
@@ -390,6 +394,9 @@ public class CourseRegistration {
                                         break;
                                     if (approve.equals("y")) {
                                         acceptCourseRequest(currentStudent, course);
+                                        if(currentStudent.getTranscript().getWaitedCourses().isEmpty()){
+                                            System.out.println("No more courses to approve.");
+                                        }
                                     } else if (approve.equals("n")) {
                                         currentStudent.getTranscript().deleteFromWaitedCourse(course);
                                     } else {
@@ -422,7 +429,7 @@ public class CourseRegistration {
         int choice = -1;
         try {
             choice = scan.nextInt();
-        } catch (InputMismatchException _) {
+        } catch (InputMismatchException e) {
         }
         switch (choice) {
             case 1:
@@ -431,6 +438,10 @@ public class CourseRegistration {
                 student.getTranscript().showWaitedCourses();
                 break;
             case 2:
+                if(student.getTranscript().getWaitedCourses().size() == 5) {
+                System.out.println("You have reached maximum number of courses. You will be directed to main menu.");
+                break;
+                }
                 System.out.println("These are the courses for registering.");
                 ArrayList<Course> selectingArray = new ArrayList<>();
                 int index = 1;
@@ -528,7 +539,10 @@ public class CourseRegistration {
                         selectingArray.remove(courseChoice);
                         printList(selectingArray);
                         takenCourseNumber++;
-
+                        if(takenCourseNumber == 5){
+                            System.out.println("You have reached maximum number of courses. You will be directed to main menu.");
+                            break;
+                        }
                     }
                 }
                 break;
