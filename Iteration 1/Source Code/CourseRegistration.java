@@ -34,7 +34,7 @@ public class CourseRegistration {
     private static ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -47,11 +47,10 @@ public class CourseRegistration {
                 int credits = ((Long) courseJson.get("credits")).intValue();
                 String prerequisite = (String) courseJson.get("prerequisite");
 
-                Course course = new Course(courseId, courseName, prerequisite);
+                Course course = new Course(courseId, courseName, credits);
+
                 courses.add(course);
             }
-            addPrerequisite(courses);
-            System.out.println(courses.get(1).getPrerequisiteCourse().getCourseName());
             System.out.println("Courses loaded successfully!");
         } catch (IOException | ParseException e) {
             System.out.println("Error loading courses from parameters.json.");
@@ -62,7 +61,7 @@ public class CourseRegistration {
 
     public static Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray advisorsArray = (JSONArray) jsonData.get("advisors");
@@ -114,7 +113,7 @@ public class CourseRegistration {
     // JSON dosyasından öğrenci bilgilerini alıp Student nesnesi oluşturan yardımcı metod
     private static Student getStudentByID(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray studentsArray = (JSONArray) jsonData.get("students");
@@ -149,7 +148,7 @@ public class CourseRegistration {
 
     private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/" + studentID + ".json";
+        String filePath = "Iteration 1/Source Code/" + studentID + ".json";
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
@@ -219,7 +218,7 @@ public class CourseRegistration {
     // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
     private static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/" + student.getStudentID() + ".json";;
+        String filePath = "Iteration 1/Source Code/" + student.getStudentID() + ".json";;
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject studentData = (JSONObject) parser.parse(reader);
@@ -252,7 +251,7 @@ public class CourseRegistration {
     // Ardından, waitedCourses kısmından ilgili courseID'yi sil
     private static void acceptCourseRequest(Student student, Course course) {
 
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration 1/Source Code/parameters.json";
 
         JSONParser parser = new JSONParser();
 
@@ -298,7 +297,7 @@ public class CourseRegistration {
             return null;
         } else {
             JSONParser parser = new JSONParser();
-            String filePath = "src/main/java/parameters.json";
+            String filePath = "Iteration 1/Source Code/parameters.json";
 
             if (enteredUserId.charAt(0) == 'o') {
                 try (FileReader reader = new FileReader(filePath)) {
@@ -415,7 +414,6 @@ public class CourseRegistration {
                     boolean isCompleted = false;
                     boolean isWaited = false;
                     boolean isCurrent = false;
-                    boolean prerequisitesMet = false;
                     // Check if the course is in the completed courses
                     if (student.getTranscript().getCompletedCourses() != null) {
                         for (int k = 0; k < student.getTranscript().getCompletedCourses().size(); k++) {
@@ -443,30 +441,11 @@ public class CourseRegistration {
                             }
                         }
                     }
-                    // Check if the prerequisites are met
-                    if (courses.get(j).getPrerequisiteCourse() != null) {
-                        Course prerequisite = courses.get(j).getPrerequisiteCourse();
-                        boolean prerequisiteCompleted = false;
-
-                        // Check if prerequisite is in completed courses
-                        if (student.getTranscript().getCompletedCourses() != null) {
-                            for (Course completedCourse : student.getTranscript().getCompletedCourses()) {
-                                if (completedCourse.getCourseId().equals(prerequisite.getCourseId())) {
-                                    prerequisiteCompleted = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        // If the prerequisite is not completed, set prerequisitesMet to false
-                        if (!prerequisiteCompleted) {
-                            prerequisitesMet = false;
-                        }
-                    }
-
-                    // Register the course if it's not completed, waited, current, and prerequisites are met
-                    if (!isCompleted && !isWaited && !isCurrent && prerequisitesMet) {
+                    // Register the course if it is not in the completed courses
+                    if (!isCompleted && !isWaited && !isCurrent) {
                         selectingArray.add(courses.get(j));
+
+
                     }
                 }
                 System.out.println("Select a course. If you want to exit press 0.");
@@ -514,13 +493,22 @@ public class CourseRegistration {
 
     private static Person login(ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Please enter your User ID and Password");
-        System.out.print("User ID: ");
-        String enteredUserId = scan.nextLine();
-        System.out.print("Password: ");
-        String enteredPassword = scan.nextLine();
-        return checkIdandPassword(enteredUserId, enteredPassword, courses);
+        System.out.println("Welcome!\n1-   Login\nPress any key to exit\n");
+        if(scan.nextLine().equals("1")) {
+            Scanner getUserInfo = new Scanner(System.in);
+            System.out.println("Please enter your User ID and Password");
+            System.out.print("User ID: ");
+            String enteredUserId = getUserInfo.nextLine();
+            System.out.print("Password: ");
+            String enteredPassword = getUserInfo.nextLine();
+            return checkIdandPassword(enteredUserId, enteredPassword, courses);
 
+        }
+        else {
+            System.out.println("Program has been terminated successfully.");
+            System.exit(0);
+            return null;
+        }
     }
 
     private static boolean showMenu(Person currentUser, boolean isLogged, ArrayList<Course> courses) {
@@ -537,22 +525,8 @@ public class CourseRegistration {
 
     private static void printList(ArrayList<Course> printedList) {
         for (int i = 0; i < printedList.size(); i++) {
-            System.out.println((i + 1) + "       " + printedList.get(i).getCourseId() + "   " + printedList.get(i).getCourseName());
+            System.out.printf("%d %-10s %-50s %d\n",(i + 1), printedList.get(i).getCourseId(), printedList.get(i).getCourseName(), printedList.get(i).getCredits());
   }
 }
-    private static ArrayList<Course> addPrerequisite(ArrayList<Course> courses) {
-        for (Course course : courses) {
-            // If a prerequisite course name is defined, find the actual prerequisite course object
-            if (course.getPrerequisiteID() != null) {
-                for (Course potentialPrerequisite : courses) {
-                    if (course.getPrerequisiteID().equals(potentialPrerequisite.getCourseId())) {
-                        course.setPrerequisiteCourse(potentialPrerequisite);
-                        break;
-                    }
-                }
-            }
-        }
-        return courses;
-    }
 
 }
