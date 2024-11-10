@@ -1,8 +1,8 @@
 {
     "completedCourses": [
         {
-            "courseID": "CSE1113",
-            "courseName": "Introduction to Computer Science",
+            "courseID": "CSE1241",
+            "courseName": "Computer Programming I",
             "grade": "AA"
         },
         {
@@ -11,8 +11,8 @@
             "grade": "BB"
         },
         {
-            "courseID": "PHYS1010",
-            "courseName": "Physics I",
+            "courseID": "CSE1242",
+            "courseName": "Computer Programming II",
             "grade": "BA"
         }
     ],
