@@ -516,7 +516,7 @@ public class CourseRegistration {
 
     private static void printList(ArrayList<Course> printedList) {
         for (int i = 0; i < printedList.size(); i++) {
-            System.out.println((i + 1) + "       " + printedList.get(i).getCourseId() + "   " + printedList.get(i).getCourseName());
+            System.out.printf("%d %-10s %-50s %d\n",(i + 1), printedList.get(i).getCourseId(), printedList.get(i).getCourseName(), printedList.get(i).getCredits());
   }
 }
 
