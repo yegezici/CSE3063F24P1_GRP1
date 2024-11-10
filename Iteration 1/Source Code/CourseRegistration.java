@@ -34,7 +34,7 @@ public class CourseRegistration {
     private static ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/parameters.json";
+        String filePath = "src/main/java/parameters.json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -45,8 +45,9 @@ public class CourseRegistration {
                 String courseId = (String) courseJson.get("courseId");
                 String courseName = (String) courseJson.get("name");
                 int credits = ((Long) courseJson.get("credits")).intValue();
+                String prerequisite = (String) courseJson.get("prerequisite");
 
-                Course course = new Course(courseId, courseName, credits);
+                Course course = new Course(courseId, courseName);
 
                 courses.add(course);
             }
@@ -60,7 +61,7 @@ public class CourseRegistration {
 
     public static Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/parameters.json";
+        String filePath = "src/main/java/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray advisorsArray = (JSONArray) jsonData.get("advisors");
@@ -80,7 +81,7 @@ public class CourseRegistration {
                     ArrayList<Student> students = new ArrayList<>();
                     for (Object studentIDObj : studentIDs) {
                         String studentID = (String) studentIDObj;
-                        Student student = getStudentByID(studentID);
+                        Student student = getStudentByID(studentID,courses);
                         if (student != null) {
                             students.add(student);
                         }
@@ -110,9 +111,9 @@ public class CourseRegistration {
     }
 
     // JSON dosyasından öğrenci bilgilerini alıp Student nesnesi oluşturan yardımcı metod
-    private static Student getStudentByID(String studentID) {
+    private static Student getStudentByID(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/parameters.json";
+        String filePath = "src/main/java/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray studentsArray = (JSONArray) jsonData.get("students");
@@ -130,7 +131,7 @@ public class CourseRegistration {
                         Date birthdate = formatter.parse(date);
                         char gender = ((String) studentJson.get("gender")).charAt(0);
                         String advisorID = (String) studentJson.get("advisorID");
-                        Transcript transcript = createTranscript(studentID);
+                        Transcript transcript = createTranscript(studentID,courses);
                         return new Student(name, surname, birthdate, gender, transcript, studentID, advisorID);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -145,7 +146,7 @@ public class CourseRegistration {
         return null;
     }
 
-   private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
+    private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
         String filePath = "src/main/java/" + studentID + ".json";
 
@@ -212,11 +213,12 @@ public class CourseRegistration {
             return null;
         }
     }
+
     // JSON dosyasını aç, waitedCourses kısmını bul ve yeni dersi ekle
     // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
     private static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/" + student.getStudentID() + ".json";
+        String filePath = "src/main/java/" + student.getStudentID() + ".json";;
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject studentData = (JSONObject) parser.parse(reader);
@@ -248,7 +250,8 @@ public class CourseRegistration {
     // JSON dosyasını aç, courseID'yi waitedCourses'dan bul ve currentCourses kısmına ekle
     // Ardından, waitedCourses kısmından ilgili courseID'yi sil
     private static void acceptCourseRequest(Student student, Course course) {
-        String filePath = "Iteration 1/Source Code/" + student.getStudentID()+".json";
+
+        String filePath = "src/main/java/parameters.json";
 
         JSONParser parser = new JSONParser();
 
@@ -294,7 +297,7 @@ public class CourseRegistration {
             return null;
         } else {
             JSONParser parser = new JSONParser();
-            String filePath = "Iteration 1/Source Code/parameters.json";
+            String filePath = "src/main/java/parameters.json";
 
             if (enteredUserId.charAt(0) == 'o') {
                 try (FileReader reader = new FileReader(filePath)) {
@@ -310,7 +313,7 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
-                            returnObject = getStudentByID(enteredUserId.substring(1));
+                            returnObject = getStudentByID(enteredUserId.substring(1),courses);
                         }
                     }
                 }catch (Exception e){
@@ -374,7 +377,7 @@ public class CourseRegistration {
                         System.out.println("Do you want to approve this course?(Y/N): ");
                         String approve = scan.next();
                         if (approve.equals("Y")) {
-                           acceptCourseRequest(currentStudent,course);
+                            advisor.approveCourse(currentStudent, course);
                         } else if (approve.equals("N")) {
                             currentStudent.getTranscript().deleteFromWaitedCourse(course);
                         } else {
@@ -392,7 +395,7 @@ public class CourseRegistration {
         }
     }
 
-   public static boolean studentInterface(Student student, ArrayList<Course> courses) {
+    public static boolean studentInterface(Student student, ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("1. Transcript\n2. Register for course\n3. Log out");
         boolean logout = false;
@@ -445,7 +448,7 @@ public class CourseRegistration {
 
                     }
                 }
-                System.out.println("Select a course. If you want to exit press 9.");
+                System.out.println("Select a course. If you want to exit press 0.");
                 int capacity = 5;
                 int takenCourseNumber = 0;
                 printList(selectingArray);
@@ -457,7 +460,7 @@ public class CourseRegistration {
 
                     int courseChoice = (scan.nextInt());
 
-                    if (courseChoice == -1) {
+                    if (courseChoice == 0) {
                         break;
                     }
 
@@ -488,7 +491,6 @@ public class CourseRegistration {
         return logout;
     }
 
-
     private static Person login(ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter your User ID and Password");
@@ -515,7 +517,7 @@ public class CourseRegistration {
     private static void printList(ArrayList<Course> printedList) {
         for (int i = 0; i < printedList.size(); i++) {
             System.out.println((i + 1) + "       " + printedList.get(i).getCourseId() + "   " + printedList.get(i).getCourseName());
-        }
-    }
+  }
+}
 
 }
