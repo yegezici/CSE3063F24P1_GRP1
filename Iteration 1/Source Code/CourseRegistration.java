@@ -145,9 +145,9 @@ public class CourseRegistration {
         return null;
     }
 
-    private static Transcript createTranscript(String studentID) {
+   private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/" + studentID + ".json";
+        String filePath = "src/main/java/" + studentID + ".json";
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
@@ -164,9 +164,11 @@ public class CourseRegistration {
                     JSONObject course = (JSONObject) courseObj;
                     String courseId = (String) course.get("courseID");
                     String courseName = (String) course.get("courseName");
-                    int credits = ((Long) course.get("credits")).intValue();
-                    // Add to completedCourses without grade
-                    completedCourses.add(new Course(courseId, courseName, credits));
+                    String prerequisiteCourse = (String) course.get("prerequisite");
+                    for(int i = 0; i <courses.size(); i++){
+                        if(courses.get(i).getCourseName().equals(courseName))
+                            completedCourses.add(courses.get(i));
+                    }
                 }
             }
 
@@ -177,9 +179,12 @@ public class CourseRegistration {
                     JSONObject course = (JSONObject) courseObj;
                     String courseId = (String) course.get("courseID");
                     String courseName = (String) course.get("courseName");
-                    int credits = ((Long) course.get("credits")).intValue();
+                    for(int i = 0; i <courses.size(); i++){
+                        if(courses.get(i).getCourseName().equals(courseName))
+                            currentCourses.add(courses.get(i));
+                    }
                     // Add to currentCourses without grade
-                    currentCourses.add(new Course(courseId, courseName, credits));
+
                 }
             }
             JSONArray waitedCoursesArray = (JSONArray) jsonObject.get("waitedCourses");
@@ -189,9 +194,12 @@ public class CourseRegistration {
                     JSONObject course = (JSONObject) courseObj;
                     String courseId = (String) course.get("courseID");
                     String courseName = (String) course.get("courseName");
-                    int credits = ((Long) course.get("credits")).intValue();
-                    // Add to currentCourses without grade
-                    waitedCourses.add(new Course(courseId, courseName, credits));
+                    for(int i = 0; i <courses.size(); i++){
+                        if(courses.get(i).getCourseName().equals(courseName))
+                            waitedCourses.add(courses.get(i));
+                    }
+
+
                 }
             }
 
@@ -204,7 +212,6 @@ public class CourseRegistration {
             return null;
         }
     }
-
     // JSON dosyasını aç, waitedCourses kısmını bul ve yeni dersi ekle
     // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
     private static void addWaitedCourse(Student student, Course course) {
