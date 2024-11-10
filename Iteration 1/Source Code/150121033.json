@@ -4,25 +4,25 @@
             "courseID": "CSE1241",
             "courseName": "Computer Programming I",
             "credits": 6,
-            "grade": "AA"
-        },
-        {
-            "courseID": "MATH1002",
-            "courseName": "Calculus I",
-            "credits": 5,
-            "grade": "BB"
+            "grade": "CC"
         },
         {
             "courseID": "CSE1242",
             "courseName": "Computer Programming II",
             "credits": 6,
+            "grade": "BB"
+        },
+        {
+            "courseID": "MATH1002",
+            "courseName": "Calculus I",
+            "credits": 5,
             "grade": "BA"
         }
     ],
     "currentCourses": [
         {
-            "courseID": "CSE2225",
-            "courseName": "Data Structures",
+            "courseID": "CSE3033",
+            "courseName": "Operating Systems",
             "credits": 7
         },
         {

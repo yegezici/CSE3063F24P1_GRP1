@@ -4,12 +4,6 @@
             "courseID": "CSE1241",
             "courseName": "Computer Programming I",
             "credits": 6,
-            "grade": "AA"
-        },
-        {
-            "courseID": "MATH1002",
-            "courseName": "Calculus I",
-            "credits": 5,
             "grade": "BB"
         },
         {
@@ -17,6 +11,12 @@
             "courseName": "Computer Programming II",
             "credits": 6,
             "grade": "BA"
+        },
+        {
+            "courseID": "MATH1002",
+            "courseName": "Calculus I",
+            "credits": 5,
+            "grade": "AA"
         }
     ],
     "currentCourses": [

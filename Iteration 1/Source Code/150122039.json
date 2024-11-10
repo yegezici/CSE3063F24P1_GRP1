@@ -7,28 +7,34 @@
             "grade": "AA"
         },
         {
-            "courseID": "MATH1002",
-            "courseName": "Calculus I",
-            "credits": 5,
-            "grade": "BB"
-        },
-        {
             "courseID": "CSE1242",
             "courseName": "Computer Programming II",
             "credits": 6,
-            "grade": "BA"
-        }
-    ],
-    "currentCourses": [
+            "grade": "BB"
+        },
         {
             "courseID": "CSE2225",
             "courseName": "Data Structures",
-            "credits": 7
+            "credits": 7,
+            "grade": "AA"
         },
         {
             "courseID": "STAT2253",
             "courseName": "Introduction to Probability and Statistics",
-            "credits": 5
+            "credits": 5,
+            "grade": "CB"
+        }
+    ],
+    "currentCourses": [
+        {
+            "courseID": "CSE2030",
+            "courseName": "Algorithms",
+            "credits": 6
+        },
+        {
+            "courseID": "CSE3033",
+            "courseName": "Operating Systems",
+            "credits": 7
         }
     ],
     "waitedCourses": [

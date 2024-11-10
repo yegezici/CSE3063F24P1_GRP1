@@ -26,9 +26,9 @@
             "credits": 7
         },
         {
-            "courseID": "STAT2253",
-            "courseName": "Introduction to Probability and Statistics",
-            "credits": 5
+            "courseID": "ECON2004",
+            "courseName": "Engineering Economy",
+            "credits": 4
         }
     ],
     "waitedCourses": [
