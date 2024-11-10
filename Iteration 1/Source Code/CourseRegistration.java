@@ -2,6 +2,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.io.FileReader;
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class CourseRegistration {
@@ -17,12 +17,13 @@ public class CourseRegistration {
 
     public static void main(String[] args) {
 
-        ArrayList<Course> courses = loadCourses(); // Kursları yükle
+        ArrayList<Course> courses = loadCourses();
         boolean isLogged = true;
 
 
         while (true) {
             Person currentUser = login(courses);
+
             isLogged = showMenu(currentUser, isLogged, courses);
             while (!isLogged) {
                 isLogged = showMenu(currentUser, isLogged, courses);
@@ -33,7 +34,7 @@ public class CourseRegistration {
     private static ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/parameters.json";
+        String filePath = "src/parameters.json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -59,7 +60,7 @@ public class CourseRegistration {
 
     public static Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/parameters.json";
+        String filePath = "src/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray advisorsArray = (JSONArray) jsonData.get("advisors");
@@ -69,8 +70,8 @@ public class CourseRegistration {
                 if (advisorUserID.equals(userID)) {
                     String name = (String) advisorJson.get("name");
                     String surname = (String) advisorJson.get("surname");
-                    String date = (String) advisorJson.get("birthdate");
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    String date = (String) advisorJson.get("birthdate");
                     Date birthdate = formatter.parse(date);
                     char gender = ((String) advisorJson.get("gender")).charAt(0);
                     String ssn = (String) advisorJson.get("ssn");
@@ -98,8 +99,10 @@ public class CourseRegistration {
                     return new Advisor(name, surname, birthdate, gender, ssn, coursesOfLecturer, students);
                 }
             }
-        } catch (IOException | ParseException | java.text.ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
+        } catch (java.text.ParseException e) {
+            throw new RuntimeException(e);
         }
 
         System.out.println("Advisor with userID: " + userID + " not found.");
@@ -109,7 +112,7 @@ public class CourseRegistration {
     // JSON dosyasından öğrenci bilgilerini alıp Student nesnesi oluşturan yardımcı metod
     private static Student getStudentByID(String studentID) {
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/parameters.json";
+        String filePath = "src/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray studentsArray = (JSONArray) jsonData.get("students");
@@ -133,7 +136,7 @@ public class CourseRegistration {
                         System.out.println(e.getMessage());
                     }
                 } else {
-                    System.out.println("");
+                    System.out.println("Student object has not been initialized");
                 }
             }
         } catch (IOException | ParseException e) {
@@ -141,9 +144,10 @@ public class CourseRegistration {
         }
         return null;
     }
-private static Transcript createTranscript(String studentID) {
+
+    private static Transcript createTranscript(String studentID) {
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/" + studentID + ".json";
+        String filePath = "src/" + studentID + ".json";
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
@@ -192,7 +196,7 @@ private static Transcript createTranscript(String studentID) {
             }
 
             // Return the Transcript with completed and current courses
-            return new Transcript(completedCourses, currentCourses);
+            return new Transcript(completedCourses, currentCourses, waitedCourses);
 
         } catch (Exception e) {
             System.out.println("Error reading or parsing the JSON file for student ID: " + studentID);
@@ -205,7 +209,7 @@ private static Transcript createTranscript(String studentID) {
     // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
     private static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
-        String filePath = "Iteration 1/Source Code/"+ student.getStudentID() + ".json";
+        String filePath = "src/" + student.getStudentID() + ".json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject studentData = (JSONObject) parser.parse(reader);
@@ -237,8 +241,7 @@ private static Transcript createTranscript(String studentID) {
     // JSON dosyasını aç, courseID'yi waitedCourses'dan bul ve currentCourses kısmına ekle
     // Ardından, waitedCourses kısmından ilgili courseID'yi sil
     private static void acceptCourseRequest(Student student, Course course) {
-        String basePath = System.getProperty("user.dir");
-        String filePath = Paths.get(basePath, "Iteration 1/Source Code/parameters.json").toString();
+        String filePath = "src/" + student.getStudentID()+".json";
 
         JSONParser parser = new JSONParser();
 
@@ -282,10 +285,54 @@ private static Transcript createTranscript(String studentID) {
             System.out.println("If you are a student, you must add \"o\" as the first letter of your student number\n" +
                     "If you are a lecturer, you must add \"l\"");
             return null;
-        } else if (enteredUserId.charAt(0) == 'o') {
-            returnObject = getStudentByID(enteredUserId.substring(1));
         } else {
-            returnObject = getAdvisorByUserID(enteredUserId, courses);
+            JSONParser parser = new JSONParser();
+            String filePath = "src/parameters.json";
+
+            if (enteredUserId.charAt(0) == 'o') {
+                try (FileReader reader = new FileReader(filePath)) {
+                    JSONObject jsonData = (JSONObject) parser.parse(reader);
+                    JSONArray studentsArray = (JSONArray) jsonData.get("students");
+                    for (Object studentObj : studentsArray) {
+                        JSONObject studentJson = (JSONObject) studentObj;
+                        String jsonStudentID = (String) studentJson.get("studentID");
+                        if (jsonStudentID.equals(enteredUserId.substring(1))) {
+                            String userID = (String) studentJson.get("userID");
+                            String password = (String) studentJson.get("password");
+                            if(!password.equals(enteredPassword)){
+                                System.out.println("Wrong password");
+                                return null;
+                            }
+                            returnObject = getStudentByID(enteredUserId.substring(1));
+                        }
+                    }
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
+
+            } else {
+
+                try (FileReader reader = new FileReader(filePath)) {
+                    JSONObject jsonData = (JSONObject) parser.parse(reader);
+                    JSONArray studentsArray = (JSONArray) jsonData.get("advisors");
+                    for (Object studentObj : studentsArray) {
+                        JSONObject studentJson = (JSONObject) studentObj;
+                        String jsonStudentID = (String) studentJson.get("userID");
+                        if (jsonStudentID.equals(enteredUserId)) {
+                            String userID = (String) studentJson.get("userID");
+                            String password = (String) studentJson.get("password");
+
+                            if(!password.equals(enteredPassword)){
+                                System.out.println("Wrong password");
+                                return null;
+                            }
+                            returnObject = getAdvisorByUserID(enteredUserId, courses);
+                        }
+                    }
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }
         }
         if (returnObject == null)
             System.out.println("Wrong User Id or Password");
@@ -296,8 +343,8 @@ private static Transcript createTranscript(String studentID) {
         boolean logOut = false;
         System.out.println("Select an operation:\n1-  Students Menu\n2-  Log Out");
         Scanner menu = new Scanner(System.in);
-        switch(menu.nextInt()) {
-            case 1 : 
+        switch (menu.nextInt()) {
+            case 1:
                 Scanner scan = new Scanner(System.in);
                 System.out.println("Students are shown below:\n");
                 int numOfStudents = advisor.getStudents().size();
@@ -309,11 +356,10 @@ private static Transcript createTranscript(String studentID) {
                 Student currentStudent = advisor.getStudents().get(studentIndex);
                 if (currentStudent == null) {
                     System.out.println("Please choose an available student.\n");
-                } 
-                else {
-                    if(currentStudent.getTranscript().getWaitedCourses().isEmpty())
+                } else {
+                    if (currentStudent.getTranscript().getWaitedCourses().isEmpty())
                         System.out.println("This student does not wait to enroll in any course\n");
-                    else{    
+                    else {
                         currentStudent.getTranscript().showWaitedCourses();
                         System.out.print("Which course do you want  to select?: ");
                         int courseIndex = scan.nextInt();
@@ -321,42 +367,43 @@ private static Transcript createTranscript(String studentID) {
                         System.out.println("Do you want to approve this course?(Y/N): ");
                         String approve = scan.next();
                         if (approve.equals("Y")) {
-                            advisor.approveCourse(currentStudent, course);
-                        } 
-                        else if (approve.equals("N")) {
+                           acceptCourseRequest(currentStudent,course);
+                        } else if (approve.equals("N")) {
                             currentStudent.getTranscript().deleteFromWaitedCourse(course);
-                        }
-                        else {
+                        } else {
                             System.out.println("Enter Y or N.");
                         }
-                    }  
+                    }
                 }
                 return logOut;
             case 2:
                 System.out.println("You have successfully logged out\n");
                 logOut = true;
                 return logOut;
-            default: return false;
+            default:
+                return false;
         }
     }
 
     public static boolean studentInterface(Student student, ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Select an operation\n1. Transcript\n2. Register for course\n3. Log out");
-        int choice = scan.nextInt();
+        System.out.println("1. Transcript\n2. Register for course\n3. Log out");
         boolean logout = false;
+        int choice = scan.nextInt();
         switch (choice) {
             case 1:
                 student.getTranscript().showCompletedCourses();
+                student.getTranscript().showCurrentCourses();
                 student.getTranscript().showWaitedCourses();
                 break;
             case 2:
-                System.out.println("\nThese are the courses for registering.");
+                System.out.println("These are the courses for registering.");
                 ArrayList<Course> selectingArray = new ArrayList<>();
                 int index = 1;
                 for (int j = 0; j < courses.size(); j++) {
                     boolean isCompleted = false;
                     boolean isWaited = false;
+                    boolean isCurrent = false;
                     // Check if the course is in the completed courses
                     if (student.getTranscript().getCompletedCourses() != null) {
                         for (int k = 0; k < student.getTranscript().getCompletedCourses().size(); k++) {
@@ -376,17 +423,25 @@ private static Transcript createTranscript(String studentID) {
                             }
                         }
                     }
+                    if (student.getTranscript().getCurrentCourses() != null) {
+                        for (int k = 0; k < student.getTranscript().getCurrentCourses().size(); k++) {
+                            if (courses.get(j).getCourseId().equals(student.getTranscript().getCurrentCourses().get(k).getCourseId())) {
+                                isCurrent = true;
+                                break;
+                            }
+                        }
+                    }
                     // Register the course if it is not in the completed courses
-                    if (!isCompleted && !isWaited) {
+                    if (!isCompleted && !isWaited && !isCurrent) {
                         selectingArray.add(courses.get(j));
-                        System.out.println(index++ + "-     " + courses.get(j).getCourseId() + "    " + courses.get(j).getCourseName());
+
 
                     }
                 }
                 System.out.println("Select a course. If you want to exit press 9.");
                 int capacity = 5;
                 int takenCourseNumber = 0;
-
+                printList(selectingArray);
                 while (capacity > takenCourseNumber) {
                     int courseChoice = (scan.nextInt());
                     if (courseChoice == 9) {
@@ -397,18 +452,14 @@ private static Transcript createTranscript(String studentID) {
                         System.out.println("Please enter a valid choice.");
                         continue;
                     }
-                    if (student.getTranscript().getWaitedCourses().contains(selectingArray.get(courseChoice))) {
-                        System.out.println("You selected same course twice!");
-                        continue;
-                    }
                     student.registerCourse(selectingArray.get(courseChoice));
                     addWaitedCourse(student, selectingArray.get(courseChoice));
                     System.out.println(selectingArray.get(courseChoice).getCourseName() + " " + "is succesfully registered.");
                     selectingArray.remove(courseChoice);
+                    printList(selectingArray);
                     takenCourseNumber++;
 
                 }
-
                 break;
             case 3:
                 System.out.println("You are successfully logged out.\n");
@@ -436,8 +487,15 @@ private static Transcript createTranscript(String studentID) {
         } else if (currentUser instanceof Advisor) {
             loggedOut = advisorInterface((Advisor) currentUser, courses);
         } else {
-            //login();
+            loggedOut = true;
         }
         return loggedOut;
     }
+
+    private static void printList(ArrayList<Course> printedList) {
+        for (int i = 0; i < printedList.size(); i++) {
+            System.out.println((i + 1) + "       " + printedList.get(i).getCourseId() + "   " + printedList.get(i).getCourseName());
+        }
+    }
+
 }
