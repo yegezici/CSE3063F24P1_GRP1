@@ -72,21 +72,21 @@ public class Transcript {
     }
 
     public void showWaitedCourses(){
-        System.out.println("Courses that are waiting for approve listed below:");
+        System.out.println("\nCourses that are waiting for approve listed below:");
         for(int i = 0; i < waitedCourses.size(); i++){
             System.out.printf("%d-   %-10s %-50s %d\n", (i+1), waitedCourses.get(i).getCourseId(), waitedCourses.get(i).getCourseName(), waitedCourses.get(i).getCredits());
         }
     }
 
     public void showCompletedCourses(){
-        System.out.println("Courses that are completed listed below:");
+        System.out.println("\nCourses that are completed listed below:");
         for(int i = 0; i < completedCourses.size(); i++){
             System.out.printf("%d-   %-10s %-50s %d\n", (i+1), completedCourses.get(i).getCourseId(), completedCourses.get(i).getCourseName(), completedCourses.get(i).getCredits());
         }
     }
 
     public void showCurrentCourses(){
-        System.out.println("Courses that are registered listed below:");
+        System.out.println("\nCourses that are registered listed below:");
         for(int i = 0; i < currentCourses.size(); i++){
             System.out.printf("%d-   %-10s %-50s %d\n", (i+1), currentCourses.get(i).getCourseId(), currentCourses.get(i).getCourseName(), currentCourses.get(i).getCredits());
         }
