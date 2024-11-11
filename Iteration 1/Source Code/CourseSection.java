@@ -2,6 +2,7 @@
 public class CourseSection extends Course{
    private int sectionNumber;
 
+   //constructors
    public CourseSection(){
       super();
    }
