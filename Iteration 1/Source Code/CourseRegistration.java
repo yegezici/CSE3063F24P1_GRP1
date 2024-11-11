@@ -14,7 +14,11 @@ import java.util.Scanner;
 
 public class CourseRegistration {
 
-
+    /*
+     * Main method to start the course registration process. 
+     * It loads the courses, handles the login process, 
+     * and displays the menu to the user until they are logged in.
+     */
     public static void main(String[] args) {
 
         ArrayList<Course> courses = loadCourses();
@@ -30,7 +34,13 @@ public class CourseRegistration {
             }
         }
     }
-
+    
+/**
+ * Loads all available courses from a JSON file and returns them as an ArrayList of Course objects.
+ * The method reads a JSON file, parses it, and extracts course details such as course ID, name, credits, and prerequisites.
+ * It then creates Course objects and adds them to the list.
+ * If the loading process is successful, it also calls the addPrerequisite method to handle course prerequisites.
+ */
     private static ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
@@ -61,7 +71,12 @@ public class CourseRegistration {
         }
         return courses;
     }
-
+/**
+ * Retrieves an Advisor object based on the provided userID by reading data from a JSON file.
+ * The method searches for an advisor in the JSON data, extracts their personal details, and creates an Advisor object.
+ * It also retrieves the list of students and courses assigned to the advisor.
+ * If the advisor is found, it returns the Advisor object; otherwise, it returns null.
+ */
     public static Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
         String filePath = "src/main/java/parameters.json";
@@ -113,7 +128,12 @@ public class CourseRegistration {
         return null;
     }
 
-    // JSON dosyasından öğrenci bilgilerini alıp Student nesnesi oluşturan yardımcı metod
+    /**
+ * Retrieves a Student object based on the provided studentID by reading data from a JSON file.
+ * The method searches for a student in the JSON data, extracts their personal details, 
+ * and creates a Student object. It also retrieves the student's transcript and advisor ID.
+ * If the student is found, it returns the Student object; otherwise, it returns null.
+ */
     private static Student getStudentByID(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
         String filePath = "src/main/java/parameters.json";
@@ -147,7 +167,14 @@ public class CourseRegistration {
         System.out.println("Student object has not been initialized");
         return null;
     }
-
+/**
+ * Creates a Transcript object for a student based on the student's JSON file data.
+ * The method parses the student's JSON file to retrieve the lists of completed, current, 
+ * and waited courses, then creates and returns a Transcript object.
+ * It matches course names from the student's data with the available courses to populate
+ * the respective course lists.
+ * If the file cannot be read or parsed, it returns null.
+ */
     private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
         String filePath = "src/main/java/" + studentID + ".json";
@@ -216,8 +243,11 @@ public class CourseRegistration {
         }
     }
 
-    // JSON dosyasını aç, waitedCourses kısmını bul ve yeni dersi ekle
-    // Öğrencinin dosyasını bulup waitedCourses kısmına courseID ve courseName ile ekle
+   /**
+ * Adds a course to the student's "waitedCourses" list in the student's JSON file.
+ * The method checks if the "waitedCourses" array exists in the student's data. If not, it initializes it.
+ * It then creates a JSON object for the course, adds it to the "waitedCourses" array, and writes the updated data back to the file.
+ */
     private static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
         String filePath = "src/main/java/" + student.getStudentID() + ".json";
@@ -249,8 +279,12 @@ public class CourseRegistration {
         }
     }
 
-    // JSON dosyasını aç, courseID'yi waitedCourses'dan bul ve currentCourses kısmına ekle
-    // Ardından, waitedCourses kısmından ilgili courseID'yi sil
+    /**
+ * Accepts a course request for a student by moving the specified course from the "waitedCourses" list to the "currentCourses" list.
+ * The method searches for the course in the "waitedCourses" array, removes it from there, and adds it to the "currentCourses" array.
+ * It also updates the student's transcript to reflect the changes.
+ * After making the changes, the updated data is written back to the student's JSON file.
+ */
     private static void acceptCourseRequest(Student student, Course course) {
         String filePath = "src/main/java/" + student.getStudentID() + ".json";
 
@@ -261,7 +295,7 @@ public class CourseRegistration {
             JSONArray waitedCourses = (JSONArray) studentData.get("waitedCourses");
             JSONArray currentCourses = (JSONArray) studentData.get("currentCourses");
 
-            // waitedCourses'dan ilgili dersi bul ve kaldır
+           
             JSONObject courseToMove = null;
             for (Object obj : waitedCourses) {
                 JSONObject waitedCourse = (JSONObject) obj;
@@ -271,14 +305,14 @@ public class CourseRegistration {
                 }
             }
             if (courseToMove != null) {
-                // currentCourses kısmına dersi ekle
+                
                 currentCourses.add(courseToMove);
-                // waitedCourses'dan dersi sil
+                
                 waitedCourses.remove(courseToMove);
                 student.getTranscript().getWaitedCourses().remove(course);
             }
 
-            // Güncellenmiş dosyayı tekrar yaz
+            
             try (FileWriter writer = new FileWriter(filePath)) {
                 writer.write(studentData.toJSONString());
                 writer.flush();
@@ -287,7 +321,13 @@ public class CourseRegistration {
             e.printStackTrace();
         }
     }
-
+/**
+ * Checks the entered user ID and password to authenticate a student or advisor.
+ * Based on the first character of the entered user ID, the method determines whether the user is a student (starting with 'o') or a advisor (starting with 'l').
+ * It then checks the credentials against the data in the "parameters.json" file.
+ * If the credentials are correct, it returns the corresponding student or advisor object.
+ * If the user ID or password is incorrect, appropriate error messages are displayed.
+ */
     private static Person checkIdandPassword(String enteredUserId, String enteredPassword, ArrayList<Course> courses) {
         Person returnObject = null;
         if (enteredUserId.isEmpty() || enteredPassword.isEmpty()) {
@@ -350,12 +390,19 @@ public class CourseRegistration {
             System.out.println("Wrong User Id or Password");
         return returnObject;
     }
-
+/**
+ * Displays the advisor interface menu and allows the advisor to manage students' course requests.
+ * The advisor can either select a student and approve or deny their waited courses, or log out of the system.
+ * The menu presents options for viewing the list of students, approving course requests, and logging out.
+ * If the advisor approves a course request, it is moved from the waited courses list to the current courses list for the student.
+ * If the advisor denies the course, the course is removed from the waited courses list.
+ */
     public static boolean advisorInterface(Advisor advisor, ArrayList<Course> courses) {
         boolean logOut = false;
         System.out.println("Select an operation:\n1-  Students Menu\n2-  Log Out");
         Scanner menu = new Scanner(System.in);
         switch (menu.nextInt()) {
+                // Case 1: Handling the student menu to manage course requests
             case 1:
                 Scanner scan = new Scanner(System.in);
                 System.out.println("Students are shown below:");
@@ -371,6 +418,7 @@ public class CourseRegistration {
                 if (currentStudent == null) {
                     System.out.println("Please choose an available student.");
                 } else {
+                    // Case 1.1: Approving or denying waited courses for the selected student
                     if (currentStudent.getTranscript().getWaitedCourses().isEmpty())
                         System.out.println("This student does not wait to enroll in any course");
                     else {
@@ -422,7 +470,12 @@ public class CourseRegistration {
                 return false;
         }
     }
-
+/**
+ * Displays the student interface menu, where the student can view their transcript, register for courses, or log out.
+ * The menu provides options for showing completed, current, and waited courses, registering for new courses (with prerequisite checks), 
+ * and logging out of the system. The registration process ensures that the student cannot enroll in courses that they have already completed, 
+ * are already registered for, or are waiting for, and enforces prerequisites before allowing course registration.
+ */
     public static boolean studentInterface(Student student, ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("1. Transcript\n2. Register for course\n3. Log out");
@@ -433,11 +486,13 @@ public class CourseRegistration {
         } catch (InputMismatchException e) {
         }
         switch (choice) {
+                // Choice 1: Display the student's transcript, showing completed, current, and waited courses
             case 1:
                 student.getTranscript().showCompletedCourses();
                 student.getTranscript().showCurrentCourses();
                 student.getTranscript().showWaitedCourses();
                 break;
+                // Choice 2: Handle the course registration process
             case 2:
                 System.out.println("These are the courses for registering.");
                 ArrayList<Course> selectingArray = new ArrayList<>();
@@ -522,6 +577,7 @@ public class CourseRegistration {
                         System.out.println("You have reached maximum number of courses. You will be directed to main menu.");
                         break;
                     } else {
+                        // Register the selected course and add it to the waited courses list
                         student.registerCourse(selectingArray.get(courseChoice));
                         addWaitedCourse(student, selectingArray.get(courseChoice));
                         System.out.println(selectingArray.get(courseChoice).getCourseName() + " " + "is succesfully registered.");
@@ -542,7 +598,13 @@ public class CourseRegistration {
         return logout;
     }
 
-
+/**
+ * Handles the login process where the user enters their User ID and Password.
+ * The method prompts the user to either log in or exit the program.
+ * If the user opts to log in, the entered credentials are validated by the `checkIdandPassword` method.
+ * If the credentials are correct, the corresponding `Person` object (either a student or an advisor) is returned.
+ * If the user chooses to exit, the program terminates.
+ */
     private static Person login(ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Welcome!\n1-   Login\nPress any key to exit");
@@ -561,7 +623,11 @@ public class CourseRegistration {
             return null;
         }
     }
-
+/**
+ * Displays the menu options to the current user (either a Student or an Advisor) based on their role.
+ * It calls the respective interface method (`studentInterface` or `advisorInterface`) depending on the user's type.
+ * The method ensures the correct interface is shown and allows the user to log out or perform various operations.
+ */
     private static boolean showMenu(Person currentUser, boolean isLogged, ArrayList<Course> courses) {
         boolean loggedOut = false;
         if (currentUser instanceof Student) {
@@ -573,13 +639,21 @@ public class CourseRegistration {
         }
         return loggedOut;
     }
-
+/**
+ * Prints the list of courses with their indices, course IDs, and course names.
+ * It iterates through the provided list of courses and displays each course's index,
+ * ID, and name in a formatted manner to the console.
+ */
     private static void printList(ArrayList<Course> printedList) {
         for (int i = 0; i < printedList.size(); i++) {
             System.out.println((i + 1) + "       " + printedList.get(i).getCourseId() + "   " + printedList.get(i).getCourseName());
         }
     }
-
+/**
+ * Adds prerequisite courses to each course in the list based on the prerequisite ID.
+ * For each course, it checks if there is a prerequisite defined by its course ID.
+ * If a prerequisite is found, it sets the corresponding prerequisite course object.
+ */
     private static ArrayList<Course> addPrerequisite(ArrayList<Course> courses) {
         for (Course course : courses) {
             // If a prerequisite course name is defined, find the actual prerequisite course object
