@@ -1,4 +1,4 @@
-Yunus Emre Gezici         150121066\n
+Yunus Emre Gezici         150121066
 Ali Arda Fıstıkçı         150121006
 Muhammed Hasa Erzincanlı  150121031
 Alperen Burak Kocyiğit    150121035
