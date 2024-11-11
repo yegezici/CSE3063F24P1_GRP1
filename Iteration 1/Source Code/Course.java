@@ -66,4 +66,12 @@ public class Course {
     public int getCredits() {
         return credits;
     }
+
+    public ArrayList<Student> getStudents() {
+	    return students;
+	}
+	
+	public void setStudents(ArrayList<Student> students) {
+	    this.students = students;
+	}
 }
