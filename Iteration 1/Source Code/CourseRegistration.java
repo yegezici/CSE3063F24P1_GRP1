@@ -375,10 +375,13 @@ public class CourseRegistration {
                         System.out.println("This student does not wait to enroll in any course");
                     else {
                         while (true) {
+                            if(currentStudent.getTranscript().getWaitedCourses().isEmpty()){
+                                System.out.println("All waited courses have been approved. You will be directed to main menu.");
+                                break;
+                            }
                             currentStudent.getTranscript().showWaitedCourses();
-                            System.out.print("Which course do you want  to select?: ");
                             int courseIndex = -1;
-
+                            System.out.print("Which course do you want  to select?:\n ");
                             try {
                                 courseIndex = scan.nextInt();
                                 int size = currentStudent.getTranscript().getWaitedCourses().size();
@@ -392,6 +395,9 @@ public class CourseRegistration {
                                         break;
                                     if (approve.equals("y")) {
                                         acceptCourseRequest(currentStudent, course);
+                                        if(currentStudent.getTranscript().getWaitedCourses().isEmpty()){
+                                            System.out.println("No more courses to approve.");
+                                        }
                                     } else if (approve.equals("n")) {
                                         currentStudent.getTranscript().deleteFromWaitedCourse(course);
                                     } else {
@@ -513,7 +519,7 @@ public class CourseRegistration {
                     }
                     courseChoice += -1;
                     if (student.getTranscript().getCurrentCourses().size() + student.getTranscript().getWaitedCourses().size() == 5) {
-                        System.out.println("You cannot register for a course more than 5.");
+                        System.out.println("You have reached maximum number of courses. You will be directed to main menu.");
                         break;
                     } else {
                         student.registerCourse(selectingArray.get(courseChoice));
