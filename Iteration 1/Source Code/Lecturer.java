@@ -4,6 +4,7 @@ import java.util.Date;
 public class Lecturer extends Staff{
     protected ArrayList<Course> courses;
 
+    //constructors
     public Lecturer (){
         super();
     }
@@ -15,10 +16,11 @@ public class Lecturer extends Staff{
         this.courses = courses;
     }
 
+    //Retrieves the list of courses taught by this lecturer
     public ArrayList<Course> getCourses(){
         return courses;
     }
-
+//Sets the list of courses for this lecturer
     public void setCourses(ArrayList<Course> courses) {
         this.courses = courses;
     }
