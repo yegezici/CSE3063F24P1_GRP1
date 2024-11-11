@@ -17,7 +17,7 @@ public class Course {
         this.courseId = courseId;
         this.courseName = courseName;
     }
-    
+    //constructor
     public Course(String courseId, String courseName, int credits, String prerequisiteID) {
         this.courseId = courseId;
         this.courseName = courseName;
@@ -25,19 +25,19 @@ public class Course {
         this.prerequisiteID=prerequisiteID;
     }
 
-
+//Retrieves the unique identifier of the course.
     public String getCourseId() {
         return courseId;
     }
-
+//Retrieves the name of the course
     public String getCourseName() {
         return courseName;
     }
-
+//Retrieves the lecturer responsible for teaching this course.
     public Lecturer getLecturer() {
         return lecturer;
     }
-
+//If the student object is not null, it adds student objects to the course.
     public void addStudent(Student student) {
         try {
             if (student != null)
@@ -58,11 +58,11 @@ public class Course {
     public void setPrerequisiteCourse(Course prerequisiteCourse) {
         this.prerequisiteCourse = prerequisiteCourse;
     }
-
+//Retrieves the prerequisite course ID required for enrollment in this course.
     public String getPrerequisiteID() {
         return prerequisiteID;
     }
-
+//Retrieves the number of credits assigned to this course
     public int getCredits() {
         return credits;
     }
