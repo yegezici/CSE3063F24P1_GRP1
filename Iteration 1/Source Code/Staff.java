@@ -2,7 +2,7 @@ import java.util.Date;
 
 public class Staff extends Person {
     protected String ssn;
-
+//constructors
     public Staff() {
         super();
     }
@@ -15,7 +15,7 @@ public class Staff extends Person {
         super(name, surname, birthdate, gender);
         this.ssn = ssn;
     }
-
+//Retrieves the Social Security Number (SSN) of the staff member
     public String getSsn(){
         return ssn;
     }
