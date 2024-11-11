@@ -1,0 +1,124 @@
+{
+  "courses": [
+    {
+      "courseId": "CSE1241",
+      "name": "Computer Programming I",
+      "credits": 6
+    },
+    {
+      "courseId": "CSE1242",
+      "name": "Computer Programming II",
+      "credits": 6,
+      "prerequisite": "CSE1241"
+    },
+    {
+      "courseId": "MATH1002",
+      "name": "Calculus I",
+      "credits": 5
+    },
+    {
+      "courseId": "CSE2225",
+      "name": "Data Structures",
+      "credits": 7,
+      "prerequisite": "CSE1242"
+    },
+    {
+      "courseId": "CSE2030",
+      "name": "Algorithms",
+      "credits": 6,
+      "prerequisite": "CSE2225"
+    },
+    {
+      "courseId": "STAT2253",
+      "name": "Introduction to Probability and Statistics",
+      "credits": 5
+    },
+    {
+      "courseId": "ECON2004",
+      "name": "Engineering Economy",
+      "credits": 4
+    },
+    {
+      "courseId": "CSE3033",
+      "name": "Operating Systems",
+      "credits": 7,
+      "prerequisite": "CSE2225"
+    },
+    {
+      "courseId": "CSE3055",
+      "name": "Database Systems",
+      "credits": 7,
+      "prerequisite": "CSE2225"
+    },
+    {
+      "courseId": "CSE3063",
+      "name": "Object-Oriented Software Design",
+      "credits": 5,
+      "prerequisite": "CSE1242"
+    },
+    {
+      "courseId": "CSE3215",
+      "name": "Digital Logic Design",
+      "credits": 6
+    },
+    {
+      "courseId": "CSE4100",
+      "name": "Modeling and Discrete Simulation",
+      "credits": 4,
+      "prerequisite": "STAT2223"
+    },
+    {
+      "courseId": "CSE3038",
+      "name": "Computer Organization",
+      "credits": 7,
+      "prerequisite": "CSE3215"
+    },
+    {
+      "courseId": "CSE4219",
+      "name" : "Principles of Embedded System Design",
+      "credits": 6,
+      "prerequisite": "CSE3038"
+    }
+  ],
+  "students": [
+    {
+      "userID": "o150121031",
+      "password": "abc123",
+      "name": "John",
+      "surname": "Doe",
+      "birthdate": "2000-01-01",
+      "gender": "M",
+      "studentID": "150121031",
+      "advisorID": "987654321"
+    },
+    {
+      "userID": "o150121032",
+      "password": "password2",
+      "name": "Jane",
+      "surname": "Smith",
+      "birthdate": "1999-02-14",
+      "gender": "F",
+      "studentID": "150121032",
+      "advisorID": "987654321"
+    }
+  ],
+  "advisors": [
+    {
+      "userID": "l123456",
+      "password": "ganiz123",
+      "name": "Murat Can",
+      "surname": "Ganiz",
+      "birthdate": "1975-01-01",
+      "gender": "M",
+      "ssn": "987654321",
+      "students": [
+        "150121031"
+      ],
+      "courses": [
+        "CSE1113",
+        "CSE1035",
+        "CSE2020"
+      ]
+    }
+  ]
+}
