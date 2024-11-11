@@ -17,6 +17,12 @@ public class Course {
         this.courseId = courseId;
         this.courseName = courseName;
     }
+	public Course(String courseId, String courseName, int credits) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.credits = credits;
+    }
+	
     //constructor
     public Course(String courseId, String courseName, int credits, String prerequisiteID) {
         this.courseId = courseId;
