@@ -41,7 +41,7 @@ public class CourseRegistration {
  * It then creates Course objects and adds them to the list.
  * If the loading process is successful, it also calls the addPrerequisite method to handle course prerequisites.
  */
-    private static ArrayList<Course> loadCourses() {
+    protected static ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
         String filePath = "src/main/java/parameters.json";
@@ -134,7 +134,7 @@ public class CourseRegistration {
  * and creates a Student object. It also retrieves the student's transcript and advisor ID.
  * If the student is found, it returns the Student object; otherwise, it returns null.
  */
-    private static Student getStudentByID(String studentID, ArrayList<Course> courses) {
+    protected static Student getStudentByID(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
         String filePath = "src/main/java/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
@@ -248,7 +248,7 @@ public class CourseRegistration {
  * The method checks if the "waitedCourses" array exists in the student's data. If not, it initializes it.
  * It then creates a JSON object for the course, adds it to the "waitedCourses" array, and writes the updated data back to the file.
  */
-    private static void addWaitedCourse(Student student, Course course) {
+    protected static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
         String filePath = "src/main/java/" + student.getStudentID() + ".json";
 
@@ -285,7 +285,7 @@ public class CourseRegistration {
  * It also updates the student's transcript to reflect the changes.
  * After making the changes, the updated data is written back to the student's JSON file.
  */
-    private static void acceptCourseRequest(Student student, Course course) {
+    protected static void acceptCourseRequest(Student student, Course course) {
         String filePath = "src/main/java/" + student.getStudentID() + ".json";
 
         JSONParser parser = new JSONParser();
