@@ -164,5 +164,73 @@ public class JsonManagement {
         }
     }
     
+    private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
+        JSONParser parser = new JSONParser();
+        String filePath = "iteration_2/src/main/java/" + studentID + ".json";
+
+        ArrayList<Course> completedCourses = new ArrayList<>();
+        ArrayList<Course> currentCourses = new ArrayList<>();
+        ArrayList<Course> waitedCourses = new ArrayList<>();
+
+        try (FileReader reader = new FileReader(filePath)) {
+            // Parse the JSON as an object (not an array)
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+
+            // Access and parse "completedCourses" array
+            JSONArray completedCoursesArray = (JSONArray) jsonObject.get("completedCourses");
+            if (completedCoursesArray != null) {
+                for (Object courseObj : completedCoursesArray) {
+                    JSONObject course = (JSONObject) courseObj;
+                    String courseId = (String) course.get("courseID");
+                    String courseName = (String) course.get("courseName");
+                    String prerequisiteCourse = (String) course.get("prerequisite");
+                    for (int i = 0; i < courses.size(); i++) {
+                        if (courses.get(i).getCourseName().equals(courseName))
+                            completedCourses.add(courses.get(i));
+                    }
+                }
+            }
+
+            // Access and parse "currentCourses" array
+            JSONArray currentCoursesArray = (JSONArray) jsonObject.get("currentCourses");
+            if (currentCoursesArray != null) {
+                for (Object courseObj : currentCoursesArray) {
+                    JSONObject course = (JSONObject) courseObj;
+                    String courseId = (String) course.get("courseID");
+                    String courseName = (String) course.get("courseName");
+                    for (int i = 0; i < courses.size(); i++) {
+                        if (courses.get(i).getCourseName().equals(courseName))
+                            currentCourses.add(courses.get(i));
+                    }
+                    // Add to currentCourses without grade
+
+                }
+            }
+            JSONArray waitedCoursesArray = (JSONArray) jsonObject.get("waitedCourses");
+            if (waitedCoursesArray != null) {
+
+                for (Object courseObj : waitedCoursesArray) {
+                    JSONObject course = (JSONObject) courseObj;
+                    String courseId = (String) course.get("courseID");
+                    String courseName = (String) course.get("courseName");
+                    for (int i = 0; i < courses.size(); i++) {
+                        if (courses.get(i).getCourseName().equals(courseName))
+                            waitedCourses.add(courses.get(i));
+                    }
+
+
+                }
+            }
+
+            // Return the Transcript with completed and current courses
+            return new Transcript(completedCourses, currentCourses, waitedCourses);
+
+        } catch (Exception e) {
+            System.out.println("Error reading or parsing the JSON file for student ID: " + studentID);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     
 }
