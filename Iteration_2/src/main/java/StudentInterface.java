@@ -75,7 +75,7 @@ public class StudentInterface extends UserInterface{
     
     
 
-    public static boolean studentInterface(Student student, ArrayList<Course> courses) {
+    public boolean studentInterface(Student student, ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("1. Transcript\n2. Register for course\n3. Log out");
         boolean logout = false;
@@ -196,4 +196,11 @@ public class StudentInterface extends UserInterface{
         }
         return logout;
     }
+    private void printList(ArrayList<Course> printedList) {
+        for (int i = 0; i < printedList.size(); i++) {
+            System.out.println((i + 1) + "       " + printedList.get(i).getCourseId() + "   " + printedList.get(i).getCourseName());
+        }
+    }
+
+    
 }
