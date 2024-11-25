@@ -13,9 +13,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CourseRegistration {
-
+    ArrayList<Student> students;
     public CourseRegistration() {
-
+      students = new ArrayList<Student>();
     }
 
     /*
@@ -36,8 +36,9 @@ public class CourseRegistration {
                 break;
             UserInterface userInterface = null;
             while (isLogged) {
-                if (currentUser instanceof Student)
+                if (currentUser instanceof Student){
                     userInterface = new StudentInterface((Student) currentUser, courses);
+                    createArrayList((Student) currentUser);}
                 else 
                     userInterface = new AdvisorInterface((Advisor) currentUser);
 
@@ -46,7 +47,7 @@ public class CourseRegistration {
                 }
             }
         }
-        System.out.println(123);
+        
     }
 
     /**
@@ -147,6 +148,20 @@ public class CourseRegistration {
         } else {
             System.out.println("Program has been terminated successfully.");
             return new Lecturer();
+        }
+    }
+    private void createArrayList(Student currentStudent){
+        int size = students.size();
+        boolean isSame = false;
+        for(int k = 0; k < size ; k++){
+            if(currentStudent.getStudentID().equals(students.get(k).getStudentID())){
+                isSame = true;
+                break;
+            }
+
+        }
+        if(!(isSame)){
+            students.add(currentStudent);
         }
     }
 
