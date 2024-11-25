@@ -29,13 +29,14 @@ public class CourseRegistration {
         boolean isLogged = true;
 
         while (true) {
-
             Person currentUser = login(courses);
+            if(currentUser == null)
+                continue;
             UserInterface userInterface = null;
             while (isLogged) {
                 if (currentUser instanceof Student)
                     userInterface = new StudentInterface((Student) currentUser, courses);
-                else
+                else 
                     userInterface = new AdvisorInterface((Advisor) currentUser);
 
                 if (userInterface.showMenu()) {
