@@ -13,9 +13,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CourseRegistration {
-
+    JsonManagement jsonManager;
     public CourseRegistration() {
-
+        jsonManager = new JsonManagement();
     }
 
     /*
@@ -24,7 +24,6 @@ public class CourseRegistration {
      * and displays the menu to the user until they are logged in.
      */
     public void init() {
-        JsonManagement jsonManager = new JsonManagement();
         ArrayList<Course> courses = jsonManager.loadCourses();
         boolean isLogged = true;
 
@@ -32,7 +31,7 @@ public class CourseRegistration {
             Person currentUser = login(courses);
             if(currentUser == null)
                 continue;
-            if(currentUser instanceof Lecturer)
+            if((currentUser instanceof Lecturer )&& !(currentUser instanceof Advisor))
                 break;
             UserInterface userInterface = null;
             while (isLogged) {
@@ -46,8 +45,12 @@ public class CourseRegistration {
                 }
             }
         }
-        System.out.println(123);
+        jsonManager.saveStudents();
+        
     }
+
+
+   
 
     /**
      * Checks the entered user ID and password to authenticate a student or advisor.
@@ -88,7 +91,7 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
-                            returnObject = jsonManager.getStudentByID(enteredUserId.substring(1), courses);
+                            returnObject = jsonManager.getStudentByID(enteredUserId.substring(1));
                         }
                     }
                 } catch (Exception e) {
@@ -110,7 +113,7 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
-                            returnObject = jsonManager.getAdvisorByUserID(enteredUserId, courses);
+                            returnObject = jsonManager.getAdvisorByUserID(enteredUserId);
                         }
                     }
                 } catch (Exception e) {
@@ -149,5 +152,6 @@ public class CourseRegistration {
             return new Lecturer();
         }
     }
+
 
 }
