@@ -5,14 +5,16 @@ import java.util.Scanner;
 public class StudentInterface extends UserInterface{
     Scanner scan;
     Student student;
+    ArrayList<Course> courses;
     
     public StudentInterface() {
         scan = new Scanner(System.in);
     }
 
-    public StudentInterface(Student student) {
+    public StudentInterface(Student student, ArrayList<Course> courses) {
         this.student = student;
         scan = new Scanner(System.in);
+        this.courses = courses;
     }
 
     public boolean showMenu() {
@@ -75,7 +77,7 @@ public class StudentInterface extends UserInterface{
     
     
 
-    public boolean studentInterface(Student student, ArrayList<Course> courses) {
+    public boolean showInterface(Student student, ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("1. Transcript\n2. Register for course\n3. Log out");
         boolean logout = false;
@@ -95,7 +97,6 @@ public class StudentInterface extends UserInterface{
             case 2:
                 System.out.println("These are the courses for registering.");
                 ArrayList<Course> selectingArray = new ArrayList<>();
-                int index = 1;
                 for (int j = 0; j < courses.size(); j++) {
                     boolean isCompleted = false;
                     boolean isWaited = false;
@@ -152,8 +153,6 @@ public class StudentInterface extends UserInterface{
                         }
                     }
                 System.out.println("Select a course. If you want to exit press 0.");
-                int capacity = student.getTranscript().getWaitedCourses().size() + student.getTranscript().getCurrentCourses().size();
-                int takenCourseNumber = 0;
                 printList(selectingArray);
                 while (true) {
                     if (selectingArray.isEmpty()) {
@@ -178,11 +177,10 @@ public class StudentInterface extends UserInterface{
                     } else {
                         // Register the selected course and add it to the waited courses list
                         student.registerCourse(selectingArray.get(courseChoice));
-                        addWaitedCourse(student, selectingArray.get(courseChoice));
+                      //  addWaitedCourse(student, selectingArray.get(courseChoice));
                         System.out.println(selectingArray.get(courseChoice).getCourseName() + " " + "is succesfully registered.");
                         selectingArray.remove(courseChoice);
                         printList(selectingArray);
-                        takenCourseNumber++;
 
                     }
                 }
@@ -202,5 +200,5 @@ public class StudentInterface extends UserInterface{
         }
     }
 
-    
+
 }
