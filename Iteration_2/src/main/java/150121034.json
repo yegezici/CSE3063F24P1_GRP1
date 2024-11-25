@@ -1,0 +1,37 @@
+{
+    "completedCourses": [
+        {
+            "courseID": "CSE1241",
+            "courseName": "Computer Programming I",
+            "credits": 6,
+            "grade": "BB"
+        },
+        {
+            "courseID": "CSE1242",
+            "courseName": "Computer Programming II",
+            "credits": 6,
+            "grade": "CB"
+        },
+        {
+            "courseID": "CSE2225",
+            "courseName": "Data Structures",
+            "credits": 7,
+            "grade": "AA"
+        }
+    ],
+    "currentCourses": [
+        {
+            "courseID": "CSE2030",
+            "courseName": "Algorithms",
+            "credits": 6
+        },
+        {
+            "courseID": "CSE3055",
+            "courseName": "Database Systems",
+            "credits": 7
+        }
+    ],
+    "waitedCourses": [
+        
+    ]
+}
