@@ -32,6 +32,8 @@ public class CourseRegistration {
             Person currentUser = login(courses);
             if(currentUser == null)
                 continue;
+            if(currentUser instanceof Lecturer)
+                break;
             UserInterface userInterface = null;
             while (isLogged) {
                 if (currentUser instanceof Student)
@@ -44,6 +46,7 @@ public class CourseRegistration {
                 }
             }
         }
+        System.out.println(123);
     }
 
     /**
@@ -143,8 +146,7 @@ public class CourseRegistration {
 
         } else {
             System.out.println("Program has been terminated successfully.");
-            System.exit(0);
-            return null;
+            return new Lecturer();
         }
     }
 
