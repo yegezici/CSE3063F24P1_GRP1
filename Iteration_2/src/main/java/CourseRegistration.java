@@ -25,14 +25,7 @@ public class CourseRegistration {
         boolean isLogged = true;
 
 
-        while (true) {
-            Person currentUser = login(courses);
-
-            isLogged = showMenu(currentUser, isLogged, courses);
-            while (!isLogged) {
-                isLogged = showMenu(currentUser, isLogged, courses);
-            }
-        }
+        login(courses);
     }
     
 /**
@@ -44,8 +37,7 @@ public class CourseRegistration {
     protected static ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        String filePath = "iteration_2/src/main/java/parameters.json";
-        System.out.println("31 31 31 31 31 31 31");
+        String filePath = "Iteration_2/src/main/java/parameters.json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -80,7 +72,7 @@ public class CourseRegistration {
  */
     public static Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "iteration_2/src/main/java/parameters.json";
+        String filePath = "Iteration_2/src/main/java/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray advisorsArray = (JSONArray) jsonData.get("advisors");
@@ -137,7 +129,7 @@ public class CourseRegistration {
  */
     protected static Student getStudentByID(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "iteration_2/src/main/java/parameters.json";
+        String filePath = "Iteration_2/src/main/java/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray studentsArray = (JSONArray) jsonData.get("students");
@@ -178,7 +170,7 @@ public class CourseRegistration {
  */
     private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "iteration_2/src/main/java/" + studentID + ".json";
+        String filePath = "Iteration_2/src/main/java/" + studentID + ".json";
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
@@ -251,7 +243,7 @@ public class CourseRegistration {
  */
     protected static void addWaitedCourse(Student student, Course course) {
         JSONParser parser = new JSONParser();
-        String filePath = "iteration_2/src/main/java/" + student.getStudentID() + ".json";
+        String filePath = "Iteration_2/src/main/java/" + student.getStudentID() + ".json";
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject studentData = (JSONObject) parser.parse(reader);
@@ -287,7 +279,7 @@ public class CourseRegistration {
  * After making the changes, the updated data is written back to the student's JSON file.
  */
     protected static void acceptCourseRequest(Student student, Course course) {
-        String filePath = "iteration_2/src/main/java/" + student.getStudentID() + ".json";
+        String filePath = "Iteration_2/src/main/java/" + student.getStudentID() + ".json";
 
         JSONParser parser = new JSONParser();
 
@@ -340,7 +332,7 @@ public class CourseRegistration {
             return null;
         } else {
             JSONParser parser = new JSONParser();
-            String filePath = "iteration_2/src/main/java/parameters.json";
+            String filePath = "Iteration_2/src/main/java/parameters.json";
 
             if (enteredUserId.charAt(0) == 'o') {
                 try (FileReader reader = new FileReader(filePath)) {
@@ -430,9 +422,10 @@ public class CourseRegistration {
                             }
                             currentStudent.getTranscript().showWaitedCourses();
                             int courseIndex = -1;
-                            System.out.print("Which course do you want  to select?:\n ");
+                            System.out.print("Which course do you want  to select?:\n If you want to turn back enter 0  ");
                             try {
                                 courseIndex = scan.nextInt();
+                                if(courseIndex == 0) break;
                                 int size = currentStudent.getTranscript().getWaitedCourses().size();
                                 if (courseIndex <= 0 || courseIndex > size) {
                                     System.out.println("Enter a value between 1 and " + size);
@@ -602,12 +595,13 @@ public class CourseRegistration {
 /**
  * Handles the login process where the user enters their User ID and Password.
  * The method prompts the user to either log in or exit the program.
- * If the user opts to log in, the entered credentials are validated by the `checkIdandPassword` method.
- * If the credentials are correct, the corresponding `Person` object (either a student or an advisor) is returned.
+ * If the user opts to log in, the entered credentials are validated by the checkIdandPassword method.
+ * If the credentials are correct, the corresponding Person object (either a student or an advisor) is returned.
  * If the user chooses to exit, the program terminates.
  */
-    private static Person login(ArrayList<Course> courses) {
+    private static void login(ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
+        while (true) {
         System.out.println("Welcome!\n1-   Login\nPress any key to exit");
         if (scan.nextLine().equals("1")) {
             Scanner getUserInfo = new Scanner(System.in);
@@ -616,20 +610,25 @@ public class CourseRegistration {
             String enteredUserId = getUserInfo.nextLine();
             System.out.print("Password: ");
             String enteredPassword = getUserInfo.nextLine();
-            return checkIdandPassword(enteredUserId, enteredPassword, courses);
-
+            Person currentUser = checkIdandPassword(enteredUserId, enteredPassword, courses);
+            AdvisorInterface advisorInterface = new AdvisorInterface((Advisor) currentUser);
+            System.out.println(currentUser.name);
+            while(true)
+                if(advisorInterface.showMenu())
+                    break;
         } else {
             System.out.println("Program has been terminated successfully.");
             System.exit(0);
-            return null;
+       
         }
+    }
     }
 /**
  * Displays the menu options to the current user (either a Student or an Advisor) based on their role.
- * It calls the respective interface method (`studentInterface` or `advisorInterface`) depending on the user's type.
+ * It calls the respective interface method (studentInterface or advisorInterface) depending on the user's type.
  * The method ensures the correct interface is shown and allows the user to log out or perform various operations.
  */
-    private static boolean showMenu(Person currentUser, boolean isLogged, ArrayList<Course> courses) {
+    private static boolean showMenu(Person currentUser, ArrayList<Course> courses) {
         boolean loggedOut = false;
         if (currentUser instanceof Student) {
             loggedOut = studentInterface((Student) currentUser, courses);
