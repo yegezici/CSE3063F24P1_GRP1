@@ -18,7 +18,23 @@ public class StudentInterface extends UserInterface{
     }
 
     public boolean showMenu() {
-        return true;
+        /*boolean logOut = false;
+        switch (getChoice()) {
+            case 1:
+                showTranscripts();
+            break;
+            case 2:
+              
+            break;
+            case 3:
+                System.out.println("You have successfully logged out\n");
+                logOut = true;
+            break;
+            
+            default:
+                System.out.println("Enter 1, 2 or 3.");
+        }*/
+        return showInterface(student, courses);
     }
     public int getChoice(){
         System.out.println("Select an operation:\n1. Transcript\n2. Register for course\n3. Log out");
@@ -41,6 +57,10 @@ public class StudentInterface extends UserInterface{
         if (!isCompleted && !isWaited && !isCurrent && checkPrerequisite(course)) {
             selectingArray.add(course);
         }
+    }
+
+    public void showRegisterableCourses(){
+
     }
 
     public boolean checkPrerequisite(Course course){

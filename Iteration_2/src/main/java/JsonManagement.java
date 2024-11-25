@@ -83,8 +83,8 @@ public class JsonManagement {
                         char gender = ((String) studentJson.get("gender")).charAt(0);
                         String advisorID = (String) studentJson.get("advisorID");
                         Transcript transcript = createTranscript(studentID, courses);
-                        Advisor advisor = getAdvisorByUserID(advisorID, courses);
-                        return new Student(name, surname, birthdate, gender, transcript, studentID, advisor);
+                        System.out.println(1232131232);
+                        return new Student(name, surname, birthdate, gender, transcript, studentID);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
