@@ -5,15 +5,15 @@ import java.util.Date;
 public class Student extends Person{
 	private Transcript transcript;
 	private String studentID;
-	private String advisorID;
+	private Advisor advisor;
 	
 	public Student() {
 		
 	}
 	//constructor for student object
-	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, String studentID, String advisorID) {
+	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, String studentID, Advisor advisor) {
         super(name, surname, birthdate, gender);
-        this.advisorID = advisorID;
+        this.advisor = advisor;
         this.transcript = transcript;
         this.studentID = studentID;
     }
@@ -31,8 +31,8 @@ public class Student extends Person{
 		return studentID;
 	}
 //Retrieves the advisor ID assigned to the student
-	public String getAdvisorID() {
-		return advisorID;
+	public Advisor getAdvisor() {
+		return advisor;
 	}
 	@Override
 	public String getName() {
