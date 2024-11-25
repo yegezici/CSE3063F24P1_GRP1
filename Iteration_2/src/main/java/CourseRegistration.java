@@ -25,90 +25,26 @@ public class CourseRegistration {
 
         while (true) {
             Person currentUser = login(courses);
-            isLogged = showMenu(currentUser, isLogged, courses);
-            while (!isLogged) {
-                isLogged = showMenu(currentUser, isLogged, courses);
+            if (currentUser instanceof Student){
+                StudentInterface student = new StudentInterface();
+                do {
+                    isLogged = student.showMenu();
+                } while (isLogged);
+                    isLogged = student.showMenu();
+            }
+            else if (currentUser instanceof Advisor){
+                AdvisorInterface advisor = new AdvisorInterface();
+                do {
+                    isLogged = advisor.showMenu();
+                } while (isLogged);
+                    isLogged = advisor.showMenu();
+            }
+            else {
+                System.out.println("The user cannot be found. You are directed to login screen.");
             }
         }
     }
-   /**
- * Adds a course to the student's "waitedCourses" list in the student's JSON file.
- * The method checks if the "waitedCourses" array exists in the student's data. If not, it initializes it.
- * It then creates a JSON object for the course, adds it to the "waitedCourses" array, and writes the updated data back to the file.
- */
-    protected static void addWaitedCourse(Student student, Course course) {
-        JSONParser parser = new JSONParser();
-        String filePath = "iteration_2/src/main/java/" + student.getStudentID() + ".json";
 
-        try (FileReader reader = new FileReader(filePath)) {
-            JSONObject studentData = (JSONObject) parser.parse(reader);
-
-            // Check if "waitedCourses" exists and is initialized
-            JSONArray waitedCourses = (JSONArray) studentData.get("waitedCourses");
-            if (waitedCourses == null) {
-                waitedCourses = new JSONArray(); // Initialize as an empty array if null
-                studentData.put("waitedCourses", waitedCourses);
-            }
-
-            // Create a new JSON object for the course and add it to "waitedCourses"
-            JSONObject newCourse = new JSONObject();
-            newCourse.put("courseID", course.getCourseId());
-            newCourse.put("courseName", course.getCourseName());
-            waitedCourses.add(newCourse);
-
-            // Write the updated data back to the file
-            try (FileWriter writer = new FileWriter(filePath)) {
-                writer.write(studentData.toJSONString());
-                writer.flush();
-            }
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
- * Accepts a course request for a student by moving the specified course from the "waitedCourses" list to the "currentCourses" list.
- * The method searches for the course in the "waitedCourses" array, removes it from there, and adds it to the "currentCourses" array.
- * It also updates the student's transcript to reflect the changes.
- * After making the changes, the updated data is written back to the student's JSON file.
- */
-   /* protected static void acceptCourseRequest(Student student, Course course) {
-        String filePath = "iteration_2/src/main/java/" + student.getStudentID() + ".json";
-
-        JSONParser parser = new JSONParser();
-
-        try (FileReader reader = new FileReader(filePath)) {
-            JSONObject studentData = (JSONObject) parser.parse(reader);
-            JSONArray waitedCourses = (JSONArray) studentData.get("waitedCourses");
-            JSONArray currentCourses = (JSONArray) studentData.get("currentCourses");
-
-           
-            JSONObject courseToMove = null;
-            for (Object obj : waitedCourses) {
-                JSONObject waitedCourse = (JSONObject) obj;
-                if (waitedCourse.get("courseID").equals(course.getCourseId())) {
-                    courseToMove = waitedCourse;
-                    break;
-                }
-            }
-            if (courseToMove != null) {
-                
-                currentCourses.add(courseToMove);
-                
-                waitedCourses.remove(courseToMove);
-                student.getTranscript().getWaitedCourses().remove(course);
-            }
-
-            
-            try (FileWriter writer = new FileWriter(filePath)) {
-                writer.write(studentData.toJSONString());
-                writer.flush();
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-    }*/
 /**
  * Checks the entered user ID and password to authenticate a student or advisor.
  * Based on the first character of the entered user ID, the method determines whether the user is a student (starting with 'o') or a advisor (starting with 'l').
@@ -138,7 +74,6 @@ public class CourseRegistration {
                         JSONObject studentJson = (JSONObject) studentObj;
                         String jsonStudentID = (String) studentJson.get("studentID");
                         if (jsonStudentID.equals(enteredUserId.substring(1))) {
-                            String userID = (String) studentJson.get("userID");
                             String password = (String) studentJson.get("password");
                             if (!password.equals(enteredPassword)) {
                                 System.out.println("Wrong password");
@@ -204,21 +139,6 @@ public class CourseRegistration {
             return null;
         }
     }
-/*
- * Displays the menu options to the current user (either a Student or an Advisor) based on their role.
- * It calls the respective interface method (`studentInterface` or `advisorInterface`) depending on the user's type.
- * The method ensures the correct interface is shown and allows the user to log out or perform various operations.
- */
-    private static boolean showMenu(Person currentUser, boolean isLogged, ArrayList<Course> courses) {
-        boolean loggedOut = false;
-        if (currentUser instanceof Student) {
-            loggedOut = studentInterface((Student) currentUser, courses);
-        } else if (currentUser instanceof Advisor) {
-            loggedOut = advisorInterface((Advisor) currentUser, courses);
-        } else {
-            loggedOut = true;
-        }
-        return loggedOut;
-    }
+
 
 }
