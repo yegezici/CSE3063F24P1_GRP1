@@ -13,12 +13,16 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CourseRegistration {
+
+    public CourseRegistration(){
+
+    }
     /*
      * Main method to start the course registration process. 
      * It loads the courses, handles the login process, 
      * and displays the menu to the user until they are logged in.
      */
-    public static void main(String[] args) {
+    public void init() {
         JsonManagement jsonManager = new JsonManagement();
         ArrayList<Course> courses = jsonManager.loadCourses();
         boolean isLogged = true;
