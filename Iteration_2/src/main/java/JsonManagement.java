@@ -166,7 +166,7 @@ public class JsonManagement {
     
     private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "iteration_2/Iteration_2/src/main/java/" + studentID + ".json";
+        String filePath = "Iteration_2/src/main/java/" + studentID + ".json";
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
