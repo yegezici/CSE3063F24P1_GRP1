@@ -19,4 +19,23 @@ public class Staff extends Person {
     public String getSsn(){
         return ssn;
     }
+    @Override
+    public String getName(){
+        return this.name;
+    }
+
+    @Override
+    public String getSurname() {
+        return this.surname;
+    }
+
+    @Override
+    public Date getBirthdate() {
+        return this.birthdate;
+    }
+
+    @Override
+    public char getGender() {
+        return this.gender;
+    } 
 }

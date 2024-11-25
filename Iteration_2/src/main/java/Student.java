@@ -34,5 +34,21 @@ public class Student extends Person{
 	public String getAdvisorID() {
 		return advisorID;
 	}
+	@Override
+	public String getName() {
+		return this.name;
+	}
+	@Override
+	public String getSurname() {
+		return this.surname;
+	}
+	@Override
+	public Date getBirthdate() {
+		return this.birthdate;
+	}
+	@Override
+	public char getGender() {
+		return this.gender;
+	}
 	
 }

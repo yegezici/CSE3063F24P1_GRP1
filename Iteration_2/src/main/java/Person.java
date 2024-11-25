@@ -21,20 +21,11 @@ public abstract class Person {
         this.gender = gender;
     }
 //Retrieves the name of the person
-    public String getName(){
-        return name;
-
-    };
+    public abstract String getName();;
 //Retrieves the surname of the person
-    public String getSurname(){
-        return surname;
-    };
+    public abstract String getSurname();;
 //Retrieves the birth date of the person
-    public Date getBirthdate() {
-        return birthdate;
-    }
+    public abstract Date getBirthdate();
 //Retrieves the gender of the person
-    public char getGender() {
-        return gender;
-    }
+    public abstract char getGender();
 }
