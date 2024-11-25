@@ -2,5 +2,6 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "Iteration 1/Source Code/json-simple-1.1.1.jar"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
