@@ -1,0 +1,31 @@
+{
+    "completedCourses": [
+        {
+            "courseID": "CSE1241",
+            "courseName": "Computer Programming I",
+            "credits": 6,
+            "grade": "AA"
+        },
+        {
+            "courseID": "CSE1242",
+            "courseName": "Computer Programming II",
+            "credits": 6,
+            "grade": "BA"
+        }
+    ],
+    "currentCourses": [
+        {
+            "courseID": "CSE2225",
+            "courseName": "Data Structures",
+            "credits": 7
+        },
+        {
+            "courseID": "STAT2253",
+            "courseName": "Introduction to Probability and Statistics",
+            "credits": 5
+        }
+    ],
+    "waitedCourses": [
+        
+    ]
+}
