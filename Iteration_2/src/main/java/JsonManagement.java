@@ -14,8 +14,57 @@ import java.util.Scanner;
 
 public class JsonManagement {
 
+    public JsonManagement(){
 
-    protected static Student getStudentByID(String studentID, ArrayList<Course> courses) {
+    }
+
+    protected ArrayList<Course> loadCourses() {
+        ArrayList<Course> courses = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+        String filePath = "iteration_2/src/main/java/parameters.json";
+
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+            JSONArray coursesArray = (JSONArray) jsonObject.get("courses");
+
+            for (Object obj : coursesArray) {
+                JSONObject courseJson = (JSONObject) obj;
+                String courseId = (String) courseJson.get("courseId");
+                String courseName = (String) courseJson.get("name");
+                int credits = ((Long) courseJson.get("credits")).intValue();
+                String prerequisite = (String) courseJson.get("prerequisite");
+
+                Course course = new Course(courseId, courseName, credits, prerequisite);
+                courses.add(course);
+            }
+            addPrerequisite(courses);
+
+
+
+            System.out.println("Courses loaded successfully!");
+        } catch (IOException | ParseException e) {
+            System.out.println("Error loading courses from parameters.json.");
+            e.printStackTrace();
+        }
+        return courses;
+    }
+
+    private static ArrayList<Course> addPrerequisite(ArrayList<Course> courses) {
+        for (Course course : courses) {
+            // If a prerequisite course name is defined, find the actual prerequisite course object
+            if (course.getPrerequisiteID() != null) {
+                for (Course potentialPrerequisite : courses) {
+                    if (course.getPrerequisiteID().equals(potentialPrerequisite.getCourseId())) {
+                        course.setPrerequisiteCourse(potentialPrerequisite);
+                        break;
+                    }
+                }
+            }
+        }
+        return courses;
+    }
+
+    protected Student getStudentByID(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
         String filePath = "Iteration_2/src/main/java/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
@@ -26,8 +75,6 @@ public class JsonManagement {
                 String jsonStudentID = (String) studentJson.get("studentID");
                 if (jsonStudentID.equals(studentID)) {
                     try {
-                        String userID = (String) studentJson.get("userID");
-                        String password = (String) studentJson.get("password");
                         String name = (String) studentJson.get("name");
                         String surname = (String) studentJson.get("surname");
                         String date = (String) studentJson.get("birthdate");
@@ -36,7 +83,8 @@ public class JsonManagement {
                         char gender = ((String) studentJson.get("gender")).charAt(0);
                         String advisorID = (String) studentJson.get("advisorID");
                         Transcript transcript = createTranscript(studentID, courses);
-                        return new Student(name, surname, birthdate, gender, transcript, studentID, advisorID);
+                        System.out.println("burada donuyor");
+                        return new Student(name, surname, birthdate, gender, transcript, studentID);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -49,8 +97,7 @@ public class JsonManagement {
         return null;
     }
 
-
-    public static Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
+    public Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
         String filePath = "Iteration_2/src/main/java/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
@@ -101,7 +148,7 @@ public class JsonManagement {
         return null;
     }
 
-    protected static void saveStudentDataToJson(Student student, Course course) {
+    protected void saveStudentDataToJson(Student student, Course course) {
     
         ArrayList<Course> waitedCourses = student.getTranscript().getWaitedCourses();
         ArrayList<Course> currentCourses = student.getTranscript().getCurrentCourses();
@@ -164,7 +211,7 @@ public class JsonManagement {
         }
     }
     
-    private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
+    private Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
         String filePath = "Iteration_2/src/main/java/" + studentID + ".json";
 

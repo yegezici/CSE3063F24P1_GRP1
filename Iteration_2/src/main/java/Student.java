@@ -11,9 +11,8 @@ public class Student extends Person{
 		
 	}
 	//constructor for student object
-	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, String studentID, String advisorID) {
+	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, String studentID) {
         super(name, surname, birthdate, gender);
-        this.advisorID = advisorID;
         this.transcript = transcript;
         this.studentID = studentID;
     }

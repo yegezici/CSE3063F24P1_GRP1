@@ -77,7 +77,8 @@ public class StudentInterface extends UserInterface{
     
     
 
-    public boolean showInterface(Student student, ArrayList<Course> courses) {
+    public boolean showInterface() {
+        
         Scanner scan = new Scanner(System.in);
         System.out.println("1. Transcript\n2. Register for course\n3. Log out");
         boolean logout = false;
