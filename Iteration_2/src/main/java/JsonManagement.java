@@ -17,7 +17,7 @@ public class JsonManagement {
 
     protected static Student getStudentByID(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration_2/src/main/java/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray studentsArray = (JSONArray) jsonData.get("students");
@@ -52,7 +52,7 @@ public class JsonManagement {
 
     public static Advisor getAdvisorByUserID(String userID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "src/main/java/parameters.json";
+        String filePath = "Iteration_2/src/main/java/parameters.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonData = (JSONObject) parser.parse(reader);
             JSONArray advisorsArray = (JSONArray) jsonData.get("advisors");
@@ -155,7 +155,7 @@ public class JsonManagement {
         }
         studentData.put("waitedCourses", waitedCoursesJson);
     
-        String filePath = "src/main/java/" + student.getStudentID() + ".json";
+        String filePath = "Iteration_2/src/main/java/" + student.getStudentID() + ".json";
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write(studentData.toJSONString());
             writer.flush();
@@ -166,7 +166,7 @@ public class JsonManagement {
     
     private static Transcript createTranscript(String studentID, ArrayList<Course> courses) {
         JSONParser parser = new JSONParser();
-        String filePath = "iteration_2/src/main/java/" + studentID + ".json";
+        String filePath = "iteration_2/Iteration_2/src/main/java/" + studentID + ".json";
 
         ArrayList<Course> completedCourses = new ArrayList<>();
         ArrayList<Course> currentCourses = new ArrayList<>();
