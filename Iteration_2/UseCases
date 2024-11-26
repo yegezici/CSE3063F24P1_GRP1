@@ -12,3 +12,18 @@ Alternatives:
 3a. If classroom is not available in this time interval, System sends an error message.
 
 
+Use Case:  Student assigns to a course
+Actors: System, Student
+1.	Student enters and writes his/her identification number and password.
+2.	System shows to student its interface.
+3.	Student chooses register a course menu.
+4.	System shows student’s courses that are available to register. System does not show courses that does not satisfy department rules(e.g. prerequisite check, GPA check).
+5.	Student selects a course to register. 
+6.	Student selects a course section to register.
+7.	System sends courses of that student to his/her advisor for approval.
+8.	System notifies advisor to approve or reject that student.
+9.	Student exits the system. 
+Alternatives:
+1a. If student enters wrong information, program returns log in screen and prints an error message.
+6a. If capacity of that course section is full system sends that student to waitlist.
+6b. If student registers more than 5 courses system sends warning.
