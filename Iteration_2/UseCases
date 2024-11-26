@@ -10,3 +10,5 @@ Actors: System, Department Scheduler
 Alternatives:
 1a. If Department Scheduler enters wrong password, System sends a message and return log in menu.
 3a. If classroom is not available in this time interval, System sends an error message.
+
+
