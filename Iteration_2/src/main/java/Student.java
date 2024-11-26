@@ -31,9 +31,7 @@ public class Student extends Person{
 		return studentID;
 	}
 //Retrieves the advisor ID assigned to the student
-	public Advisor getAdvisor() {
-		return advisor;
-	}
+	
 	@Override
 	public String getName() {
 		return this.name;

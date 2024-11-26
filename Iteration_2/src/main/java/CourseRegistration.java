@@ -1,23 +1,17 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileWriter;
 import java.io.FileReader;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CourseRegistration {
     ArrayList<Student> students;
-    JsonManagement jsonManager;
+    ArrayList<Course> courses;
+
     public CourseRegistration() {
-      jsonManager = new JsonManagement();
-      students = jsonManager.students;
+      students = JsonManagement.getInstance().getStudents();
+      courses = JsonManagement.getInstance().getCourses();
     }
 
     /*
@@ -26,11 +20,11 @@ public class CourseRegistration {
      * and displays the menu to the user until they are logged in.
      */
     public void init() {
-        ArrayList<Course> courses = jsonManager.courses;
+        
         boolean isLogged = true;
 
         while (true) {
-            Person currentUser = login(courses);
+            Person currentUser = login();
             if(currentUser == null)
                 continue;
             if(currentUser instanceof Lecturer && !(currentUser instanceof Advisor))
@@ -53,7 +47,7 @@ public class CourseRegistration {
 
     public void saveStudents(){
         for (Student student : students)
-            jsonManager.saveStudent(student);
+            JsonManagement.getInstance().saveStudent(student);
     }
 
     /**
@@ -68,7 +62,7 @@ public class CourseRegistration {
      * If the user ID or password is incorrect, appropriate error messages are
      * displayed.
      */
-    private  Person checkIdandPassword(String enteredUserId, String enteredPassword, ArrayList<Course> courses) {
+    private  Person checkIdandPassword(String enteredUserId, String enteredPassword) {
         Person returnObject = null;
         if (enteredUserId.isEmpty() || enteredPassword.isEmpty()) {
             System.out.println("Please enter user id and password.");
@@ -94,7 +88,7 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
-                            returnObject = jsonManager.getStudentByID(enteredUserId.substring(1));
+                            returnObject = JsonManagement.getInstance().getStudentByID(enteredUserId.substring(1));
                         }
                     }
                 } catch (Exception e) {
@@ -116,7 +110,7 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
-                            returnObject = jsonManager.getAdvisorByUserID(enteredUserId);
+                            returnObject = JsonManagement.getInstance().getAdvisorByUserID(enteredUserId);
                         }
                     }
                 } catch (Exception e) {
@@ -129,7 +123,7 @@ public class CourseRegistration {
         return returnObject;
     }
 
-    /**
+    /*
      * Handles the login process where the user enters their User ID and Password.
      * The method prompts the user to either log in or exit the program.
      * If the user opts to log in, the entered credentials are validated by the
@@ -138,7 +132,7 @@ public class CourseRegistration {
      * student or an advisor) is returned.
      * If the user chooses to exit, the program terminates.
      */
-    private  Person login(ArrayList<Course> courses) {
+    private Person login() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Welcome!\n1-   Login\nPress any key to exit");
         if (scan.nextLine().equals("1")) {
@@ -148,26 +142,11 @@ public class CourseRegistration {
             String enteredUserId = getUserInfo.nextLine();
             System.out.print("Password: ");
             String enteredPassword = getUserInfo.nextLine();
-            return checkIdandPassword(enteredUserId, enteredPassword, courses);
+            return checkIdandPassword(enteredUserId, enteredPassword);
 
         } else {
             System.out.println("Program has been terminated successfully.");
             return new Lecturer();
-        }
-    }
-    private void createArrayList(Student currentStudent){
-        int size = students.size();
-        boolean isSame = false;
-        for(int k = 0; k < size ; k++){
-            if(currentStudent.getStudentID().equals(students.get(k).getStudentID())){
-                isSame = true;
-                break;
-            }
-
-        }
-        if(!(isSame)){
-            students.add(currentStudent);
-        }
-    }
+        }    }
 
 }

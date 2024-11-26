@@ -14,13 +14,28 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class JsonManagement {
-    ArrayList<Course> courses;
-    ArrayList<Student> students;
+    private ArrayList<Course> courses;
+    private ArrayList<Student> students;
+    private static JsonManagement instance;
 
-    public JsonManagement() {
+    private JsonManagement() {
         this.students = new ArrayList<Student>();
         this.courses = loadCourses();
         
+    }
+
+    public static JsonManagement getInstance() {
+        if (instance == null) {
+            instance = new JsonManagement();
+        }
+        return instance;
+    }
+
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }
+    public ArrayList<Student> getStudents() {
+        return students;
     }
 
     public void saveStudents() {
