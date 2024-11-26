@@ -13,9 +13,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CourseRegistration {
+    ArrayList<Student> students;
     JsonManagement jsonManager;
     public CourseRegistration() {
-        jsonManager = new JsonManagement();
+      jsonManager = new JsonManagement();
+      students = jsonManager.students;
     }
 
     /*
@@ -24,33 +26,35 @@ public class CourseRegistration {
      * and displays the menu to the user until they are logged in.
      */
     public void init() {
-        ArrayList<Course> courses = jsonManager.loadCourses();
+        ArrayList<Course> courses = jsonManager.courses;
         boolean isLogged = true;
 
         while (true) {
             Person currentUser = login(courses);
             if(currentUser == null)
                 continue;
-            if((currentUser instanceof Lecturer )&& !(currentUser instanceof Advisor))
+            if(currentUser instanceof Lecturer && !(currentUser instanceof Advisor))
                 break;
             UserInterface userInterface = null;
             while (isLogged) {
                 if (currentUser instanceof Student)
                     userInterface = new StudentInterface((Student) currentUser, courses);
+                    //createArrayList((Student) currentUser);
                 else 
                     userInterface = new AdvisorInterface((Advisor) currentUser);
-
                 if (userInterface.showMenu()) {
+                    saveStudents();
                     break;
                 }
             }
         }
-        jsonManager.saveStudents();
         
     }
 
-
-   
+    public void saveStudents(){
+        for (Student student : students)
+            jsonManager.saveStudent(student);
+    }
 
     /**
      * Checks the entered user ID and password to authenticate a student or advisor.
@@ -64,9 +68,8 @@ public class CourseRegistration {
      * If the user ID or password is incorrect, appropriate error messages are
      * displayed.
      */
-    private static Person checkIdandPassword(String enteredUserId, String enteredPassword, ArrayList<Course> courses) {
+    private  Person checkIdandPassword(String enteredUserId, String enteredPassword, ArrayList<Course> courses) {
         Person returnObject = null;
-        JsonManagement jsonManager = new JsonManagement();
         if (enteredUserId.isEmpty() || enteredPassword.isEmpty()) {
             System.out.println("Please enter user id and password.");
             return null;
@@ -135,7 +138,7 @@ public class CourseRegistration {
      * student or an advisor) is returned.
      * If the user chooses to exit, the program terminates.
      */
-    private static Person login(ArrayList<Course> courses) {
+    private  Person login(ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Welcome!\n1-   Login\nPress any key to exit");
         if (scan.nextLine().equals("1")) {
@@ -152,6 +155,19 @@ public class CourseRegistration {
             return new Lecturer();
         }
     }
+    private void createArrayList(Student currentStudent){
+        int size = students.size();
+        boolean isSame = false;
+        for(int k = 0; k < size ; k++){
+            if(currentStudent.getStudentID().equals(students.get(k).getStudentID())){
+                isSame = true;
+                break;
+            }
 
+        }
+        if(!(isSame)){
+            students.add(currentStudent);
+        }
+    }
 
 }

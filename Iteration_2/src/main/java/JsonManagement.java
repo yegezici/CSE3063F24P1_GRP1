@@ -18,14 +18,15 @@ public class JsonManagement {
     ArrayList<Student> students;
 
     public JsonManagement() {
-        this.courses = loadCourses();
         this.students = new ArrayList<Student>();
+        this.courses = loadCourses();
+        
     }
 
-    public void saveStudents(){
-        for (Student student : students) 
+    public void saveStudents() {
+        for (Student student : students)
             saveStudent(student);
-        
+
     }
 
     protected ArrayList<Course> loadCourses() {
@@ -79,14 +80,12 @@ public class JsonManagement {
                 return student;
             }
         }
-        System.out.println("111111111111");
         return null;
     }
 
     protected Student getStudentByID(String studentID) {
         Student existingStudent = checkStudentIfExists(studentID);
-        if (existingStudent != null) {
-            System.out.println("313131313131");
+        if(existingStudent != null){
             return existingStudent;
         }
         JSONParser parser = new JSONParser();
@@ -145,7 +144,6 @@ public class JsonManagement {
                     for (Object studentIDObj : studentIDs) {
                         String studentID = (String) studentIDObj;
                         Student student = getStudentByID(studentID);
-                        System.out.println(studentID);
                         if (student != null) {
                             students.add(student);
                         }
@@ -181,8 +179,6 @@ public class JsonManagement {
         try (FileWriter writer = new FileWriter(filePath)) {
             // Create JSON data based on the Student object
             JSONObject studentData = new JSONObject();
-            studentData.put("name", student.getName());
-            studentData.put("studentID", student.getStudentID());
 
             // Add completedCourses
             JSONArray completedCourses = new JSONArray();
@@ -220,7 +216,6 @@ public class JsonManagement {
             // Write JSON to file
             writer.write(studentData.toJSONString());
             writer.flush();
-            System.out.println("Student data written successfully to " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error writing student data to file.");
@@ -294,20 +289,21 @@ public class JsonManagement {
         }
     }
 
-    private void createArrayList(Student currentStudent){
+    private void createArrayList(Student currentStudent) {
         int size = students.size();
         boolean isSame = false;
-        System.out.println("size " + size);
-        for(int k = 0; k < size ; k++){
-            if(currentStudent.getStudentID().equals(students.get(k).getStudentID())){
+        for (int k = 0; k < size; k++) {
+            if (currentStudent.getStudentID().equals(students.get(k).getStudentID())) {
                 isSame = true;
-                System.out.println("sacmalik");
                 break;
             }
         }
-        if(!(isSame))
+        if (!isSame)
             students.add(currentStudent);
 
-        System.out.println(students.get(0).getStudentID() + " sacma " + currentStudent.getStudentID());
     }
+
+
+
 }
+
