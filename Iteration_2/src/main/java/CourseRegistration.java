@@ -15,9 +15,11 @@ import java.util.Scanner;
 public class CourseRegistration {
     ArrayList<Student> students;
     JsonManagement jsonManager;
+    ArrayList<Course> courses;
     public CourseRegistration() {
       jsonManager = new JsonManagement();
       students = jsonManager.students;
+      courses = jsonManager.courses;
     }
 
     /*
@@ -26,11 +28,11 @@ public class CourseRegistration {
      * and displays the menu to the user until they are logged in.
      */
     public void init() {
-        ArrayList<Course> courses = jsonManager.courses;
+        
         boolean isLogged = true;
 
         while (true) {
-            Person currentUser = login(courses);
+            Person currentUser = login();
             if(currentUser == null)
                 continue;
             if(currentUser instanceof Lecturer && !(currentUser instanceof Advisor))
@@ -68,7 +70,7 @@ public class CourseRegistration {
      * If the user ID or password is incorrect, appropriate error messages are
      * displayed.
      */
-    private  Person checkIdandPassword(String enteredUserId, String enteredPassword, ArrayList<Course> courses) {
+    private  Person checkIdandPassword(String enteredUserId, String enteredPassword) {
         Person returnObject = null;
         if (enteredUserId.isEmpty() || enteredPassword.isEmpty()) {
             System.out.println("Please enter user id and password.");
@@ -138,7 +140,7 @@ public class CourseRegistration {
      * student or an advisor) is returned.
      * If the user chooses to exit, the program terminates.
      */
-    private Person login(ArrayList<Course> courses) {
+    private Person login() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Welcome!\n1-   Login\nPress any key to exit");
         if (scan.nextLine().equals("1")) {
@@ -148,7 +150,7 @@ public class CourseRegistration {
             String enteredUserId = getUserInfo.nextLine();
             System.out.print("Password: ");
             String enteredPassword = getUserInfo.nextLine();
-            return checkIdandPassword(enteredUserId, enteredPassword, courses);
+            return checkIdandPassword(enteredUserId, enteredPassword);
 
         } else {
             System.out.println("Program has been terminated successfully.");
