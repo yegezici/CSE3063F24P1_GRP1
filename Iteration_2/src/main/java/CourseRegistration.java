@@ -14,8 +14,10 @@ import java.util.Scanner;
 
 public class CourseRegistration {
     ArrayList<Student> students;
+    JsonManagement jsonManager;
     public CourseRegistration() {
-      students = new ArrayList<Student>();
+      jsonManager = new JsonManagement();
+      students = jsonManager.students;
     }
 
     /*
@@ -24,30 +26,34 @@ public class CourseRegistration {
      * and displays the menu to the user until they are logged in.
      */
     public void init() {
-        JsonManagement jsonManager = new JsonManagement();
-        ArrayList<Course> courses = jsonManager.loadCourses();
+        ArrayList<Course> courses = jsonManager.courses;
         boolean isLogged = true;
 
         while (true) {
             Person currentUser = login(courses);
             if(currentUser == null)
                 continue;
-            if(currentUser instanceof Lecturer)
+            if(currentUser instanceof Lecturer && !(currentUser instanceof Advisor))
                 break;
             UserInterface userInterface = null;
             while (isLogged) {
-                if (currentUser instanceof Student){
+                if (currentUser instanceof Student)
                     userInterface = new StudentInterface((Student) currentUser, courses);
-                    createArrayList((Student) currentUser);}
+                    //createArrayList((Student) currentUser);
                 else 
                     userInterface = new AdvisorInterface((Advisor) currentUser);
-
                 if (userInterface.showMenu()) {
+                    saveStudents();
                     break;
                 }
             }
         }
         
+    }
+
+    public void saveStudents(){
+        for (Student student : students)
+            jsonManager.saveStudent(student);
     }
 
     /**
@@ -62,9 +68,8 @@ public class CourseRegistration {
      * If the user ID or password is incorrect, appropriate error messages are
      * displayed.
      */
-    private static Person checkIdandPassword(String enteredUserId, String enteredPassword, ArrayList<Course> courses) {
+    private  Person checkIdandPassword(String enteredUserId, String enteredPassword, ArrayList<Course> courses) {
         Person returnObject = null;
-        JsonManagement jsonManager = new JsonManagement();
         if (enteredUserId.isEmpty() || enteredPassword.isEmpty()) {
             System.out.println("Please enter user id and password.");
             return null;
@@ -89,7 +94,7 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
-                            returnObject = jsonManager.getStudentByID(enteredUserId.substring(1), courses);
+                            returnObject = jsonManager.getStudentByID(enteredUserId.substring(1));
                         }
                     }
                 } catch (Exception e) {
@@ -111,7 +116,7 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
-                            returnObject = jsonManager.getAdvisorByUserID(enteredUserId, courses);
+                            returnObject = jsonManager.getAdvisorByUserID(enteredUserId);
                         }
                     }
                 } catch (Exception e) {
@@ -124,7 +129,7 @@ public class CourseRegistration {
         return returnObject;
     }
 
-    /**
+    /*
      * Handles the login process where the user enters their User ID and Password.
      * The method prompts the user to either log in or exit the program.
      * If the user opts to log in, the entered credentials are validated by the
@@ -133,7 +138,7 @@ public class CourseRegistration {
      * student or an advisor) is returned.
      * If the user chooses to exit, the program terminates.
      */
-    private static Person login(ArrayList<Course> courses) {
+    private Person login(ArrayList<Course> courses) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Welcome!\n1-   Login\nPress any key to exit");
         if (scan.nextLine().equals("1")) {
