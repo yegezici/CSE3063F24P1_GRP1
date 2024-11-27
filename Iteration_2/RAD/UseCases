@@ -21,8 +21,8 @@ Actors: System, Student
 5.	Student selects a course to register. 
 6.	Student selects a course section to register.
 7.	System sends courses of that student to his/her advisor for approval.
-8.  Adviosor approves his/her courses.
-8.	Student exits the system. 
+8.  Advisor approves his/her courses.
+9.	Student exits the system. 
 Alternatives:
 1a. If student enters wrong information, program returns log in screen and prints an error message.
 6a. If student registers more than 5 courses system sends warning.
