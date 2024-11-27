@@ -101,7 +101,7 @@ public class JsonManagement {
         return null;
     }
 
-    public Affair getAffairByID(String affairID) {
+    public StudentAffairsStaff getAffairByID(String affairID) {
         JSONParser parser = new JSONParser();
         String filePath = "Iteration_2/src/main/java/parameters.json";
     
@@ -121,7 +121,7 @@ public class JsonManagement {
                     String surname = (String) affairJson.get("surname");
                     
                     
-                    return new Affair(id, name, surname);
+                    return new StudentAffairsStaff(id, name, surname);
                 }
             }
         } catch (IOException | ParseException e) {
