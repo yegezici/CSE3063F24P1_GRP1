@@ -132,7 +132,7 @@ public class JsonManagement {
         return null;
     }
 
-    public Scheduler getSchedulerByID(String schedulerID) {
+    public DepartmentScheduler getSchedulerByID(String schedulerID) {
         JSONParser parser = new JSONParser();
         String filePath = "Iteration_2/src/main/java/parameters.json";
     
@@ -148,7 +148,7 @@ public class JsonManagement {
                     String surname = (String) schedulerJson.get("surname");
     
                   
-                    return new Scheduler(id, name, surname);
+                    return new DepartmentScheduler(name, surname);
                 }
             }
         } catch (IOException | ParseException e) {

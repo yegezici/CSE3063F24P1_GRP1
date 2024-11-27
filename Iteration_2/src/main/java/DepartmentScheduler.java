@@ -11,6 +11,7 @@ public class DepartmentScheduler extends Staff{
     public DepartmentScheduler(String name, String surname){
         super(name, surname);
     }
+
     //Constructor for Department Scheduler role.
     public DepartmentScheduler(String name, String surname, Date birthdate, char gender, String ssn,
                                String courseSections[][], String allClassrooms[]){
@@ -20,18 +21,18 @@ public class DepartmentScheduler extends Staff{
     }
 
     //Assign time slot for spesific section.
-    public void assignTimeSlotToSection(){
-
+    public void assignTimeSlotToSection(CourseSection courseSection){
+    
     }
 
     //Assign the lecturer to spesific section.
-    public void assignLecturerToSection(){
+    public void assignLecturerToSection(CourseSection courseSection, Lecturer lecturer){
         
     }
 
     //Change capacity of spesific section.  
-    public void manageCapacity(){
-        
+    public void manageCapacity(CourseSection courseSection, int newCapacity){
+      // courseSection.capacity = newCapacity;
     }
 
     //Make changes in waitlist.
