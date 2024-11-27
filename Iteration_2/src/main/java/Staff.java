@@ -12,11 +12,12 @@ public class Staff extends Person {
     }
 
     public Staff(String name, String surname, Date birthdate, char gender, String ssn) {
-        super(name, surname, birthdate, gender);
-        this.ssn = ssn;
+        super(name, surname, birthdate, gender, ssn);
+        
     }
 //Retrieves the Social Security Number (SSN) of the staff member
-    public String getSsn(){
+    @Override
+    public String getID(){
         return ssn;
     }
     @Override
