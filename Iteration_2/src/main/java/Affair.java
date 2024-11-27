@@ -1,0 +1,58 @@
+import java.util.Date;
+
+public class Affair extends Person {
+    private String affairID;
+
+    
+    public Affair() {
+        super();
+    }
+
+  
+    public Affair(String id, String name, String surname) {
+        super(name, surname);
+        this.affairID = affairID;
+    }
+
+   
+    public Affair(String id, String name, String surname, Date birthdate, char gender) {
+        super(name, surname, birthdate, gender);
+        this.affairID = affairID;
+    }
+
+   
+    public String getId() {
+        return affairID;
+    }
+
+
+    public void setId(String id) {
+        this.affairID = affairID;
+    }
+
+   
+    @Override
+    public String getName() {
+        return name;
+    }
+
+  
+    @Override
+    public String getSurname() {
+        return surname;
+    }
+
+    
+    @Override
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+  
+    @Override
+    public char getGender() {
+        return gender;
+    }
+
+    
+}
