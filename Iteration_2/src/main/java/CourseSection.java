@@ -17,8 +17,41 @@ public class CourseSection{
    }
 
    public void assignLecturer(){
-      
+      //sonra doldurulacak
    }
+
+
+   public String getSectionID(){
+      return this.sectionID;
+   }
+   public void setSectionID(String sectionID){
+      this.sectionID = sectionID;
+   }
+   public TimeSlot getTimeSlot() {
+      return timeSlot;
+   }
+   public void setTimeSlot(TimeSlot timeSlot) {
+      this.timeSlot = timeSlot;
+   }
+   public ArrayList<Student> getWaitList() {
+      return waitList;
+   }
+   public void setWaitList(ArrayList<Student> waitList) {
+      this.waitList = waitList;
+   }
+   public Lecturer getLecturer() {
+      return lecturer;
+   }
+   public void setLecturer(Lecturer lecturer) {
+      this.lecturer = lecturer;
+   }
+   public int capacity(){
+      return this.capacity;
+   }
+   public void setCapacity(int capacity){
+      this.capacity = capacity;
+   }
+   
    
    
 }
