@@ -22,22 +22,34 @@ public class DepartmentScheduler extends Staff{
 
     //Assign time slot for spesific section.
     public void assignTimeSlotToSection(CourseSection courseSection, TimeSlot timeSlot){
+        //TimeSlot'un assign fonksiyonunu kullanarak courseSection'a TimeSlot ekle.
         timeSlot.assignTimeSlot(courseSection);
     }
 
     //Assign the lecturer to spesific section.
     public void assignLecturerToSection(CourseSection courseSection, Lecturer lecturer){
-        //courseSection.
+        courseSection.setLecturer(lecturer);
     }
 
     //Change capacity of spesific section.  
     public void manageCapacity(CourseSection courseSection, int newCapacity){
-       //courseSection.setCapacity(newCapacity);
+        int oldCapacity = courseSection.getCapacity();
+        courseSection.setCapacity(newCapacity);
+
+        //try-catch eklenmeli. NewCapacity OldCapacity'den büyük olmalı.
+        manageWaitlist(courseSection, newCapacity - oldCapacity);
     }
 
     //Make changes in waitlist.
-    public void manageWaitlist(CourseSection courseSection){
-        //courseSection
+    public void manageWaitlist(CourseSection courseSection, int size){
+        //Waitlist'te bekleyen öğrenciler çağırılır.
+
+
+        //Size kadar öğrenci waitlist'ten çıkarılır.
+
+
+        //Öğrencilerin currentCourses kısmına bu course'u ekle.
+
     }
 
 }

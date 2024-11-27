@@ -45,7 +45,7 @@ public class CourseSection{
    public void setLecturer(Lecturer lecturer) {
       this.lecturer = lecturer;
    }
-   public int capacity(){
+   public int getCapacity(){
       return this.capacity;
    }
    public void setCapacity(int capacity){
