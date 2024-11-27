@@ -1,22 +1,22 @@
+import java.util.ArrayList;
 
-public class CourseSection extends Course{
-   private int sectionNumber;
-
+public class CourseSection{
+   private String sectionID;
+   private TimeSlot timeSlot;
+   private String classroom;
+   private ArrayList<Student> waitList;
+   private int capacity;
+   private Lecturer lecturer;
    //constructors
    public CourseSection(){
-      super();
+      
    }
-
-   public CourseSection(String courseId, String courseName){
-      super(courseId, courseName);
+   public CourseSection(String sectionId, String classroom, int capacity, Lecturer lecturer){
+     this.sectionID = sectionId;
+     this.capacity = capacity;
+     this.classroom = classroom;
+     this.lecturer = lecturer;
    }
-
-   public CourseSection(String courseId, String courseName, int credits, String prerequisiteID){
-      super(courseId, courseName, credits, prerequisiteID);
-   }
-
-   public CourseSection(String courseId, String courseName, int credits, String prerequisiteID, int sectionNumber){
-      super(courseId, courseName, credits, prerequisiteID);
-      this.sectionNumber = sectionNumber;
-   }
+   
+   
 }
