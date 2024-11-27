@@ -1,18 +1,22 @@
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class StudentAffairsStaffInterface implements UserInterface {
     StudentAffairsStaff staff;
     Scanner scan;
+    ArrayList<Course> courses;
 
     public StudentAffairsStaffInterface() {
         scan = new Scanner(System.in);
     }
 
-    public StudentAffairsStaffInterface(StudentAffairsStaff staff) {
+    public StudentAffairsStaffInterface(StudentAffairsStaff staff, ArrayList<Course> courses) {
         this.staff = staff;
+        this.courses = courses;
         scan = new Scanner(System.in);
     }
+    
 
     public boolean showMenu() {
         switch (getChoice()) {
@@ -46,7 +50,8 @@ public class StudentAffairsStaffInterface implements UserInterface {
 
     }
 
-    public void askCourseParameters(){
+    public Course askCourseParameters(){
+        Course course = null;
         try {
             System.out.print("Enter course name: ");
             String courseName = scan.next();
@@ -54,6 +59,8 @@ public class StudentAffairsStaffInterface implements UserInterface {
             String courseCode = scan.next();
             System.out.print("Enter course credits: ");
             int courseCredits = scan.nextInt();
+            System.out.print("How many sections does the course have? : ");
+            int numberOfSections = scan.nextInt();
             
 
         }catch(InputMismatchException e){
@@ -61,6 +68,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
         }catch (Exception e) {
 
         }
+        return course;
     }
 
 
