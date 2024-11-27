@@ -22,12 +22,12 @@ public class DepartmentScheduler extends Staff{
 
     //Assign time slot for spesific section.
     public void assignTimeSlotToSection(CourseSection courseSection, TimeSlot timeSlot){
-        courseSection.setTimeSlot(timeSlot);
+        
     }
 
     //Assign the lecturer to spesific section.
     public void assignLecturerToSection(CourseSection courseSection, Lecturer lecturer){
-        
+        //courseSection.
     }
 
     //Change capacity of spesific section.  
