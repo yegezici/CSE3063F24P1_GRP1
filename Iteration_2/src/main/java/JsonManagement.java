@@ -83,6 +83,37 @@ public class JsonManagement {
         return null;
     }
 
+    public Affair getAffairByID(String affairID) {
+        JSONParser parser = new JSONParser();
+        String filePath = "Iteration_2/src/main/java/parameters.json";
+    
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+            
+           
+            JSONArray affairsArray = (JSONArray) jsonData.get("affairs");
+            
+            
+            for (Object affairObj : affairsArray) {
+                JSONObject affairJson = (JSONObject) affairObj;
+                String id = (String) affairJson.get("userID"); 
+                
+                if (id.equals(affairID)) { 
+                    String name = (String) affairJson.get("name");
+                    String surname = (String) affairJson.get("surname");
+                    
+                    
+                    return new Affair(id, name, surname);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    
+        System.out.println("Affair with ID: " + affairID + " not found.");
+        return null;
+    }
+
     protected Student getStudentByID(String studentID) {
         Student existingStudent = checkStudentIfExists(studentID);
         if(existingStudent != null){
