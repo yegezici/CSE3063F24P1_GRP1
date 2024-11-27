@@ -65,9 +65,9 @@ public class Course {
         this.prerequisiteCourse = prerequisiteCourse;
     }
 //Retrieves the prerequisite course ID required for enrollment in this course.
-    public String getPrerequisiteID() {
-        return prerequisiteID;
-    }
+public String getPrerequisiteID() {
+    return prerequisiteID;
+}
 //Retrieves the number of credits assigned to this course
     public int getCredits() {
         return credits;
