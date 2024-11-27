@@ -7,6 +7,7 @@ public class CourseSection{
    private int capacity;
    private Lecturer lecturer;
    private Course parentCourse;
+   private ArrayList<Student> currentStudents;
    //constructors
    public CourseSection(){
       
@@ -15,6 +16,7 @@ public class CourseSection{
       this.capacity = capacity;
       this.sectionID = sectionID;
       this.parentCourse = parentCourse;
+      this.currentStudents = new ArrayList<Student>();
    }
    public CourseSection(String sectionId, int capacity, Lecturer lecturer){
      this.sectionID = sectionId;
@@ -57,6 +59,12 @@ public class CourseSection{
    }
    public void setParentCourse(Course parentCourse) {
       this.parentCourse = parentCourse;
+   }
+   public ArrayList<Student> getCurrentStudents() {
+      return currentStudents;
+   }
+   public void addStudentToSection(Student currentStudent) {
+      this.currentStudents.add(currentStudent);
    }
    
    

@@ -29,6 +29,7 @@ public class Course {
         this.courseName = courseName;
         this.credits = credits;
         this.prerequisiteID=prerequisiteID;
+        courseSections = new ArrayList<CourseSection>();
         
     }
 

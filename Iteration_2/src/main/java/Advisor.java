@@ -18,7 +18,7 @@ public class Advisor extends Lecturer {
 //This method adds the course approved by the advisor to the list of courses the student is currently taking and deletes it from the list of those waiting for approval.
     public void approveCourse(Student student, CourseSection courseSection) {
         try {
-            if(!(courseSection.getCapacity() > courseSection.getParentCourse().getStudents().size() )){
+            if(!(courseSection.getCapacity() > courseSection.getCurrentStudents().size() )){
                     courseSection.getWaitList().add(student);
             }else{
             student.getTranscript().addCurrentCourse(courseSection.getParentCourse());
