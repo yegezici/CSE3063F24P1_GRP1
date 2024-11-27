@@ -1,25 +1,19 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileWriter;
 import java.io.FileReader;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CourseRegistration {
     ArrayList<Student> students;
-    JsonManagement jsonManager;
+
     ArrayList<Course> courses;
+
     public CourseRegistration() {
-      jsonManager = new JsonManagement();
-      students = jsonManager.students;
-      courses = jsonManager.courses;
+      students = JsonManagement.getInstance().getStudents();
+      courses = JsonManagement.getInstance().getCourses();
+
     }
 
     /*
@@ -55,7 +49,9 @@ public class CourseRegistration {
 
     public void saveStudents(){
         for (Student student : students)
-            jsonManager.saveStudent(student);
+
+            JsonManagement.getInstance().saveStudent(student);
+
     }
 
     /**
@@ -96,7 +92,9 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
-                            returnObject = jsonManager.getStudentByID(enteredUserId.substring(1));
+
+                            returnObject = JsonManagement.getInstance().getStudentByID(enteredUserId.substring(1));
+
                         }
                     }
                 } catch (Exception e) {
@@ -118,7 +116,9 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
-                            returnObject = jsonManager.getAdvisorByUserID(enteredUserId);
+
+                            returnObject = JsonManagement.getInstance().getAdvisorByUserID(enteredUserId);
+
                         }
                     }
                 } catch (Exception e) {
