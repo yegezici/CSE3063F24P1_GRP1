@@ -29,6 +29,7 @@ public class Course {
         this.courseName = courseName;
         this.credits = credits;
         this.prerequisiteID=prerequisiteID;
+        
     }
 
 //Retrieves the unique identifier of the course.
@@ -80,4 +81,18 @@ public String getPrerequisiteID() {
 	public void setStudents(ArrayList<Student> students) {
 	    this.students = students;
 	}
+
+    public ArrayList<CourseSection> getCourseSections() {
+        return courseSections;
+    }
+
+    public void setCourseSections(ArrayList<CourseSection> courseSections) {
+        this.courseSections = courseSections;
+    }
+
+
+
+
+
+
 }

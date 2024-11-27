@@ -63,6 +63,9 @@ public class JsonManagement {
                 String prerequisite = (String) courseJson.get("prerequisite");
 
                 Course course = new Course(courseId, courseName, credits, prerequisite);
+                for(int k = 0; k < 2; k++){
+                    course.getCourseSections().add(new CourseSection(String.valueOf(k+1),100, course));
+                }
                 courses.add(course);
             }
             addPrerequisite(courses);

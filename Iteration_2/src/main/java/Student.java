@@ -17,9 +17,9 @@ public class Student extends Person{
         
     }
 	//Adds the course the student wants to enroll in to the waited courses list
-	public void registerCourse(Course course) {
-		transcript.addWaitedCourse(course);
-		
+	public void registerCourse(CourseSection coursesSection) {
+		transcript.addWaitedCourse(coursesSection.getParentCourse());
+		transcript.getWaitedSections().add(coursesSection);
 	}
 //Retrieves the transcript of the student. Transcript object representing the student's academic record
 	public Transcript getTranscript() {

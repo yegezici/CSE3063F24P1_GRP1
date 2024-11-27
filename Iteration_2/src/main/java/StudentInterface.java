@@ -82,9 +82,12 @@ public class StudentInterface implements UserInterface {
                     break;
                 } else {
                     // Register the selected course and add it to the waited courses list
-                    student.registerCourse(availableCourses.get(courseChoice));
+                    Course selectedCourse = availableCourses.get(courseChoice);
+                    showAvailableCourseSections(selectedCourse);
+                    int choice = scan.nextInt();
+                    student.registerCourse(selectedCourse.getCourseSections().get(choice));
                     System.out.println(
-                            availableCourses.get(courseChoice).getCourseName() + " " + "is succesfully registered.");
+                            selectedCourse.getCourseName() + " " + "is succesfully registered.");
                     availableCourses.remove(courseChoice);
 
                 }
@@ -145,6 +148,13 @@ public class StudentInterface implements UserInterface {
         for (int i = 0; i < size; i++) {
             System.out.println((i + 1) + "       " + printedList.get(i).getCourseId() + "   "
                     + printedList.get(i).getCourseName());
+        }
+    }
+
+    private void showAvailableCourseSections(Course selectedCourse){
+        int size = selectedCourse.getCourseSections().size();
+        for(int k = 0; k < size ; k++){
+           System.out.println((k+1) + "- Section " + (k+1)) ;
         }
     }
 

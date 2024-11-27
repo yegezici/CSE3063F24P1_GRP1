@@ -70,21 +70,21 @@ public class AdvisorInterface implements UserInterface {
         return logOut;
     }
 
-    public void approveCourse(Student student, Course course) {
-        advisor.approveCourse(student, course);
-        System.out.println(course.getCourseId() + " has been approved.");
+    public void approveCourse(Student student, CourseSection courseSection) {
+        advisor.approveCourse(student, courseSection);
+        System.out.println(courseSection.getParentCourse().getCourseId() + " has been approved.");
         if (student.getTranscript().getWaitedCourses().isEmpty())
             System.out.println("No more courses to approve.");
     }
 
-    public void rejectCourse(Student student, Course course) {
-        advisor.rejectCourse(student, course);
+    public void rejectCourse(Student student, CourseSection course) {
+       // advisor.rejectCourse(student, course);
         System.out.println("The course has been rejected.");
     }
 
     public boolean courseOperations(Student student, int courseIndex) {
         boolean logOut = false;
-        Course course = student.getTranscript().getWaitedCourses().get(courseIndex - 1);
+        CourseSection courseSection = student.getTranscript().getWaitedCourses().get(courseIndex - 1).getCourseSections().get(0);
         System.out.print("Do you want to approve this course?(y/n): \nIf you want to turn back enter \"0\": ");
         String approve = scan.next();
         if (!approve.equals("0") && !approve.equals("y") && !approve.equals("n")) {
@@ -93,9 +93,9 @@ public class AdvisorInterface implements UserInterface {
         } else if (approve.equals("0")) {
             logOut = true;
         } else if (approve.equals("y")) {
-            approveCourse(student, course);
+            approveCourse(student, courseSection);
         } else {
-            rejectCourse(student, course);
+            rejectCourse(student, courseSection);
         }
 
         return logOut;

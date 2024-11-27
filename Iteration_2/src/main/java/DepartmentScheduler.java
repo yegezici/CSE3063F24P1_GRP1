@@ -81,7 +81,7 @@ public class DepartmentScheduler extends Staff {
                 }
 
                 // Add course to student's transcript.
-                student.getTranscript().addCurrentCourse(courseSection);
+                student.getTranscript().addCurrentCourse(courseSection.getParentCourse());
 
                 // Remove student from the waitlist.
                 studentsToSection.remove(0);

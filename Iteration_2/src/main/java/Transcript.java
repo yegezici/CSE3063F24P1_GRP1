@@ -4,6 +4,9 @@ public class Transcript {
     private ArrayList<Course> completedCourses;
     private ArrayList<Course> currentCourses;
     private ArrayList<Course> waitedCourses;
+    private ArrayList<CourseSection> currentSections;
+    private ArrayList<CourseSection> waitedSections;
+
 
     public Transcript(){
 
@@ -18,6 +21,9 @@ public class Transcript {
         this.completedCourses = completedCourses;
         this.currentCourses = currentCourses;
         this.waitedCourses = waitedCourses;
+        this.currentSections = addCourseSections(currentCourses);
+        this.waitedSections = addCourseSections(waitedCourses);
+       
     }
 //This method adds a course to the list of completed courses if it has been completed.
     public void addCompletedCourse(Course course){
@@ -92,6 +98,18 @@ public class Transcript {
             System.out.printf("%d-   %-10s %-50s %d\n", (i+1), currentCourses.get(i).getCourseId(), currentCourses.get(i).getCourseName(), currentCourses.get(i).getCredits());
         }
     }
+   private ArrayList<CourseSection> addCourseSections(ArrayList<Course> courses){
+        int size = courses.size();
+        ArrayList<CourseSection> cs = new ArrayList<CourseSection>();
+        for(int k=0; k < size; k++ ){
+            for(int j = 0; j < size; j++){
+                cs.add(courses.get(k).getCourseSections().get(j));
+            }
+            
+        }
+        return cs;
+   }
+    
 //Sets the list of courses that the student has completed
     public void setCompletedCourses(ArrayList<Course> completedCourses) {
         this.completedCourses = completedCourses;
@@ -118,6 +136,22 @@ public class Transcript {
 
     public ArrayList<Course> getWaitedCourses() {
         return waitedCourses != null ? waitedCourses : new ArrayList<>();
+    }
+
+    public ArrayList<CourseSection> getCurrentSections() {
+        return currentSections;
+    }
+
+    public void setCurrentSections(ArrayList<CourseSection> currentSections) {
+        this.currentSections = currentSections;
+    }
+
+    public ArrayList<CourseSection> getWaitedSections() {
+        return waitedSections;
+    }
+
+    public void setWaitedSections(ArrayList<CourseSection> waitedSections) {
+        this.waitedSections = waitedSections;
     }
 
 

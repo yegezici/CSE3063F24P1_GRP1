@@ -6,20 +6,21 @@ public class CourseSection{
    private ArrayList<Student> waitList;
    private int capacity;
    private Lecturer lecturer;
+   private Course parentCourse;
    //constructors
    public CourseSection(){
       
+   }
+   public CourseSection(String sectionID ,int capacity, Course parentCourse){
+      this.capacity = capacity;
+      this.sectionID = sectionID;
+      this.parentCourse = parentCourse;
    }
    public CourseSection(String sectionId, int capacity, Lecturer lecturer){
      this.sectionID = sectionId;
      this.capacity = capacity;
      this.lecturer = lecturer;
    }
-
-   public void assignLecturer(){
-      //sonra doldurulacak
-   }
-
 
    public String getSectionID(){
       return this.sectionID;
@@ -51,6 +52,13 @@ public class CourseSection{
    public void setCapacity(int capacity){
       this.capacity = capacity;
    }
+   public Course getParentCourse() {
+      return parentCourse;
+   }
+   public void setParentCourse(Course parentCourse) {
+      this.parentCourse = parentCourse;
+   }
+   
    
    
    

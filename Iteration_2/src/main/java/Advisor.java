@@ -16,10 +16,13 @@ public class Advisor extends Lecturer {
         this.students = students;
     }
 //This method adds the course approved by the advisor to the list of courses the student is currently taking and deletes it from the list of those waiting for approval.
-    public void approveCourse(Student student, Course course) {
+    public void approveCourse(Student student, CourseSection courseSection) {
         try {
-            student.getTranscript().addCurrentCourse(course);
-            student.getTranscript().deleteFromWaitedCourse(course);
+            if(!(courseSection.getCapacity() > courseSection.getParentCourse().getStudents().size() )){
+                    courseSection.getWaitList().add(student);
+            }else{
+            student.getTranscript().addCurrentCourse(courseSection.getParentCourse());
+            student.getTranscript().deleteFromWaitedCourse(courseSection.getParentCourse());}
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -44,6 +47,6 @@ public class Advisor extends Lecturer {
     public ArrayList<Student> getStudents() {
         return students;
     }
-
+  
 
 }

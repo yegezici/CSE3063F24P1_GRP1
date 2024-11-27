@@ -61,8 +61,11 @@ public class StudentAffairsStaffInterface implements UserInterface {
             int courseCredits = scan.nextInt();
             System.out.print("How many sections does the course have? : ");
             int numberOfSections = scan.nextInt();
+            course = new Course(courseName, courseCode, courseCredits);
+            for(int k = 0 ; k < numberOfSections ; k++ ){ 
+              course.getCourseSections().add(new CourseSection(String.valueOf(k+1),100, course));
+            }
             
-
         }catch(InputMismatchException e){
 
         }catch (Exception e) {
@@ -70,6 +73,8 @@ public class StudentAffairsStaffInterface implements UserInterface {
         }
         return course;
     }
+
+
 
 
 }

@@ -21,7 +21,7 @@ public class StudentAffairsStaff extends Staff {
     }
 
     public Course createCourse(){
-
+       return null;
     }
     public void removeCourses(){
         
