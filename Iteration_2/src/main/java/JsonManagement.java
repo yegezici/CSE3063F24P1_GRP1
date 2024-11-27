@@ -132,6 +132,33 @@ public class JsonManagement {
         return null;
     }
 
+    public Scheduler getSchedulerByID(String schedulerID) {
+        JSONParser parser = new JSONParser();
+        String filePath = "Iteration_2/src/main/java/parameters.json";
+    
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+            JSONArray schedulersArray = (JSONArray) jsonData.get("schedulers");
+            
+            for (Object schedulerObj : schedulersArray) {
+                JSONObject schedulerJson = (JSONObject) schedulerObj;
+                String id = (String) schedulerJson.get("userID"); 
+                if (id.equals(schedulerID)) { 
+                    String name = (String) schedulerJson.get("name");
+                    String surname = (String) schedulerJson.get("surname");
+    
+                  
+                    return new Scheduler(id, name, surname);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    
+        System.out.println("Scheduler with ID: " + schedulerID + " not found.");
+        return null;
+    }
+
     protected Student getStudentByID(String studentID) {
         Student existingStudent = checkStudentIfExists(studentID);
         if(existingStudent != null){
