@@ -1,7 +1,6 @@
-import java.util.Scanner;
 
-public abstract class UserInterface {
-    
+
+public interface UserInterface {
 
     public abstract boolean showMenu();
     
