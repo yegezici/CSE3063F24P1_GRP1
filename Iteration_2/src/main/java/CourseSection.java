@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class CourseSection{
    private String sectionID;
-   private TimeSlot timeSlot;
+   private ArrayList<TimeSlot> timeSlots;
    private ArrayList<Student> waitList;
    private int capacity;
    private Lecturer lecturer;
@@ -27,11 +27,11 @@ public class CourseSection{
    public void setSectionID(String sectionID){
       this.sectionID = sectionID;
    }
-   public TimeSlot getTimeSlot() {
-      return timeSlot;
+   public ArrayList<TimeSlot> getTimeSlots() {
+      return timeSlots;
    }
-   public void setTimeSlot(TimeSlot timeSlot) {
-      this.timeSlot = timeSlot;
+   public void setTimeSlot(ArrayList<TimeSlot> timeSlots) {
+      this.timeSlots = timeSlots;
    }
    public ArrayList<Student> getWaitList() {
       return waitList;

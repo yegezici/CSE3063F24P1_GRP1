@@ -10,7 +10,8 @@ public class TimeSlot {
     this.timeInterval = timeInterval;
    }
 
-   public void assignTimeSlot(){
-    
+   public void assignTimeSlot(CourseSection courseSection){
+     courseSection.getTimeSlots().add(this);
+     
    }
 }
