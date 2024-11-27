@@ -9,19 +9,20 @@ public class Affair extends Person {
     }
 
   
-    public Affair(String id, String name, String surname) {
+    public Affair(String affairID, String name, String surname) {
         super(name, surname);
         this.affairID = affairID;
+        
     }
 
    
-    public Affair(String id, String name, String surname, Date birthdate, char gender) {
-        super(name, surname, birthdate, gender);
-        this.affairID = affairID;
+    public Affair(String id, String name, String surname, Date birthdate, char gender, String affairID) {
+        super(name, surname, birthdate, gender, affairID);
+        
     }
 
-   
-    public String getId() {
+    @Override
+    public String getID() {
         return affairID;
     }
 

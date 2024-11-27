@@ -94,7 +94,7 @@ public class JsonManagement {
 
     public Student checkStudentIfExists(String studentID) {
         for (Student student : students) {
-            if (student.getStudentID().equals(studentID)) {
+            if (student.getID().equals(studentID)) {
                 return student;
             }
         }
@@ -129,6 +129,33 @@ public class JsonManagement {
         }
     
         System.out.println("Affair with ID: " + affairID + " not found.");
+        return null;
+    }
+
+    public Scheduler getSchedulerByID(String schedulerID) {
+        JSONParser parser = new JSONParser();
+        String filePath = "Iteration_2/src/main/java/parameters.json";
+    
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+            JSONArray schedulersArray = (JSONArray) jsonData.get("schedulers");
+            
+            for (Object schedulerObj : schedulersArray) {
+                JSONObject schedulerJson = (JSONObject) schedulerObj;
+                String id = (String) schedulerJson.get("userID"); 
+                if (id.equals(schedulerID)) { 
+                    String name = (String) schedulerJson.get("name");
+                    String surname = (String) schedulerJson.get("surname");
+    
+                  
+                    return new Scheduler(id, name, surname);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    
+        System.out.println("Scheduler with ID: " + schedulerID + " not found.");
         return null;
     }
 
@@ -222,7 +249,7 @@ public class JsonManagement {
     }
 
     protected void saveStudent(Student student) {
-        String filePath = "Iteration_2/src/main/java/" + student.getStudentID() + ".json"; // Use student's ID to
+        String filePath = "Iteration_2/src/main/java/" + student.getID() + ".json"; // Use student's ID to
                                                                                            // determine the file path
 
         try (FileWriter writer = new FileWriter(filePath)) {
@@ -342,7 +369,7 @@ public class JsonManagement {
         int size = students.size();
         boolean isSame = false;
         for (int k = 0; k < size; k++) {
-            if (currentStudent.getStudentID().equals(students.get(k).getStudentID())) {
+            if (currentStudent.getID().equals(students.get(k).getID())) {
                 isSame = true;
                 break;
             }
