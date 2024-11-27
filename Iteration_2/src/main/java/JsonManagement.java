@@ -14,14 +14,31 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class JsonManagement {
-    ArrayList<Course> courses;
-    ArrayList<Student> students;
 
-    public JsonManagement() {
+    private ArrayList<Course> courses;
+    private ArrayList<Student> students;
+    private static JsonManagement instance;
+
+    private JsonManagement() {
         this.students = new ArrayList<Student>();
         this.courses = loadCourses();
         
     }
+
+    public static JsonManagement getInstance() {
+        if (instance == null) {
+            instance = new JsonManagement();
+        }
+        return instance;
+    }
+
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
 
     public void saveStudents() {
         for (Student student : students)
@@ -72,14 +89,46 @@ public class JsonManagement {
             }
         }
 
+
     }
 
     public Student checkStudentIfExists(String studentID) {
         for (Student student : students) {
-            if (student.getStudentID().equals(studentID)) {
+            if (student.getID().equals(studentID)) {
                 return student;
             }
         }
+        return null;
+    }
+
+    public Affair getAffairByID(String affairID) {
+        JSONParser parser = new JSONParser();
+        String filePath = "Iteration_2/src/main/java/parameters.json";
+    
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+            
+           
+            JSONArray affairsArray = (JSONArray) jsonData.get("affairs");
+            
+            
+            for (Object affairObj : affairsArray) {
+                JSONObject affairJson = (JSONObject) affairObj;
+                String id = (String) affairJson.get("userID"); 
+                
+                if (id.equals(affairID)) { 
+                    String name = (String) affairJson.get("name");
+                    String surname = (String) affairJson.get("surname");
+                    
+                    
+                    return new Affair(id, name, surname);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    
+        System.out.println("Affair with ID: " + affairID + " not found.");
         return null;
     }
 
@@ -173,7 +222,7 @@ public class JsonManagement {
     }
 
     protected void saveStudent(Student student) {
-        String filePath = "Iteration_2/src/main/java/" + student.getStudentID() + ".json"; // Use student's ID to
+        String filePath = "Iteration_2/src/main/java/" + student.getID() + ".json"; // Use student's ID to
                                                                                            // determine the file path
 
         try (FileWriter writer = new FileWriter(filePath)) {
@@ -293,7 +342,7 @@ public class JsonManagement {
         int size = students.size();
         boolean isSame = false;
         for (int k = 0; k < size; k++) {
-            if (currentStudent.getStudentID().equals(students.get(k).getStudentID())) {
+            if (currentStudent.getID().equals(students.get(k).getID())) {
                 isSame = true;
                 break;
             }

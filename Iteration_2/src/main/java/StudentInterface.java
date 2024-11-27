@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class StudentInterface extends UserInterface{
+public class StudentInterface implements UserInterface {
     Scanner scan;
     Student student;
     ArrayList<Course> courses;
-    
+
     public StudentInterface() {
         scan = new Scanner(System.in);
     }
@@ -18,55 +18,100 @@ public class StudentInterface extends UserInterface{
     }
 
     public boolean showMenu() {
-        /*boolean logOut = false;
+        boolean logOut = false;
         switch (getChoice()) {
             case 1:
                 showTranscripts();
-            break;
+                break;
             case 2:
-              
-            break;
+                registerCourse();
+                break;
             case 3:
                 System.out.println("You have successfully logged out\n");
                 logOut = true;
-            break;
-            
+                break;
             default:
                 System.out.println("Enter 1, 2 or 3.");
-        }*/
-        return showInterface(student, courses);
+        }
+
+        return logOut;
     }
-    public int getChoice(){
+
+    public int getChoice() {
         System.out.println("Select an operation:\n1. Transcript\n2. Register for course\n3. Log out");
-        int choice = scan.nextInt();
+        int choice = 0;
+        try {
+            choice = scan.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Enter an integer value.");
+        }
         return choice;
     }
-    
-    public void showTranscripts(){
+
+    public void showTranscripts() {
         student.getTranscript().showCompletedCourses();
         student.getTranscript().showCurrentCourses();
         student.getTranscript().showWaitedCourses();
     }
-    
-    public void registerCourse(Course course) {
-        ArrayList<Course> selectingArray = new ArrayList<>();
-        boolean isCompleted = viewTranscript(course, student.getTranscript().getCompletedCourses());
-        boolean isWaited = viewTranscript(course, student.getTranscript().getWaitedCourses());
-        boolean isCurrent = viewTranscript(course, student.getTranscript().getCurrentCourses());
-        
-        if (!isCompleted && !isWaited && !isCurrent && checkPrerequisite(course)) {
-            selectingArray.add(course);
+
+    public void registerCourse() {
+        ArrayList<Course> availableCourses = showRegisterableCourses();
+        while (true) {
+            boolean isAvailableCoursesEmpty = availableCourses.isEmpty();
+            if (isAvailableCoursesEmpty) {
+                System.out.println("There are no available courses.");
+                break;
+            } else {
+                System.out.println("These are the courses for registering.");
+                printList(availableCourses);
+                System.out.print("Select a course. If you want to exit press \"0\".");
+                int courseChoice = (scan.nextInt());
+
+                if (courseChoice == 0) {
+                    break;
+                } else if (courseChoice < 0 || courseChoice > availableCourses.size()) {
+                    System.out.println("Please enter a valid choice.");
+                    continue;
+                }
+                courseChoice -= 1;
+                int totalNumberOfWaitedAndCurrentCourses = student.getTranscript().getCurrentCourses().size()
+                        + student.getTranscript().getWaitedCourses().size();
+                if (totalNumberOfWaitedAndCurrentCourses == 5) {
+                    System.out
+                            .println("You have reached maximum number of courses. You will be directed to main menu.");
+                    break;
+                } else {
+                    // Register the selected course and add it to the waited courses list
+                    student.registerCourse(availableCourses.get(courseChoice));
+                    System.out.println(
+                            availableCourses.get(courseChoice).getCourseName() + " " + "is succesfully registered.");
+                    availableCourses.remove(courseChoice);
+
+                }
+            }
         }
-    }
-
-    public void showRegisterableCourses(){
 
     }
 
-    public boolean checkPrerequisite(Course course){
+    public ArrayList<Course> showRegisterableCourses() {
+        ArrayList<Course> selectingArray = new ArrayList<>();
+        int courseListSize = courses.size();
+        for (int i = 0; i < courseListSize; i++) {
+            Course course = courses.get(i);
+            boolean isCompleted = checkCourseExistInList(course, student.getTranscript().getCompletedCourses());
+            boolean isWaited = checkCourseExistInList(course, student.getTranscript().getWaitedCourses());
+            boolean isCurrent = checkCourseExistInList(course, student.getTranscript().getCurrentCourses());
+
+            if (!isCompleted && !isWaited && !isCurrent && checkPrerequisite(course)) {
+                selectingArray.add(course);
+            }
+        }
+        return selectingArray;
+    }
+
+    public boolean checkPrerequisite(Course course) {
         Course prerequisite = course.getPrerequisiteCourse();
         boolean prerequisiteMet = prerequisite == null; // No prerequisite means it's met
-
         // If there is a prerequisite, check if it's completed
         if (prerequisite != null) {
             for (Course completed : student.getTranscript().getCompletedCourses()) {
@@ -78,10 +123,10 @@ public class StudentInterface extends UserInterface{
         }
 
         return prerequisiteMet;
-    
+
     }
 
-    public boolean viewTranscript(Course course,ArrayList<Course> courses) {
+    public boolean checkCourseExistInList(Course course, ArrayList<Course> courses) {
         boolean isCompleted = false;
         if (courses != null) {
             int coursesListSize = courses.size();
@@ -94,131 +139,13 @@ public class StudentInterface extends UserInterface{
         }
         return isCompleted;
     }
-    
-    
 
-    public boolean showInterface(Student student, ArrayList<Course> courses) {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("1. Transcript\n2. Register for course\n3. Log out");
-        boolean logout = false;
-        int choice = -1;
-        try {
-            choice = scan.nextInt();
-        } catch (InputMismatchException e) {
-        }
-        switch (choice) {
-                // Choice 1: Display the student's transcript, showing completed, current, and waited courses
-            case 1:
-                student.getTranscript().showCompletedCourses();
-                student.getTranscript().showCurrentCourses();
-                student.getTranscript().showWaitedCourses();
-                break;
-                // Choice 2: Handle the course registration process
-            case 2:
-                System.out.println("These are the courses for registering.");
-                ArrayList<Course> selectingArray = new ArrayList<>();
-                for (int j = 0; j < courses.size(); j++) {
-                    boolean isCompleted = false;
-                    boolean isWaited = false;
-                    boolean isCurrent = false;
-                    // Check if the course is in the completed courses
-                    if (student.getTranscript().getCompletedCourses() != null) {
-                        for (int k = 0; k < student.getTranscript().getCompletedCourses().size(); k++) {
-                            if (courses.get(j).getCourseId().equals(student.getTranscript().getCompletedCourses().get(k).getCourseId())) {
-                                isCompleted = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Check if the course is in the waited courses
-                    if (student.getTranscript().getWaitedCourses() != null) {
-                        for (int k = 0; k < student.getTranscript().getWaitedCourses().size(); k++) {
-                            if (courses.get(j).getCourseId().equals(student.getTranscript().getWaitedCourses().get(k).getCourseId())) {
-                                isWaited = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (student.getTranscript().getCurrentCourses() != null) {
-                        for (int k = 0; k < student.getTranscript().getCurrentCourses().size(); k++) {
-                            if (courses.get(j).getCourseId().equals(student.getTranscript().getCurrentCourses().get(k).getCourseId())) {
-                                isCurrent = true;
-                                break;
-                            }
-                        }
-                    }
-
-
-                        // Register the course if it is not in the completed courses
-                        if (!isCompleted && !isWaited && !isCurrent) {
-
-                            Course prerequisite = courses.get(j).getPrerequisiteCourse();
-                            boolean prerequisiteMet = prerequisite == null; // No prerequisite means it's met
-
-                            // If there is a prerequisite, check if it's completed
-                            if (prerequisite != null) {
-                                for (Course completed : student.getTranscript().getCompletedCourses()) {
-                                    if (completed.getCourseId().equals(prerequisite.getCourseId())) {
-                                        prerequisiteMet = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            // Add course if prerequisites are met
-                            if (prerequisiteMet) {
-                                selectingArray.add(courses.get(j));
-                            }
-                        }
-                    }
-                System.out.println("Select a course. If you want to exit press 0.");
-                printList(selectingArray);
-                while (true) {
-                    if (selectingArray.isEmpty()) {
-                        System.out.println("There is no course to register");
-                        break;
-                    }
-
-                    int courseChoice = (scan.nextInt());
-
-                    if (courseChoice == 0) {
-                        break;
-                    }
-
-                    if (courseChoice < 0 || courseChoice > selectingArray.size()) {
-                        System.out.println("Please enter a valid choice.");
-                        continue;
-                    }
-                    courseChoice += -1;
-                    if (student.getTranscript().getCurrentCourses().size() + student.getTranscript().getWaitedCourses().size() == 5) {
-                        System.out.println("You have reached maximum number of courses. You will be directed to main menu.");
-                        break;
-                    } else {
-                        // Register the selected course and add it to the waited courses list
-                        student.registerCourse(selectingArray.get(courseChoice));
-                      //  addWaitedCourse(student, selectingArray.get(courseChoice));
-                        System.out.println(selectingArray.get(courseChoice).getCourseName() + " " + "is succesfully registered.");
-                        selectingArray.remove(courseChoice);
-                        printList(selectingArray);
-
-                    }
-                }
-                break;
-            case 3:
-                System.out.println("You are successfully logged out.\n");
-                logout = true;
-                break;
-            default:
-                System.out.println("Enter an integer value between 1 and 3");
-        }
-        return logout;
-    }
     private void printList(ArrayList<Course> printedList) {
-        for (int i = 0; i < printedList.size(); i++) {
-            System.out.println((i + 1) + "       " + printedList.get(i).getCourseId() + "   " + printedList.get(i).getCourseName());
+        int size = printedList.size();
+        for (int i = 0; i < size; i++) {
+            System.out.println((i + 1) + "       " + printedList.get(i).getCourseId() + "   "
+                    + printedList.get(i).getCourseName());
         }
     }
-
 
 }

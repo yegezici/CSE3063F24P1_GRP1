@@ -1,0 +1,29 @@
+Use Case: Department Scheduler schedules course sections
+Actors: System, Department Scheduler
+1.	Department Scheduler writes his identification number and password.
+2.	System shows available courses, time slots of a week and available classrooms.
+3.	Department Scheduler choose a course, a time slot and a classroom.
+4.	System shows remaining courses that wait for scheduling.
+5.	Department Scheduler confirms the current Schedule.
+6.	System saves schedule.
+7.	Department Scheduler exits system.
+Alternatives:
+1a. If Department Scheduler enters wrong password, System sends a message and return log in menu.
+3a. If classroom is not available in this time interval, System sends an error message.
+
+
+Use Case:  Student assigns to a course
+Actors: System, Student
+1.	Student enters and writes his/her identification number and password.
+2.	System shows to student its interface.
+3.	Student chooses register a course menu.
+4.	System shows student’s courses that are available to register. System does not show courses that does not satisfy department rules(e.g. prerequisite check, GPA check).
+5.	Student selects a course to register. 
+6.	Student selects a course section to register.
+7.	System sends courses of that student to his/her advisor for approval.
+8.  Advisor approves his/her courses.
+9.	Student exits the system. 
+Alternatives:
+1a. If student enters wrong information, program returns log in screen and prints an error message.
+6a. If student registers more than 5 courses system sends warning.
+8a. If capacity of that course section is full, system sends that student to waitlist.

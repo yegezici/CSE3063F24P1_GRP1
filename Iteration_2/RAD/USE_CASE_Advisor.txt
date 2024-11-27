@@ -1,0 +1,17 @@
+Use Case : Advisor approve a course of a student
+Actors : System, Advisor
+1.	Advisor enters his/her identification member and password.
+2.	Advisor selects Students Menu to view students that are sent from system for approval.
+3.	Advisor selects a students to approve/reject courses of that student.
+4.	Advisor selects a course from that student’s course list.
+5.	Advisor checks time conflict and capacity of course section.
+6.	Advisor approves that one student’s courses.
+7.	Advisor exits the system.
+Alternatives:
+1a. If advisor enters wrong information, then program returns log in screen and prints an error message.
+5a. If a time conflict occurs, then system warns the advisor that student has a time conflict.
+•	Advisor reject one of that course sections that is in the same time slot.
+•	System sends notification to student that his/her course is rejected. 
+5b. If advisor approves that student but with that student if the capacity is exceeded.
+•	System sends that student to waitlist.
+ 

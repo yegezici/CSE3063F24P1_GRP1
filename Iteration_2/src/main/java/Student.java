@@ -12,10 +12,9 @@ public class Student extends Person{
 	}
 	//constructor for student object
 	public Student(String name, String surname, Date birthdate, char gender, Transcript transcript, String studentID) {
-        super(name, surname, birthdate, gender);
-    
+        super(name, surname, birthdate, gender, studentID);
         this.transcript = transcript;
-        this.studentID = studentID;
+        
     }
 	//Adds the course the student wants to enroll in to the waited courses list
 	public void registerCourse(Course course) {
@@ -27,13 +26,12 @@ public class Student extends Person{
 		return transcript;
 	}
 //Retrieves the student ID
-	public String getStudentID() {
+    @Override
+	public String getID() {
 		return studentID;
 	}
 //Retrieves the advisor ID assigned to the student
-	public Advisor getAdvisor() {
-		return advisor;
-	}
+	
 	@Override
 	public String getName() {
 		return this.name;
