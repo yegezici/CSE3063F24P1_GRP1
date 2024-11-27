@@ -7,11 +7,13 @@ import java.util.Scanner;
 
 public class CourseRegistration {
     ArrayList<Student> students;
+
     ArrayList<Course> courses;
 
     public CourseRegistration() {
       students = JsonManagement.getInstance().getStudents();
       courses = JsonManagement.getInstance().getCourses();
+
     }
 
     /*
@@ -47,7 +49,9 @@ public class CourseRegistration {
 
     public void saveStudents(){
         for (Student student : students)
+
             JsonManagement.getInstance().saveStudent(student);
+
     }
 
     /**
@@ -88,7 +92,9 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
+
                             returnObject = JsonManagement.getInstance().getStudentByID(enteredUserId.substring(1));
+
                         }
                     }
                 } catch (Exception e) {
@@ -110,7 +116,9 @@ public class CourseRegistration {
                                 System.out.println("Wrong password");
                                 return null;
                             }
+
                             returnObject = JsonManagement.getInstance().getAdvisorByUserID(enteredUserId);
+
                         }
                     }
                 } catch (Exception e) {

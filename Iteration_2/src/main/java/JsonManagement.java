@@ -14,6 +14,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class JsonManagement {
+
     private ArrayList<Course> courses;
     private ArrayList<Student> students;
     private static JsonManagement instance;
@@ -37,6 +38,7 @@ public class JsonManagement {
     public ArrayList<Student> getStudents() {
         return students;
     }
+
 
     public void saveStudents() {
         for (Student student : students)
@@ -86,6 +88,7 @@ public class JsonManagement {
                 }
             }
         }
+
 
     }
 

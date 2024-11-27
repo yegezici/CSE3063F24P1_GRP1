@@ -1,0 +1,6 @@
+Functional Requirements:
+-	There will be Department Scheduler role to organize classes and timeslots.
+-	Course Sections will have time slot and classroom information. Also they have waitlists to keep the information of the students that attempted to register a full course.
+-	In case of waitlist status changes there will be a notification system.
+-	System will show weekly schedules of the students.
+-	There will be a conflict detection system to prevent time overlaps.
