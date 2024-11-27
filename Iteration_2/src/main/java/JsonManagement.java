@@ -94,7 +94,7 @@ public class JsonManagement {
 
     public Student checkStudentIfExists(String studentID) {
         for (Student student : students) {
-            if (student.getStudentID().equals(studentID)) {
+            if (student.getID().equals(studentID)) {
                 return student;
             }
         }
@@ -222,7 +222,7 @@ public class JsonManagement {
     }
 
     protected void saveStudent(Student student) {
-        String filePath = "Iteration_2/src/main/java/" + student.getStudentID() + ".json"; // Use student's ID to
+        String filePath = "Iteration_2/src/main/java/" + student.getID() + ".json"; // Use student's ID to
                                                                                            // determine the file path
 
         try (FileWriter writer = new FileWriter(filePath)) {
@@ -342,7 +342,7 @@ public class JsonManagement {
         int size = students.size();
         boolean isSame = false;
         for (int k = 0; k < size; k++) {
-            if (currentStudent.getStudentID().equals(students.get(k).getStudentID())) {
+            if (currentStudent.getID().equals(students.get(k).getID())) {
                 isSame = true;
                 break;
             }

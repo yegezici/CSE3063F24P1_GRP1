@@ -46,7 +46,7 @@ public class AdvisorInterface implements UserInterface {
         boolean logOut = false;
         int numberOfStudents = advisor.getStudents().size();
         for (int i = 0; i < numberOfStudents; i++) {
-            System.out.println((i + 1) + "-    " + advisor.getStudents().get(i).getStudentID());
+            System.out.println((i + 1) + "-    " + advisor.getStudents().get(i).getID());
         }
         int studentIndex = -1;
         try{
