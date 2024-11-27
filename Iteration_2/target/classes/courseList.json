@@ -234,25 +234,25 @@
       "technicalElective": [
         {
           "courseId": "CSE4075",
-          "courseName": "Wireless & Mobile Networks",
+          "name": "Wireless & Mobile Networks",
           "credits": 5,
           "prerequisite": "CSE4074"
         },
         {
             "courseId": "CSE4034",
-            "courseName": "Advanced Unix Programming",
+            "name": "Advanced Unix Programming",
             "credits": 5,
             "prerequisite": "CSE3033"
           },
           {
             "courseId": "CSE4061",
-            "courseName": "Compiler Design",
+            "name": "Compiler Design",
             "credits": 5,
             "prerequisite": "CSE3264"
           },
         {
           "courseId": "CSE4217",
-          "courseName": "Microprocessors",
+          "name": "Microprocessors",
           "credits": 5,
           "prerequisite": "CSE3038"
         }
@@ -260,22 +260,22 @@
       "nonTechnicalElective": [
         {
           "courseId": "NTE1003",
-          "courseName": "The Culture of Radiation Safety",
+          "name": "The Culture of Radiation Safety",
           "credits": 3
         },
         {
             "courseId": "YDA1001",
-            "courseName": "German for Beginners",
+            "name": "German for Beginners",
             "credits": 3
           },
           {
             "courseId": "HSS3002",
-            "courseName": "Ethics in Engineering and Science",
+            "name": "Ethics in Engineering and Science",
             "credits": 3
           },
         {
           "courseId": "MGT1021",
-          "courseName": "Design, Innovation and Entrepreneurship",
+          "name": "Design, Innovation and Entrepreneurship",
           "credits": 3
         }
       ]
