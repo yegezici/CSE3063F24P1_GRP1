@@ -40,7 +40,7 @@ public class AdvisorInterface extends UserInterface{
         boolean logOut = false;
         int numOfStudents = advisor.getStudents().size();
         for (int i = 0; i < numOfStudents; i++) {
-            System.out.println((i + 1) + "-    " + advisor.getStudents().get(i).getStudentID());
+            System.out.println((i + 1) + "-    " + advisor.getStudents().get(i).getID());
         }
         System.out.print("Which student do you select? :\nIf you want to log out, enter \"0\": ");
         int studentIndex = scan.nextInt() - 1;
