@@ -2,16 +2,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class JsonManagement {
 
@@ -22,7 +18,7 @@ public class JsonManagement {
     private JsonManagement() {
         this.students = new ArrayList<Student>();
         this.courses = loadCourses();
-        
+
     }
 
     public static JsonManagement getInstance() {
@@ -35,10 +31,10 @@ public class JsonManagement {
     public ArrayList<Course> getCourses() {
         return courses;
     }
+
     public ArrayList<Student> getStudents() {
         return students;
     }
-
 
     public void saveStudents() {
         for (Student student : students)
@@ -63,8 +59,8 @@ public class JsonManagement {
                 String prerequisite = (String) courseJson.get("prerequisite");
 
                 Course course = new Course(courseId, courseName, credits, prerequisite);
-                for(int k = 0; k < 2; k++){
-                    course.getCourseSections().add(new CourseSection(String.valueOf(k+1),100, course));
+                for (int k = 0; k < 2; k++) {
+                    course.getCourseSections().add(new CourseSection(String.valueOf(k + 1), 100, course));
                 }
                 courses.add(course);
             }
@@ -92,7 +88,60 @@ public class JsonManagement {
             }
         }
 
+    }
 
+    public StudentAffairsStaff getstudentAffairsStaffByID(String affairID) {
+        JSONParser parser = new JSONParser();
+        String filePath = "Iteration_2/src/main/java/parameters.json";
+
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+
+            JSONArray affairsArray = (JSONArray) jsonData.get("studentAffairsStaffs");
+
+            for (Object affairObj : affairsArray) {
+                JSONObject affairJson = (JSONObject) affairObj;
+                String id = (String) affairJson.get("userID");
+
+                if (id.equals(affairID)) {
+                    String name = (String) affairJson.get("name");
+                    String surname = (String) affairJson.get("surname");
+
+                    return new StudentAffairsStaff(id, name, surname);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Affair with ID: " + affairID + " not found.");
+        return null;
+    }
+
+    public DepartmentScheduler getDepartmentSchedulerByID(String schedulerID) {
+        JSONParser parser = new JSONParser();
+        String filePath = "Iteration_2/src/main/java/parameters.json";
+
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+            JSONArray schedulersArray = (JSONArray) jsonData.get("departmentSchedulers");
+
+            for (Object schedulerObj : schedulersArray) {
+                JSONObject schedulerJson = (JSONObject) schedulerObj;
+                String id = (String) schedulerJson.get("userID");
+                if (id.equals(schedulerID)) {
+                    String name = (String) schedulerJson.get("name");
+                    String surname = (String) schedulerJson.get("surname");
+
+                    return new DepartmentScheduler(name, surname);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Scheduler with ID: " + schedulerID + " not found.");
+        return null;
     }
 
     public Student checkStudentIfExists(String studentID) {
@@ -104,67 +153,14 @@ public class JsonManagement {
         return null;
     }
 
-    public StudentAffairsStaff getAffairByID(String affairID) {
-        JSONParser parser = new JSONParser();
-        String filePath = "Iteration_2/src/main/java/parameters.json";
-    
-        try (FileReader reader = new FileReader(filePath)) {
-            JSONObject jsonData = (JSONObject) parser.parse(reader);
-            
-           
-            JSONArray affairsArray = (JSONArray) jsonData.get("affairs");
-            
-            
-            for (Object affairObj : affairsArray) {
-                JSONObject affairJson = (JSONObject) affairObj;
-                String id = (String) affairJson.get("userID"); 
-                
-                if (id.equals(affairID)) { 
-                    String name = (String) affairJson.get("name");
-                    String surname = (String) affairJson.get("surname");
-                    
-                    
-                    return new StudentAffairsStaff(id, name, surname);
-                }
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-    
-        System.out.println("Affair with ID: " + affairID + " not found.");
-        return null;
+    protected Student getStudentByID(String studentID){
+        Student student = getStudentByIDWithoutAdvisor(studentID);
+        setAdvisorForStudent(student);
+        return student;
     }
-
-    public DepartmentScheduler getSchedulerByID(String schedulerID) {
-        JSONParser parser = new JSONParser();
-        String filePath = "Iteration_2/src/main/java/parameters.json";
-    
-        try (FileReader reader = new FileReader(filePath)) {
-            JSONObject jsonData = (JSONObject) parser.parse(reader);
-            JSONArray schedulersArray = (JSONArray) jsonData.get("schedulers");
-            
-            for (Object schedulerObj : schedulersArray) {
-                JSONObject schedulerJson = (JSONObject) schedulerObj;
-                String id = (String) schedulerJson.get("userID"); 
-                if (id.equals(schedulerID)) { 
-                    String name = (String) schedulerJson.get("name");
-                    String surname = (String) schedulerJson.get("surname");
-    
-                  
-                    return new DepartmentScheduler(name, surname);
-                }
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-    
-        System.out.println("Scheduler with ID: " + schedulerID + " not found.");
-        return null;
-    }
-
-    protected Student getStudentByID(String studentID) {
+    protected Student getStudentByIDWithoutAdvisor(String studentID) {
         Student existingStudent = checkStudentIfExists(studentID);
-        if(existingStudent != null){
+        if (existingStudent != null) {
             return existingStudent;
         }
         JSONParser parser = new JSONParser();
@@ -174,7 +170,7 @@ public class JsonManagement {
             JSONArray studentsArray = (JSONArray) jsonData.get("students");
             for (Object studentObj : studentsArray) {
                 JSONObject studentJson = (JSONObject) studentObj;
-                String jsonStudentID = (String) studentJson.get("studentID");
+                String jsonStudentID = (String) studentJson.get("userID");
                 if (jsonStudentID.equals(studentID)) {
                     try {
                         String name = (String) studentJson.get("name");
@@ -183,7 +179,6 @@ public class JsonManagement {
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                         Date birthdate = formatter.parse(date);
                         char gender = ((String) studentJson.get("gender")).charAt(0);
-                        String advisorID = (String) studentJson.get("advisorID");
                         Transcript transcript = createTranscript(studentID);
                         Student student = new Student(name, surname, birthdate, gender, transcript, studentID);
                         createArrayList(student);
@@ -198,6 +193,25 @@ public class JsonManagement {
         }
         System.out.println("Student object has not been initialized");
         return null;
+    }
+
+    public void setAdvisorForStudent(Student student) {
+        JSONParser parser = new JSONParser();
+        String filePath = "Iteration_2/src/main/java/parameters.json";
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+            JSONArray studentsArray = (JSONArray) jsonData.get("students");
+            for (Object studentObj : studentsArray) {
+                JSONObject studentJson = (JSONObject) studentObj;
+                String jsonStudentID = (String) studentJson.get("userID");
+                if (jsonStudentID.equals(student.getID())) {
+                    String advisorID = (String) studentJson.get("advisorID");
+                    student.setAdvisor(getAdvisorByUserID(advisorID));
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public Advisor getAdvisorByUserID(String userID) {
@@ -222,7 +236,7 @@ public class JsonManagement {
                     ArrayList<Student> students = new ArrayList<>();
                     for (Object studentIDObj : studentIDs) {
                         String studentID = (String) studentIDObj;
-                        Student student = getStudentByID(studentID);
+                        Student student = getStudentByIDWithoutAdvisor(studentID);
                         if (student != null) {
                             students.add(student);
                         }
@@ -251,46 +265,28 @@ public class JsonManagement {
         return null;
     }
 
+    protected void fillCourseData(JSONObject courseJson, ArrayList<Course> courses, String courseListType) {
+        JSONArray completedCourses = new JSONArray();
+        for (Course course : courses) {
+            JSONObject courseData = new JSONObject();
+            courseData.put("courseID", course.getCourseId());
+            courseData.put("courseName", course.getCourseName());
+            courseData.put("credits", course.getCredits());
+            completedCourses.add(courseData);
+        }
+        courseJson.put(courseListType, completedCourses);
+    }
+
     protected void saveStudent(Student student) {
-        String filePath = "Iteration_2/src/main/java/" + student.getID() + ".json"; // Use student's ID to
-                                                                                           // determine the file path
+        String filePath = "Iteration_2/src/main/java/" + student.getID() + ".json";
 
         try (FileWriter writer = new FileWriter(filePath)) {
             // Create JSON data based on the Student object
             JSONObject studentData = new JSONObject();
 
-            // Add completedCourses
-            JSONArray completedCourses = new JSONArray();
-            for (Course course : student.getTranscript().getCompletedCourses()) {
-                JSONObject courseData = new JSONObject();
-                courseData.put("courseID", course.getCourseId());
-                courseData.put("courseName", course.getCourseName());
-                courseData.put("credits", course.getCredits());
-                completedCourses.add(courseData);
-            }
-            studentData.put("completedCourses", completedCourses);
-
-            // Add currentCourses
-            JSONArray currentCourses = new JSONArray();
-            for (Course course : student.getTranscript().getCurrentCourses()) {
-                JSONObject courseData = new JSONObject();
-                courseData.put("courseID", course.getCourseId());
-                courseData.put("courseName", course.getCourseName());
-                courseData.put("credits", course.getCredits());
-                currentCourses.add(courseData);
-            }
-            studentData.put("currentCourses", currentCourses);
-
-            // Add waitedCourses
-            JSONArray waitedCourses = new JSONArray();
-            for (Course course : student.getTranscript().getWaitedCourses()) {
-                JSONObject courseData = new JSONObject();
-                courseData.put("courseID", course.getCourseId());
-                courseData.put("courseName", course.getCourseName());
-                courseData.put("credits", course.getCredits());
-                waitedCourses.add(courseData);
-            }
-            studentData.put("waitedCourses", waitedCourses);
+            fillCourseData(studentData, student.getTranscript().getCompletedCourses(), "completedCourses");
+            fillCourseData(studentData, student.getTranscript().getCurrentCourses(), "currentCourses");
+            fillCourseData(studentData, student.getTranscript().getCompletedCourses(), "completedCourses");
 
             // Write JSON to file
             writer.write(studentData.toJSONString());
@@ -385,4 +381,3 @@ public class JsonManagement {
 
 
 }
-

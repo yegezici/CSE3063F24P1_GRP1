@@ -11,8 +11,8 @@ public class CourseRegistration {
     ArrayList<Course> courses;
 
     public CourseRegistration() {
-      students = JsonManagement.getInstance().getStudents();
-      courses = JsonManagement.getInstance().getCourses();
+        students = JsonManagement.getInstance().getStudents();
+        courses = JsonManagement.getInstance().getCourses();
 
     }
 
@@ -22,32 +22,33 @@ public class CourseRegistration {
      * and displays the menu to the user until they are logged in.
      */
     public void init() {
-        
-        boolean isLogged = true;
+
 
         while (true) {
             Person currentUser = login();
-            if(currentUser == null)
+            if (currentUser == null)
                 continue;
-            if(currentUser instanceof Lecturer && !(currentUser instanceof Advisor))
+            if (currentUser instanceof Lecturer && !(currentUser instanceof Advisor))
                 break;
             UserInterface userInterface = null;
-            while (isLogged) {
+            while (true) {
                 if (currentUser instanceof Student)
                     userInterface = new StudentInterface((Student) currentUser, courses);
-                    //createArrayList((Student) currentUser);
-                else 
+                // createArrayList((Student) currentUser);
+                else if(currentUser instanceof Advisor)
                     userInterface = new AdvisorInterface((Advisor) currentUser);
-                if (userInterface.showMenu()) {
+                else if(currentUser instanceof StudentAffairsStaff)
+                    userInterface = new StudentAffairsStaffInterface((StudentAffairsStaff) currentUser, courses);
+                    if (userInterface.showMenu()) {
                     saveStudents();
                     break;
                 }
             }
         }
-        
+
     }
 
-    public void saveStudents(){
+    public void saveStudents() {
         for (Student student : students)
 
             JsonManagement.getInstance().saveStudent(student);
@@ -66,69 +67,69 @@ public class CourseRegistration {
      * If the user ID or password is incorrect, appropriate error messages are
      * displayed.
      */
-    private  Person checkIdandPassword(String enteredUserId, String enteredPassword) {
+    private Person checkIdandPassword(String enteredUserId, String enteredPassword) {
         Person returnObject = null;
         if (enteredUserId.isEmpty() || enteredPassword.isEmpty()) {
             System.out.println("Please enter user id and password.");
             return null;
-        } else if (enteredUserId.charAt(0) != 'o' && enteredUserId.charAt(0) != 'l') {
+        } else if (enteredUserId.charAt(0) != 'o' && enteredUserId.charAt(0) != 'l' && enteredUserId.charAt(0) != 'a'
+                && enteredUserId.charAt(0) != 'd') {
             System.out.println("If you are a student, you must add \"o\" as the first letter of your student number\n" +
                     "If you are a lecturer, you must add \"l\"");
             return null;
         } else {
-            JSONParser parser = new JSONParser();
             String filePath = "iteration_2/src/main/java/parameters.json";
+            switch (enteredUserId.charAt(0)) {
+                case 'o':
+                    if (checkIdAndPasswordOfPerson(enteredUserId, enteredPassword, filePath, "students"))
+                        returnObject = JsonManagement.getInstance().getStudentByID(enteredUserId.substring(1));
+                    break;
+                case 'l':
+                    if (checkIdAndPasswordOfPerson(enteredUserId, enteredPassword, filePath, "advisors"))
+                        returnObject = JsonManagement.getInstance().getAdvisorByUserID(enteredUserId.substring(1));
+                    break;
+                case 'a':
+                    if (checkIdAndPasswordOfPerson(enteredUserId, enteredPassword, filePath, "studentAffairsStaffs"))
+                        returnObject = JsonManagement.getInstance().getstudentAffairsStaffByID(enteredUserId.substring(1));
+                    break;
+                case 'd':
+                    if (checkIdAndPasswordOfPerson(enteredUserId, enteredPassword, filePath, "departmentSchedulers"))
+                        returnObject = JsonManagement.getInstance().getDepartmentSchedulerByID(enteredUserId.substring(1));
+                    break;
+                default:
 
-            if (enteredUserId.charAt(0) == 'o') {
-                try (FileReader reader = new FileReader(filePath)) {
-                    JSONObject jsonData = (JSONObject) parser.parse(reader);
-                    JSONArray studentsArray = (JSONArray) jsonData.get("students");
-                    for (Object studentObj : studentsArray) {
-                        JSONObject studentJson = (JSONObject) studentObj;
-                        String jsonStudentID = (String) studentJson.get("studentID");
-                        if (jsonStudentID.equals(enteredUserId.substring(1))) {
-                            String password = (String) studentJson.get("password");
-                            if (!password.equals(enteredPassword)) {
-                                System.out.println("Wrong password");
-                                return null;
-                            }
-
-                            returnObject = JsonManagement.getInstance().getStudentByID(enteredUserId.substring(1));
-
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-
-            } else {
-
-                try (FileReader reader = new FileReader(filePath)) {
-                    JSONObject jsonData = (JSONObject) parser.parse(reader);
-                    JSONArray studentsArray = (JSONArray) jsonData.get("advisors");
-                    for (Object studentObj : studentsArray) {
-                        JSONObject studentJson = (JSONObject) studentObj;
-                        String jsonStudentID = (String) studentJson.get("userID");
-                        if (jsonStudentID.equals(enteredUserId)) {
-                            String password = (String) studentJson.get("password");
-
-                            if (!password.equals(enteredPassword)) {
-                                System.out.println("Wrong password");
-                                return null;
-                            }
-
-                            returnObject = JsonManagement.getInstance().getAdvisorByUserID(enteredUserId);
-
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
+                    break;
             }
+
         }
         if (returnObject == null)
             System.out.println("Wrong User Id or Password");
         return returnObject;
+    }
+
+    public boolean checkIdAndPasswordOfPerson(String enteredUserId, String enteredPassword, String filePath,
+            String personType) {
+        JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject jsonData = (JSONObject) parser.parse(reader);
+            JSONArray studentsArray = (JSONArray) jsonData.get(personType);
+            for (Object studentObj : studentsArray) {
+                JSONObject studentJson = (JSONObject) studentObj;
+                String jsonStudentID = (String) studentJson.get("userID");
+                if (jsonStudentID.equals(enteredUserId.substring(1))) {
+                    String password = (String) studentJson.get("password");
+                    if (!password.equals(enteredPassword)) {
+                        System.out.println("Wrong password");
+                        return false;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("There is an exception in checKIdAndPasswordOfPerson method.");
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     /*
@@ -155,6 +156,7 @@ public class CourseRegistration {
         } else {
             System.out.println("Program has been terminated successfully.");
             return new Lecturer();
-        }    }
+        }
+    }
 
 }

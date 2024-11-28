@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Student extends Person{
 	private Transcript transcript;
-	private String studentID;
+	private Advisor advisor;
 
 	
 	public Student() {
@@ -28,7 +28,7 @@ public class Student extends Person{
 //Retrieves the student ID
     @Override
 	public String getID() {
-		return studentID;
+		return this.ID;
 	}
 //Retrieves the advisor ID assigned to the student
 	
@@ -49,4 +49,10 @@ public class Student extends Person{
 		return this.gender;
 	}
 	
+	public Advisor getAdvisor() {
+		return advisor;
+	}	
+	public void setAdvisor(Advisor advisor) {
+		this.advisor = advisor;
+	}
 }

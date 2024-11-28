@@ -21,13 +21,15 @@ public class StudentAffairsStaffInterface implements UserInterface {
     public boolean showMenu() {
         switch (getChoice()) {
             case 1:
-
+                addCourse();
                 break;
             case 2:
-
-                break;
+                return true;
+                //break;
+            case 3:
+                return true;
             default:
-            System.out.println("Enter 1 or 2.");
+            System.out.println("Enter 1, 2 or 3.");
                 break;
         }
 
@@ -36,18 +38,21 @@ public class StudentAffairsStaffInterface implements UserInterface {
 
 
     public int getChoice() {
-        System.out.print("1-  Add Course\n2-  Remove Course\nSelect an operation: ");
+        System.out.print("1-  Add Course\n2-  Remove Course\n3-  Log Out\nSelect an operation: ");
         int choice = 0;
         try {
             choice = scan.nextInt();
         } catch (InputMismatchException e) {
             System.out.println("Enter an integer value.");
+        }catch(Exception e){
+            System.out.println("There is an error in getChoice method."); 
         }
         return choice;
     }
 
     public void addCourse() {
-
+        askCourseParameters();
+        staff.createCourse();
     }
 
     public Course askCourseParameters(){

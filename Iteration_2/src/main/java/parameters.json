@@ -82,109 +82,99 @@
     ],
     "students": [
       {
-        "userID": "o150121031",
         "password": "abc123",
         "name": "John",
         "surname": "Doe",
         "birthdate": "2000-01-01",
         "gender": "M",
-        "studentID": "150121031",
-        "advisorID": "987654321"
+        "userID": "150121031",
+        "advisorID": "123456"
       },
       {
-        "userID": "o150121032",
         "password": "password2",
         "name": "Jane",
         "surname": "Smith",
         "birthdate": "1999-02-14",
         "gender": "F",
-        "studentID": "150121032",
-        "advisorID": "987654321"
+        "userID": "150121032",
+        "advisorID": "123456"
       },
       {
-        "userID": "o150121033",
         "password": "password3",
         "name": "Alice",
         "surname": "Johnson",
         "birthdate": "2001-03-12",
         "gender": "F",
-        "studentID": "150121033",
-        "advisorID": "987654321"
+        "userID": "150121033",
+        "advisorID": "123456"
       },
       {
-        "userID": "o150121034",
         "password": "password4",
         "name": "Bob",
         "surname": "Williams",
         "birthdate": "2001-05-20",
         "gender": "M",
-        "studentID": "150121034",
-        "advisorID": "987654321"
+        "userID": "150121034",
+        "advisorID": "123456"
       },
       {
-        "userID": "o150121035",
         "password": "password5",
         "name": "Charlie",
         "surname": "Brown",
         "birthdate": "2002-06-30",
         "gender": "M",
-        "studentID": "150121035",
-        "advisorID": "987654321"
+        "userID": "150121035",
+        "advisorID": "123456"
       },
       {
-        "userID": "o150122036",
         "password": "password6",
         "name": "David",
         "surname": "Davis",
         "birthdate": "1999-08-15",
         "gender": "M",
-        "studentID": "150122036",
-        "advisorID": "123456789"
+        "userID": "150122036",
+        "advisorID": "654321"
       },
       {
-        "userID": "o150122037",
         "password": "password7",
         "name": "Eve",
         "surname": "Wilson",
         "birthdate": "2000-10-22",
         "gender": "F",
-        "studentID": "150122037",
-        "advisorID": "123456789"
+        "userID": "150122037",
+        "advisorID": "654321"
       },
       {
-        "userID": "o150122038",
         "password": "password8",
         "name": "Frank",
         "surname": "Moore",
         "birthdate": "1998-12-05",
         "gender": "M",
-        "studentID": "150122038",
-        "advisorID": "123456789"
+        "userID": "150122038",
+        "advisorID": "654321"
       },
       {
-        "userID": "o150122039",
         "password": "password9",
         "name": "Grace",
         "surname": "Taylor",
         "birthdate": "2002-04-17",
         "gender": "F",
-        "studentID": "150122039",
-        "advisorID": "123456789"
+        "userID": "150122039",
+        "advisorID": "654321"
       },
       {
-        "userID": "o150122040",
         "password": "password10",
         "name": "Hank",
         "surname": "Anderson",
         "birthdate": "1999-11-09",
         "gender": "M",
-        "studentID": "150122040",
-        "advisorID": "123456789"
+        "userID": "150122040",
+        "advisorID": "654321"
       }
     ],
     "advisors": [
       {
-        "userID": "l123456",
+        "userID": "123456",
         "password": "ganiz123",
         "name": "Murat Can",
         "surname": "Ganiz",
@@ -205,7 +195,7 @@
         ]
       },
       {
-        "userID": "l654321",
+        "userID": "654321",
         "password": "sanem123",
         "name": "Sanem",
         "surname": "Yilmaz",
@@ -225,6 +215,25 @@
           "CSE2020"
         ]
       }
+    ],
+    
+    "studentAffairsStaffs": [
+      {
+        "userID": "111",
+        "password": "111",
+        "name": "Kulliye",
+        "surname": "Kantin"
+      }
+    ],
+
+    "departmentSchedulers":[
+      {
+        "userID": "111",
+        "password": "111",
+        "name": "Cay",
+        "surname": "Onbeslira"
+      }
     ]
+
   }
   
