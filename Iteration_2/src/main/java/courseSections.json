@@ -1,106 +1,109 @@
 {
-    "courseSections": {
-      "MATH1001": [
-        {
-          "sectionId": 1,
-          "time": "Monday 9:30-10:20",
-          "classroom": "M2Z11"
-        },
-        {
-          "sectionId": 2,
-          "time": "Monday 10:30-11:20",
-          "classroom": "M2Z12"
-        }
-      ],
-      "CSE1200": [
-        {
-          "sectionId": 1,
-          "time": "Tuesday 9:30-10:20",
-          "classroom": "M2Z13"
-        },
-        {
-          "sectionId": 2,
-          "time": "Tuesday 10:30-11:20",
-          "classroom": "M2Z14"
-        }
-      ],
-      "CSE1241": [
-        {
-          "sectionId": 1,
-          "time": "Wednesday 11:30-12:20",
-          "classroom": "M2Z15"
-        },
-        {
-          "sectionId": 2,
-          "time": "Wednesday 12:30-13:20",
-          "classroom": "M2Z16"
-        }
-      ],
-      "PHYS1101": [
-        {
-          "sectionId": 1,
-          "time": "Thursday 9:30-10:20",
-          "classroom": "M2Z17"
-        },
-        {
-          "sectionId": 2,
-          "time": "Thursday 10:30-11:20",
-          "classroom": "M2Z18"
-        }
-      ],
-      "ATA121": [
-        {
-          "sectionId": 1,
-          "time": "Friday 13:30-14:20",
-          "classroom": "M2Z19"
-        },
-        {
-          "sectionId": 2,
-          "time": "Friday 14:30-15:20",
-          "classroom": "M2Z20"
-        }
-      ],
-      "CSE2225": [
-        {
-          "sectionId": 1,
-          "time": "Monday 8:30-9:20",
-          "classroom": "M2Z21"
-        },
-        {
-          "sectionId": 2,
-          "time": "Monday 9:30-10:20",
-          "classroom": "M2Z22"
-        },
-        {
-          "sectionId": 3,
-          "time": "Wednesday 8:30-9:20",
-          "classroom": "M2Z23"
-        }
-      ],
-      "CSE3055": [
-        {
-          "sectionId": 1,
-          "time": "Tuesday 10:30-11:20",
-          "classroom": "M2Z24"
-        },
-        {
-          "sectionId": 2,
-          "time": "Thursday 14:30-15:20",
-          "classroom": "M2Z25"
-        }
-      ],
-      "CSE4297": [
-        {
-          "sectionId": 1,
-          "time": "Friday 13:30-14:20",
-          "classroom": "M2Z26"
-        },
-        {
-          "sectionId": 2,
-          "time": "Friday 14:30-15:20",
-          "classroom": "M2Z27"
-        }
-      ]
-    }
+  "courseSections": {
+    "MATH1002": [
+      {
+        "sectionId": 1,
+        "time": "Monday 9:30-10:20",
+        "classroom": "M2Z11",
+        "capacity": 30
+      },
+      {
+        "sectionId": 2,
+        "time": "Monday 10:30-11:20",
+        "classroom": "M2Z12",
+        "capacity": 30
+      }
+    ],
+    "CSE1241": [
+      {
+        "sectionId": 1,
+        "time": "Tuesday 9:30-10:20",
+        "classroom": "M2Z13",
+        "capacity": 40
+      },
+      {
+        "sectionId": 2,
+        "time": "Tuesday 10:30-11:20",
+        "classroom": "M2Z14",
+        "capacity": 40
+      }
+    ],
+    "CSE1241": [
+      {
+        "sectionId": 1,
+        "time": "Wednesday 11:30-12:20",
+        "classroom": "M2Z15",
+        "capacity": 35
+      },
+      {
+        "sectionId": 2,
+        "time": "Wednesday 12:30-13:20",
+        "classroom": "M2Z16",
+        "capacity": 35
+      }
+    ],
+   
+    "CSE1241": [
+      {
+        "sectionId": 1,
+        "time": "Friday 13:30-14:20",
+        "classroom": "M2Z19",
+        "capacity": 25
+      },
+      {
+        "sectionId": 2,
+        "time": "Friday 14:30-15:20",
+        "classroom": "M2Z20",
+        "capacity": 25
+      }
+    ],
+    "CSE2225": [
+      {
+        "sectionId": 1,
+        "time": "Monday 8:30-9:20",
+        "classroom": "M2Z21",
+        "capacity": 40
+      },
+      {
+        "sectionId": 2,
+        "time": "Monday 9:30-10:20",
+        "classroom": "M2Z22",
+        "capacity": 40
+      },
+      {
+        "sectionId": 3,
+        "time": "Wednesday 8:30-9:20",
+        "classroom": "M2Z23",
+        "capacity": 40
+      }
+    ],
+    "CSE3055": [
+      {
+        "sectionId": 1,
+        "time": "Tuesday 10:30-11:20",
+        "classroom": "M2Z24",
+        "capacity": 45
+      },
+      {
+        "sectionId": 2,
+        "time": "Thursday 14:30-15:20",
+        "classroom": "M2Z25",
+        "capacity": 45
+      }
+    ],
+    "CSE4219": [
+      {
+        "sectionId": 1,
+        "time": "Friday 13:30-14:20",
+        "classroom": "M2Z26",
+        "capacity": 20
+      },
+      {
+        "sectionId": 2,
+        "time": "Friday 14:30-15:20",
+        "classroom": "M2Z27",
+        "capacity": 20
+      }
+    ]
   }
-  
+}

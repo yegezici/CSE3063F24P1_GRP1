@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class CourseSection{
@@ -22,6 +23,13 @@ public class CourseSection{
      this.sectionID = sectionId;
      this.capacity = capacity;
      this.lecturer = lecturer;
+   }
+
+   public CourseSection(String sectionId, int capacity){
+      this.sectionID = sectionId;
+      this.capacity = capacity;      
+      this.timeSlots = new ArrayList<TimeSlot>();
+      this.currentStudents = new ArrayList<Student>();
    }
 
    public String getSectionID(){

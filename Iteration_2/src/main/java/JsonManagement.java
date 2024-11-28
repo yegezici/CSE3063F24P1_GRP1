@@ -8,16 +8,19 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class JsonManagement {
 
     private ArrayList<Course> courses;
     private ArrayList<Student> students;
     private static JsonManagement instance;
+    private ArrayList<CourseSection> courseSections;
 
     private JsonManagement() {
         this.students = new ArrayList<Student>();
         this.courses = loadCourses();
+        this.courseSections = loadCourseSections();
 
     }
 
@@ -40,6 +43,54 @@ public class JsonManagement {
         for (Student student : students)
             saveStudent(student);
 
+    }
+
+    private ArrayList<CourseSection> loadCourseSections() {
+        String filePath = "iteration_2/src/main/java/courseSections.json"; // Adjust the file path as needed
+        ArrayList<CourseSection> courseSectionsList = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+
+        try (FileReader reader = new FileReader(filePath)) {
+            JSONObject rootObject = (JSONObject) parser.parse(reader);
+            JSONObject courseSections = (JSONObject) rootObject.get("courseSections");
+
+            for (Object courseKey : courseSections.keySet()) {
+                String courseId = (String) courseKey;
+                JSONArray sectionsArray = (JSONArray) courseSections.get(courseId);
+
+                for (Object sectionObj : sectionsArray) {
+                    JSONObject section = (JSONObject) sectionObj;
+
+                    int sectionID = ((Long) section.get("sectionId")).intValue();
+                    String time = (String) section.get("time");
+                    String classroom = (String) section.get("classroom");
+                    int capacity = ((Long) section.get("capacity")).intValue();
+                    TimeSlot timeSlot = new TimeSlot(time,classroom);
+                    CourseSection courseSection = new CourseSection(Integer.toString(sectionID), capacity);
+                    courseSection.getTimeSlots().add(timeSlot);
+                    System.out.println(courseId);
+                    Course course = null;
+                    for (Course c : courses) {
+                        if (c.getCourseId().equals(courseId)) {
+                            course = c;
+                            
+                            break;
+                        }
+                    }
+                    courseSection.setParentCourse(course);
+                    courseSectionsList.add(courseSection);
+                }
+            }
+
+            // Print the CourseSection list
+            for (CourseSection cs : courseSectionsList) {
+                System.out.println(cs.getSectionID() + " - " + cs.getParentCourse().getCourseId());
+            }
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return courseSectionsList;
     }
 
     protected ArrayList<Course> loadCourses() {
@@ -153,11 +204,12 @@ public class JsonManagement {
         return null;
     }
 
-    protected Student getStudentByID(String studentID){
+    protected Student getStudentByID(String studentID) {
         Student student = getStudentByIDWithoutAdvisor(studentID);
         setAdvisorForStudent(student);
         return student;
     }
+
     protected Student getStudentByIDWithoutAdvisor(String studentID) {
         Student existingStudent = checkStudentIfExists(studentID);
         if (existingStudent != null) {
@@ -377,7 +429,5 @@ public class JsonManagement {
             students.add(currentStudent);
 
     }
-
-
 
 }
