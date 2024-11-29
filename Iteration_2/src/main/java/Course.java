@@ -10,6 +10,7 @@ public class Course {
     private String prerequisiteID;
     private int credits;
     private String grade;
+    private int semester;
 
     public Course() {
     }
@@ -39,6 +40,15 @@ public class Course {
         this.prerequisiteID=prerequisiteID;
         courseSections = new ArrayList<CourseSection>();
         
+    }
+
+    public Course(String courseId, String courseName, int credits, String prerequisiteID, int semester) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.credits = credits;
+        this.prerequisiteID=prerequisiteID;
+        courseSections = new ArrayList<CourseSection>();
+        this.semester = semester;
     }
 
 //Retrieves the unique identifier of the course.
@@ -101,6 +111,10 @@ public String getPrerequisiteID() {
 
     public void setCourseSections(ArrayList<CourseSection> courseSections) {
         this.courseSections = courseSections;
+    }
+
+    public int getSemester() {
+        return semester;
     }
 
 
