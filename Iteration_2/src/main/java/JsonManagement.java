@@ -368,11 +368,11 @@ public class JsonManagement {
                     JSONObject course = (JSONObject) courseObj;
                     String courseId = (String) course.get("courseID");
                     String courseName = (String) course.get("courseName");
-                    String prerequisiteCourse = (String) course.get("prerequisite");
-                    for (int i = 0; i < courses.size(); i++) {
-                        if (courses.get(i).getCourseName().equals(courseName))
-                            completedCourses.add(courses.get(i));
-                    }
+                    int credits = ((Long) course.get("credits")).intValue();
+                    String grade = (String) course.get("grade");
+
+                    Course completedCourse = new Course(courseId, courseName, grade, credits);
+                    completedCourses.add(completedCourse);
                 }
             }
 
