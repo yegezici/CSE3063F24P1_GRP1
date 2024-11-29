@@ -184,7 +184,7 @@ public class Transcript {
             }
             totalCredits += credits;
         }
-        return totalSum/totalCredits;
+        return (int)((totalSum/totalCredits) * 100) / 100.0;
     }
 
 }
