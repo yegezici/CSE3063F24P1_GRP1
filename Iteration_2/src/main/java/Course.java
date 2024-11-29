@@ -9,6 +9,7 @@ public class Course {
     private Course prerequisiteCourse;
     private String prerequisiteID;
     private int credits;
+    private String grade;
 
     public Course() {
     }
@@ -21,6 +22,13 @@ public class Course {
         this.courseId = courseId;
         this.courseName = courseName;
         this.credits = credits;
+    }
+
+    public Course(String courseId, String courseName, String grade, int credits) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.credits = credits;
+        this.grade = grade;
     }
 	
     //constructor
@@ -44,6 +52,10 @@ public class Course {
 //Retrieves the lecturer responsible for teaching this course.
     public Lecturer getLecturer() {
         return lecturer;
+    }
+
+    public String getGrade() {
+        return grade;
     }
 //If the student object is not null, it adds student objects to the course.
     public void addStudent(Student student) {

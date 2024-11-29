@@ -52,6 +52,7 @@ public class StudentInterface implements UserInterface {
         student.getTranscript().showCompletedCourses();
         student.getTranscript().showCurrentCourses();
         student.getTranscript().showWaitedCourses();
+        System.out.println("\nGPA: " + student.getTranscript().calculateGpa());
     }
 
     public void registerCourse() {
