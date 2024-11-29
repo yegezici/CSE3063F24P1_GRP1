@@ -88,7 +88,7 @@ public class Transcript {
     public void showCompletedCourses(){
         System.out.println("\nCourses that are completed listed below:");
         for(int i = 0; i < completedCourses.size(); i++){
-            System.out.printf("%d-   %-10s %-50s %d\n", (i+1), completedCourses.get(i).getCourseId(), completedCourses.get(i).getCourseName(), completedCourses.get(i).getCredits());
+            System.out.printf("%d-   %-10s %-50s %-10d %s\n", (i+1), completedCourses.get(i).getCourseId(), completedCourses.get(i).getCourseName(), completedCourses.get(i).getCredits(), completedCourses.get(i).getGrade());
         }
     }
 //Scans the currentCourses list and prints the courses there
@@ -154,6 +154,38 @@ public class Transcript {
         this.waitedSections = waitedSections;
     }
 
+    public double calculateGpa(){
+        int size = completedCourses.size();
+        double totalSum = 0;
+        int totalCredits = 0;
+        for(int i = 0; i < size; i++){
+            String grade = completedCourses.get(i).getGrade();
+            int credits = completedCourses.get(i).getCredits();
+            switch (grade) {
+                case "AA": totalSum += 4.0 * credits;
+                break;
+                case "BA": totalSum += 3.5 * credits;
+                break;
+                case "BB": totalSum += 3.0 * credits;
+                break;
+                case "CB": totalSum += 2.5 * credits;
+                break;
+                case "CC": totalSum += 2.0 * credits;
+                break;
+                case "DC": totalSum += 1.5 * credits;
+                break;
+                case "DD": totalSum += 1.0 * credits;
+                break;
+                case "FD": totalSum += 0.5 * credits;
+                break;
+                case "FF": totalSum += 0.0 * credits;
+                break;
+                default:
+            }
+            totalCredits += credits;
+        }
+        return (int)((totalSum/totalCredits) * 100) / 100.0;
+    }
 
 }
 
