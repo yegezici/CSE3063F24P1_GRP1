@@ -104,19 +104,43 @@ public class DepartmentScheduler extends Staff {
 
     //TİMESLOTU NULL OLAN BİR SECTION SEÇERSE;
     //    -ÖNCE SAAT SOR. SONRA CLASSROOM
-    //UPDATE SECTION SEÇERSE; 
-    //    -HALİHAZIRDA OLAN CLASSROOM İÇİN FARKLI SAAT SEÇ
-    //     VEYA
-    //    -CLASSROOM SEÇ, SAAT SEÇ
+    //UPDATE SECTION SEÇERSE; (O SECTION'IN ÖNCE SAAT KISMINI NULL YAP Kİ O DA SEÇENEK LİSTESİNDE GÖZÜKSÜN)
+
+    //DepartmentSchedulerInterface önce CourseSection listesinden seçim yapılacak.
+    //Seçilen ders yeni oluşturulduysa("TimeSlot kısmı null ise veya capacity girilmemişse diye kontrol edilebilir")
+    //   -handleTimeConflict methodunu çağır, (bu method seçilebilecek zaman aralıklarını döndürüyor)
+    //   -handleClassroomConflict methodunu çağır, (bu method seçilen zamana göre seçilebilecek sınıfları döndürüyor)
+    //   -Kullanıcının seçtiği time interval'lar ile classroomu kullanarak TimeSlot objesi oluştur ve courseSection.setTimeSlot ile eşleştir.
 
 
     // Check time conflict for CourseSections whichs is in the same semester.
     // Semester Courses are needed.
-    public String[] handleSemesterConflict(){
-        // Return time intervals which can be selected. So, decide whether the time interval occupied by another section of the semester or not.
-        String[] availableTimeIntervals = null;
+    public ArrayList<String> handleTimeConflict(ArrayList<CourseSection> semesterCourses){
+        //Saatleri seçmesi istenecek. Birden fazla saat seçilebilir. Bu method aynı yıldaki diğer tüm sectionların saatine bakmalı ve saat çakışmalarını engellemeli
+        ArrayList<String> availableTimeIntervals = allTimeIntervals;
+
+        for(int i = 0; i < semesterCourses.size(); i++){
+            ArrayList<TimeSlot> timeSlots = semesterCourses.get(i).getTimeSlots();
+            for(int k = 0; k < timeSlots.size(); k++){
+                String timeInterval = timeSlots.get(k).getTimeInterval();
+                availableTimeIntervals.remove(timeInterval);
+            }
+        }
 
         return availableTimeIntervals;
+    }
+
+    // Returns x'th semester courses as ArrayList.
+    public ArrayList<CourseSection> semesterXCourses(int x){
+        ArrayList<CourseSection> semesterXCourses = new ArrayList<>();
+
+        for(int i = 0; i < courseSections.size(); i++){
+            if(courseSections.get(i).getParentCourse().getSemester() == x){
+                semesterXCourses.add(courseSections.get(i));
+            }
+        }
+        
+        return semesterXCourses; 
     }
 
     // Check classroom conflict for CourseSection.
