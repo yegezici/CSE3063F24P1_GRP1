@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DepartmentScheduler extends Staff {
-    private String[][] courseSections;
+    private ArrayList<CourseSection> courseSections;
     private String[] allClassrooms;
 
     public DepartmentScheduler() {
@@ -15,7 +15,7 @@ public class DepartmentScheduler extends Staff {
 
     // Constructor for Department Scheduler role.
     public DepartmentScheduler(String name, String surname, Date birthdate, char gender, String ssn,
-                               String[][] courseSections, String[] allClassrooms) {
+                               ArrayList<CourseSection> courseSections, String[] allClassrooms) {
         super(name, surname, birthdate, gender, ssn);
         this.courseSections = courseSections;
         this.allClassrooms = allClassrooms;
@@ -65,7 +65,7 @@ public class DepartmentScheduler extends Staff {
         }
     }
 
-    // Make changes in waitlist.
+    // Make changes in waitlist. Remove student from the waitlist of the Course Section.
     public void manageWaitlist(CourseSection courseSection, int size) {
         try {
             if (courseSection == null) {
@@ -79,7 +79,7 @@ public class DepartmentScheduler extends Staff {
                 if (student.getTranscript() == null) {
                     throw new NullPointerException("Student's transcript cannot be null.");
                 }
-
+                
                 // Add course to student's transcript.
                 student.getTranscript().addCurrentCourse(courseSection.getParentCourse());
 
@@ -91,5 +91,27 @@ public class DepartmentScheduler extends Staff {
         } catch (Exception e) {
             System.err.println("Error managing waitlist: " + e.getMessage());
         }
+    }
+
+    // Check time conflict for CourseSection.
+    public String[] handleTimeConflict(){
+        // Return time intervals which can be selected. So, decide whether the time interval occupied by another section of the semester or not.
+        String[] availableTimeIntervals = null;
+
+        return availableTimeIntervals;
+    }
+
+    // Check classroom conflict for CourseSection.
+    public String[] handleClassroomConflict(){
+        // Return classrooms which can be selected. So, decide whether the classroom is selected or not.
+        String[] availableClassrooms = null;
+
+        return availableClassrooms;
+    }
+
+    // Check lecturer conflict for CourseSection.
+    public boolean handleLecturerConflict(){
+
+        return true;
     }
 }
