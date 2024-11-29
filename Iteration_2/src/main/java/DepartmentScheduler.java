@@ -3,7 +3,8 @@ import java.util.Date;
 
 public class DepartmentScheduler extends Staff {
     private ArrayList<CourseSection> courseSections;
-    private String[] allClassrooms;
+    private ArrayList<String> allClassrooms;
+    private ArrayList<String> allTimeIntervals;
 
     public DepartmentScheduler() {
         super();
@@ -15,10 +16,18 @@ public class DepartmentScheduler extends Staff {
 
     // Constructor for Department Scheduler role.
     public DepartmentScheduler(String name, String surname, Date birthdate, char gender, String ssn,
-                               ArrayList<CourseSection> courseSections, String[] allClassrooms) {
+                               ArrayList<CourseSection> courseSections, ArrayList<String> allClassrooms) {
         super(name, surname, birthdate, gender, ssn);
         this.courseSections = courseSections;
         this.allClassrooms = allClassrooms;
+        allTimeIntervals.add("8:30-9:20");
+        allTimeIntervals.add("9:30-10:20");
+        allTimeIntervals.add("10:30-11:20");
+        allTimeIntervals.add("11:30-12:20");
+        allTimeIntervals.add("13:00-13:50");
+        allTimeIntervals.add("14:00-14:50");
+        allTimeIntervals.add("15:00-15:50");
+        allTimeIntervals.add("16:00-17:00");
     }
 
     // Assign time slot for specific section.
@@ -93,8 +102,17 @@ public class DepartmentScheduler extends Staff {
         }
     }
 
-    // Check time conflict for CourseSection.
-    public String[] handleTimeConflict(){
+    //TİMESLOTU NULL OLAN BİR SECTION SEÇERSE;
+    //    -ÖNCE SAAT SOR. SONRA CLASSROOM
+    //UPDATE SECTION SEÇERSE; 
+    //    -HALİHAZIRDA OLAN CLASSROOM İÇİN FARKLI SAAT SEÇ
+    //     VEYA
+    //    -CLASSROOM SEÇ, SAAT SEÇ
+
+
+    // Check time conflict for CourseSections whichs is in the same semester.
+    // Semester Courses are needed.
+    public String[] handleSemesterConflict(){
         // Return time intervals which can be selected. So, decide whether the time interval occupied by another section of the semester or not.
         String[] availableTimeIntervals = null;
 
@@ -102,12 +120,42 @@ public class DepartmentScheduler extends Staff {
     }
 
     // Check classroom conflict for CourseSection.
-    public String[] handleClassroomConflict(){
-        // Return classrooms which can be selected. So, decide whether the classroom is selected or not.
-        String[] availableClassrooms = null;
-
+    public ArrayList<String> handleClassroomConflict(String timeInterval){
+        // Return classrooms which can be selected. So, decide whether the classroom is selected before or not.
+        ArrayList<String> availableClassrooms = allClassrooms;
+        
+        for(int i = 0; i < courseSections.size(); i++){
+            ArrayList<TimeSlot> timeSlots = courseSections.get(i).getTimeSlots();
+            for(int k = 0; k < timeSlots.size(); k++){
+                if(timeSlots.get(k).getTimeInterval() == timeInterval){
+                    String whichClassroom = findWhichClassroom(timeSlots.get(k).getClassroom());
+                    availableClassrooms.remove(whichClassroom);
+                }
+            }
+        }
         return availableClassrooms;
     }
+
+    public String findWhichClassroom(String classroom) {
+        String classroomFound = null;
+        try {
+            for (int i = 0; i < allClassrooms.size(); i++) {
+                if (allClassrooms.get(i).equals(classroom)) {
+                    classroomFound = classroom;
+                    return classroomFound;
+                }
+            }
+            // Eğer döngüde hiçbir eşleşme bulunmazsa, null kontrolü yapılır
+            if (classroomFound == null) {
+                throw new Exception("Classroom not found in the Classroom List");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.exit(1); // Programdan çıkış
+        }
+        return classroomFound; // Kod buraya hiç ulaşmaz ama syntax gereği yazıldı
+    }
+    
 
     // Check lecturer conflict for CourseSection.
     public boolean handleLecturerConflict(){
