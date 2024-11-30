@@ -20,12 +20,13 @@ public class StudentAffairsStaff extends Staff {
         
     }
 
-    public Course createCourse(){
-       return null;
+    public Course createCourse(String courseName, String courseID, int credits, int numberOfSections){
+        Course course = new Course(courseName, courseID, credits);
+        course.setCourseSections(createCourseSection(numberOfSections));
+        System.out.println(course.getCourseId());
+        return course;
     }
-    public void removeCourses(){
-        
-    }
+   
     public ArrayList<CourseSection> createCourseSection(int numberOfSections){
         ArrayList<CourseSection> sections = new ArrayList<>();
         for(int i = 0; i < numberOfSections; i++){

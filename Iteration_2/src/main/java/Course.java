@@ -117,6 +117,9 @@ public String getPrerequisiteID() {
         return semester;
     }
 
+    public String toString(){
+        return (this.courseName + " " + courseId );
+    }
 
 
 

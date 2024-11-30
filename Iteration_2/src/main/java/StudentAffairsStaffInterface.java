@@ -16,7 +16,6 @@ public class StudentAffairsStaffInterface implements UserInterface {
         this.courses = courses;
         scan = new Scanner(System.in);
     }
-    
 
     public boolean showMenu() {
         switch (getChoice()) {
@@ -24,18 +23,17 @@ public class StudentAffairsStaffInterface implements UserInterface {
                 addCourse();
                 break;
             case 2:
-                return true;
-                //break;
+                removeCourse();
+                break;
             case 3:
-                return true;
+                return false;
             default:
-            System.out.println("Enter 1, 2 or 3.");
+                System.out.println("Enter 1, 2 or 3.");
                 break;
         }
 
         return false;
     }
-
 
     public int getChoice() {
         System.out.print("1-  Add Course\n2-  Remove Course\n3-  Log Out\nSelect an operation: ");
@@ -44,42 +42,60 @@ public class StudentAffairsStaffInterface implements UserInterface {
             choice = scan.nextInt();
         } catch (InputMismatchException e) {
             System.out.println("Enter an integer value.");
-        }catch(Exception e){
-            System.out.println("There is an error in getChoice method."); 
+        } catch (Exception e) {
+            System.out.println("There is an error in getChoice method.");
         }
         return choice;
     }
 
     public void addCourse() {
-        askCourseParameters();
-        staff.createCourse();
+        String[] course = askCourseParameters();
+        try {
+            courses.add(
+                    staff.createCourse(course[0], course[1], Integer.parseInt(course[2]), Integer.parseInt(course[3])));
+        } catch (NumberFormatException e) {
+            System.out.println("Enter an integer value for course code and course credits.");
+        }
     }
 
-    public Course askCourseParameters(){
-        Course course = null;
+    public String[] askCourseParameters() {
+        String[] course = new String[4];
         try {
             System.out.print("Enter course name: ");
-            String courseName = scan.next();
+            course[0] = scan.next();
             System.out.print("Enter course code: ");
-            String courseCode = scan.next();
+            course[1] = scan.next();
             System.out.print("Enter course credits: ");
-            int courseCredits = scan.nextInt();
+            course[2] = scan.next();
             System.out.print("How many sections does the course have? : ");
-            int numberOfSections = scan.nextInt();
-            course = new Course(courseName, courseCode, courseCredits);
-            for(int k = 0 ; k < numberOfSections ; k++ ){ 
-              course.getCourseSections().add(new CourseSection(String.valueOf(k+1),100, course));
-            }
-            
-        }catch(InputMismatchException e){
+            course[3] = scan.next();
 
-        }catch (Exception e) {
-
+        } catch (InputMismatchException e) {
+            System.out.println("InputMismatchException in askCourseParameters method.");
+        } catch (Exception e) {
+            System.out.println("There is an error in askCourseParameters method.");
         }
         return course;
     }
 
+    public void removeCourse() {
+        printCourses();
+        System.out.println("Which course do you want to remove?");
+        int courseIndex = -1;
+        Course removedCourse = null;
+        try {
+            courseIndex = scan.nextInt() - 1;
+            removedCourse = courses.remove(courseIndex);
+        } catch (InputMismatchException e) {
+            System.out.println("Enter an integer value.");
+            return;
+        }
+        System.out.println("The " + removedCourse.getCourseId() + " course has been removed.");
+    }
 
-
-
+    public void printCourses() {
+        for (int i = 0; i < courses.size(); i++) {
+            System.out.println(i + 1 + "- " + courses.get(i).toString());
+        }
+    }
 }
