@@ -329,6 +329,39 @@ public class JsonManagement {
         courseJson.put(courseListType, completedCourses);
     }
 
+    protected void fillCourseSectionData(JSONObject sectionJson, ArrayList<CourseSection> sections, String sectionListType) {
+        JSONArray sectionArray = new JSONArray();
+        for (CourseSection section : sections) {
+            JSONObject sectionData = new JSONObject();
+            sectionData.put("sectionId", section.getSectionID());
+            for(int i = 0; i < section.getTimeSlots().size(); i++){
+                sectionData.put("time", section.getTimeSlots().get(i).getTimeInterval());
+                sectionData.put("classroom", section.getTimeSlots().get(i).getClassroom());
+            }
+            sectionData.put("capacity", section.getCapacity());
+            sectionArray.add(sectionData);
+        }
+        sectionJson.put(sectionListType, sectionArray);
+    }
+    
+    protected void saveCourseSections() {
+        String filePath = "Iteration_2/src/main/java/courseSections.json";
+
+        try (FileWriter writer = new FileWriter(filePath)) {
+            // Create JSON data based on the Student object
+            JSONObject courseSectionsData = new JSONObject();
+
+            fillCourseSectionData(courseSectionsData, courseSections, "courseSections");
+
+            // Write JSON to file
+            writer.write(courseSectionsData.toJSONString());
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error writing course section data to file.");
+        }
+    }
+
     protected void saveStudent(Student student) {
         String filePath = "Iteration_2/src/main/java/" + student.getID() + ".json";
 
@@ -430,4 +463,5 @@ public class JsonManagement {
 
     }
 
+    
 }
