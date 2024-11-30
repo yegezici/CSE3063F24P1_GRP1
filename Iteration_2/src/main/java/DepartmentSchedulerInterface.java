@@ -89,16 +89,16 @@ public class DepartmentSchedulerInterface implements UserInterface {
 
     public void showTimeIntervals(){
         System.out.println("Available time slots listed below");
-        int size = departmentScheduler.handleTimeConflict().length;
+        int size = departmentScheduler.handleTimeConflict(courseSections).size();
         for(int i = 0; i < size; i++){
-            System.out.println((i+1) + "- " + departmentScheduler.handleTimeConflict()[i]);
+            System.out.println((i+1) + "- " + departmentScheduler.handleTimeConflict(courseSections).get(i));
         }
     }
 
-    public void showClassrooms(){
-        int size = departmentScheduler.handleClassroomConflict().length;
+    public void showClassrooms(String timeInterval){
+        int size = departmentScheduler.handleClassroomConflict(timeInterval).size();
         for(int i = 0; i < size; i++){
-            System.out.println((i+1) + "- " + departmentScheduler.handleClassroomConflict()[i]);
+            System.out.println((i+1) + "- " + departmentScheduler.handleClassroomConflict(timeInterval).get(i));
         }
     }
 
@@ -114,12 +114,12 @@ public class DepartmentSchedulerInterface implements UserInterface {
         
         showTimeIntervals();
         System.out.println("Choose a time slot:");
-        int timeSlotNo = scan.nextInt();
-        String timeSlotInput = departmentScheduler.handleTimeConflict()[timeSlotNo-1];
-        showClassrooms();
+        int timeSlotNo = scan.nextInt() - 1;
+        String timeSlotInput = departmentScheduler.handleTimeConflict(courseSections).get(timeSlotNo);
+        showClassrooms(timeSlotInput);
         System.out.println("Choose a classroom:");
-        int classroomNo = scan.nextInt();
-        String classroomInput = departmentScheduler.handleClassroomConflict()[classroomNo-1];
+        int classroomNo = scan.nextInt() - 1;
+        String classroomInput = departmentScheduler.handleClassroomConflict(timeSlotInput).get(classroomNo);
         TimeSlot timeSlot = new TimeSlot(timeSlotInput, classroomInput);
         departmentScheduler.assignTimeSlotToSection(chosenSection, timeSlot);
         System.out.println("Selected time slot and classroom has been assigned.");
