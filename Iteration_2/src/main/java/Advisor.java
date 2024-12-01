@@ -48,5 +48,24 @@ public class Advisor extends Lecturer {
         return students;
     }
   
+    // If there is conflict between student's sections, return false; else true. 
+    public boolean checkSectionConflict(Student student, CourseSection courseSection){
+        boolean isConflict = false;
+        ArrayList<CourseSection> courseSectionsOfStudent = student.getTranscript().getCurrentSections();
 
+        for(int i = 0; i < courseSection.getTimeSlots().size(); i++){
+            TimeSlot timeSlot = courseSection.getTimeSlots().get(i);
+            for(int k = 0; k < courseSectionsOfStudent.size(); k++){
+                for(int z = 0; z < courseSectionsOfStudent.get(k).getTimeSlots().size(); z++){
+                    String sectionTimeInterval = courseSectionsOfStudent.get(k).getTimeSlots().get(z).getTimeInterval();
+                    if(timeSlot.getTimeInterval().equals(sectionTimeInterval)){
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return !isConflict;
+    }
+  
 }

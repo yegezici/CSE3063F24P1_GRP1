@@ -84,22 +84,35 @@ public class AdvisorInterface implements UserInterface {
 
     public boolean courseOperations(Student student, int courseIndex) {
         boolean logOut = false;
+    
+        // Get Course Section.
         CourseSection courseSection = student.getTranscript().getWaitedCourses().get(courseIndex - 1).getCourseSections().get(0);
+    
+        // Advisor will check that is there any conflict. If there is, request will be rejected.
+        if (!advisor.checkSectionConflict(student, courseSection)) {
+            System.out.println("There is a conflict between sections. The course cannot be approved! It is automatically rejected.");
+            rejectCourse(student, courseSection);
+            return logOut;
+        }
+    
+        // If there isn't any conflict, get confirmation from user.
         System.out.print("Do you want to approve this course?(y/n): \nIf you want to turn back enter \"0\": ");
         String approve = scan.next();
+    
+        // Check confirmation message.
         if (!approve.equals("0") && !approve.equals("y") && !approve.equals("n")) {
             System.out.println("Enter \"y\", \"n\" or \"0\".");
-
         } else if (approve.equals("0")) {
             logOut = true;
         } else if (approve.equals("y")) {
-            approveCourse(student, courseSection);
+            approveCourse(student, courseSection); // Approve Course.
         } else {
-            rejectCourse(student, courseSection);
+            rejectCourse(student, courseSection); // Reject Course.
         }
-
+    
         return logOut;
     }
+    
 
     public void studentOperations(Student student) {
         while (true) {
