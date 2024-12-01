@@ -1,12 +1,18 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class WeeklySchedule {
+    Student student;
+    ArrayList<TimeSlot>[] timeSlots;
+    
+    public WeeklySchedule(Student student){
+        this.student = student;
+        timeSlots = new ArrayList[5];
+    }   
 
-    public WeeklySchedule(){
-    }
 
-    public void printStudentWeeklySchedule(Student student) {
+    public void printStudentWeeklySchedule() {
         String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         for (String day : days) {
             boolean dayPrinted = false;

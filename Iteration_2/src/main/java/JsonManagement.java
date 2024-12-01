@@ -38,6 +38,9 @@ public class JsonManagement {
     public ArrayList<Student> getStudents() {
         return students;
     }
+    public ArrayList<CourseSection> getCourseSections() {
+        return courseSections;
+    }
 
     public void saveStudents() {
         for (Student student : students)

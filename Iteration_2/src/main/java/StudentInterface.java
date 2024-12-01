@@ -27,6 +27,9 @@ public class StudentInterface implements UserInterface {
                 registerCourse();
                 break;
             case 3:
+                printStudentWeeklySchedule();
+                break;
+            case 4:
                 System.out.println("You have successfully logged out\n");
                 logOut = true;
                 break;
@@ -38,7 +41,7 @@ public class StudentInterface implements UserInterface {
     }
 
     public int getChoice() {
-        System.out.println("Select an operation:\n1. Transcript\n2. Register for course\n3. Log out");
+        System.out.println("Select an operation:\n1. Transcript\n2. Register for course\n3. Weekly Schedule\n4. Log out");
         int choice = 0;
         try {
             choice = scan.nextInt();
@@ -159,4 +162,8 @@ public class StudentInterface implements UserInterface {
         }
     }
 
+    private void printStudentWeeklySchedule(){
+        WeeklySchedule weeklySchedule = new WeeklySchedule(student);
+        weeklySchedule.printStudentWeeklySchedule();
+    }
 }

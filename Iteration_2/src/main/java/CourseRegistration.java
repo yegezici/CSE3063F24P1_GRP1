@@ -7,12 +7,13 @@ import java.util.Scanner;
 
 public class CourseRegistration {
     ArrayList<Student> students;
-
+    ArrayList<CourseSection> courseSections;
     ArrayList<Course> courses;
 
     public CourseRegistration() {
         students = JsonManagement.getInstance().getStudents();
         courses = JsonManagement.getInstance().getCourses();
+        courseSections = JsonManagement.getInstance().getCourseSections();
 
     }
 
@@ -22,7 +23,6 @@ public class CourseRegistration {
      * and displays the menu to the user until they are logged in.
      */
     public void init() {
-
 
         while (true) {
             Person currentUser = login();
@@ -35,10 +35,12 @@ public class CourseRegistration {
                 if (currentUser instanceof Student)
                     userInterface = new StudentInterface((Student) currentUser, courses);
                 // createArrayList((Student) currentUser);
-                else if(currentUser instanceof Advisor)
+                else if (currentUser instanceof Advisor)
                     userInterface = new AdvisorInterface((Advisor) currentUser);
-                else if(currentUser instanceof StudentAffairsStaff)
+                else if (currentUser instanceof StudentAffairsStaff)
                     userInterface = new StudentAffairsStaffInterface((StudentAffairsStaff) currentUser, courses);
+                else if(currentUser instanceof DepartmentScheduler)
+                    userInterface = new DepartmentSchedulerInterface((DepartmentScheduler)(currentUser), courseSections);
                     if (userInterface.showMenu()) {
                     saveStudents();
                     break;
@@ -90,11 +92,13 @@ public class CourseRegistration {
                     break;
                 case 'a':
                     if (checkIdAndPasswordOfPerson(enteredUserId, enteredPassword, filePath, "studentAffairsStaffs"))
-                        returnObject = JsonManagement.getInstance().getstudentAffairsStaffByID(enteredUserId.substring(1));
+                        returnObject = JsonManagement.getInstance()
+                                .getstudentAffairsStaffByID(enteredUserId.substring(1));
                     break;
                 case 'd':
                     if (checkIdAndPasswordOfPerson(enteredUserId, enteredPassword, filePath, "departmentSchedulers"))
-                        returnObject = JsonManagement.getInstance().getDepartmentSchedulerByID(enteredUserId.substring(1));
+                        returnObject = JsonManagement.getInstance()
+                                .getDepartmentSchedulerByID(enteredUserId.substring(1));
                     break;
                 default:
 
