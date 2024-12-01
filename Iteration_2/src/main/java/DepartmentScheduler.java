@@ -24,10 +24,10 @@ public class DepartmentScheduler extends Staff {
         allTimeIntervals.add("9:30-10:20");
         allTimeIntervals.add("10:30-11:20");
         allTimeIntervals.add("11:30-12:20");
-        allTimeIntervals.add("13:00-13:50");
-        allTimeIntervals.add("14:00-14:50");
-        allTimeIntervals.add("15:00-15:50");
-        allTimeIntervals.add("16:00-17:00");
+        allTimeIntervals.add("12:30-13:20");
+        allTimeIntervals.add("13:30-14:20");
+        allTimeIntervals.add("14:30-15:20");
+        allTimeIntervals.add("15:30-16:20");
     }
 
     // Assign time slot for specific section.
