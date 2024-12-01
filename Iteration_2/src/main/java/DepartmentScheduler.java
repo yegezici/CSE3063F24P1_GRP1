@@ -48,7 +48,8 @@ public class DepartmentScheduler extends Staff {
             if (courseSection == null || lecturer == null) {
                 throw new IllegalArgumentException("CourseSection or Lecturer cannot be null.");
             }
-            courseSection.setLecturer(lecturer);
+            if(handleLecturerConflict(lecturer, courseSection))
+                courseSection.setLecturer(lecturer);
         } catch (Exception e) {
             System.err.println("Error assigning lecturer to section: " + e.getMessage());
         }
@@ -182,8 +183,20 @@ public class DepartmentScheduler extends Staff {
     
 
     // Check lecturer conflict for CourseSection.
-    public boolean handleLecturerConflict(){
-
-        return true;
+    public boolean handleLecturerConflict(Lecturer lecturer, CourseSection courseSection){
+        boolean availability = true;
+        int size = courseSections.size();
+        for(int i = 0; i < size; i++){
+            if(courseSections.get(i).getLecturer() == lecturer){
+                for(int j = 0; i < courseSections.get(i).getTimeSlots().size(); j++){
+                    for(int k = 0; k < courseSection.getTimeSlots().size(); k++){
+                        if(courseSections.get(i).getTimeSlots().get(j).getTimeInterval() == courseSection.getTimeSlots().get(k).getTimeInterval()){
+                            availability = false;
+                        }
+                    }
+                }
+            }
+        }
+        return availability;
     }
 }

@@ -1,284 +1,329 @@
 {
-    "courses": {
-      "mandatory": [
-        {
-          "courseId": "MATH1001",
-          "name": "Calculus I",
-          "credits": 6
-        },
-        {
-            "courseId": "CSE1200",
-            "name": " Introduction to Computer Engineering",
-            "credits": 4  
-        },
-        {
-            "courseId": "CSE1241",
-            "name": "Computer Programming I",
-            "credits": 6
-        },
-          {
-            "courseId": "PHYS1101",
-            "name": "Physics I",
-            "credits": 4
-          },
-          {
-            "courseId": "ATA121",
-            "name": "Atatürk s Prin. & History I",
-            "credits": 2
-          },
-          {
-            "courseId": "MBG1201",
-            "name": " Introduction to Modern Biology",
-            "credits": 2
-          },
-          {
-            "courseId": "TRD121",
-            "name": "Turkish Language I",
-            "credits": 2
-          },
-          {
-            "courseId": "MATH1002",
-            "name": "Calculus II",
-            "credits": 6
-          },
-          {
-            "courseId": "CSE1242",
-            "name": " Computer Programming II",
-            "credits": 6,
-            "prerequisite": "CSE1241"
-          },
-          {
-            "courseId": "PHYS1102",
-            "name": "Physics II",
-            "credits": 4
-          },
-          {
-            "courseId": "ATA122",
-            "name": "Atatürk s Prin. & History II",
-            "credits": 2
-          },
-          {
-            "courseId": "MATH2256",
-            "name": " Linear Algebra for Comp. Eng.",
-            "credits": 5            
-          },
-          {
-            "courseId": "TRD122",
-            "name": "Turkish Language II",
-            "credits": 2
-          },
-          {
-            "courseId": "MATH2059",
-            "name": "Numerical Methods",
-            "credits": 4,
-            "prerequisite": "MATH1001"
-          },
-          {
-            "courseId": "CSE2225",
-            "name": "Data Structures",
-            "credits": 7,
-            "prerequisite": "CSE1242"
-          },
-          {
-            "courseId": "CSE2023",
-            "name": " Discrete Comp. Structures",
-            "credits": 6
-          },
-          {
-            "courseId": "EE2031",
-            "name": "Electric Circuits",
-            "credits": 5,
-            "prerequisite": "PHYS1102"
-          },
-          {
-            "courseId": "ECON2004",
-            "name": "Engineering Economy",
-            "credits": 4
-          },
-          {
-            "courseId": "MATH2055",
-            "name": "Differential Equations",
-            "credits": 4
-          },
-          {
-            "courseId": "CSE2246",
-            "name": " Analysis of Algorithms",
-            "credits": 6,
-            "prerequisite": "CSE2225"
-          },
-          {
-            "courseId": "CSE2260",
-            "name": " Principles of Prog. Languages",
-            "credits": 6,
-            "prerequisite": "CSE1242"
-          },
-          {
-            "courseId": "EE2032",
-            "name": "Electronics",
-            "credits": 5,
-            "prerequisite": "EE2031"
-          },
-          {
-            "courseId": "CSE2138",
-            "name": "Systems Programming",
-            "credits": 7
-          },
-          {
-            "courseId": "STAT2253",
-            "name": " Prob. and Stat. for Comp. Eng.",
-            "credits": 5
-          },
-          {
-            "courseId": "CSE3055",
-            "name": "Database Systems",
-            "credits": 7,
-            "prerequisite": "CSE2225"
-          },
-          {
-            "courseId": "CSE3033",
-            "name": "Operating Systems",
-            "credits": 7,
-            "prerequisite": "CSE2225"
-          },
-          {
-            "courseId": "CSE3063",
-            "name": "Object-Oriented Software Desg.",
-            "credits": 5,
-            "prerequisite": "CSE1242"
-          },
-          {
-            "courseId": "CSE3215",
-            "name": "Digital Logic Design",
-            "credits": 6
-          },
-          {
-            "courseId": "IE3081",
-            "name": "Modeling and Disc. Simulation",
-            "credits": 4,
-            "prerequisite": "STAT2253"
-          },
-          {
-            "courseId": "COM2202",
-            "name": " Tech. Comm. & Entrepreneurship",
-            "credits": 2
-          },
-          {
-            "courseId": "CSE3044",
-            "name": " Software Engineering",
-            "credits": 7,
-            "prerequisite": "CSE3055"
-          },
-          {
-            "courseId": "CSE3264",
-            "name": "Formal Lang. & Auto. Theory",
-            "credits": 5,
-            "prerequisite": "CSE2023"
-          },
-          {
-            "courseId": "CSE3038",
-            "name": " Computer Organization",
-            "credits": 7,
-            "prerequisite": "CSE2138"
-          },
-          {
-            "courseId": "CSE3048",
-            "name": "Int. to Signals and Systems",
-            "credits": 5,
-            "prerequisite": "MATH2055"
-          },
-          {
-            "courseId": "IE3235",
-            "name": "Operations Research",
-            "credits": 4,
-            "prerequisite": "MATH2256"
-          },
-          {
-            "courseId": "CSE4297",
-            "name": "Engineering Project I",
-            "credits": 5
-          },
-          {
-            "courseId": "CSE4074",
-            "name": "Computer Networks",
-            "credits": 5
-          },
-          {
-            "courseId": "CSE4219",
-            "name": "Prin. of Embed. System Design",
-            "credits": 6,
-            "prerequisite": "CSE3038"
-          },
-          {
-            "courseId": "ISG121",
-            "name": "Work Safety I",
-            "credits": 2
-          },
-          {
-            "courseId": "CSE4288",
-            "name": "Int. to Machine Learning",
-            "credits": 5,
-            "prerequisite": "STAT2253"
-          },
-          {
-            "courseId": "CSE4298",
-            "name": "Engineering Project II",
-            "credits": 5,
-            "prerequisite": "CSE4297"
-          },
-          {
-            "courseId": "ISG122",
-            "name": "Work Safety II",
-            "credits": 2
-          }        
-      ],
-      "technicalElective": [
-        {
-          "courseId": "CSE4075",
-          "name": "Wireless & Mobile Networks",
-          "credits": 5,
-          "prerequisite": "CSE4074"
-        },
-        {
-            "courseId": "CSE4034",
-            "name": "Advanced Unix Programming",
-            "credits": 5,
-            "prerequisite": "CSE3033"
-          },
-          {
-            "courseId": "CSE4061",
-            "name": "Compiler Design",
-            "credits": 5,
-            "prerequisite": "CSE3264"
-          },
-        {
-          "courseId": "CSE4217",
-          "name": "Microprocessors",
-          "credits": 5,
-          "prerequisite": "CSE3038"
-        }
-      ],
-      "nonTechnicalElective": [
-        {
-          "courseId": "NTE1003",
-          "name": "The Culture of Radiation Safety",
-          "credits": 3
-        },
-        {
-            "courseId": "YDA1001",
-            "name": "German for Beginners",
-            "credits": 3
-          },
-          {
-            "courseId": "HSS3002",
-            "name": "Ethics in Engineering and Science",
-            "credits": 3
-          },
-        {
-          "courseId": "MGT1021",
-          "name": "Design, Innovation and Entrepreneurship",
-          "credits": 3
-        }
-      ]
-    }
+  "courses": {
+    "mandatory": [
+      {
+        "courseId": "MATH1001",
+        "name": "Calculus I",
+        "credits": 6,
+        "year": "1"
+      },
+      {
+        "courseId": "CSE1200",
+        "name": "Introduction to Computer Engineering",
+        "credits": 4,
+        "year": "1"
+      },
+      {
+        "courseId": "CSE1241",
+        "name": "Computer Programming I",
+        "credits": 6,
+        "year": "1"
+      },
+      {
+        "courseId": "PHYS1101",
+        "name": "Physics I",
+        "credits": 4,
+        "year": "1"
+      },
+      {
+        "courseId": "ATA121",
+        "name": "Atatürk s Prin. & History I",
+        "credits": 2,
+        "year": "1"
+      },
+      {
+        "courseId": "MBG1201",
+        "name": "Introduction to Modern Biology",
+        "credits": 2,
+        "year": "1"
+      },
+      {
+        "courseId": "TRD121",
+        "name": "Turkish Language I",
+        "credits": 2,
+        "year": "1"
+      },
+      {
+        "courseId": "MATH1002",
+        "name": "Calculus II",
+        "credits": 6,
+        "year": "1"
+      },
+      {
+        "courseId": "CSE1242",
+        "name": "Computer Programming II",
+        "credits": 6,
+        "prerequisite": "CSE1241",
+        "year": "1"
+      },
+      {
+        "courseId": "PHYS1102",
+        "name": "Physics II",
+        "credits": 4,
+        "year": "1"
+      },
+      {
+        "courseId": "ATA122",
+        "name": "Atatürk s Prin. & History II",
+        "credits": 2,
+        "year": "1"
+      },
+      {
+        "courseId": "MATH2256",
+        "name": "Linear Algebra for Comp. Eng.",
+        "credits": 5,
+        "year": "1"
+      },
+      {
+        "courseId": "TRD122",
+        "name": "Turkish Language II",
+        "credits": 2,
+        "year": "1"
+      },
+      {
+        "courseId": "MATH2059",
+        "name": "Numerical Methods",
+        "credits": 4,
+        "prerequisite": "MATH1001",
+        "year": "2"
+      },
+      {
+        "courseId": "CSE2225",
+        "name": "Data Structures",
+        "credits": 7,
+        "prerequisite": "CSE1242",
+        "year": "2"
+      },
+      {
+        "courseId": "CSE2023",
+        "name": "Discrete Comp. Structures",
+        "credits": 6,
+        "year": "2"
+      },
+      {
+        "courseId": "EE2031",
+        "name": "Electric Circuits",
+        "credits": 5,
+        "prerequisite": "PHYS1102",
+        "year": "2"
+      },
+      {
+        "courseId": "ECON2004",
+        "name": "Engineering Economy",
+        "credits": 4,
+        "year": "2"
+      },
+      {
+        "courseId": "MATH2055",
+        "name": "Differential Equations",
+        "credits": 4,
+        "year": "2"
+      },
+      {
+        "courseId": "CSE2246",
+        "name": "Analysis of Algorithms",
+        "credits": 6,
+        "prerequisite": "CSE2225",
+        "year": "2"
+      },
+      {
+        "courseId": "CSE2260",
+        "name": "Principles of Prog. Languages",
+        "credits": 6,
+        "prerequisite": "CSE1242",
+        "year": "2"
+      },
+      {
+        "courseId": "EE2032",
+        "name": "Electronics",
+        "credits": 5,
+        "prerequisite": "EE2031",
+        "year": "2"
+      },
+      {
+        "courseId": "CSE2138",
+        "name": "Systems Programming",
+        "credits": 7,
+        "year": "2"
+      },
+      {
+        "courseId": "STAT2253",
+        "name": "Prob. and Stat. for Comp. Eng.",
+        "credits": 5,
+        "year": "2"
+      },
+      {
+        "courseId": "CSE3055",
+        "name": "Database Systems",
+        "credits": 7,
+        "prerequisite": "CSE2225",
+        "year": "3"
+      },
+      {
+        "courseId": "CSE3033",
+        "name": "Operating Systems",
+        "credits": 7,
+        "prerequisite": "CSE2225",
+        "year": "3"
+      },
+      {
+        "courseId": "CSE3063",
+        "name": "Object-Oriented Software Desg.",
+        "credits": 5,
+        "prerequisite": "CSE1242",
+        "year": "3"
+      },
+      {
+        "courseId": "CSE3215",
+        "name": "Digital Logic Design",
+        "credits": 6,
+        "year": "3"
+      },
+      {
+        "courseId": "IE3081",
+        "name": "Modeling and Disc. Simulation",
+        "credits": 4,
+        "prerequisite": "STAT2253",
+        "year": "3"
+      },
+      {
+        "courseId": "COM2202",
+        "name": "Tech. Comm. & Entrepreneurship",
+        "credits": 2,
+        "year": "3"
+      },
+      {
+        "courseId": "CSE3044",
+        "name": "Software Engineering",
+        "credits": 7,
+        "prerequisite": "CSE3055",
+        "year": "3"
+      },
+      {
+        "courseId": "CSE3264",
+        "name": "Formal Lang. & Auto. Theory",
+        "credits": 5,
+        "prerequisite": "CSE2023",
+        "year": "3"
+      },
+      {
+        "courseId": "CSE3038",
+        "name": "Computer Organization",
+        "credits": 7,
+        "prerequisite": "CSE2138",
+        "year": "3"
+      },
+      {
+        "courseId": "CSE3048",
+        "name": "Int. to Signals and Systems",
+        "credits": 5,
+        "prerequisite": "MATH2055",
+        "year": "3"
+      },
+      {
+        "courseId": "IE3235",
+        "name": "Operations Research",
+        "credits": 4,
+        "prerequisite": "MATH2256",
+        "year": "3"
+      },
+      {
+        "courseId": "CSE4297",
+        "name": "Engineering Project I",
+        "credits": 5,
+        "year": "4"
+      },
+      {
+        "courseId": "CSE4074",
+        "name": "Computer Networks",
+        "credits": 5,
+        "year": "4"
+      },
+      {
+        "courseId": "CSE4219",
+        "name": "Prin. of Embed. System Design",
+        "credits": 6,
+        "prerequisite": "CSE3038",
+        "year": "4"
+      },
+      {
+        "courseId": "ISG121",
+        "name": "Work Safety I",
+        "credits": 2,
+        "year": "4"
+      },
+      {
+        "courseId": "CSE4288",
+        "name": "Int. to Machine Learning",
+        "credits": 5,
+        "prerequisite": "STAT2253",
+        "year": "4"
+      },
+      {
+        "courseId": "CSE4298",
+        "name": "Engineering Project II",
+        "credits": 5,
+        "prerequisite": "CSE4297",
+        "year": "4"
+      },
+      {
+        "courseId": "ISG122",
+        "name": "Work Safety II",
+        "credits": 2,
+        "year": "4"
+      }
+    ],
+    "technicalElective": [
+      {
+        "courseId": "CSE4075",
+        "name": "Wireless & Mobile Networks",
+        "credits": 5,
+        "prerequisite": "CSE4074",
+        "year": "4"
+      },
+      {
+        "courseId": "CSE4034",
+        "name": "Advanced Unix Programming",
+        "credits": 5,
+        "prerequisite": "CSE3033",
+        "year": "4"
+      },
+      {
+        "courseId": "CSE4061",
+        "name": "Compiler Design",
+        "credits": 5,
+        "prerequisite": "CSE3264",
+        "year": "4"
+      },
+      {
+        "courseId": "CSE4217",
+        "name": "Microprocessors",
+        "credits": 5,
+        "prerequisite": "CSE3038",
+        "year": "4"
+      }
+    ],
+    "nonTechnicalElective": [
+      {
+        "courseId": "NTE1003",
+        "name": "The Culture of Radiation Safety",
+        "credits": 3
+      },
+      {
+        "courseId": "YDA1001",
+        "name": "German for Beginners",
+        "credits": 3
+      },
+      {
+        "courseId": "HSS3002",
+        "name": "Ethics in Engineering and Science",
+        "credits": 3
+      },
+      {
+        "courseId": "MGT1021",
+        "name": "Design, Innovation and Entrepreneurship",
+        "credits": 3
+      }
+    ]
   }
-  
+}
