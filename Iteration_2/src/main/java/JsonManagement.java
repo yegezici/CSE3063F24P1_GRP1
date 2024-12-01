@@ -93,6 +93,7 @@ public class JsonManagement {
 
     public void setCourseSectionsOfCourses() {
         for (Course course : courses) {
+            if(course != null)
             for (CourseSection cs : courseSections) {
                 if (cs.getParentCourse().getCourseId().equals(course.getCourseId())) {
                     course.getCourseSections().add(cs);
