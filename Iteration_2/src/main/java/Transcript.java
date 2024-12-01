@@ -102,7 +102,7 @@ public class Transcript {
         int size = courses.size();
         ArrayList<CourseSection> cs = new ArrayList<CourseSection>();
         for(int k=0; k < size; k++ ){
-            for(int j = 0; j < size; j++){
+            for(int j = 0; j < courses.get(k).getCourseSections().size(); j++){
                 cs.add(courses.get(k).getCourseSections().get(j));
             }
             

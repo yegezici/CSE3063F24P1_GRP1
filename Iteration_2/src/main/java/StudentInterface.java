@@ -58,6 +58,13 @@ public class StudentInterface implements UserInterface {
     public void registerCourse() {
         ArrayList<Course> availableCourses = showRegisterableCourses();
         while (true) {
+            int totalNumberOfWaitedAndCurrentCourses = student.getTranscript().getCurrentCourses().size()
+                    + student.getTranscript().getWaitedCourses().size();
+            if (totalNumberOfWaitedAndCurrentCourses == 5) {
+                System.out
+                        .println("You have reached maximum number of courses. You will be directed to main menu.");
+                break;
+            }
             boolean isAvailableCoursesEmpty = availableCourses.isEmpty();
             if (isAvailableCoursesEmpty) {
                 System.out.println("There are no available courses.");
@@ -75,23 +82,16 @@ public class StudentInterface implements UserInterface {
                     continue;
                 }
                 courseChoice -= 1;
-                int totalNumberOfWaitedAndCurrentCourses = student.getTranscript().getCurrentCourses().size()
-                        + student.getTranscript().getWaitedCourses().size();
-                if (totalNumberOfWaitedAndCurrentCourses == 5) {
-                    System.out
-                            .println("You have reached maximum number of courses. You will be directed to main menu.");
-                    break;
-                } else {
-                    // Register the selected course and add it to the waited courses list
-                    Course selectedCourse = availableCourses.get(courseChoice);
-                    showAvailableCourseSections(selectedCourse);
-                    int choice = scan.nextInt();
-                    student.registerCourse(selectedCourse.getCourseSections().get(choice));
-                    System.out.println(
-                            selectedCourse.getCourseName() + " " + "is succesfully registered.");
-                    availableCourses.remove(courseChoice);
 
-                }
+                // Register the selected course and add it to the waited courses list
+                Course selectedCourse = availableCourses.get(courseChoice);
+                showAvailableCourseSections(selectedCourse);
+                int choice = scan.nextInt();
+                student.registerCourse(selectedCourse.getCourseSections().get(choice));
+                System.out.println(
+                        selectedCourse.getCourseName() + " " + "is succesfully registered.");
+                availableCourses.remove(courseChoice);
+
             }
         }
 
@@ -152,10 +152,10 @@ public class StudentInterface implements UserInterface {
         }
     }
 
-    private void showAvailableCourseSections(Course selectedCourse){
+    private void showAvailableCourseSections(Course selectedCourse) {
         int size = selectedCourse.getCourseSections().size();
-        for(int k = 0; k < size ; k++){
-           System.out.println((k+1) + "- Section " + (k+1)) ;
+        for (int k = 0; k < size; k++) {
+            System.out.println((k + 1) + "- Section " + (k + 1));
         }
     }
 

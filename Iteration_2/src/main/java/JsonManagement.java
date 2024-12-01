@@ -320,17 +320,7 @@ public class JsonManagement {
         return null;
     }
 
-    protected void fillCourseData(JSONObject courseJson, ArrayList<Course> courses, String courseListType) {
-        JSONArray completedCourses = new JSONArray();
-        for (Course course : courses) {
-            JSONObject courseData = new JSONObject();
-            courseData.put("courseID", course.getCourseId());
-            courseData.put("courseName", course.getCourseName());
-            courseData.put("credits", course.getCredits());
-            completedCourses.add(courseData);
-        }
-        courseJson.put(courseListType, completedCourses);
-    }
+
 
     protected void fillCourseSectionData(JSONObject sectionJson, ArrayList<CourseSection> sections, String sectionListType) {
         JSONArray sectionArray = new JSONArray();
@@ -347,11 +337,7 @@ public class JsonManagement {
         sectionJson.put(sectionListType, sectionArray);
     }
     
-<<<<<<< HEAD
-    protected void saveCoursesSections() {
-=======
     protected void saveCourseSections() {
->>>>>>> 4d4385d83d961709c4fba50cb97e013ba796cb80
         String filePath = "Iteration_2/src/main/java/courseSections.json";
 
         try (FileWriter writer = new FileWriter(filePath)) {
@@ -368,6 +354,19 @@ public class JsonManagement {
             System.err.println("Error writing course section data to file.");
         }
     }
+    protected void fillCourseData(JSONObject courseJson, ArrayList<Course> courses, String courseListType) {
+        JSONArray completedCourses = new JSONArray();
+        for (Course course : courses) {
+            JSONObject courseData = new JSONObject();
+            courseData.put("courseID", course.getCourseId());
+            courseData.put("courseName", course.getCourseName());
+            courseData.put("credits", course.getCredits());
+            if(courseListType.equals("completedCourses"))
+                courseData.put("grade", course.getGrade());
+            completedCourses.add(courseData);
+        }
+        courseJson.put(courseListType, completedCourses);
+    }
 
     protected void saveStudent(Student student) {
         String filePath = "Iteration_2/src/main/java/" + student.getID() + ".json";
@@ -378,7 +377,7 @@ public class JsonManagement {
 
             fillCourseData(studentData, student.getTranscript().getCompletedCourses(), "completedCourses");
             fillCourseData(studentData, student.getTranscript().getCurrentCourses(), "currentCourses");
-            fillCourseData(studentData, student.getTranscript().getCompletedCourses(), "completedCourses");
+            fillCourseData(studentData, student.getTranscript().getWaitedCourses(), "waitedCourses");
 
             // Write JSON to file
             writer.write(studentData.toJSONString());
