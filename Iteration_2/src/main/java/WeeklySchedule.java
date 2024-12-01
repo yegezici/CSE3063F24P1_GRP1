@@ -6,6 +6,7 @@ public class WeeklySchedule {
     Student student;
     ArrayList<TimeSlot>[] timeSlots;
     
+    
     public WeeklySchedule(Student student){
         this.student = student;
         timeSlots = new ArrayList[5];
@@ -20,7 +21,7 @@ public class WeeklySchedule {
                 if (section.getTimeSlots() != null) { 
                     for (TimeSlot timeSlot : section.getTimeSlots()) {
                         String timeInterval = timeSlot.getTimeInterval();
-                        System.out.println("Time slot interval: " + timeInterval); 
+                        //System.out.println("Time slot interval: " + timeInterval); 
     
                         if (timeInterval != null && timeInterval.contains(day)) { 
                             if (!dayPrinted) {
