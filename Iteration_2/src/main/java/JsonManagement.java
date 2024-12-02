@@ -118,7 +118,7 @@ public class JsonManagement {
 
             for (Object obj : coursesArray) {
                 JSONObject courseJson = (JSONObject) obj;
-                String courseId = (String) courseJson.get("courseId");
+                String courseId = (String) courseJson.get("courseID");
                 String courseName = (String) courseJson.get("name");
                 int credits = ((Long) courseJson.get("credits")).intValue();
                 String prerequisite = (String) courseJson.get("prerequisite");
