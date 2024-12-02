@@ -18,29 +18,7 @@ public class DepartmentSchedulerInterface implements UserInterface {
         scan = new Scanner(System.in);
     }
 
-    public CourseSection chooseCourseSection() {
-        showAvailableCourseSections();
-        CourseSection chosenSection = null;
-        try {
-            System.out.println("Choose a course section:");
-            int sectionNo = scan.nextInt() - 1;
-            chosenSection = courseSections.get(sectionNo);
-            if (chosenSection.getTimeSlots().size() == 0) {
-                System.out.println("Selected course does not have any time slot or classroom yet.");
-                setTimeSlot(chosenSection);
-            }
-            if (chosenSection.getCapacity() == 0) {
-                System.out.println("Capacity of the selected course has not been set yet.");
-                setCapacity(chosenSection);
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("Enter an integer value");
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Enter an integer value between 1 and " + courseSections.size() + ".");
-        }
-        return chosenSection;
-    }
-
+   
     public void updateTimeInterval(CourseSection chosenSection) {
         System.out.println("Time slots of the selected course is listed below:");
         for (int i = 0; i < chosenSection.getTimeSlots().size(); i++) {
@@ -76,10 +54,38 @@ public class DepartmentSchedulerInterface implements UserInterface {
         System.out.println("Classroom has been updated successfully.");
     }
 
+    public CourseSection chooseCourseSection() {
+        showAvailableCourseSections();
+        CourseSection chosenSection = null;
+        try {
+            System.out.println("Choose a course section:");
+            int sectionNo = scan.nextInt() - 1;
+            chosenSection = courseSections.get(sectionNo);
+            if (chosenSection.getTimeSlots().size() == 0) {
+                System.out.println("Selected course does not have any time slot or classroom yet.");
+                setTimeSlot(chosenSection);
+            }
+            if (chosenSection.getCapacity() == 0) {
+                System.out.println("Capacity of the selected course has not been set yet.");
+                setCapacity(chosenSection);
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Enter an integer value");
+            scan.nextLine();
+            return null;
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Enter an integer value between 1 and " + courseSections.size() + ".");
+            scan.nextLine();
+            return null;
+        }
+        return chosenSection;
+    }
+
     @Override
     public boolean showMenu() {
         boolean logOut = false;
-        CourseSection chosenSection = chooseCourseSection();
+        CourseSection chosenSection;
+        while((chosenSection = chooseCourseSection()) == null);
         switch (getChoice()) {
             case 1:
                 updateTimeInterval(chosenSection);

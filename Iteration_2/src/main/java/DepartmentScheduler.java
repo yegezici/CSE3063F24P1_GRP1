@@ -10,11 +10,11 @@ public class DepartmentScheduler extends Staff {
         super();
     }
 
-    public DepartmentScheduler(String name, String surname, ArrayList<CourseSection> courseSections) {
+    public DepartmentScheduler(String name, String surname, ArrayList<CourseSection> courseSections, ArrayList<String> allClassrooms) {
         super(name, surname);
         this.allTimeIntervals = initTimeIntervals();
         this.courseSections = courseSections;
-
+        this.allClassrooms = allClassrooms;
     }
 
     // Constructor for Department Scheduler role.
@@ -25,18 +25,21 @@ public class DepartmentScheduler extends Staff {
         this.allClassrooms = allClassrooms;
         this.allTimeIntervals = initTimeIntervals();
     }
+
     public ArrayList<String> initTimeIntervals() {
-        ArrayList<String> timeIntervals = new ArrayList<>();
-        timeIntervals.add("8:30-9:20");
-        timeIntervals.add("9:30-10:20");
-        timeIntervals.add("10:30-11:20");
-        timeIntervals.add("11:30-12:20");
-        timeIntervals.add("13:00-13:50");
-        timeIntervals.add("14:00-14:50");
-        timeIntervals.add("15:00-15:50");
-        timeIntervals.add("16:00-17:00");
-        return timeIntervals;
+        ArrayList<String> allTimeIntervals = new ArrayList<>();
+        allTimeIntervals.add("8:30-9:20");
+        allTimeIntervals.add("9:30-10:20");
+        allTimeIntervals.add("10:30-11:20");
+        allTimeIntervals.add("11:30-12:20");
+        allTimeIntervals.add("12:30-13:20");
+        allTimeIntervals.add("13:30-14:20");
+        allTimeIntervals.add("14:30-15:20");
+        allTimeIntervals.add("15:30-16:20");
+        return allTimeIntervals;
     }
+
+
 
     // Assign time slot for specific section.
     public void assignTimeSlotToSection(CourseSection courseSection, TimeSlot timeSlot) {

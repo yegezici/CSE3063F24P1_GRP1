@@ -9,11 +9,13 @@ public class CourseRegistration {
     ArrayList<Student> students;
     ArrayList<CourseSection> courseSections;
     ArrayList<Course> courses;
+    ArrayList<String> classrooms;
 
     public CourseRegistration() {
         students = JsonManagement.getInstance().getStudents();
         courses = JsonManagement.getInstance().getCourses();
         courseSections = JsonManagement.getInstance().getCourseSections();
+        classrooms = JsonManagement.getInstance().getClassrooms();
 
     }
 
