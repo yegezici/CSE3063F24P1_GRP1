@@ -8,6 +8,8 @@ public class TechnicalElectiveCourse extends Course {
     }
     public TechnicalElectiveCourse(String courseId, String courseName, int credits) {
         super(courseId, courseName, credits);
+    }public TechnicalElectiveCourse(String courseId, String courseName, int credits, int semester) {
+        super(courseId, courseName, credits, semester);
     }
 
     @Override

@@ -1,5 +1,6 @@
 {
-  "courses": [
+  "courses": {
+    "mandatory": [
       {
         "courseID": "MATH1001",
         "name": "Calculus I",
@@ -270,7 +271,9 @@
         "name": "Work Safety II",
         "credits": 2,
         "year": "4"
-      },
+      }
+    ],
+    "technicalElective": [
       {
         "courseID": "CSE4075",
         "name": "Wireless & Mobile Networks",
@@ -298,7 +301,9 @@
         "credits": 5,
         "prerequisite": "CSE3038",
         "year": "4"
-      },
+      }
+    ],
+    "nonTechnicalElective": [
       {
         "courseID": "NTE1003",
         "name": "The Culture of Radiation Safety",
@@ -321,4 +326,4 @@
       }
     ]
   }
-
+}
