@@ -11,14 +11,14 @@ import org.junit.Test;
 public class TestTranscript {
 
     private Transcript transcript;
-    private Course testCourse;
-    private Course anotherCourse;
+    private MandatoryCourse testCourse;
+    private MandatoryCourse anotherCourse;
 
     @Before
     public void setUp() {
         transcript = new Transcript(new ArrayList<Course>(), new ArrayList<Course>(), new ArrayList<Course>());
-        testCourse = new Course("IE0503", "Industrial Psychology", 3);
-        anotherCourse = new Course("MATH1002", "Calculus I", 5);
+        testCourse = new MandatoryCourse("IE0503", "Industrial Psychology", 3);
+        anotherCourse = new MandatoryCourse("MATH1002", "Calculus I", 5);
     }
 
     //addWaitedCourse Test: Checks that the course has been added to the waited courses list
@@ -58,8 +58,8 @@ public class TestTranscript {
     public void testAddCourseSections() {
         // Mock data setup
         ArrayList<Course> courses = new ArrayList<>();
-        Course course1 = new Course("CSE101", "Data Engineering", 4);
-        Course course2 = new Course("IE3107", "Modeling", 8);
+        Course course1 = new MandatoryCourse("CSE101", "Data Engineering", 4);
+        Course course2 = new MandatoryCourse("IE3107", "Modeling", 8);
 
         CourseSection section1 = new CourseSection("CSE101.1" , 15);
         CourseSection section2 = new CourseSection("IE3107.2" , 20);
@@ -92,9 +92,9 @@ public class TestTranscript {
 public void testCalculateGpa() {
     // Mock data setup
     ArrayList<Course> completedCourses = new ArrayList<>();
-    Course course1 = new Course("CSE101", "Data Engineering", "BA", 4);
-    Course course2 = new Course("IE3107", "Modeling", "CB", 8);
-    Course course3 = new Course("CSE0503", "Industrial Psychology", "AA", 5);
+    Course course1 = new MandatoryCourse("CSE101", "Data Engineering", "BA", 4);
+    Course course2 = new MandatoryCourse("IE3107", "Modeling", "CB", 8);
+    Course course3 = new MandatoryCourse("CSE0503", "Industrial Psychology", "AA", 5);
 
     completedCourses.add(course1);
     completedCourses.add(course2);

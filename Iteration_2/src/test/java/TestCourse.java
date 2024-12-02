@@ -17,7 +17,7 @@ public class TestCourse {
     @Before
     public void setUp() {
         // Initialize the Course object
-        course = new Course("CSE2225", "Data Structures", 7);
+        course = new MandatoryCourse("CSE2225", "Data Structures", 7);
 
         // Initialize the student list and add it to the course
         ArrayList<Student> studentList = new ArrayList<>();
@@ -27,7 +27,7 @@ public class TestCourse {
         student = new Student("Melisa", "Gezer", new Date(), 'F', transcript, "150120101");
 
         // Initialize the prerequisite course
-        prerequisiteCourse = new Course("MATH1002", "Calculus I", 5);
+        prerequisiteCourse = new MandatoryCourse("MATH1002", "Calculus I", 5);
     }
 
     @Test

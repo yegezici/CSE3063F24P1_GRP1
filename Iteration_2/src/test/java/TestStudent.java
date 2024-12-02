@@ -9,7 +9,7 @@ public class TestStudent {
 
     private Student student;
     private Transcript transcript;
-    private Course testCourse;
+    private MandatoryCourse testCourse;
     private CourseSection testCourseSection;
 
     @Before
@@ -17,7 +17,7 @@ public class TestStudent {
         // Set up mock data for testing before each test.
         transcript = new Transcript(new ArrayList<Course>(), new ArrayList<Course>(), new ArrayList<Course>());  
         student = new Student("Melisa", "Gezer", new Date(), 'F', transcript, "150120101");
-        testCourse = new Course("CSE2225", "Data Structures", 7);  
+        testCourse = new MandatoryCourse("CSE2225", "Data Structures", 7);  
         testCourseSection = new CourseSection("CSE2225.1" , 8);
         testCourseSection.setParentCourse(testCourse);
     }
