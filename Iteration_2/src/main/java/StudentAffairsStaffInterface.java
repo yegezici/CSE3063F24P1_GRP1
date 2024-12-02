@@ -19,6 +19,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
             this.courseSections = courseSections;
             scan = new Scanner(System.in);
         }
+
     
         public boolean showMenu() {
             switch (getChoice()) {
@@ -37,6 +38,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
             }
     
             return false;
+
         }
     
         public int getChoice() {
@@ -55,7 +57,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
         public void addCourse() {
             String[] course = askCourseParameters();
             try {
-                Course newCourse = staff.createCourse(course[0], course[1], Integer.parseInt(course[2]), Integer.parseInt(course[3])); 
+                Course newCourse = staff.createCourse(course[0], course[1], course[3],Integer.parseInt(course[2]), Integer.parseInt(course[3])); 
                 courses.add(newCourse);
                 courseSections.addAll(newCourse.getCourseSections());
     
@@ -64,22 +66,28 @@ public class StudentAffairsStaffInterface implements UserInterface {
             }
         }
     
-        public String[] askCourseParameters() {
-            String[] course = new String[4];
-            try {
-                System.out.print("Enter course name: ");
-                course[0] = scan.next();
-                System.out.print("Enter course code: ");
-                course[1] = scan.next();
-                System.out.print("Enter course credits: ");
-                course[2] = scan.next();
-                System.out.print("How many sections does the course have? : ");
-                course[3] = scan.next();
-                
+     
+
+
+    public String[] askCourseParameters() {
+        String[] course = new String[5];
+        try {
+            System.out.print("Enter course name: ");
+            course[0] = scan.next();
+            System.out.print("Enter course code: ");
+            course[1] = scan.next();
+            System.out.print("Enter course credits: ");
+            course[2] = scan.next();
+            System.out.print("Enter course type (Mandatory (m) / Technical Elective (te) / Non-Technical Elective (nte) ):  ");
+            course[3] = scan.next();
+            if(!(course[3].equals("m") || course[3].equals("te") || course[3].equals("nte")) )
+             throw new InputMismatchException("Invalid choice! ");
+            System.out.print("How many sections does the course have? : ");
+            course[4] = scan.next();
 
 
         } catch (InputMismatchException e) {
-            System.out.println("InputMismatchException in askCourseParameters method.");
+            System.out.println(e.getMessage() + " Please enter a valid choice!");
         } catch (Exception e) {
             System.out.println("There is an error in askCourseParameters method.");
         }

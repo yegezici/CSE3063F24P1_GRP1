@@ -20,9 +20,20 @@ public class StudentAffairsStaff extends Staff {
         
     }
 
-    public Course createCourse(String courseName, String courseID, int credits, int numberOfSections){
-        Course course = new Course(courseName, courseID, credits);
-        course.setCourseSections(createCourseSection(numberOfSections, course));
+
+    public Course createCourse(String courseName, String courseID, String courseType, int credits, int numberOfSections){
+         Course course = null ;
+        if(courseType.equals("m")){
+            course = new MandatoryCourse(courseName, courseID, credits);
+        } else if (courseType.equals("te"))
+            course = new TechnicalElectiveCourse(courseID, courseName, credits);
+        else if (courseType.equals("nte"))
+            course = new NonTechnicalElectiveCourse(courseID, courseName, credits);
+        
+        course.setCourseSections(createCourseSection(numberOfSections, course ));
+       
+
+   
         return course;
     }
    

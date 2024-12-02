@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.management.InstanceNotFoundException;
+
 public class JsonManagement {
 
     private ArrayList<Course> courses;
@@ -114,20 +116,49 @@ public class JsonManagement {
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            JSONArray coursesArray = (JSONArray) jsonObject.get("courses");
+            JSONObject coursesObject = (JSONObject) jsonObject.get("courses");
+            JSONArray mandatoryArray = (JSONArray) coursesObject.get("mandatory");
+            JSONArray TEArray = (JSONArray) coursesObject.get("technicalElective");
+            JSONArray NTEArray = (JSONArray) coursesObject.get("nonTechnicalElective");
+            
 
-            for (Object obj : coursesArray) {
+            for (Object obj : mandatoryArray) {
+                JSONObject courseJson = (JSONObject) obj;
+                String courseId = (String) courseJson.get("courseId");
+                String courseName = (String) courseJson.get("name");
+                int credits = ((Long) courseJson.get("credits")).intValue();
+                String prerequisite = (String) courseJson.get("prerequisite");
+                int semester = Integer.parseInt((String) courseJson.get("year"));
+                Course prerequisiteCourse = addPrerequisite(prerequisite);
+                Course course = new MandatoryCourse(courseId, courseName, credits, prerequisiteCourse, semester);
+
+                courses.add(course);
+            }
+            for (Object obj : TEArray) {
                 JSONObject courseJson = (JSONObject) obj;
                 String courseId = (String) courseJson.get("courseID");
                 String courseName = (String) courseJson.get("name");
                 int credits = ((Long) courseJson.get("credits")).intValue();
                 String prerequisite = (String) courseJson.get("prerequisite");
-
-                Course course = new Course(courseId, courseName, credits, prerequisite);
+                int semester = Integer.parseInt((String) courseJson.get("year"));
+                Course prerequisiteCourse = addPrerequisite(prerequisite);
+                Course course = new TechnicalElectiveCourse(courseId, courseName, credits, prerequisiteCourse, semester);
 
                 courses.add(course);
             }
-            addPrerequisite(courses);
+            for (Object obj : NTEArray) {
+                JSONObject courseJson = (JSONObject) obj;
+                String courseId = (String) courseJson.get("courseId");
+                String courseName = (String) courseJson.get("name");
+                int credits = ((Long) courseJson.get("credits")).intValue();
+                String prerequisite = (String) courseJson.get("prerequisite");
+          
+                Course prerequisiteCourse = addPrerequisite(prerequisite);
+                Course course = new NonTechnicalElectiveCourse(courseId, courseName, credits, prerequisiteCourse);
+
+                courses.add(course);
+            }
+          
 
             System.out.println("Courses loaded successfully!");
         } catch (IOException | ParseException e) {
@@ -137,21 +168,22 @@ public class JsonManagement {
         return courses;
     }
 
-    private void addPrerequisite(ArrayList<Course> courses) {
-        for (Course course : courses) {
+    private Course addPrerequisite(String prerequsiteID) {
+        
             // If a prerequisite course name is defined, find the actual prerequisite course
             // object
-            if (course.getPrerequisiteID() != null) {
+            
                 for (Course potentialPrerequisite : courses) {
-                    if (course.getPrerequisiteID().equals(potentialPrerequisite.getCourseId())) {
-                        course.setPrerequisiteCourse(potentialPrerequisite);
-                        break;
+                    if (prerequsiteID.equals(potentialPrerequisite.getCourseId())) {
+                        return potentialPrerequisite;
+                        
                     }
                 }
-            }
-        }
+            
+        
+        return null;
     }
-
+    
     public StudentAffairsStaff getstudentAffairsStaffByID(String affairID) {
         JSONParser parser = new JSONParser();
         String filePath = "Iteration_2/src/main/java/parameters.json";
@@ -384,6 +416,7 @@ public class JsonManagement {
             if (sectionArray != null) {
                 for (Object courseObj : sectionArray) {
                     JSONObject course = (JSONObject) courseObj;
+
                     String parentCourseId = (String) course.get("courseID");
                     String sectionId = (String) course.get("sectionID");
                     int courseSectionsSize = courseSections.size();
@@ -396,6 +429,7 @@ public class JsonManagement {
                             break;
                         }
                     }
+
                 }
             }
         } catch (Exception e) {
@@ -422,11 +456,44 @@ public class JsonManagement {
                     int credits = ((Long) course.get("credits")).intValue();
                     if (courseListType.equals("completedCourses")) {
                         String grade = (String) course.get("grade");
-                        Course newCourse = new Course(courseId, courseName, grade, credits);
-                        courseList.add(newCourse);
+                        Course newCourse = null;
+                        String courseType = "";
+                        for(Course c : courses){
+                           if(c.getCourseId().equals(courseId)){
+                              courseType = c.getCourseType();
+                           }
+                        }
+                        if(courseType.equals("Mandatory")){
+                            newCourse = new MandatoryCourse(courseId, courseName, grade, credits);
+                            courseList.add(newCourse);
+                        } else if(courseType.equals("Technical Elective")){
+                            newCourse = new TechnicalElectiveCourse(courseId, courseName, grade, credits);
+                            courseList.add(newCourse);
+                        }
+                        else if(courseType.equals("Non-Technical Elective")){
+                            newCourse = new NonTechnicalElectiveCourse(courseId, courseName, grade, credits);
+                            courseList.add(newCourse);
+                        }
+                        
                     } else {
-                        Course newCourse = new Course(courseId, courseName, credits);
-                        courseList.add(newCourse);
+                        Course newCourse = null;
+                        String courseType = "";
+                        for(Course c : courses){
+                           if(c.getCourseId().equals(courseId)){
+                              courseType = c.getCourseType();
+                           }
+                        }
+                        if(courseType.equals("Mandatory")){
+                            newCourse = new MandatoryCourse(courseId, courseName, credits);
+                            courseList.add(newCourse);
+                        } else if(courseType.equals("Technical Elective")){
+                            newCourse = new TechnicalElectiveCourse(courseId, courseName, credits);
+                            courseList.add(newCourse);
+                        }
+                        else if(courseType.equals("Non-Technical Elective")){
+                            newCourse = new NonTechnicalElectiveCourse(courseId, courseName, credits);
+                            courseList.add(newCourse);
+                        }
                     }
                 }
             }

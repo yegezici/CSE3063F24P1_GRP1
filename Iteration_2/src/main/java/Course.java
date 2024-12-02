@@ -1,13 +1,12 @@
 import java.util.ArrayList;
 
-public class Course {
+public abstract class Course {
     private String courseId;
     private String courseName;
     private Lecturer lecturer;
     private ArrayList<Student> students;
     private ArrayList<CourseSection> courseSections;
-    private Course prerequisiteCourse;
-    private String prerequisiteID;
+    private Course prerequisiteCourse; 
     private int credits;
     private String grade;
     private int semester;
@@ -33,24 +32,24 @@ public class Course {
     }
 	
     //constructor
-    public Course(String courseId, String courseName, int credits, String prerequisiteID) {
+    public Course(String courseId, String courseName, int credits, Course prerequisiteCourse) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.credits = credits;
-        this.prerequisiteID=prerequisiteID;
+        this.prerequisiteCourse=prerequisiteCourse;
         courseSections = new ArrayList<CourseSection>();
         
     }
 
-    public Course(String courseId, String courseName, int credits, String prerequisiteID, int semester) {
+    public Course(String courseId, String courseName, int credits, Course prerequisiteCourse, int semester) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.credits = credits;
-        this.prerequisiteID=prerequisiteID;
+        this.prerequisiteCourse=prerequisiteCourse;
         courseSections = new ArrayList<CourseSection>();
         this.semester = semester;
     }
-
+    public abstract String getCourseType();
 //Retrieves the unique identifier of the course.
     public String getCourseId() {
         return courseId;
@@ -88,10 +87,7 @@ public class Course {
     public void setPrerequisiteCourse(Course prerequisiteCourse) {
         this.prerequisiteCourse = prerequisiteCourse;
     }
-//Retrieves the prerequisite course ID required for enrollment in this course.
-public String getPrerequisiteID() {
-    return prerequisiteID;
-}
+
 //Retrieves the number of credits assigned to this course
     public int getCredits() {
         return credits;
