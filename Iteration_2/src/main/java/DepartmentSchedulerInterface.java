@@ -18,11 +18,11 @@ public class DepartmentSchedulerInterface implements UserInterface {
         scan = new Scanner(System.in);
     }
 
-   
     public void updateTimeInterval(CourseSection chosenSection) {
-        System.out.println("Time slots of the selected course is listed below:");
+        System.out.println("Time slots of the selected course are listed below:");
         for (int i = 0; i < chosenSection.getTimeSlots().size(); i++) {
-            System.out.println((i + 1) + "-   " + chosenSection.getTimeSlots().get(i).getTimeInterval() + "   "
+            System.out.println((i + 1) + "-   " + chosenSection.getTimeSlots().get(i).getDay() + "   "
+                    + chosenSection.getTimeSlots().get(i).getTimeInterval() + "   "
                     + chosenSection.getTimeSlots().get(i).getClassroom());
         }
         try {
@@ -37,15 +37,17 @@ public class DepartmentSchedulerInterface implements UserInterface {
     }
 
     public void updateClassroom(CourseSection chosenSection) {
-        System.out.println("Time slots of the selected course is listed below:");
+        System.out.println("Time slots of the selected course are listed below:");
         for (int i = 0; i < chosenSection.getTimeSlots().size(); i++) {
-            System.out.println((i + 1) + "-   " + chosenSection.getTimeSlots().get(i).getTimeInterval() + "   "
+            System.out.println((i + 1) + "-   " + chosenSection.getTimeSlots().get(i).getDay() + "   "
+                    + chosenSection.getTimeSlots().get(i).getTimeInterval() + "   "
                     + chosenSection.getTimeSlots().get(i).getClassroom());
         }
         System.out.println("Which classroom do you want to update?");
         TimeSlot chosenTimeSlot = chosenSection.getTimeSlots().get(scan.nextInt() - 1);
+        String day = chosenTimeSlot.getDay();
         String timeInterval = chosenTimeSlot.getTimeInterval();
-        ArrayList<String> availableClassrooms = departmentScheduler.handleClassroomConflict(timeInterval);
+        ArrayList<String> availableClassrooms = departmentScheduler.handleClassroomConflict(day, timeInterval);
         for (int i = 0; i < availableClassrooms.size(); i++) {
             System.out.println((i + 1) + "- " + availableClassrooms.get(i));
         }
@@ -122,18 +124,27 @@ public class DepartmentSchedulerInterface implements UserInterface {
         return choice;
     }
 
-    public void showTimeIntervals() {
-        System.out.println("Available time slots listed below");
-        int size = departmentScheduler.handleTimeConflict(courseSections).size();
-        for (int i = 0; i < size; i++) {
-            System.out.println((i + 1) + "- " + departmentScheduler.handleTimeConflict(courseSections).get(i));
+    public void showDays(int semester) {
+        ArrayList<String> availableDays = departmentScheduler.getAvailableDays(departmentScheduler.semesterXCourses(semester));
+        System.out.println("Available days:");
+        for (int i = 0; i < availableDays.size(); i++) {
+            System.out.println((i + 1) + "- " + availableDays.get(i));
         }
     }
 
-    public void showClassrooms(String timeInterval) {
-        int size = departmentScheduler.handleClassroomConflict(timeInterval).size();
-        for (int i = 0; i < size; i++) {
-            System.out.println((i + 1) + "- " + departmentScheduler.handleClassroomConflict(timeInterval).get(i));
+    public void showTimeIntervals(int semester, String day) {
+        System.out.println("Available time slots for " + day + " are listed below:");
+        ArrayList<String> availableTimeIntervals = departmentScheduler.handleTimeConflict(departmentScheduler.semesterXCourses(semester), day);
+        for (int i = 0; i < availableTimeIntervals.size(); i++) {
+            System.out.println((i + 1) + "- " + availableTimeIntervals.get(i));
+        }
+    }
+
+    public void showClassrooms(String day, String timeInterval) {
+        ArrayList<String> availableClassrooms = departmentScheduler.handleClassroomConflict(day, timeInterval);
+        System.out.println("Available classrooms for " + day + " " + timeInterval + ":");
+        for (int i = 0; i < availableClassrooms.size(); i++) {
+            System.out.println((i + 1) + "- " + availableClassrooms.get(i));
         }
     }
 
@@ -147,15 +158,19 @@ public class DepartmentSchedulerInterface implements UserInterface {
     }
 
     public void setTimeSlot(CourseSection chosenSection) {
-        showTimeIntervals();
+        int semester = chosenSection.getParentCourse().getSemester();
+        showDays(semester);
+        System.out.println("Choose a day:");
+        String day = departmentScheduler.getAvailableDays(departmentScheduler.semesterXCourses(semester)).get(scan.nextInt() - 1);
+        showTimeIntervals(semester, day);
         System.out.println("Choose a time slot:");
-        int timeSlotNo = scan.nextInt() - 1;
-        String timeSlotInput = departmentScheduler.handleTimeConflict(courseSections).get(timeSlotNo);
-        showClassrooms(timeSlotInput);
+        String timeSlotInput = departmentScheduler.handleTimeConflict(departmentScheduler.semesterXCourses(semester), day)
+                .get(scan.nextInt() - 1);
+        showClassrooms(day, timeSlotInput);
         System.out.println("Choose a classroom:");
-        int classroomNo = scan.nextInt() - 1;
-        String classroomInput = departmentScheduler.handleClassroomConflict(timeSlotInput).get(classroomNo);
-        TimeSlot timeSlot = new TimeSlot(timeSlotInput, classroomInput);
+        String classroomInput = departmentScheduler.handleClassroomConflict(day, timeSlotInput)
+                .get(scan.nextInt() - 1);
+        TimeSlot timeSlot = new TimeSlot(day, timeSlotInput, classroomInput);
         departmentScheduler.assignTimeSlotToSection(chosenSection, timeSlot);
         System.out.println("Selected time slot and classroom has been assigned.");
     }
@@ -166,5 +181,4 @@ public class DepartmentSchedulerInterface implements UserInterface {
         chosenSection.setCapacity(capacity);
         System.out.println("Capacity has been set successfully.");
     }
-
 }
