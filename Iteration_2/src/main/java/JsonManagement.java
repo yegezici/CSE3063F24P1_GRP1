@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.management.InstanceNotFoundException;
+
 public class JsonManagement {
 
     private ArrayList<Course> courses;
@@ -71,7 +73,7 @@ public class JsonManagement {
                 for (Object sectionObj : sectionsArray) {
                     JSONObject section = (JSONObject) sectionObj;
 
-                    int sectionID = ((Long) section.get("sectionId")).intValue();
+                    int sectionID = ((Long) section.get("sectionID")).intValue();
                     String time = (String) section.get("time");
                     String classroom = (String) section.get("classroom");
                     int capacity = ((Long) section.get("capacity")).intValue();
@@ -98,12 +100,12 @@ public class JsonManagement {
 
     public void setCourseSectionsOfCourses() {
         for (Course course : courses) {
-            if(course != null)
-            for (CourseSection cs : courseSections) {
-                if (cs.getParentCourse().getCourseId().equals(course.getCourseId())) {
-                    course.getCourseSections().add(cs);
+            if (course != null)
+                for (CourseSection cs : courseSections) {
+                    if (cs.getParentCourse().getCourseId().equals(course.getCourseId())) {
+                        course.getCourseSections().add(cs);
+                    }
                 }
-            }
         }
     }
 
@@ -114,20 +116,49 @@ public class JsonManagement {
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            JSONArray coursesArray = (JSONArray) jsonObject.get("courses");
+            JSONObject coursesObject = (JSONObject) jsonObject.get("courses");
+            JSONArray mandatoryArray = (JSONArray) coursesObject.get("mandatory");
+            JSONArray TEArray = (JSONArray) coursesObject.get("technicalElective");
+            JSONArray NTEArray = (JSONArray) coursesObject.get("nonTechnicalElective");
+            
 
-            for (Object obj : coursesArray) {
+            for (Object obj : mandatoryArray) {
                 JSONObject courseJson = (JSONObject) obj;
                 String courseId = (String) courseJson.get("courseId");
                 String courseName = (String) courseJson.get("name");
                 int credits = ((Long) courseJson.get("credits")).intValue();
                 String prerequisite = (String) courseJson.get("prerequisite");
-
-                Course course = new Course(courseId, courseName, credits, prerequisite);
+                int semester = Integer.parseInt((String) courseJson.get("year"));
+                Course prerequisiteCourse = addPrerequisite(prerequisite);
+                Course course = new MandatoryCourse(courseId, courseName, credits, prerequisiteCourse, semester);
 
                 courses.add(course);
             }
-            addPrerequisite(courses);
+            for (Object obj : TEArray) {
+                JSONObject courseJson = (JSONObject) obj;
+                String courseId = (String) courseJson.get("courseID");
+                String courseName = (String) courseJson.get("name");
+                int credits = ((Long) courseJson.get("credits")).intValue();
+                String prerequisite = (String) courseJson.get("prerequisite");
+                int semester = Integer.parseInt((String) courseJson.get("year"));
+                Course prerequisiteCourse = addPrerequisite(prerequisite);
+                Course course = new TechnicalElectiveCourse(courseId, courseName, credits, prerequisiteCourse, semester);
+
+                courses.add(course);
+            }
+            for (Object obj : NTEArray) {
+                JSONObject courseJson = (JSONObject) obj;
+                String courseId = (String) courseJson.get("courseId");
+                String courseName = (String) courseJson.get("name");
+                int credits = ((Long) courseJson.get("credits")).intValue();
+                String prerequisite = (String) courseJson.get("prerequisite");
+          
+                Course prerequisiteCourse = addPrerequisite(prerequisite);
+                Course course = new NonTechnicalElectiveCourse(courseId, courseName, credits, prerequisiteCourse);
+
+                courses.add(course);
+            }
+          
 
             System.out.println("Courses loaded successfully!");
         } catch (IOException | ParseException e) {
@@ -137,21 +168,22 @@ public class JsonManagement {
         return courses;
     }
 
-    private void addPrerequisite(ArrayList<Course> courses) {
-        for (Course course : courses) {
+    private Course addPrerequisite(String prerequsiteID) {
+        
             // If a prerequisite course name is defined, find the actual prerequisite course
             // object
-            if (course.getPrerequisiteID() != null) {
+            
                 for (Course potentialPrerequisite : courses) {
-                    if (course.getPrerequisiteID().equals(potentialPrerequisite.getCourseId())) {
-                        course.setPrerequisiteCourse(potentialPrerequisite);
-                        break;
+                    if (prerequsiteID.equals(potentialPrerequisite.getCourseId())) {
+                        return potentialPrerequisite;
+                        
                     }
                 }
-            }
-        }
+            
+        
+        return null;
     }
-
+    
     public StudentAffairsStaff getstudentAffairsStaffByID(String affairID) {
         JSONParser parser = new JSONParser();
         String filePath = "Iteration_2/src/main/java/parameters.json";
@@ -329,15 +361,16 @@ public class JsonManagement {
         return null;
     }
 
-    protected void saveCourseSectionsOfData(JSONObject courseData, ArrayList<CourseSection> courseSections,
+    protected void saveCourseSectionsOfData(JSONObject courseJson, ArrayList<CourseSection> courseSections,
             String sectionType) {
-        JSONObject courseSectionsData = new JSONObject();
+        JSONArray courseSectionsData = new JSONArray();
         for (CourseSection courseSection : courseSections) {
-            JSONObject courseSectionData = new JSONObject();
-            courseSectionData.put("courseID", courseSection.getParentCourse().getCourseId());
-            courseSectionData.put("sectionID", courseSection.getSectionID());
+            JSONObject sectionData = new JSONObject();
+            sectionData.put("courseID", courseSection.getParentCourse().getCourseId());
+            sectionData.put("sectionID", courseSection.getSectionID());
+            courseSectionsData.add(sectionData);
         }
-        courseData.put("currentSections", courseSectionsData);
+        courseJson.put(sectionType, courseSectionsData);
     }
 
     protected void fillCourseData(JSONObject courseJson, ArrayList<Course> courses, String courseListType) {
@@ -383,16 +416,20 @@ public class JsonManagement {
             if (sectionArray != null) {
                 for (Object courseObj : sectionArray) {
                     JSONObject course = (JSONObject) courseObj;
+
                     String parentCourseId = (String) course.get("courseID");
-                    String sectionId = Integer.toString(((Long) course.get("sectionId")).intValue());
+                    String sectionId = (String) course.get("sectionID");
                     int courseSectionsSize = courseSections.size();
                     for (int i = 0; i < courseSectionsSize; i++) {
                         if (courseSections.get(i).getParentCourse().getCourseId().equals(parentCourseId)
                                 && courseSections.get(i).getSectionID().equals(sectionId)) {
-                            newCourseSections.add(courseSections.get(i));
+                            newCourseSections.add(courseSections.get(i));  
+                            System.out.println(courseSections.get(i).getParentCourse().getCourseId() + "."
+                                    +courseSections.get(i).getSectionID());                   
                             break;
                         }
                     }
+
                 }
             }
         } catch (Exception e) {
@@ -419,11 +456,44 @@ public class JsonManagement {
                     int credits = ((Long) course.get("credits")).intValue();
                     if (courseListType.equals("completedCourses")) {
                         String grade = (String) course.get("grade");
-                        Course newCourse = new Course(courseId, courseName, grade, credits);
-                        courseList.add(newCourse);
+                        Course newCourse = null;
+                        String courseType = "";
+                        for(Course c : courses){
+                           if(c.getCourseId().equals(courseId)){
+                              courseType = c.getCourseType();
+                           }
+                        }
+                        if(courseType.equals("Mandatory")){
+                            newCourse = new MandatoryCourse(courseId, courseName, grade, credits);
+                            courseList.add(newCourse);
+                        } else if(courseType.equals("Technical Elective")){
+                            newCourse = new TechnicalElectiveCourse(courseId, courseName, grade, credits);
+                            courseList.add(newCourse);
+                        }
+                        else if(courseType.equals("Non-Technical Elective")){
+                            newCourse = new NonTechnicalElectiveCourse(courseId, courseName, grade, credits);
+                            courseList.add(newCourse);
+                        }
+                        
                     } else {
-                        Course newCourse = new Course(courseId, courseName, credits);
-                        courseList.add(newCourse);
+                        Course newCourse = null;
+                        String courseType = "";
+                        for(Course c : courses){
+                           if(c.getCourseId().equals(courseId)){
+                              courseType = c.getCourseType();
+                           }
+                        }
+                        if(courseType.equals("Mandatory")){
+                            newCourse = new MandatoryCourse(courseId, courseName, credits);
+                            courseList.add(newCourse);
+                        } else if(courseType.equals("Technical Elective")){
+                            newCourse = new TechnicalElectiveCourse(courseId, courseName, credits);
+                            courseList.add(newCourse);
+                        }
+                        else if(courseType.equals("Non-Technical Elective")){
+                            newCourse = new NonTechnicalElectiveCourse(courseId, courseName, credits);
+                            courseList.add(newCourse);
+                        }
                     }
                 }
             }
@@ -449,6 +519,16 @@ public class JsonManagement {
             ArrayList<Course> waitedCourses = readCoursesForStudents(filePath, "waitedCourses");
             ArrayList<CourseSection> currentSections = readSectionsForStudents(filePath, "currentSections");
             ArrayList<CourseSection> waitedSections = readSectionsForStudents(filePath, "waitedSections");
+            int waitedCoursesSize = waitedCourses.size();
+            int waitedSectionsSize = waitedSections.size();
+            for (int i = 0; i < waitedCoursesSize; i++) {
+                for (int j = 0; j < waitedSectionsSize; j++) {
+                    if (waitedCourses.get(i).getCourseId()
+                            .equals(waitedSections.get(j).getParentCourse().getCourseId())) {
+                                waitedCourses.get(i).getCourseSections().add(waitedSections.get(j));
+                    }
+                }
+            }
             // Return the Transcript with completed and current courses
             return new Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections);
 

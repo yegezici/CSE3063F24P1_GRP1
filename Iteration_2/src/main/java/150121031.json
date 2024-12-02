@@ -37,11 +37,11 @@
     "currentSections": [
       {
         "courseID": "CSE2225",
-        "sectionId": 1
+        "sectionID": "1"
       },
       {
         "courseID": "CSE3215",
-        "sectionId": 2
+        "sectionID": "2"
       }
     ],
     "waitedSections": [
