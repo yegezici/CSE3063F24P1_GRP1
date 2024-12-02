@@ -1,31 +1,50 @@
 {
+    "year": 3,
     "completedCourses": [
-        {
-            "courseID": "CSE1241",
-            "courseName": "Computer Programming I",
-            "credits": 6,
-            "grade": "AA"
-        },
-        {
-            "courseID": "CSE1242",
-            "courseName": "Computer Programming II",
-            "credits": 6,
-            "grade": "BA"
-        }
+      {
+        "courseID": "CSE1241",
+        "courseName": "Computer Programming I",
+        "credits": 6,
+        "grade": "AA"
+      },
+      {
+        "courseID": "CSE1242",
+        "courseName": "Computer Programming II",
+        "credits": 6,
+        "grade": "BA"
+      },
+      {
+        "courseID": "STAT2253",
+        "courseName": "Prob. and Stat. for Comp. Eng.",
+        "credits": 5,
+        "grade": "CB"
+      }
     ],
     "currentCourses": [
-        {
-            "courseID": "CSE2225",
-            "courseName": "Data Structures",
-            "credits": 7
-        },
-        {
-            "courseID": "STAT2253",
-            "courseName": "Introduction to Probability and Statistics",
-            "credits": 5
-        }
+      {
+        "courseID": "CSE2225",
+        "courseName": "Data Structures",
+        "credits": 7
+      },
+      {
+        "courseID": "CSE3215",
+        "courseName": "Digital Logic Design",
+        "credits": 6
+      }
     ],
     "waitedCourses": [
-        
+    ],
+    "currentSections": [
+      {
+        "courseID": "CSE2225",
+        "sectionID": "1"
+      },
+      {
+        "courseID": "CSE3215",
+        "sectionID": "2"
+      }
+    ],
+    "waitedSections": [
     ]
-}
+  }
+  

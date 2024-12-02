@@ -2,13 +2,13 @@
   "courseSections": {
     "MATH1001": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Monday 9:30-10:20",
         "classroom": "M2Z10",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Monday 10:30-11:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -16,7 +16,7 @@
     ],
     "CSE1200": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Monday 11:30-12:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -24,13 +24,13 @@
     ],
     "CSE1241": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 12:30-13:20",
         "classroom": "M2Z10",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Tuesday 13:30-14:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -38,13 +38,13 @@
     ],
     "PHYS1101": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Monday 14:30-15:20",
         "classroom": "M2Z10",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Monday 15:30-16:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -52,7 +52,7 @@
     ],
     "ATA121": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 9:30-10:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -60,7 +60,7 @@
     ],
     "MBG1201": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 10:30-11:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -68,7 +68,7 @@
     ],
     "TRD121": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 8:30-9:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -76,13 +76,13 @@
     ],
     "MATH1002": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 9:30-10:20",
         "classroom": "M2Z10",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Thursday 10:30-11:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -90,13 +90,13 @@
     ],
     "CSE1242": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 14:30-15:20",
         "classroom": "M2Z10",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Tuesday 15:30-16:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -104,13 +104,13 @@
     ],
     "PHYS1102": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Friday 14:30-15:20",
         "classroom": "M2Z10",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Friday 15:30-16:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -118,7 +118,7 @@
     ],
     "ATA122": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 11:30-12:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -126,7 +126,7 @@
     ],
     "TRD122": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 12:30-13:20",
         "classroom": "M2Z10",
         "capacity": 2
@@ -134,13 +134,13 @@
     ],
     "CSE2246": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Monday 8:30-9:20",
         "classroom": "M2Z09",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Monday 9:30-10:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -148,19 +148,19 @@
     ],
     "CSE2225": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Monday 10:30-11:20",
         "classroom": "M2Z09",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Monday 11:30-12:20",
         "classroom": "M2Z09",
         "capacity": 2
       },
       {
-        "sectionId": 3,
+        "sectionID": 3,
         "time": "Monday 12:30-13:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -168,7 +168,7 @@
     ],
     "MATH2256": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Monday 14:30-15:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -176,7 +176,7 @@
     ],
     "MATH2059": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 9:30-10:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -184,7 +184,7 @@
     ],
     "CSE2023": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 10:30-11:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -192,7 +192,7 @@
     ],
     "EE2031": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 11:30-12:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -200,7 +200,7 @@
     ],
     "ECON2004": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 13:30-14:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -208,7 +208,7 @@
     ],
     "MATH2055": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 8:30-9:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -216,7 +216,7 @@
     ],
     "CSE2260": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 9:30-10:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -224,7 +224,7 @@
     ],
     "EE2032": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 10:30-11:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -232,13 +232,13 @@
     ],
     "CSE2138": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 11:30-12:20",
         "classroom": "M2Z09",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Thursday 12:30-13:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -246,7 +246,7 @@
     ],
     "STAT2253": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Friday 13:30-14:20",
         "classroom": "M2Z09",
         "capacity": 2
@@ -254,13 +254,13 @@
     ],
     "CSE3055": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Monday 9:30-10:20",
         "classroom": "M2Z11",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Monday 10:30-11:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -268,13 +268,13 @@
     ],
     "CSE3033": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Friday 9:30-10:20",
         "classroom": "M2Z11",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Friday 10:30-11:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -282,13 +282,13 @@
     ],
     "CSE3063": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 9:30-10:20",
         "classroom": "M2Z11",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Wednesday 10:30-11:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -296,13 +296,13 @@
     ],
     "CSE3215": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 9:30-10:20",
         "classroom": "M2Z11",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Thursday 10:30-11:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -310,13 +310,13 @@
     ],
     "IE3081": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 11:30-12:20",
         "classroom": "M2Z11",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Tuesday 9:30-10:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -324,7 +324,7 @@
     ],
     "COM2202": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Friday 13:30-14:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -332,13 +332,13 @@
     ],
     "CSE3044": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Friday 14:30-15:20",
         "classroom": "M2Z11",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Friday 15:30-16:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -346,13 +346,13 @@
     ],
     "CSE3264": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Friday 11:30-12:20",
         "classroom": "M2Z11",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Wednesday 10:30-11:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -360,13 +360,13 @@
     ],
     "CSE3038": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 11:30-12:20",
         "classroom": "M2Z11",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Wednesday 12:30-13:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -374,7 +374,7 @@
     ],
     "CSE3048": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 13:30-12:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -382,7 +382,7 @@
     ],
     "IE3235": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 12:30-13:20",
         "classroom": "M2Z11",
         "capacity": 2
@@ -390,13 +390,13 @@
     ],
     "CSE4074": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Monday 8:30-9:20",
         "classroom": "M2Z12",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Monday 9:30-10:20",
         "classroom": "M2Z12",
         "capacity": 2
@@ -404,13 +404,13 @@
     ],
     "CSE4219": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Friday 9:30-10:20",
         "classroom": "M2Z12",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Friday 10:30-11:20",
         "classroom": "M2Z12",
         "capacity": 2
@@ -418,13 +418,13 @@
     ],
     "CSE4288": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 9:30-10:20",
         "classroom": "M2Z12",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Tuesday 10:30-11:20",
         "classroom": "M2Z12",
         "capacity": 2
@@ -432,7 +432,7 @@
     ],
     "ISG121": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 9:30-10:20",
         "classroom": "M2Z12",
         "capacity": 2
@@ -440,7 +440,7 @@
     ],
     "ISG122": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 10:30-11:20",
         "classroom": "M2Z12",
         "capacity": 2
@@ -448,13 +448,13 @@
     ],
     "CSE4075": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 11:30-12:20",
         "classroom": "M2Z12",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Tuesday 12:30-13:20",
         "classroom": "M2Z12",
         "capacity": 2
@@ -462,13 +462,13 @@
     ],
     "CSE4034": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 8:30-9:20",
         "classroom": "M2Z12",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Wednesday 9:30-10:20",
         "classroom": "M2Z12",
         "capacity": 2
@@ -476,13 +476,13 @@
     ],
     "CSE4061": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 10:30-11:20",
         "classroom": "M2Z12",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Wednesday 11:30-12:20",
         "classroom": "M2Z12",
         "capacity": 2
@@ -490,13 +490,13 @@
     ],
     "CSE4217": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Wednesday 12:30-13:20",
         "classroom": "M2Z12",
         "capacity": 2
       },
       {
-        "sectionId": 2,
+        "sectionID": 2,
         "time": "Wednesday 13:30-12:20",
         "classroom": "M2Z12",
         "capacity": 2
@@ -504,7 +504,7 @@
     ],
     "NTE1003": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Thursday 9:30-10:20",
         "classroom": "M2Z04",
         "capacity": 2
@@ -512,7 +512,7 @@
     ],
     "YDA1001": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Friday 15:30-16:20",
         "classroom": "M2Z04",
         "capacity": 2
@@ -520,7 +520,7 @@
     ],
     "HSS3002": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Tuesday 12:30-13:20",
         "classroom": "M2Z04",
         "capacity": 2
@@ -528,7 +528,7 @@
     ],
     "MGT1021": [
       {
-        "sectionId": 1,
+        "sectionID": 1,
         "time": "Monday 11:30-12:20",
         "classroom": "M2Z04",
         "capacity": 2

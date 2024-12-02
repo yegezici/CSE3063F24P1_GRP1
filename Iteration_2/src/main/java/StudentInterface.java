@@ -34,7 +34,7 @@ public class StudentInterface implements UserInterface {
                 logOut = true;
                 break;
             default:
-                System.out.println("Enter 1, 2 or 3.");
+                System.out.println("Enter 1, 2, 3 or 4.");
         }
 
         return logOut;
@@ -53,9 +53,10 @@ public class StudentInterface implements UserInterface {
 
     public void showTranscripts() {
         student.getTranscript().showCompletedCourses();
+        System.out.println("\nGPA: " + student.getTranscript().calculateGpa());
         student.getTranscript().showCurrentCourses();
         student.getTranscript().showWaitedCourses();
-        System.out.println("\nGPA: " + student.getTranscript().calculateGpa());
+        
     }
 
     public void registerCourse() {
@@ -76,8 +77,12 @@ public class StudentInterface implements UserInterface {
                 System.out.println("These are the courses for registering.");
                 printList(availableCourses);
                 System.out.print("Select a course. If you want to exit press \"0\".");
-                int courseChoice = (scan.nextInt());
-
+                int courseChoice = 0;
+                try{
+                courseChoice = (scan.nextInt());
+                }catch(InputMismatchException e){
+                    System.out.println("Enter an integer value.");
+                }
                 if (courseChoice == 0) {
                     break;
                 } else if (courseChoice < 0 || courseChoice > availableCourses.size()) {

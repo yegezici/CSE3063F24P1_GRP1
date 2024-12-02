@@ -20,6 +20,7 @@ public class StudentAffairsStaff extends Staff {
         
     }
 
+
     public Course createCourse(String courseName, String courseID, String courseType, int credits, int numberOfSections){
          Course course = null ;
         if(courseType.equals("m")){
@@ -30,14 +31,19 @@ public class StudentAffairsStaff extends Staff {
             course = new NonTechnicalElectiveCourse(courseID, courseName, credits);
         
         course.setCourseSections(createCourseSection(numberOfSections));
-        System.out.println(course.getCourseId());
+       
+
+   
         return course;
     }
    
-    public ArrayList<CourseSection> createCourseSection(int numberOfSections){
+    public ArrayList<CourseSection> createCourseSection(int numberOfSections, Course parentCourse){
         ArrayList<CourseSection> sections = new ArrayList<>();
         for(int i = 0; i < numberOfSections; i++){
-            sections.add(new CourseSection());
+            CourseSection courseSection = new CourseSection();
+            courseSection.setParentCourse(parentCourse);
+            courseSection.setSectionID(Integer.toString(i + 1));
+            sections.add(courseSection);
         }
         return sections;
     }

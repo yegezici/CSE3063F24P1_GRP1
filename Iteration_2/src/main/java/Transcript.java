@@ -4,6 +4,7 @@ public class Transcript {
     private ArrayList<Course> completedCourses;
     private ArrayList<Course> currentCourses;
     private ArrayList<Course> waitedCourses;
+    private WeeklySchedule weeklySchedule;
     private ArrayList<CourseSection> currentSections;
     private ArrayList<CourseSection> waitedSections;
 
@@ -24,6 +25,13 @@ public class Transcript {
         this.currentSections = addCourseSections(currentCourses);
         this.waitedSections = addCourseSections(waitedCourses);
        
+    }
+    public Transcript(ArrayList<Course> completedCourses, ArrayList<Course> currentCourses, ArrayList<Course> waitedCourses, ArrayList<CourseSection> currentSections, ArrayList<CourseSection> waitedSections) {
+        this.completedCourses = completedCourses;
+        this.currentCourses = currentCourses;
+        this.waitedCourses = waitedCourses;
+        this.currentSections = currentSections;
+        this.waitedSections = waitedSections;
     }
 //This method adds a course to the list of completed courses if it has been completed.
     public void addCompletedCourse(Course course){
