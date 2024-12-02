@@ -9,11 +9,13 @@ public class CourseRegistration {
     ArrayList<Student> students;
     ArrayList<CourseSection> courseSections;
     ArrayList<Course> courses;
+    ArrayList<String> classrooms;
 
     public CourseRegistration() {
         students = JsonManagement.getInstance().getStudents();
         courses = JsonManagement.getInstance().getCourses();
         courseSections = JsonManagement.getInstance().getCourseSections();
+        classrooms = JsonManagement.getInstance().getClassrooms();
 
     }
 
@@ -38,12 +40,12 @@ public class CourseRegistration {
                 else if (currentUser instanceof Advisor)
                     userInterface = new AdvisorInterface((Advisor) currentUser);
                 else if (currentUser instanceof StudentAffairsStaff)
-                    userInterface = new StudentAffairsStaffInterface((StudentAffairsStaff) currentUser, courses);
+                    userInterface = new StudentAffairsStaffInterface((StudentAffairsStaff) currentUser, courses, courseSections);
                 else if(currentUser instanceof DepartmentScheduler)
                     userInterface = new DepartmentSchedulerInterface((DepartmentScheduler)(currentUser), courseSections);
-                    if (userInterface.showMenu()) {
-                    saveStudents();
-                    break;
+                if (userInterface.showMenu()) {
+                saveStudents();
+                break;
                 }
             }
         }
