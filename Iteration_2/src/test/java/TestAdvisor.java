@@ -22,7 +22,7 @@ public class TestAdvisor {
         // Mock data setup for testing. This sets up the initial data used by the tests.
         courses = new ArrayList<>();
         course = new Course("IE3107" , "Modeling");
-        CourseSection courseSection = new CourseSection("IE0503" , 8);
+        CourseSection courseSection = new CourseSection("IE3107.1" , 8);
         courseSection.setParentCourse(course);
         courseSections = new ArrayList<>();
 

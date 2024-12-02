@@ -106,7 +106,7 @@ public class Transcript {
             System.out.printf("%d-   %-10s %-50s %d\n", (i+1), currentCourses.get(i).getCourseId(), currentCourses.get(i).getCourseName(), currentCourses.get(i).getCredits());
         }
     }
-   private ArrayList<CourseSection> addCourseSections(ArrayList<Course> courses){
+   public ArrayList<CourseSection> addCourseSections(ArrayList<Course> courses){
         int size = courses.size();
         ArrayList<CourseSection> cs = new ArrayList<CourseSection>();
         for(int k=0; k < size; k++ ){
@@ -166,6 +166,7 @@ public class Transcript {
         int size = completedCourses.size();
         double totalSum = 0;
         int totalCredits = 0;
+
         for(int i = 0; i < size; i++){
             String grade = completedCourses.get(i).getGrade();
             int credits = completedCourses.get(i).getCredits();

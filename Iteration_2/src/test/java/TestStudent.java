@@ -18,7 +18,7 @@ public class TestStudent {
         transcript = new Transcript(new ArrayList<Course>(), new ArrayList<Course>(), new ArrayList<Course>());  
         student = new Student("Melisa", "Gezer", new Date(), 'F', transcript, "150120101");
         testCourse = new Course("CSE2225", "Data Structures", 7);  
-        testCourseSection = new CourseSection("1" , 8);
+        testCourseSection = new CourseSection("CSE2225.1" , 8);
         testCourseSection.setParentCourse(testCourse);
     }
 
