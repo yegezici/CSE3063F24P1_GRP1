@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.management.InstanceNotFoundException;
+
 public class JsonManagement {
 
     private ArrayList<Course> courses;
@@ -114,16 +116,45 @@ public class JsonManagement {
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            JSONArray coursesArray = (JSONArray) jsonObject.get("courses");
+            JSONObject coursesObject = (JSONObject) jsonObject.get("courses");
+            JSONArray mandatoryArray = (JSONArray) coursesObject.get("mandatory");
+            JSONArray TEArray = (JSONArray) coursesObject.get("technicalElective");
+            JSONArray NTEArray = (JSONArray) coursesObject.get("nonTechnicalElective");
+            
 
-            for (Object obj : coursesArray) {
+            for (Object obj : mandatoryArray) {
+                JSONObject courseJson = (JSONObject) obj;
+                String courseId = (String) courseJson.get("courseId");
+                String courseName = (String) courseJson.get("name");
+                int credits = ((Long) courseJson.get("credits")).intValue();
+                String prerequisite = (String) courseJson.get("prerequisite");
+                int semester = Integer.parseInt((String) courseJson.get("year"));
+
+                Course course = new MandatoryCourse(courseId, courseName, credits, prerequisite, semester);
+
+                courses.add(course);
+            }
+            for (Object obj : TEArray) {
                 JSONObject courseJson = (JSONObject) obj;
                 String courseId = (String) courseJson.get("courseID");
                 String courseName = (String) courseJson.get("name");
                 int credits = ((Long) courseJson.get("credits")).intValue();
                 String prerequisite = (String) courseJson.get("prerequisite");
+                int semester = Integer.parseInt((String) courseJson.get("year"));
 
-                Course course = new Course(courseId, courseName, credits, prerequisite);
+                Course course = new TechnicalElectiveCourse(courseId, courseName, credits, prerequisite, semester);
+
+                courses.add(course);
+            }
+            for (Object obj : NTEArray) {
+                JSONObject courseJson = (JSONObject) obj;
+                String courseId = (String) courseJson.get("courseId");
+                String courseName = (String) courseJson.get("name");
+                int credits = ((Long) courseJson.get("credits")).intValue();
+                String prerequisite = (String) courseJson.get("prerequisite");
+          
+
+                Course course = new NonTechnicalElectiveCourse(courseId, courseName, credits, prerequisite);
 
                 courses.add(course);
             }
@@ -151,7 +182,7 @@ public class JsonManagement {
             }
         }
     }
-
+    
     public StudentAffairsStaff getstudentAffairsStaffByID(String affairID) {
         JSONParser parser = new JSONParser();
         String filePath = "Iteration_2/src/main/java/parameters.json";
@@ -384,6 +415,7 @@ public class JsonManagement {
             if (sectionArray != null) {
                 for (Object courseObj : sectionArray) {
                     JSONObject course = (JSONObject) courseObj;
+
                     String parentCourseId = (String) course.get("courseID");
                     String sectionId = Integer.toString(((Long) course.get("sectionId")).intValue());
                     int courseSectionsSize = courseSections.size();
@@ -394,6 +426,7 @@ public class JsonManagement {
                             break;
                         }
                     }
+
                 }
             }
         } catch (Exception e) {
