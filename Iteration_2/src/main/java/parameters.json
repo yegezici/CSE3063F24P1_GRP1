@@ -233,6 +233,23 @@
         "name": "Cay",
         "surname": "Onbeslira"
       }
+    ],
+    "classrooms": [
+      {
+        "name": "M2Z04"
+      },
+      {
+        "name": "M2Z09"
+      },
+      {
+        "name": "M2Z10"
+      },
+      {
+        "name": "M2Z11"
+      },
+      {
+        "name": "M2Z12"
+      }
     ]
 
   }
