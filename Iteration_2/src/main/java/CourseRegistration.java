@@ -41,9 +41,9 @@ public class CourseRegistration {
                     userInterface = new StudentAffairsStaffInterface((StudentAffairsStaff) currentUser, courses);
                 else if(currentUser instanceof DepartmentScheduler)
                     userInterface = new DepartmentSchedulerInterface((DepartmentScheduler)(currentUser), courseSections);
-                    if (userInterface.showMenu()) {
-                    saveStudents();
-                    break;
+                if (userInterface.showMenu()) {
+                saveStudents();
+                break;
                 }
             }
         }

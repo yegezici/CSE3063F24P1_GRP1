@@ -26,7 +26,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
                 removeCourse();
                 break;
             case 3:
-                return false;
+                return true;
             default:
                 System.out.println("Enter 1, 2 or 3.");
                 break;
