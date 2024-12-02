@@ -1,7 +1,7 @@
 import java.util.Date;
 
 public class Staff extends Person {
-    protected String ssn;
+    private String ssn;
 //constructors
     public Staff() {
         super();
@@ -22,21 +22,21 @@ public class Staff extends Person {
     }
     @Override
     public String getName(){
-        return this.name;
+        return super.getNameField();
     }
 
     @Override
     public String getSurname() {
-        return this.surname;
+        return super.getSurnameField();
     }
 
     @Override
     public Date getBirthdate() {
-        return this.birthdate;
+        return super.getBirthdateField();
     }
 
     @Override
     public char getGender() {
-        return this.gender;
+        return super.getGenderField();
     } 
 }
