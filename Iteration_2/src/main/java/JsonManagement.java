@@ -129,8 +129,8 @@ public class JsonManagement {
                 int credits = ((Long) courseJson.get("credits")).intValue();
                 String prerequisite = (String) courseJson.get("prerequisite");
                 int semester = Integer.parseInt((String) courseJson.get("year"));
-
-                Course course = new MandatoryCourse(courseId, courseName, credits, prerequisite, semester);
+                Course prerequisiteCourse = addPrerequisite(prerequisite);
+                Course course = new MandatoryCourse(courseId, courseName, credits, prerequisiteCourse, semester);
 
                 courses.add(course);
             }
@@ -141,8 +141,8 @@ public class JsonManagement {
                 int credits = ((Long) courseJson.get("credits")).intValue();
                 String prerequisite = (String) courseJson.get("prerequisite");
                 int semester = Integer.parseInt((String) courseJson.get("year"));
-
-                Course course = new TechnicalElectiveCourse(courseId, courseName, credits, prerequisite, semester);
+                Course prerequisiteCourse = addPrerequisite(prerequisite);
+                Course course = new TechnicalElectiveCourse(courseId, courseName, credits, prerequisiteCourse, semester);
 
                 courses.add(course);
             }
@@ -153,12 +153,12 @@ public class JsonManagement {
                 int credits = ((Long) courseJson.get("credits")).intValue();
                 String prerequisite = (String) courseJson.get("prerequisite");
           
-
-                Course course = new NonTechnicalElectiveCourse(courseId, courseName, credits, prerequisite);
+                Course prerequisiteCourse = addPrerequisite(prerequisite);
+                Course course = new NonTechnicalElectiveCourse(courseId, courseName, credits, prerequisiteCourse);
 
                 courses.add(course);
             }
-            addPrerequisite(courses);
+          
 
             System.out.println("Courses loaded successfully!");
         } catch (IOException | ParseException e) {
@@ -168,19 +168,20 @@ public class JsonManagement {
         return courses;
     }
 
-    private void addPrerequisite(ArrayList<Course> courses) {
-        for (Course course : courses) {
+    private Course addPrerequisite(String prerequsiteID) {
+        
             // If a prerequisite course name is defined, find the actual prerequisite course
             // object
-            if (course.getPrerequisiteID() != null) {
+            
                 for (Course potentialPrerequisite : courses) {
-                    if (course.getPrerequisiteID().equals(potentialPrerequisite.getCourseId())) {
-                        course.setPrerequisiteCourse(potentialPrerequisite);
-                        break;
+                    if (prerequsiteID.equals(potentialPrerequisite.getCourseId())) {
+                        return potentialPrerequisite;
+                        
                     }
                 }
-            }
-        }
+            
+        
+        return null;
     }
     
     public StudentAffairsStaff getstudentAffairsStaffByID(String affairID) {
