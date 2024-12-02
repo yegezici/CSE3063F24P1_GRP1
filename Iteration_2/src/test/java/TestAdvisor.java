@@ -12,7 +12,7 @@ public class TestAdvisor {
 
     private Advisor advisor;
     private Student student;
-    private Course course;
+    private MandatoryCourse course;
     private Transcript transcript;
     ArrayList<Course> courses;
     ArrayList<CourseSection> courseSections;
@@ -21,7 +21,7 @@ public class TestAdvisor {
     public void setUp() {
         // Mock data setup for testing. This sets up the initial data used by the tests.
         courses = new ArrayList<>();
-        course = new Course("IE3107" , "Modeling");
+        course = new MandatoryCourse("IE3107" , "Modeling", 8);
         CourseSection courseSection = new CourseSection("IE3107.1" , 8);
         courseSection.setParentCourse(course);
         courseSections = new ArrayList<>();
@@ -90,5 +90,32 @@ public class TestAdvisor {
         assertNotNull("Students list should not be null.", students);
         // Assert that there is exactly one student in the advisor's list.
         assertEquals("Students list should contain one student.", 1, students.size());
+    }
+
+    @Test
+    public void testCheckSectionConflict() {
+        // Existing course section with a specific time slot.
+        TimeSlot existingTimeSlot = new TimeSlot("09:30-10:20", "M2Z11");
+        CourseSection existingSection = new CourseSection("CSE101.1", 30);
+        existingSection.getTimeSlots().add(existingTimeSlot);
+        student.getTranscript().addCurrentSection(existingSection);
+
+        // New course section with a non-conflicting time slot.
+        TimeSlot newTimeSlot = new TimeSlot("10:30-11:20", "M2Z12");
+        CourseSection newSection = new CourseSection("CSE102.1", 30);
+        newSection.getTimeSlots().add(newTimeSlot);
+
+        // Test for no conflict.
+        boolean resultNoConflict = advisor.checkSectionConflict(student, newSection);
+        assertTrue("Sections should not conflict.", resultNoConflict);
+
+        // New course section with a conflicting time slot.
+        TimeSlot conflictingTimeSlot = new TimeSlot("09:30-10:20", "M2Z14");
+        newSection.getTimeSlots().clear();
+        newSection.getTimeSlots().add(conflictingTimeSlot);
+
+        // Test for conflict.
+        boolean resultConflict = advisor.checkSectionConflict(student, newSection);
+        assertFalse("Sections should conflict.", resultConflict);
     }
 }

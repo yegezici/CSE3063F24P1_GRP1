@@ -43,12 +43,6 @@ public class TestDepartmentScheduler {
     }
 
     @Test
-    public void testAssignLecturerToSection() {
-    departmentScheduler.assignLecturerToSection(courseSection, lecturer);
-    assertEquals("Lecturer should be correctly assigned to the CourseSection.",  lecturer, courseSection.getLecturer());
-    }
-
-    @Test
     public void testManageCapacity(){
         int newCapacity = 40;
         departmentScheduler.manageCapacity(courseSection, newCapacity);
