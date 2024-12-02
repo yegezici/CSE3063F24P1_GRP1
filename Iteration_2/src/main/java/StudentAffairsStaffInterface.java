@@ -57,7 +57,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
         public void addCourse() {
             String[] course = askCourseParameters();
             try {
-                Course newCourse = staff.createCourse(course[0], course[1], Integer.parseInt(course[2]), Integer.parseInt(course[3])); 
+                Course newCourse = staff.createCourse(course[0], course[1], course[3],Integer.parseInt(course[2]), Integer.parseInt(course[3])); 
                 courses.add(newCourse);
                 courseSections.addAll(newCourse.getCourseSections());
     

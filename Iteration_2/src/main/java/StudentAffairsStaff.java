@@ -30,7 +30,7 @@ public class StudentAffairsStaff extends Staff {
         else if (courseType.equals("nte"))
             course = new NonTechnicalElectiveCourse(courseID, courseName, credits);
         
-        course.setCourseSections(createCourseSection(numberOfSections));
+        course.setCourseSections(createCourseSection(numberOfSections, course ));
        
 
    

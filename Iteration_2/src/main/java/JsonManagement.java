@@ -453,11 +453,44 @@ public class JsonManagement {
                     int credits = ((Long) course.get("credits")).intValue();
                     if (courseListType.equals("completedCourses")) {
                         String grade = (String) course.get("grade");
-                        Course newCourse = new Course(courseId, courseName, grade, credits);
-                        courseList.add(newCourse);
+                        Course newCourse = null;
+                        String courseType = "";
+                        for(Course c : courses){
+                           if(c.getCourseId().equals(courseId)){
+                              courseType = c.getCourseType();
+                           }
+                        }
+                        if(courseType.equals("Mandatory")){
+                            newCourse = new MandatoryCourse(courseId, courseName, grade, credits);
+                            courseList.add(newCourse);
+                        } else if(courseType.equals("Technical Elective")){
+                            newCourse = new TechnicalElectiveCourse(courseId, courseName, grade, credits);
+                            courseList.add(newCourse);
+                        }
+                        else if(courseType.equals("Non-Technical Elective")){
+                            newCourse = new NonTechnicalElectiveCourse(courseId, courseName, grade, credits);
+                            courseList.add(newCourse);
+                        }
+                        
                     } else {
-                        Course newCourse = new Course(courseId, courseName, credits);
-                        courseList.add(newCourse);
+                        Course newCourse = null;
+                        String courseType = "";
+                        for(Course c : courses){
+                           if(c.getCourseId().equals(courseId)){
+                              courseType = c.getCourseType();
+                           }
+                        }
+                        if(courseType.equals("Mandatory")){
+                            newCourse = new MandatoryCourse(courseId, courseName, credits);
+                            courseList.add(newCourse);
+                        } else if(courseType.equals("Technical Elective")){
+                            newCourse = new TechnicalElectiveCourse(courseId, courseName, credits);
+                            courseList.add(newCourse);
+                        }
+                        else if(courseType.equals("Non-Technical Elective")){
+                            newCourse = new NonTechnicalElectiveCourse(courseId, courseName, credits);
+                            courseList.add(newCourse);
+                        }
                     }
                 }
             }
