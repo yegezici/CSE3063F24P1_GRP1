@@ -78,7 +78,7 @@ public class AdvisorInterface implements UserInterface {
     }
 
     public void rejectCourse(Student student, CourseSection course) {
-       // advisor.rejectCourse(student, course);
+        advisor.rejectCourse(student, course.getParentCourse());
         System.out.println("The course has been rejected.");
     }
 

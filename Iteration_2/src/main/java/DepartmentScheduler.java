@@ -23,6 +23,7 @@ public class DepartmentScheduler extends Staff {
         super(name, surname, birthdate, gender, ssn);
         this.courseSections = courseSections;
         this.allClassrooms = allClassrooms;
+
         this.allTimeIntervals = initTimeIntervals();
     }
     public ArrayList<String> initTimeIntervals() {
@@ -36,6 +37,7 @@ public class DepartmentScheduler extends Staff {
         timeIntervals.add("15:00-15:50");
         timeIntervals.add("16:00-17:00");
         return timeIntervals;
+
     }
 
     // Assign time slot for specific section.
