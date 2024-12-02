@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Course {
+public abstract class Course {
     private String courseId;
     private String courseName;
     private Lecturer lecturer;
@@ -50,7 +50,7 @@ public class Course {
         courseSections = new ArrayList<CourseSection>();
         this.semester = semester;
     }
-
+    public abstract String getCourseType();
 //Retrieves the unique identifier of the course.
     public String getCourseId() {
         return courseId;

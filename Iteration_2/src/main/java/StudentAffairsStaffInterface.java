@@ -52,14 +52,14 @@ public class StudentAffairsStaffInterface implements UserInterface {
         String[] course = askCourseParameters();
         try {
             courses.add(
-                    staff.createCourse(course[0], course[1], Integer.parseInt(course[2]), Integer.parseInt(course[3])));
+                    staff.createCourse(course[0], course[1], course[3], Integer.parseInt(course[2]), Integer.parseInt(course[4])));
         } catch (NumberFormatException e) {
             System.out.println("Enter an integer value for course code and course credits.");
         }
     }
 
     public String[] askCourseParameters() {
-        String[] course = new String[4];
+        String[] course = new String[5];
         try {
             System.out.print("Enter course name: ");
             course[0] = scan.next();
@@ -67,11 +67,15 @@ public class StudentAffairsStaffInterface implements UserInterface {
             course[1] = scan.next();
             System.out.print("Enter course credits: ");
             course[2] = scan.next();
-            System.out.print("How many sections does the course have? : ");
+            System.out.print("Enter course type (Mandatory (m) / Technical Elective (te) / Non-Technical Elective (nte) ):  ");
             course[3] = scan.next();
+            if(!(course[3].equals("m") || course[3].equals("te") || course[3].equals("nte")) )
+             throw new InputMismatchException("Invalid choice! ");
+            System.out.print("How many sections does the course have? : ");
+            course[4] = scan.next();
 
         } catch (InputMismatchException e) {
-            System.out.println("InputMismatchException in askCourseParameters method.");
+            System.out.println(e.getMessage() + " Please enter a valid choice!");
         } catch (Exception e) {
             System.out.println("There is an error in askCourseParameters method.");
         }
