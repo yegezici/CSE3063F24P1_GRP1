@@ -85,15 +85,28 @@ public class StudentInterface implements UserInterface {
                     continue;
                 }
                 courseChoice -= 1;
-
-                // Register the selected course and add it to the waited courses list
-                Course selectedCourse = availableCourses.get(courseChoice);
-                showAvailableCourseSections(selectedCourse);
-                int choice = scan.nextInt();
-                student.registerCourse(selectedCourse.getCourseSections().get(choice));
-                System.out.println(
-                        selectedCourse.getCourseName() + " " + "is succesfully registered.");
-                availableCourses.remove(courseChoice);
+                try {
+                    Course selectedCourse = availableCourses.get(courseChoice);
+                    showAvailableCourseSections(selectedCourse);
+                    int size = selectedCourse.getCourseSections().size();
+                    int choice = scan.nextInt();
+                    choice -= 1;
+                    // Kullanıcı seçiminin geçerli bir aralıkta olup olmadığını kontrol et
+                    if (choice < 0 || choice >= size) {
+                        throw new IndexOutOfBoundsException("Invalid choice!");
+                    }
+                    student.registerCourse(selectedCourse.getCourseSections().get(choice));
+                    System.out.println(selectedCourse.getCourseName() + " is sent to your advisor " + student.getAdvisor().getName() + " " +student.getAdvisor().getSurname() + " for approval.");
+                    availableCourses.remove(courseChoice);
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid chocie! Please enter an integer value.");
+                    scan.nextLine(); // Scanner'daki hatalı girişleri temizler
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println( "Please enter a proper section choice. It cannot be greater than all sections and must be greater than 1." + e.getMessage() );
+                } catch (Exception e) {
+                    System.out.println("There is an error " + e.getMessage());
+                }
+                
 
             }
         }

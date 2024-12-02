@@ -10,6 +10,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
     
         public StudentAffairsStaffInterface() {
             scan = new Scanner(System.in);
+
         }
     
         public StudentAffairsStaffInterface(StudentAffairsStaff staff, ArrayList<Course> courses, ArrayList<CourseSection> courseSections) {
