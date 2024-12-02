@@ -71,7 +71,7 @@ public class JsonManagement {
                 for (Object sectionObj : sectionsArray) {
                     JSONObject section = (JSONObject) sectionObj;
 
-                    int sectionID = ((Long) section.get("sectionId")).intValue();
+                    int sectionID = ((Long) section.get("sectionID")).intValue();
                     String time = (String) section.get("time");
                     String classroom = (String) section.get("classroom");
                     int capacity = ((Long) section.get("capacity")).intValue();
@@ -329,15 +329,16 @@ public class JsonManagement {
         return null;
     }
 
-    protected void saveCourseSectionsOfData(JSONObject courseData, ArrayList<CourseSection> courseSections,
+    protected void saveCourseSectionsOfData(JSONObject courseJson, ArrayList<CourseSection> courseSections,
             String sectionType) {
-        JSONObject courseSectionsData = new JSONObject();
+        JSONArray courseSectionsData = new JSONArray();
         for (CourseSection courseSection : courseSections) {
             JSONObject courseSectionData = new JSONObject();
             courseSectionData.put("courseID", courseSection.getParentCourse().getCourseId());
             courseSectionData.put("sectionID", courseSection.getSectionID());
+            courseSectionsData.add(courseSection);
         }
-        courseData.put("currentSections", courseSectionsData);
+        courseJson.put("currentSections", courseSectionsData);
     }
 
     protected void fillCourseData(JSONObject courseJson, ArrayList<Course> courses, String courseListType) {
