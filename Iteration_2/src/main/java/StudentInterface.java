@@ -41,7 +41,8 @@ public class StudentInterface implements UserInterface {
     }
 
     public int getChoice() {
-        System.out.println("Select an operation:\n1. Transcript\n2. Register for course\n3. Weekly Schedule\n4. Log out");
+        System.out
+                .println("Select an operation:\n1. Transcript\n2. Register for course\n3. Weekly Schedule\n4. Log out");
         int choice = 0;
         try {
             choice = scan.nextInt();
@@ -56,7 +57,7 @@ public class StudentInterface implements UserInterface {
         System.out.println("\nGPA: " + student.getTranscript().calculateGpa());
         student.getTranscript().showCurrentCourses();
         student.getTranscript().showWaitedCourses();
-        
+
     }
 
     public void registerCourse() {
@@ -78,9 +79,9 @@ public class StudentInterface implements UserInterface {
                 printList(availableCourses);
                 System.out.print("Select a course. If you want to exit press \"0\".");
                 int courseChoice = 0;
-                try{
-                courseChoice = (scan.nextInt());
-                }catch(InputMismatchException e){
+                try {
+                    courseChoice = (scan.nextInt());
+                } catch (InputMismatchException e) {
                     System.out.println("Enter an integer value.");
                 }
                 if (courseChoice == 0) {
@@ -101,17 +102,21 @@ public class StudentInterface implements UserInterface {
                         throw new IndexOutOfBoundsException("Invalid choice!");
                     }
                     student.registerCourse(selectedCourse.getCourseSections().get(choice));
-                    System.out.println(selectedCourse.getCourseName() + " is sent to your advisor " + student.getAdvisor().getName() + " " +student.getAdvisor().getSurname() + " for approval.");
+                    System.out.println(selectedCourse.getCourseName() + "."
+                            + selectedCourse.getCourseSections().get(choice).getSectionID()
+                            + " is sent to your advisor " + student.getAdvisor().getName() + " "
+                            + student.getAdvisor().getSurname() + " for approval.");
                     availableCourses.remove(courseChoice);
                 } catch (InputMismatchException e) {
                     System.out.println("Invalid chocie! Please enter an integer value.");
                     scan.nextLine(); // Scanner'daki hatalı girişleri temizler
                 } catch (IndexOutOfBoundsException e) {
-                    System.out.println( "Please enter a proper section choice. It cannot be greater than all sections and must be greater than 1." + e.getMessage() );
+                    System.out.println(
+                            "Please enter a proper section choice. It cannot be greater than all sections and must be greater than 1."
+                                    + e.getMessage());
                 } catch (Exception e) {
                     System.out.println("There is an error " + e.getMessage());
                 }
-                
 
             }
         }
@@ -176,11 +181,13 @@ public class StudentInterface implements UserInterface {
     private void showAvailableCourseSections(Course selectedCourse) {
         int size = selectedCourse.getCourseSections().size();
         for (int k = 0; k < size; k++) {
-            System.out.println((k + 1) + "- Section " + (k + 1));
+            System.out.println((k + 1) + "- Section " + selectedCourse.getCourseSections().get(k).getSectionID());
+            System.out.println(selectedCourse.getCourseSections().get(k).getTimeSlots().get(0).getTimeInterval());
+            System.out.println();
         }
     }
 
-    private void printStudentWeeklySchedule(){
+    private void printStudentWeeklySchedule() {
         WeeklySchedule weeklySchedule = new WeeklySchedule(student);
         weeklySchedule.printStudentWeeklySchedule();
     }

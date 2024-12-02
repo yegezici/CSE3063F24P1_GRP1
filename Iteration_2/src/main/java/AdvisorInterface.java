@@ -86,6 +86,7 @@ public class AdvisorInterface implements UserInterface {
         boolean logOut = false;
     
         // Get Course Section.
+        System.out.println(student.getTranscript().getWaitedCourses().get(courseIndex - 1).getCourseSections().get(0).getSectionID());
         CourseSection courseSection = student.getTranscript().getWaitedCourses().get(courseIndex - 1).getCourseSections().get(0);
     
         // Advisor will check that is there any conflict. If there is, request will be rejected.

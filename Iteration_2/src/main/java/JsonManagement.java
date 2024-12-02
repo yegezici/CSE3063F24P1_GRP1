@@ -98,12 +98,12 @@ public class JsonManagement {
 
     public void setCourseSectionsOfCourses() {
         for (Course course : courses) {
-            if(course != null)
-            for (CourseSection cs : courseSections) {
-                if (cs.getParentCourse().getCourseId().equals(course.getCourseId())) {
-                    course.getCourseSections().add(cs);
+            if (course != null)
+                for (CourseSection cs : courseSections) {
+                    if (cs.getParentCourse().getCourseId().equals(course.getCourseId())) {
+                        course.getCourseSections().add(cs);
+                    }
                 }
-            }
         }
     }
 
@@ -333,10 +333,10 @@ public class JsonManagement {
             String sectionType) {
         JSONArray courseSectionsData = new JSONArray();
         for (CourseSection courseSection : courseSections) {
-            JSONObject courseSectionData = new JSONObject();
-            courseSectionData.put("courseID", courseSection.getParentCourse().getCourseId());
-            courseSectionData.put("sectionID", courseSection.getSectionID());
-            courseSectionsData.add(courseSection);
+            JSONObject sectionData = new JSONObject();
+            sectionData.put("courseID", courseSection.getParentCourse().getCourseId());
+            sectionData.put("sectionID", courseSection.getSectionID());
+            courseSectionsData.add(sectionData);
         }
         courseJson.put(sectionType, courseSectionsData);
     }
@@ -385,12 +385,14 @@ public class JsonManagement {
                 for (Object courseObj : sectionArray) {
                     JSONObject course = (JSONObject) courseObj;
                     String parentCourseId = (String) course.get("courseID");
-                    String sectionId = Integer.toString(((Long) course.get("sectionId")).intValue());
+                    String sectionId = (String) course.get("sectionID");
                     int courseSectionsSize = courseSections.size();
                     for (int i = 0; i < courseSectionsSize; i++) {
                         if (courseSections.get(i).getParentCourse().getCourseId().equals(parentCourseId)
                                 && courseSections.get(i).getSectionID().equals(sectionId)) {
-                            newCourseSections.add(courseSections.get(i));
+                            newCourseSections.add(courseSections.get(i));  
+                            System.out.println(courseSections.get(i).getParentCourse().getCourseId() + "."
+                                    +courseSections.get(i).getSectionID());                   
                             break;
                         }
                     }
@@ -450,6 +452,16 @@ public class JsonManagement {
             ArrayList<Course> waitedCourses = readCoursesForStudents(filePath, "waitedCourses");
             ArrayList<CourseSection> currentSections = readSectionsForStudents(filePath, "currentSections");
             ArrayList<CourseSection> waitedSections = readSectionsForStudents(filePath, "waitedSections");
+            int waitedCoursesSize = waitedCourses.size();
+            int waitedSectionsSize = waitedSections.size();
+            for (int i = 0; i < waitedCoursesSize; i++) {
+                for (int j = 0; j < waitedSectionsSize; j++) {
+                    if (waitedCourses.get(i).getCourseId()
+                            .equals(waitedSections.get(j).getParentCourse().getCourseId())) {
+                                waitedCourses.get(i).getCourseSections().add(waitedSections.get(j));
+                    }
+                }
+            }
             // Return the Transcript with completed and current courses
             return new Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections);
 

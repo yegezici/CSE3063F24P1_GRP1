@@ -85,6 +85,32 @@ public class Transcript {
             System.out.println(e1.getMessage());
         }
     }
+    public void addCurrentSection(CourseSection courseSection){
+        try {
+            if (courseSection != null)
+                currentSections.add(courseSection);
+            else
+                System.out.println("The course object is null");
+        } catch (NullPointerException e) {
+            System.out.println("The waitedCourses list has not been initialized.");
+        }catch (Exception e1){
+            System.out.println(e1.getMessage());
+        }
+    }
+
+    public void deleteFromWaitedSections(CourseSection courseSection){
+        try {
+            if (courseSection != null)
+                waitedSections.remove(courseSection);
+            else
+                System.out.println("The sections object is null");
+        } catch (NullPointerException e) {
+            System.out.println("The waitedSections list has not been initialized.");
+        }catch (Exception e1){
+            System.out.println(e1.getMessage());
+        }
+    }
+
 //Scans the waitedCourses list and prints the courses there
     public void showWaitedCourses(){
         System.out.println("\nCourses that are waiting for approve listed below:");
