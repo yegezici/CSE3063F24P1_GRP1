@@ -38,6 +38,7 @@ public class JsonManagement {
     public ArrayList<Student> getStudents() {
         return students;
     }
+
     public ArrayList<CourseSection> getCourseSections() {
         return courseSections;
     }
@@ -47,8 +48,6 @@ public class JsonManagement {
             saveStudent(student);
 
     }
-
-    
 
     private ArrayList<CourseSection> loadCourseSections() {
         String filePath = "iteration_2/src/main/java/courseSections.json"; // Adjust the file path as needed
@@ -191,7 +190,7 @@ public class JsonManagement {
                     String name = (String) schedulerJson.get("name");
                     String surname = (String) schedulerJson.get("surname");
 
-                    return new DepartmentScheduler(name, surname);
+                    return new DepartmentScheduler(name, surname, courseSections);
                 }
             }
         } catch (IOException | ParseException e) {
@@ -213,7 +212,8 @@ public class JsonManagement {
 
     protected Student getStudentByID(String studentID) {
         Student student = getStudentByIDWithoutAdvisor(studentID);
-        setAdvisorForStudent(student);
+        if (student != null)
+            setAdvisorForStudent(student);
         return student;
     }
 
@@ -324,14 +324,13 @@ public class JsonManagement {
         return null;
     }
 
-
-
-    protected void fillCourseSectionData(JSONObject sectionJson, ArrayList<CourseSection> sections, String sectionListType) {
+    protected void fillCourseSectionData(JSONObject sectionJson, ArrayList<CourseSection> sections,
+            String sectionListType) {
         JSONArray sectionArray = new JSONArray();
         for (CourseSection section : sections) {
             JSONObject sectionData = new JSONObject();
             sectionData.put("sectionId", section.getSectionID());
-            for(int i = 0; i < section.getTimeSlots().size(); i++){
+            for (int i = 0; i < section.getTimeSlots().size(); i++) {
                 sectionData.put("time", section.getTimeSlots().get(i).getTimeInterval());
                 sectionData.put("classroom", section.getTimeSlots().get(i).getClassroom());
             }
@@ -340,7 +339,7 @@ public class JsonManagement {
         }
         sectionJson.put(sectionListType, sectionArray);
     }
-    
+
     protected void saveCourseSections() {
         String filePath = "Iteration_2/src/main/java/courseSections.json";
 
@@ -358,6 +357,7 @@ public class JsonManagement {
             System.err.println("Error writing course section data to file.");
         }
     }
+
     protected void fillCourseData(JSONObject courseJson, ArrayList<Course> courses, String courseListType) {
         JSONArray completedCourses = new JSONArray();
         for (Course course : courses) {
@@ -365,7 +365,7 @@ public class JsonManagement {
             courseData.put("courseID", course.getCourseId());
             courseData.put("courseName", course.getCourseName());
             courseData.put("credits", course.getCredits());
-            if(courseListType.equals("completedCourses"))
+            if (courseListType.equals("completedCourses"))
                 courseData.put("grade", course.getGrade());
             completedCourses.add(courseData);
         }
@@ -473,5 +473,4 @@ public class JsonManagement {
 
     }
 
-    
 }

@@ -4,6 +4,7 @@ public class Transcript {
     private ArrayList<Course> completedCourses;
     private ArrayList<Course> currentCourses;
     private ArrayList<Course> waitedCourses;
+    private WeeklySchedule weeklySchedule;
     private ArrayList<CourseSection> currentSections;
     private ArrayList<CourseSection> waitedSections;
 

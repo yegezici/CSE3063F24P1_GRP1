@@ -11,53 +11,81 @@ public class DepartmentSchedulerInterface implements UserInterface {
         scan = new Scanner(System.in);
     }
 
-    public DepartmentSchedulerInterface(DepartmentScheduler departmentScheduler, ArrayList<CourseSection> courseSections) {
+    public DepartmentSchedulerInterface(DepartmentScheduler departmentScheduler,
+            ArrayList<CourseSection> courseSections) {
         this.departmentScheduler = departmentScheduler;
         this.courseSections = courseSections;
         scan = new Scanner(System.in);
     }
 
+    public CourseSection chooseCourseSection() {
+        showAvailableCourseSections();
+        CourseSection chosenSection = null;
+        try {
+            System.out.println("Choose a course section:");
+            int sectionNo = scan.nextInt() - 1;
+            chosenSection = courseSections.get(sectionNo);
+            if (chosenSection.getTimeSlots().size() == 0) {
+                System.out.println("Selected course does not have any time slot or classroom yet.");
+                setTimeSlot(chosenSection);
+            }
+            if (chosenSection.getCapacity() == 0) {
+                System.out.println("Capacity of the selected course has not been set yet.");
+                setCapacity(chosenSection);
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Enter an integer value");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Enter an integer value between 1 and " + courseSections.size() + ".");
+        }
+        return chosenSection;
+    }
+
+    public void updateTimeInterval(CourseSection chosenSection) {
+        System.out.println("Time slots of the selected course is listed below:");
+        for (int i = 0; i < chosenSection.getTimeSlots().size(); i++) {
+            System.out.println((i + 1) + "-   " + chosenSection.getTimeSlots().get(i).getTimeInterval() + "   "
+                    + chosenSection.getTimeSlots().get(i).getClassroom());
+        }
+        try {
+            System.out.println("Which time slot do you want to update?");
+            chosenSection.getTimeSlots().remove(scan.nextInt() - 1);
+            setTimeSlot(chosenSection);
+        } catch (InputMismatchException e) {
+            System.out.println("Enter an integer value.");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Enter an integer value between 1 and " + chosenSection.getTimeSlots().size() + ".");
+        }
+    }
+
+    public void updateClassroom(CourseSection chosenSection) {
+        System.out.println("Time slots of the selected course is listed below:");
+        for (int i = 0; i < chosenSection.getTimeSlots().size(); i++) {
+            System.out.println((i + 1) + "-   " + chosenSection.getTimeSlots().get(i).getTimeInterval() + "   "
+                    + chosenSection.getTimeSlots().get(i).getClassroom());
+        }
+        System.out.println("Which classroom do you want to update?");
+        TimeSlot chosenTimeSlot = chosenSection.getTimeSlots().get(scan.nextInt() - 1);
+        String timeInterval = chosenTimeSlot.getTimeInterval();
+        ArrayList<String> availableClassrooms = departmentScheduler.handleClassroomConflict(timeInterval);
+        for (int i = 0; i < availableClassrooms.size(); i++) {
+            System.out.println((i + 1) + "- " + availableClassrooms.get(i));
+        }
+        System.out.println("Choose a new classroom:");
+        chosenTimeSlot.setClassroom(availableClassrooms.get(scan.nextInt() - 1));
+        System.out.println("Classroom has been updated successfully.");
+    }
+
     @Override
     public boolean showMenu() {
         boolean logOut = false;
-        showAvailableCourseSections();
-        System.out.println("Choose a course section:\n");
-        int sectionNo = scan.nextInt() - 1;
-        CourseSection chosenSection = courseSections.get(sectionNo);
-        if(chosenSection.getTimeSlots() == null){
-            System.out.println("Selected course does not have any time slot or classroom yet.");
-            setTimeSlot(chosenSection);
-        }
-        if(chosenSection.getCapacity() == 0){
-            System.out.println("Capacity of the selected course has not been set yet.");
-            setCapacity(chosenSection);
-        }
-
+        CourseSection chosenSection = chooseCourseSection();
         switch (getChoice()) {
             case 1:
-                System.out.println("Time slots of the selected course is listed below:");
-                for(int i = 0; i < chosenSection.getTimeSlots().size(); i++){
-                    System.out.println((i+1) + "-   " + chosenSection.getTimeSlots().get(i).getTimeInterval() + "   " + chosenSection.getTimeSlots().get(i).getClassroom());
-                }
-                System.out.println("Which time slot do you want to update?");
-                chosenSection.getTimeSlots().remove(scan.nextInt()-1);
-                setTimeSlot(chosenSection);
+                updateTimeInterval(chosenSection);
                 break;
             case 2:
-                System.out.println("Time slots of the selected course is listed below:");
-                for(int i = 0; i < chosenSection.getTimeSlots().size(); i++){
-                    System.out.println((i+1) + "-   " + chosenSection.getTimeSlots().get(i).getTimeInterval() + "   " + chosenSection.getTimeSlots().get(i).getClassroom());
-                }
-                System.out.println("Which classroom do you want to update?");
-                TimeSlot chosenTimeSlot = chosenSection.getTimeSlots().get(scan.nextInt()-1);
-                String timeInterval = chosenTimeSlot.getTimeInterval();
-                ArrayList<String> availableClassrooms = departmentScheduler.handleClassroomConflict(timeInterval);
-                for(int i = 0; i < availableClassrooms.size(); i++){
-                    System.out.println((i+1) + "- " + availableClassrooms.get(i));
-                }
-                System.out.println("Choose a new classroom:");
-                chosenTimeSlot.setClassroom(availableClassrooms.get(scan.nextInt()-1));
-                System.out.println("Classroom has been updated successfully.");
+                updateClassroom(chosenSection);
                 break;
             case 3:
                 System.out.println("Current capacity is " + chosenSection.getCapacity());
@@ -75,9 +103,10 @@ public class DepartmentSchedulerInterface implements UserInterface {
         return logOut;
     }
 
+    @Override
     public int getChoice() {
-        
-        System.out.println("Choose an operation to do with selected course section:\n1- Update time intervals\n2- Update classroom\n3- Manage Capacity\n");
+        System.out.println(
+                "Choose an operation\n1- Update time interval\n2- Update classroom\n3- Manage Capacity \n4- Log Out");
         int choice = 0;
         try {
             choice = scan.nextInt();
@@ -87,31 +116,31 @@ public class DepartmentSchedulerInterface implements UserInterface {
         return choice;
     }
 
-    public void showTimeIntervals(){
+    public void showTimeIntervals() {
         System.out.println("Available time slots listed below");
         int size = departmentScheduler.handleTimeConflict(courseSections).size();
-        for(int i = 0; i < size; i++){
-            System.out.println((i+1) + "- " + departmentScheduler.handleTimeConflict(courseSections).get(i));
+        for (int i = 0; i < size; i++) {
+            System.out.println((i + 1) + "- " + departmentScheduler.handleTimeConflict(courseSections).get(i));
         }
     }
 
-    public void showClassrooms(String timeInterval){
+    public void showClassrooms(String timeInterval) {
         int size = departmentScheduler.handleClassroomConflict(timeInterval).size();
-        for(int i = 0; i < size; i++){
-            System.out.println((i+1) + "- " + departmentScheduler.handleClassroomConflict(timeInterval).get(i));
+        for (int i = 0; i < size; i++) {
+            System.out.println((i + 1) + "- " + departmentScheduler.handleClassroomConflict(timeInterval).get(i));
         }
     }
 
-    public void showAvailableCourseSections(){
-        System.out.println("All available course sections are listed below:\n");
+    public void showAvailableCourseSections() {
+        System.out.println("All available course sections are listed below:");
         int size = courseSections.size();
-        for(int i = 0; i < size; i++){
-            System.out.println((i+1) + "- " + courseSections.get(i).getSectionID() + "\n");
+        for (int i = 0; i < size; i++) {
+            System.out.println((i + 1) + "- " + courseSections.get(i).getParentCourse().getCourseId() + "."
+                    + courseSections.get(i).getSectionID());
         }
     }
 
-    public void setTimeSlot(CourseSection chosenSection){
-        
+    public void setTimeSlot(CourseSection chosenSection) {
         showTimeIntervals();
         System.out.println("Choose a time slot:");
         int timeSlotNo = scan.nextInt() - 1;
@@ -125,11 +154,11 @@ public class DepartmentSchedulerInterface implements UserInterface {
         System.out.println("Selected time slot and classroom has been assigned.");
     }
 
-    public void setCapacity(CourseSection chosenSection){
+    public void setCapacity(CourseSection chosenSection) {
         System.out.println("Enter a capacity:");
         int capacity = scan.nextInt();
         chosenSection.setCapacity(capacity);
         System.out.println("Capacity has been set successfully.");
     }
-    
+
 }

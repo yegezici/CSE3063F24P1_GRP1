@@ -22,15 +22,17 @@ public class StudentAffairsStaff extends Staff {
 
     public Course createCourse(String courseName, String courseID, int credits, int numberOfSections){
         Course course = new Course(courseName, courseID, credits);
-        course.setCourseSections(createCourseSection(numberOfSections));
-        System.out.println(course.getCourseId());
+        course.setCourseSections(createCourseSection(numberOfSections, course));
         return course;
     }
    
-    public ArrayList<CourseSection> createCourseSection(int numberOfSections){
+    public ArrayList<CourseSection> createCourseSection(int numberOfSections, Course parentCourse){
         ArrayList<CourseSection> sections = new ArrayList<>();
         for(int i = 0; i < numberOfSections; i++){
-            sections.add(new CourseSection());
+            CourseSection courseSection = new CourseSection();
+            courseSection.setParentCourse(parentCourse);
+            courseSection.setSectionID(Integer.toString(i + 1));
+            sections.add(courseSection);
         }
         return sections;
     }

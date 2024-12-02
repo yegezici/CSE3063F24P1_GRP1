@@ -38,7 +38,7 @@ public class CourseRegistration {
                 else if (currentUser instanceof Advisor)
                     userInterface = new AdvisorInterface((Advisor) currentUser);
                 else if (currentUser instanceof StudentAffairsStaff)
-                    userInterface = new StudentAffairsStaffInterface((StudentAffairsStaff) currentUser, courses);
+                    userInterface = new StudentAffairsStaffInterface((StudentAffairsStaff) currentUser, courses, courseSections);
                 else if(currentUser instanceof DepartmentScheduler)
                     userInterface = new DepartmentSchedulerInterface((DepartmentScheduler)(currentUser), courseSections);
                 if (userInterface.showMenu()) {
