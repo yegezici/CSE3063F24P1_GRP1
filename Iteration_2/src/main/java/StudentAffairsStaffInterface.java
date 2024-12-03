@@ -41,7 +41,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
         }
     
         public int getChoice() {
-            System.out.print("1-  Add Course\n2-  Remove Course\n3-  Log Out\nSelect an operation: ");
+            System.out.print("1-  Add Course\n2-  Log Out\nSelect an operation: ");
             int choice = 0;
             try {
                 choice = scan.nextInt();
@@ -58,8 +58,9 @@ public class StudentAffairsStaffInterface implements UserInterface {
             try {
                 Course newCourse = staff.createCourse(course[0], course[1], course[3],Integer.parseInt(course[2]), Integer.parseInt(course[4])); 
                 courses.add(newCourse);
-                JsonManagement.getInstance().writeCourseToJson();
                 courseSections.addAll(newCourse.getCourseSections());
+                JsonManagement.getInstance().writeCourseToJson();
+                //JsonManagement.getInstance().writeSectionsToJson();
                 
             } catch (NumberFormatException e) {
                 System.out.println("Enter an integer value for course code and course credits.");

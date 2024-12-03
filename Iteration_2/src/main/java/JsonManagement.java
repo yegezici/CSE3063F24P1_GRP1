@@ -31,6 +31,7 @@ public class JsonManagement {
         this.courseSections = loadCourseSections();
         setCourseSectionsOfCourses();
         this.classrooms = readClassrooms();
+        findStudents();
     }
 
     public static JsonManagement getInstance() {
@@ -55,6 +56,34 @@ public class JsonManagement {
     public ArrayList<String> getClassrooms() {
         return classrooms;
     }
+    public void findStudents(){
+        String[] studentIDs = {
+                "150121031",
+                "150121032",
+                "150121033",
+                "150121034",
+                "150121035",
+                "150122036",
+                "150122037",
+                "150122038",
+                "150122039",
+                "150122040",
+                "150122041",
+                "150122042"
+        };
+
+        for(int i = 0; i < 12; i++) {
+            getStudentByID(studentIDs[i]);
+        }
+        for(CourseSection courseSection: courseSections){
+            for(Student student : students){
+                if(student.getTranscript().getCurrentSections().contains(courseSection)){
+                    courseSection.addStudentToSection(student);
+                    System.out.println(student.getID());
+                }
+            }
+        }
+    }
 
     private ArrayList<CourseSection> loadCourseSections() {
         String filePath = "iteration_2/src/main/java/courseSections.json";
@@ -75,12 +104,17 @@ public class JsonManagement {
                     String time = (String) section.get("time");
                     String classroom = (String) section.get("classroom");
                     int capacity = ((Long) section.get("capacity")).intValue();
-                    String[] timeParts = time.split(" ", 2); // İlk boşluktan ayırır
-                    String day = timeParts[0]; // Gün
-                    String timeInterval = timeParts[1]; // Zaman aralığı
-                    TimeSlot timeSlot = new TimeSlot(day, timeInterval, classroom);
-                    CourseSection courseSection = new CourseSection(Integer.toString(sectionID), capacity);
-                    courseSection.getTimeSlots().add(timeSlot);
+                    CourseSection courseSection = null;
+                    if (time.isEmpty()) {
+                        courseSection = new CourseSection(Integer.toString(sectionID), capacity);
+                    } else {
+                        String[] timeParts = time.split(" ", 2);
+                        String day = timeParts[0];
+                        String timeInterval = timeParts[1];
+                        TimeSlot timeSlot = new TimeSlot(day, timeInterval, classroom);
+                        courseSection = new CourseSection(Integer.toString(sectionID), capacity);
+                        courseSection.getTimeSlots().add(timeSlot);
+                    }
                     Course course = null;
                     for (Course c : courses) {
                         if (c.getCourseId().equals(courseId)) {
@@ -579,7 +613,7 @@ public class JsonManagement {
     private JSONObject fillNewCoursData(Course course) {
         JSONObject newCourses = new JSONObject();
         newCourses.put("courseID", course.getCourseId());
-        newCourses.put("courseName", course.getCourseName());
+        newCourses.put("name", course.getCourseName());
         newCourses.put("credits", course.getCredits());
         if (course.getPrerequisiteCourse() != null)
             newCourses.put("prerequisite", course.getPrerequisiteCourse().getCourseId());
@@ -614,23 +648,36 @@ public class JsonManagement {
         }
     }
 
-   
-
-    // BURAYI SİZE BIRAKTIM BAYILMAK ÜZEREYİM
-    public void removeCoursesFromJson(Course course) {
-        String filePath = "Iteration_2/src/main/java/cimbom.json"; // JSON dosya yolu
-
-        try {
-            // Read the file content
-            File file = new File(filePath);
-            if (!file.exists()) {
-                System.out.println("File not found: " + filePath);
-                return;
+    public void writeSectionsToJson() {
+        String filePath = "Iteration_2/src/main/java/courseSections.json";
+        try (FileWriter writer = new FileWriter(filePath)) {
+            JSONObject root = new JSONObject();
+            for (Course course : courses) {
+                JSONArray sections = new JSONArray();
+                for (CourseSection courseSection : course.getCourseSections()) {
+                    JSONObject sectionData = new JSONObject();
+                    int sectionID = Integer.parseInt(courseSection.getSectionID());
+                    sectionData.put("sectionID", sectionID);
+                    String time = "";
+                    String classroom = "";
+                    if (courseSection.getTimeSlots().size() > 0) {
+                        time = courseSection.getTimeSlots().get(0).getDay() + " "
+                                + courseSection.getTimeSlots().get(0).getTimeInterval();
+                        classroom = courseSection.getTimeSlots().get(0).getClassroom();
+                    }
+                    sectionData.put("time", time);
+                    sectionData.put("classroom",classroom);
+                    sectionData.put("capacity", courseSection.getCapacity());
+                    sections.add(sectionData);
+                }
+                root.put(course.getCourseId(), sections);
             }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            writer.write(root.toJSONString());
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error writing student data to file.");
         }
-
     }
+
 }

@@ -17,14 +17,15 @@ public class WeeklySchedule {
             for (CourseSection section : student.getTranscript().getCurrentSections()) {
                 if (section.getTimeSlots() != null) {
                     for (TimeSlot timeSlot : section.getTimeSlots()) {
-                        String timeInterval = timeSlot.getTimeInterval();                        
+                        String timeInterval = timeSlot.getTimeInterval();
                         if (timeInterval != null && timeSlot.getDay().equals(day)) {
                             if (!dayPrinted) {
                                 System.out.println(day + ":");
                                 dayPrinted = true;
                             }
                             String courseName = section.getParentCourse().getCourseName();
-                            System.out.println("  " + courseName + "  " + timeInterval);
+                            System.out
+                                    .println("  " + courseName + "  " + timeSlot.getClassroom() + "  " + timeInterval);
                         }
                     }
                 } else {
