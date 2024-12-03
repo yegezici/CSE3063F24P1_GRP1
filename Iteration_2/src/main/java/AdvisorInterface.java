@@ -34,9 +34,9 @@ public class AdvisorInterface implements UserInterface {
     public int getChoice() {
         System.out.print("1-  Students Menu\n2-  Log Out\nSelect an operation: ");
         int choice = 0;
-        try{
-        choice = scan.nextInt();
-        }catch(InputMismatchException e){
+        try {
+            choice = scan.nextInt();
+        } catch (InputMismatchException e) {
             System.out.println("Enter an integer value.");
         }
         return choice;
@@ -49,10 +49,10 @@ public class AdvisorInterface implements UserInterface {
             System.out.println((i + 1) + "-    " + advisor.getStudents().get(i).getID());
         }
         int studentIndex = -1;
-        try{
-        System.out.print("Which student do you select? :\nIf you want to log out, enter \"0\": ");
-        studentIndex = scan.nextInt() - 1;
-        }catch(InputMismatchException e){
+        try {
+            System.out.print("Which student do you select? :\nIf you want to log out, enter \"0\": ");
+            studentIndex = scan.nextInt() - 1;
+        } catch (InputMismatchException e) {
             System.out.println("Enter an integer value.");
             return false;
         }
@@ -72,7 +72,7 @@ public class AdvisorInterface implements UserInterface {
 
     public void approveCourse(Student student, CourseSection courseSection) {
         advisor.approveCourse(student, courseSection);
-        System.out.println(courseSection.getParentCourse().getCourseId() + " has been approved.");
+        System.out.println(courseSection.getParentCourse().getCourseId() +  "." + courseSection.getSectionID()  + " has been approved.");
         if (student.getTranscript().getWaitedCourses().isEmpty())
             System.out.println("No more courses to approve.");
     }
@@ -86,8 +86,13 @@ public class AdvisorInterface implements UserInterface {
         boolean logOut = false;
     
         // Get Course Section.
-        System.out.println(student.getTranscript().getWaitedCourses().get(courseIndex - 1).getCourseSections().get(0).getSectionID());
-        CourseSection courseSection = student.getTranscript().getWaitedCourses().get(courseIndex - 1).getCourseSections().get(0);
+        Course parent = student.getTranscript().getWaitedCourses().get(courseIndex - 1);
+        CourseSection courseSection = null;
+        for(int i = 0; i < student.getTranscript().getWaitedSections().size(); i++){
+            if(student.getTranscript().getWaitedSections().get(i).getParentCourse().getCourseId().equals(parent.getCourseId())) 
+                courseSection = student.getTranscript().getWaitedSections().get(i);
+        }
+   
     
         // Advisor will check that is there any conflict. If there is, request will be rejected.
         if (!advisor.checkSectionConflict(student, courseSection)) {
@@ -113,7 +118,6 @@ public class AdvisorInterface implements UserInterface {
     
         return logOut;
     }
-    
 
     public void studentOperations(Student student) {
         while (true) {

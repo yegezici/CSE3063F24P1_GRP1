@@ -136,6 +136,12 @@ public class StudentInterface implements UserInterface {
                 selectingArray.add(course);
             }
         }
+        for(int i = 0; i < selectingArray.size(); i++){
+            if(selectingArray.get(i).getSemester() > student.getTranscript().getSemester()){
+                selectingArray.remove(i);
+                i--;
+            }
+        }
         return selectingArray;
     }
 
@@ -182,8 +188,9 @@ public class StudentInterface implements UserInterface {
         int size = selectedCourse.getCourseSections().size();
         for (int k = 0; k < size; k++) {
             System.out.println((k + 1) + "- Section " + selectedCourse.getCourseSections().get(k).getSectionID());
-            System.out.println(selectedCourse.getCourseSections().get(k).getTimeSlots().get(0).getTimeInterval());
-            System.out.println();
+            System.out.println(selectedCourse.getCourseSections().get(k).getTimeSlots().get(0).getDay() + "   "
+                    + selectedCourse.getCourseSections().get(k).getTimeSlots().get(0).getTimeInterval() + "   " + 
+                    selectedCourse.getCourseSections().get(k).getTimeSlots().get(0).getClassroom());
         }
     }
 

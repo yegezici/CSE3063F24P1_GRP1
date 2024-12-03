@@ -55,31 +55,31 @@ public class StudentAffairsStaff extends Staff {
 
 
     public void setId(String id) {
-        this.affairID = affairID;
+        this.affairID = id;
     }
 
    
     @Override
     public String getName() {
-        return name;
+        return super.getName();
     }
 
   
     @Override
     public String getSurname() {
-        return surname;
+        return super.getSurname();
     }
 
     
     @Override
     public Date getBirthdate() {
-        return birthdate;
+        return super.getBirthdate();
     }
 
   
     @Override
     public char getGender() {
-        return gender;
+        return super.getGender();
     }
 
 

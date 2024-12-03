@@ -4,30 +4,27 @@ import java.util.stream.Collectors;
 
 public class WeeklySchedule {
     Student student;
-    
-    
-    public WeeklySchedule(Student student){
-        this.student = student;
-    }   
 
+    public WeeklySchedule(Student student) {
+        this.student = student;
+    }
 
     public void printStudentWeeklySchedule() {
-        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+        String[] days = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
         System.out.println(student.getTranscript().getCurrentCourses().size() + " courses taken this term.");
         for (String day : days) {
             boolean dayPrinted = false;
             for (CourseSection section : student.getTranscript().getCurrentSections()) {
-                if (section.getTimeSlots() != null) { 
+                if (section.getTimeSlots() != null) {
                     for (TimeSlot timeSlot : section.getTimeSlots()) {
-                        String timeInterval = timeSlot.getTimeInterval();
-                        if (timeInterval != null && timeInterval.contains(day)) { 
+                        String timeInterval = timeSlot.getTimeInterval();                        
+                        if (timeInterval != null && timeSlot.getDay().equals(day)) {
                             if (!dayPrinted) {
                                 System.out.println(day + ":");
                                 dayPrinted = true;
                             }
-                            String timeDetails = timeInterval.replace(day + " ", "");
                             String courseName = section.getParentCourse().getCourseName();
-                            System.out.println("  " + courseName + "  " + timeDetails);
+                            System.out.println("  " + courseName + "  " + timeInterval);
                         }
                     }
                 } else {
@@ -36,6 +33,5 @@ public class WeeklySchedule {
             }
         }
     }
-    
-    
-    }   
+
+}

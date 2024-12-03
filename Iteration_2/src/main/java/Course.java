@@ -12,16 +12,19 @@ public abstract class Course {
     private int semester;
 
     public Course() {
+        courseSections = new ArrayList<CourseSection>();
     }
 
     public Course(String courseId, String courseName) {
         this.courseId = courseId;
         this.courseName = courseName;
+        courseSections = new ArrayList<CourseSection>();
     }
 	public Course(String courseId, String courseName, int credits) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.credits = credits;
+        courseSections = new ArrayList<CourseSection>();
     }
 
     public Course(String courseId, String courseName, String grade, int credits) {
@@ -29,6 +32,7 @@ public abstract class Course {
         this.courseName = courseName;
         this.credits = credits;
         this.grade = grade;
+        courseSections = new ArrayList<CourseSection>();
     }
 	
     //constructor
@@ -46,6 +50,12 @@ public abstract class Course {
         this.courseName = courseName;
         this.credits = credits;
         this.prerequisiteCourse=prerequisiteCourse;
+        courseSections = new ArrayList<CourseSection>();
+        this.semester = semester;
+    }public Course(String courseId, String courseName, int credits, int semester) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.credits = credits;
         courseSections = new ArrayList<CourseSection>();
         this.semester = semester;
     }

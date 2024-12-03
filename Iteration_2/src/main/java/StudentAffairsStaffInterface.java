@@ -7,9 +7,11 @@ public class StudentAffairsStaffInterface implements UserInterface {
         Scanner scan;
         ArrayList<Course> courses;
         ArrayList<CourseSection> courseSections;
+        
     
         public StudentAffairsStaffInterface() {
             scan = new Scanner(System.in);
+           
 
         }
     
@@ -57,10 +59,11 @@ public class StudentAffairsStaffInterface implements UserInterface {
         public void addCourse() {
             String[] course = askCourseParameters();
             try {
-                Course newCourse = staff.createCourse(course[0], course[1], course[3],Integer.parseInt(course[2]), Integer.parseInt(course[3])); 
+                Course newCourse = staff.createCourse(course[0], course[1], course[3],Integer.parseInt(course[2]), Integer.parseInt(course[4])); 
                 courses.add(newCourse);
+                JsonManagement.getInstance().writeCoursesToJson(newCourse);
                 courseSections.addAll(newCourse.getCourseSections());
-    
+                
             } catch (NumberFormatException e) {
                 System.out.println("Enter an integer value for course code and course credits.");
             }
@@ -79,7 +82,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
             System.out.print("Enter course credits: ");
             course[2] = scan.next();
             System.out.print("Enter course type (Mandatory (m) / Technical Elective (te) / Non-Technical Elective (nte) ):  ");
-            course[3] = scan.next();
+            course[3] = scan.next().toLowerCase();
             if(!(course[3].equals("m") || course[3].equals("te") || course[3].equals("nte")) )
              throw new InputMismatchException("Invalid choice! ");
             System.out.print("How many sections does the course have? : ");

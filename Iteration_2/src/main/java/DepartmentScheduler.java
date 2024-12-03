@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class DepartmentScheduler extends Staff {
     private ArrayList<CourseSection> courseSections;
@@ -132,22 +133,43 @@ public class DepartmentScheduler extends Staff {
 
     // Check time conflict for CourseSections whichs is in the same semester.
     // Semester Courses are needed.
-    public ArrayList<String> handleTimeConflict(ArrayList<CourseSection> semesterCourses) {
+    public ArrayList<String> handleTimeConflict(ArrayList<CourseSection> semesterCourses, String day) {
         // Saatleri seçmesi istenecek. Birden fazla saat seçilebilir. Bu method aynı
         // yıldaki diğer tüm sectionların saatine bakmalı ve saat çakışmalarını
         // engellemeli
         ArrayList<String> availableTimeIntervals = new ArrayList<>(allTimeIntervals);
 
-        for (int i = 0; i < semesterCourses.size(); i++) {
-            ArrayList<TimeSlot> timeSlots = semesterCourses.get(i).getTimeSlots();
-            for (int k = 0; k < timeSlots.size(); k++) {
-                String timeInterval = timeSlots.get(k).getTimeInterval();
-                availableTimeIntervals.remove(timeInterval);
+        try {
+            // semesterCourses null ise hata fırlat
+            if (semesterCourses == null) {
+                throw new IllegalArgumentException("Semester courses list cannot be null.");
             }
+    
+            // SemesterCourses içindeki TimeSlots'ları kontrol et
+            for (int i = 0; i < semesterCourses.size(); i++) {
+                ArrayList<TimeSlot> timeSlots = semesterCourses.get(i).getTimeSlots();
+    
+                // Gün ve zaman aralığı kontrolü
+                for (int k = 0; k < timeSlots.size(); k++) {
+                    String timeInterval = timeSlots.get(k).getTimeInterval();
+                    String sectionDay = timeSlots.get(k).getDay();
+                    if (sectionDay.equals(day)) {
+                        availableTimeIntervals.remove(timeInterval);
+                    }
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+            System.exit(1); // Hata durumunda programı sonlandır
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
         }
-
+    
         return availableTimeIntervals;
     }
+    
 
     // Returns x'th semester courses as ArrayList.
     public ArrayList<CourseSection> semesterXCourses(int x) {
@@ -163,20 +185,22 @@ public class DepartmentScheduler extends Staff {
     }
 
     // Check classroom conflict for CourseSection.
-    public ArrayList<String> handleClassroomConflict(String timeInterval) {
-        // Return classrooms which can be selected. So, decide whether the classroom is
-        // selected before or not.
-        ArrayList<String> availableClassrooms = allClassrooms;
+    public ArrayList<String> handleClassroomConflict(String day, String timeInterval) {
+       // Return classrooms which can be selected. So, decide whether the classroom is selected before or not.
+        ArrayList<String> availableClassrooms = new ArrayList<>(allClassrooms);
 
         for (int i = 0; i < courseSections.size(); i++) {
             ArrayList<TimeSlot> timeSlots = courseSections.get(i).getTimeSlots();
             for (int k = 0; k < timeSlots.size(); k++) {
-                if (timeSlots.get(k).getTimeInterval() == timeInterval) {
-                    String whichClassroom = findWhichClassroom(timeSlots.get(k).getClassroom());
+                TimeSlot slot = timeSlots.get(k);
+                // Gün ve zaman aralığını kontrol et
+                if (slot.getDay().equals(day) && slot.getTimeInterval().equals(timeInterval)) {
+                    String whichClassroom = findWhichClassroom(slot.getClassroom());
                     availableClassrooms.remove(whichClassroom);
                 }
             }
         }
+
         return availableClassrooms;
     }
 
@@ -218,4 +242,46 @@ public class DepartmentScheduler extends Staff {
         }
         return availability;
     }
+    // Returns a list of available days based on current course schedules and time intervals.
+    public ArrayList<String> getAvailableDays(ArrayList<CourseSection> semesterCourses) {
+        ArrayList<String> allDays = new ArrayList<>();
+        allDays.add("Monday");
+        allDays.add("Tuesday");
+        allDays.add("Wednesday");
+        allDays.add("Thursday");
+        allDays.add("Friday");
+
+        try {
+            if (semesterCourses == null) {
+                throw new IllegalArgumentException("Semester courses list cannot be null.");
+            }
+
+            // Tüm günler ve saat aralıklarını kontrol etmek için bir harita oluştur.
+            HashMap<String, ArrayList<String>> dayToTimeIntervals = new HashMap<>();
+            for (String day : allDays) {
+                dayToTimeIntervals.put(day, new ArrayList<>(allTimeIntervals));
+            }
+
+            // Dolu olan zaman aralıklarını günlerden çıkar.
+            for (CourseSection section : semesterCourses) {
+                for (TimeSlot timeSlot : section.getTimeSlots()) {
+                    String day = timeSlot.getDay();
+                    String timeInterval = timeSlot.getTimeInterval();
+
+                    // Eğer gün varsa ve zaman aralığı doluysa, onu kaldır.
+                    if (dayToTimeIntervals.containsKey(day)) {
+                        dayToTimeIntervals.get(day).remove(timeInterval);
+                    }
+                }
+            }
+
+            // Eğer bir günün tüm zaman aralıkları doluysa, o günü listeden çıkar.
+            allDays.removeIf(day -> dayToTimeIntervals.get(day).isEmpty());
+        } catch (Exception e) {
+            System.err.println("Error while finding available days: " + e.getMessage());
+        }
+
+        return allDays;
+    }
+
 }
