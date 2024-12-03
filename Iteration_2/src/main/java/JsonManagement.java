@@ -52,11 +52,7 @@ public class JsonManagement {
         return courseSections;
     }
 
-    public void saveStudents() {
-        for (Student student : students)
-            saveStudent(student);
 
-    }
 
     public ArrayList<String> getClassrooms() {
         return classrooms;
@@ -117,7 +113,7 @@ public class JsonManagement {
         }
     }
 
-    protected ArrayList<Course> loadCourses() {
+    private ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
         String filePath = "iteration_2/src/main/java/courseList.json";
@@ -386,7 +382,7 @@ public class JsonManagement {
         courseJson.put(courseListType, completedCourses);
     }
 
-    protected void saveStudent(Student student) {
+    public void saveStudent(Student student) {
         String filePath = "Iteration_2/src/main/java/" + student.getID() + ".json";
 
         try (FileWriter writer = new FileWriter(filePath)) {
@@ -404,7 +400,7 @@ public class JsonManagement {
         }
     }
 
-    public ArrayList<CourseSection> readSectionsForStudents(String filePath, String sectionType) {
+    private ArrayList<CourseSection> readSectionsForStudents(String filePath, String sectionType) {
         ArrayList<CourseSection> newCourseSections = new ArrayList<>();
         try (FileReader reader = new FileReader(filePath)) {
             JSONParser parser = new JSONParser();
