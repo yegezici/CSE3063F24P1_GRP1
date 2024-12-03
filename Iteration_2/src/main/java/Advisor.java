@@ -24,7 +24,6 @@ public class Advisor extends Lecturer {
     // for approval.
     public void approveCourse(Student student, CourseSection courseSection) {
         try {
-            System.out.println("DENEME GELİYOR     " + courseSection.getCurrentStudents().size());
             if (!(courseSection.getCapacity() > courseSection.getCurrentStudents().size())) {
                 courseSection.getWaitList().add(student);
                 System.out.println("Capacity is full. You are listed in waitlist.");

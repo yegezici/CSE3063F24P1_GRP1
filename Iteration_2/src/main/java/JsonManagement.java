@@ -79,7 +79,6 @@ public class JsonManagement {
             for(Student student : students){
                 if(student.getTranscript().getCurrentSections().contains(courseSection)){
                     courseSection.addStudentToSection(student);
-                    System.out.println(student.getID());
                 }
             }
         }
