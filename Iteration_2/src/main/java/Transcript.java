@@ -7,7 +7,7 @@ public class Transcript {
     private WeeklySchedule weeklySchedule;
     private ArrayList<CourseSection> currentSections;
     private ArrayList<CourseSection> waitedSections;
-
+    private int semester;
 
     public Transcript(){
 
@@ -222,6 +222,13 @@ public class Transcript {
         return (int)((totalSum/totalCredits) * 100) / 100.0;
     }
 
+    public int getSemester(){
+        return this.semester;
+    }
+    
+    public void setSemester(int semester){
+        this.semester = semester;
+    }
 }
 
 

@@ -510,7 +510,7 @@ public class JsonManagement {
         try (FileReader reader = new FileReader(filePath)) {
             // Parse the JSON as an object (not an array)
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-
+            int semester = ((Long) jsonObject.get("year")).intValue();
             ArrayList<Course> completedCourses = readCoursesForStudents(filePath, "completedCourses");
             ArrayList<Course> currentCourses = readCoursesForStudents(filePath, "currentCourses");
             ArrayList<Course> waitedCourses = readCoursesForStudents(filePath, "waitedCourses");
@@ -527,8 +527,9 @@ public class JsonManagement {
                 }
             }
             // Return the Transcript with completed and current courses
-            return new Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections);
-
+            Transcript returnTranscript = new Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections);
+            returnTranscript.setSemester(semester);
+            return returnTranscript;
         } catch (Exception e) {
             System.out.println("Error reading or parsing the JSON file for student ID: " + studentID);
             e.printStackTrace();

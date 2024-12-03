@@ -136,6 +136,12 @@ public class StudentInterface implements UserInterface {
                 selectingArray.add(course);
             }
         }
+        for(int i = 0; i < selectingArray.size(); i++){
+            if(selectingArray.get(i).getSemester() != student.getTranscript().getSemester()){
+                selectingArray.remove(i);
+                i--;
+            }
+        }
         return selectingArray;
     }
 
