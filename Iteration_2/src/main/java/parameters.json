@@ -1,90 +1,9 @@
 {
-    "courses": [
-      {
-        "courseId": "CSE1241",
-        "name": "Computer Programming I",
-        "credits": 6
-      },
-      {
-        "courseId": "CSE1242",
-        "name": "Computer Programming II",
-        "credits": 6,
-        "prerequisite": "CSE1241"
-      },
-      {
-        "courseId": "MATH1002",
-        "name": "Calculus I",
-        "credits": 5
-      },
-      {
-        "courseId": "CSE2225",
-        "name": "Data Structures",
-        "credits": 7,
-        "prerequisite": "CSE1242"
-      },
-      {
-        "courseId": "CSE2030",
-        "name": "Algorithms",
-        "credits": 6,
-        "prerequisite": "CSE2225"
-      },
-      {
-        "courseId": "STAT2253",
-        "name": "Introduction to Probability and Statistics",
-        "credits": 5
-      },
-      {
-        "courseId": "ECON2004",
-        "name": "Engineering Economy",
-        "credits": 4
-      },
-      {
-        "courseId": "CSE3033",
-        "name": "Operating Systems",
-        "credits": 7,
-        "prerequisite": "CSE2225"
-      },
-      {
-        "courseId": "CSE3055",
-        "name": "Database Systems",
-        "credits": 7,
-        "prerequisite": "CSE2225"
-      },
-      {
-        "courseId": "CSE3063",
-        "name": "Object-Oriented Software Design",
-        "credits": 5,
-        "prerequisite": "CSE1242"
-      },
-      {
-        "courseId": "CSE3215",
-        "name": "Digital Logic Design",
-        "credits": 6
-      },
-      {
-        "courseId": "CSE4100",
-        "name": "Modeling and Discrete Simulation",
-        "credits": 4,
-        "prerequisite": "STAT2223"
-      },
-      {
-        "courseId": "CSE3038",
-        "name": "Computer Organization",
-        "credits": 7,
-        "prerequisite": "CSE3215"
-      },
-      {
-        "courseId": "CSE4219",
-        "name": "Principles of Embedded System Design",
-        "credits": 6,
-        "prerequisite": "CSE3038"
-      }
-    ],
     "students": [
       {
         "password": "abc123",
-        "name": "John",
-        "surname": "Doe",
+        "name": "Kenan",
+        "surname": "Yildiz",
         "birthdate": "2000-01-01",
         "gender": "M",
         "userID": "150121031",
@@ -92,35 +11,35 @@
       },
       {
         "password": "password2",
-        "name": "Jane",
-        "surname": "Smith",
+        "name": "Enis",
+        "surname": "Destan",
         "birthdate": "1999-02-14",
-        "gender": "F",
+        "gender": "M",
         "userID": "150121032",
         "advisorID": "123456"
       },
       {
         "password": "password3",
-        "name": "Alice",
-        "surname": "Johnson",
+        "name": "Oguz",
+        "surname": "Aydin",
         "birthdate": "2001-03-12",
-        "gender": "F",
+        "gender": "M",
         "userID": "150121033",
         "advisorID": "123456"
       },
       {
         "password": "password4",
-        "name": "Bob",
-        "surname": "Williams",
+        "name": "Aslı",
+        "surname": "Cakir",
         "birthdate": "2001-05-20",
-        "gender": "M",
+        "gender": "F",
         "userID": "150121034",
         "advisorID": "123456"
       },
       {
         "password": "password5",
-        "name": "Charlie",
-        "surname": "Brown",
+        "name": "Necip",
+        "surname": "Uysal",
         "birthdate": "2002-06-30",
         "gender": "M",
         "userID": "150121035",
@@ -128,47 +47,65 @@
       },
       {
         "password": "password6",
-        "name": "David",
-        "surname": "Davis",
-        "birthdate": "1999-08-15",
+        "name": "Berkan",
+        "surname": "Kutlu",
+        "birthdate": "2002-08-15",
         "gender": "M",
         "userID": "150122036",
         "advisorID": "654321"
       },
       {
         "password": "password7",
-        "name": "Eve",
-        "surname": "Wilson",
-        "birthdate": "2000-10-22",
-        "gender": "F",
+        "name": "Ferdi",
+        "surname": "Kadioglu",
+        "birthdate": "2001-10-22",
+        "gender": "M",
         "userID": "150122037",
         "advisorID": "654321"
       },
       {
         "password": "password8",
-        "name": "Frank",
-        "surname": "Moore",
+        "name": "Ceyda",
+        "surname": "Santos",
         "birthdate": "1998-12-05",
-        "gender": "M",
+        "gender": "F",
         "userID": "150122038",
         "advisorID": "654321"
       },
       {
         "password": "password9",
-        "name": "Grace",
-        "surname": "Taylor",
-        "birthdate": "2002-04-17",
+        "name": "Elif",
+        "surname": "Yildirim",
+        "birthdate": "1999-04-17",
         "gender": "F",
         "userID": "150122039",
         "advisorID": "654321"
       },
       {
         "password": "password10",
-        "name": "Hank",
-        "surname": "Anderson",
-        "birthdate": "1999-11-09",
+        "name": "Kerem",
+        "surname": "Akturkoglu",
+        "birthdate": "2005-06-09",
         "gender": "M",
         "userID": "150122040",
+        "advisorID": "654321"
+      },
+      {
+        "password": "password11",
+        "name": "Baris",
+        "surname": "Alper",
+        "birthdate": "2006-01-09",
+        "gender": "M",
+        "userID": "150122041",
+        "advisorID": "654321"
+      },
+      {
+        "password": "password12",
+        "name": "Baki",
+        "surname": "Mercimek",
+        "birthdate": "2005-11-09",
+        "gender": "M",
+        "userID": "150122042",
         "advisorID": "654321"
       }
     ],
@@ -186,7 +123,8 @@
           "150121032",
           "150121033",
           "150121034",
-          "150121035"
+          "150121035",
+          "150122036"
         ],
         "courses": [
           "CSE1113",
@@ -207,7 +145,9 @@
           "150122037",
           "150122038",
           "150122039",
-          "150122040"
+          "150122040",
+          "150122041",
+          "150122042"
         ],
         "courses": [
           "CSE1113",
@@ -221,17 +161,17 @@
       {
         "userID": "111",
         "password": "111",
-        "name": "Kulliye",
-        "surname": "Kantin"
+        "name": "Onur",
+        "surname": "Bulut"
       }
     ],
 
     "departmentSchedulers":[
       {
-        "userID": "111",
-        "password": "111",
-        "name": "Cay",
-        "surname": "Onbeslira"
+        "userID": "222",
+        "password": "222",
+        "name": "Tayfur",
+        "surname": "Bingol"
       }
     ],
     "classrooms": [
