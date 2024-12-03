@@ -423,8 +423,6 @@ public class JsonManagement {
                         if (courseSections.get(i).getParentCourse().getCourseId().equals(parentCourseId)
                                 && courseSections.get(i).getSectionID().equals(sectionId)) {
                             newCourseSections.add(courseSections.get(i));
-                            System.out.println(courseSections.get(i).getParentCourse().getCourseId() + "."
-                                    + courseSections.get(i).getSectionID());
                             break;
                         }
                     }
