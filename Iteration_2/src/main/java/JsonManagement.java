@@ -85,7 +85,7 @@ public class JsonManagement {
                     String[] timeParts = time.split(" ", 2); // İlk boşluktan ayırır
                     String day = timeParts[0]; // Gün
                     String timeInterval = timeParts[1]; // Zaman aralığı
-                    TimeSlot timeSlot = new TimeSlot(day, classroom, timeInterval);
+                    TimeSlot timeSlot = new TimeSlot(day, timeInterval, classroom);
                     CourseSection courseSection = new CourseSection(Integer.toString(sectionID), capacity);
                     courseSection.getTimeSlots().add(timeSlot);
                     Course course = null;
