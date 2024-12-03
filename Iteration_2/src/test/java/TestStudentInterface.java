@@ -15,7 +15,7 @@ public class TestStudentInterface {
     @Before
     public void setUp() {
         Transcript transcript = new Transcript(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        student = new Student("Melisa", "Gezer", new Date(), 'F', new Transcript(), "150120101");
+        student = new Student("Melisa", "Gezer", new Date(), 'F', transcript, "150120101");
 
         courses = new ArrayList<>();
         Course course1 = new MandatoryCourse("IE3107", "Probability", 6);
@@ -36,7 +36,7 @@ public class TestStudentInterface {
         student.getTranscript().getCompletedCourses().add(courses.get(0)); 
         registerableCourses = studentInterface.showRegisterableCourses();
         assertEquals("Registerable courses list should contain MATH101 after prerequisite is met.", 1, registerableCourses.size());
-        assertEquals("The remaining course should be IE3107.", "IE3107", registerableCourses.get(0).getCourseId());
+        assertEquals("The remaining course should be IE3108.", "IE3108", registerableCourses.get(0).getCourseId());
     }
 
     @Test
