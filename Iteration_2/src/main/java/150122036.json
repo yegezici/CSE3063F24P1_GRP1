@@ -1,37 +1,86 @@
 {
-    "completedCourses": [
-        {
-            "courseID": "CSE1241",
-            "courseName": "Computer Programming I",
-            "credits": 6,
-            "grade": "BB"
-        },
-        {
-            "courseID": "CSE1242",
-            "courseName": "Computer Programming II",
-            "credits": 6,
-            "grade": "BA"
-        },
-        {
-            "courseID": "MATH1002",
-            "courseName": "Calculus I",
-            "credits": 5,
-            "grade": "AA"
-        }
-    ],
-    "currentCourses": [
-        {
-            "courseID": "CSE2225",
-            "courseName": "Data Structures",
-            "credits": 7
-        },
-        {
-            "courseID": "STAT2253",
-            "courseName": "Introduction to Probability and Statistics",
-            "credits": 5
-        }
-    ],
-    "waitedCourses": [
-        
-    ]
+  "year": 2,
+  "completedCourses": [
+    {
+      "courseID": "MATH1001",
+      "courseName": "Calculus I",
+      "credits": 6,
+      "grade": "BB"
+    },
+    {
+      "courseID": "CSE1200",
+      "courseName": "Introduction to Computer Engineering",
+      "credits": 4,
+      "grade": "CC"
+    },
+    {
+      "courseID": "CSE1241",
+      "courseName": "Computer Programming I",
+      "credits": 6,
+      "grade": "CB"
+    },
+    {
+      "courseID": "PHYS1101",
+      "courseName": "Physics I",
+      "credits": 4,
+      "grade": "BB"
+    },
+    {
+      "courseID": "ATA121",
+      "courseName": "Atatürk s Prin. & History I",
+      "credits": 2,
+      "grade": "BB"
+    },
+    {
+      "courseID": "MBG1201",
+      "courseName": "Introduction to Modern Biology",
+      "credits": 2,
+      "grade": "BB"
+    },
+    {
+      "courseID": "TRD121",
+      "courseName": "Turkish Language I",
+      "credits": 2,
+      "grade": "DC"
+    },
+    {
+      "courseID": "MATH1002",
+      "courseName": "Calculus II",
+      "credits": 6,
+      "grade": "BB"
+    },
+    {
+      "courseID": "CSE1242",
+      "courseName": "Computer Programming II",
+      "credits": 6,
+      "grade": "CC"
+    },
+    {
+      "courseID": "PHYS1102",
+      "courseName": "Physics II",
+      "credits": 4,
+      "grade": "CB"
+    },
+    {
+      "courseID": "ATA122",
+      "courseName": "Atatürk s Prin. & History II",
+      "credits": 2,
+      "grade": "BA"
+    },
+    {
+      "courseID": "TRD122",
+      "courseName": "Turkish Language II",
+      "credits": 2,
+      "grade": "BB"
+    }
+  ],
+  "currentCourses": [
+  ],
+  "waitedCourses": [
+  ],
+  "currentSections": [
+  ],
+  "waitedSections": [
+  ]
 }
+
