@@ -105,6 +105,14 @@ public class DepartmentScheduler extends Staff {
 
                 // Add course to student's transcript.
                 student.getTranscript().addCurrentCourse(courseSection.getParentCourse());
+                int sizeNew = student.getTranscript().getWaitedCourses().size();
+                for(int j = 0; j < sizeNew; j++){
+                    if(student.getTranscript().getWaitedCourses().get(j).getCourseId().equals(courseSection.getParentCourse().getCourseId())){
+                        student.getTranscript().deleteFromWaitedCourse(student.getTranscript().getWaitedCourses().get(j));
+                    }
+                }
+                student.getTranscript().addCurrentSection(courseSection);
+                student.getTranscript().deleteFromWaitedSections(courseSection);
 
                 // Remove student from the waitlist.
                 studentsToSection.remove(0);
@@ -113,6 +121,7 @@ public class DepartmentScheduler extends Staff {
             courseSection.setWaitList(studentsToSection);
         } catch (Exception e) {
             System.err.println("Error managing waitlist: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
