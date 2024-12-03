@@ -72,7 +72,6 @@ public class AdvisorInterface implements UserInterface {
 
     public void approveCourse(Student student, CourseSection courseSection) {
         advisor.approveCourse(student, courseSection);
-        System.out.println(courseSection.getParentCourse().getCourseId() +  "." + courseSection.getSectionID()  + " has been approved.");
         if (student.getTranscript().getWaitedCourses().isEmpty())
             System.out.println("No more courses to approve.");
     }
