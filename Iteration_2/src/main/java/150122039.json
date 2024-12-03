@@ -1,43 +1,226 @@
 {
-    "completedCourses": [
-        {
-            "courseID": "CSE1241",
-            "courseName": "Computer Programming I",
-            "credits": 6,
-            "grade": "AA"
-        },
-        {
-            "courseID": "CSE1242",
-            "courseName": "Computer Programming II",
-            "credits": 6,
-            "grade": "BB"
-        },
-        {
-            "courseID": "CSE2225",
-            "courseName": "Data Structures",
-            "credits": 7,
-            "grade": "AA"
-        },
-        {
-            "courseID": "STAT2253",
-            "courseName": "Introduction to Probability and Statistics",
-            "credits": 5,
-            "grade": "CB"
-        }
-    ],
-    "currentCourses": [
-        {
-            "courseID": "CSE2030",
-            "courseName": "Algorithms",
-            "credits": 6
-        },
-        {
-            "courseID": "CSE3033",
-            "courseName": "Operating Systems",
-            "credits": 7
-        }
-    ],
-    "waitedCourses": [
-        
-    ]
+  "year": 4,
+  "completedCourses": [
+    {
+      "courseID": "MATH1001",
+      "courseName": "Calculus I",
+      "credits": 6,
+      "grade": "BB"
+    },
+    {
+      "courseID": "CSE1200",
+      "courseName": "Introduction to Computer Engineering",
+      "credits": 4,
+      "grade": "CC"
+    },
+    {
+      "courseID": "CSE1241",
+      "courseName": "Computer Programming I",
+      "credits": 6,
+      "grade": "CC"
+    },
+    {
+      "courseID": "PHYS1101",
+      "courseName": "Physics I",
+      "credits": 4,
+      "grade": "AA"
+    },
+    {
+      "courseID": "ATA121",
+      "courseName": "Atatürk s Prin. & History I",
+      "credits": 2,
+      "grade": "BB"
+    },
+    {
+      "courseID": "MBG1201",
+      "courseName": "Introduction to Modern Biology",
+      "credits": 2,
+      "grade": "AA"
+    },
+    {
+      "courseID": "TRD121",
+      "courseName": "Turkish Language I",
+      "credits": 2,
+      "grade": "BA"
+    },
+    {
+      "courseID": "MATH1002",
+      "courseName": "Calculus II",
+      "credits": 6,
+      "grade": "CB"
+    },
+    {
+      "courseID": "CSE1242",
+      "courseName": "Computer Programming II",
+      "credits": 6,
+      "grade": "BB"
+    },
+    {
+      "courseID": "PHYS1102",
+      "courseName": "Physics II",
+      "credits": 4,
+      "grade": "CC"
+    },
+    {
+      "courseID": "ATA122",
+      "courseName": "Atatürk s Prin. & History II",
+      "credits": 2,
+      "grade": "AA"
+    },
+    {
+      "courseID": "MATH2256",
+      "courseName": "Linear Algebra for Comp. Eng.",
+      "credits": 5,
+      "grade": "BA"
+    },
+    {
+      "courseID": "TRD122",
+      "courseName": "Turkish Language II",
+      "credits": 2,
+      "grade": "AA"
+    },
+    {
+      "courseID": "MATH2059",
+      "courseName": "Numerical Methods",
+      "credits": 4,
+      "grade": "BB"
+    },
+    {
+      "courseID": "CSE2225",
+      "courseName": "Data Structures",
+      "credits": 7,
+      "grade": "DC"
+    },
+    {
+      "courseID": "CSE2023",
+      "courseName": "Discrete Comp. Structures",
+      "credits": 6,
+      "grade": "CC"
+    },
+    {
+      "courseID": "EE2031",
+      "courseName": "Electric Circuits",
+      "credits": 5,
+      "grade": "AA"
+    },
+    {
+      "courseID": "ECON2004",
+      "courseName": "Engineering Economy",
+      "credits": 4,
+      "grade": "BA"
+    },
+    {
+      "courseID": "MATH2055",
+      "courseName": "Differential Equations",
+      "credits": 4,
+      "grade": "CC"
+    },
+    {
+      "courseID": "CSE2246",
+      "courseName": "Analysis of Algorithms",
+      "credits": 6,
+      "grade": "CB"
+    },
+    {
+      "courseID": "CSE2260",
+      "courseName": "Principles of Prog. Languages",
+      "credits": 6,
+      "grade": "AA"
+    },
+    {
+      "courseID": "EE2032",
+      "courseName": "Electronics",
+      "credits": 5,
+      "grade": "CB"
+    },
+    {
+      "courseID": "CSE2138",
+      "courseName": "Systems Programming",
+      "credits": 7,
+      "grade": "CC"
+    },
+    {
+      "courseID": "STAT2253",
+      "courseName": "Prob. and Stat. for Comp. Eng.",
+      "credits": 5,
+      "grade": "BA"
+    },
+    {
+      "courseID": "CSE3055",
+      "courseName": "Database Systems",
+      "credits": 7,
+      "grade": "CC"
+    },
+    {
+      "courseID": "CSE3033",
+      "courseName": "Operating Systems",
+      "credits": 7,
+      "grade": "BB"
+    },
+    {
+      "courseID": "CSE3063",
+      "courseName": "Object-Oriented Software Desg.",
+      "credits": 5,
+      "grade": "BA"
+    },
+    {
+      "courseID": "CSE3215",
+      "courseName": "Digital Logic Design",
+      "credits": 6,
+      "grade": "AA"
+    },
+    {
+      "courseID": "IE3081",
+      "courseName": "Modeling and Disc. Simulation",
+      "credits": 4,
+      "grade": "BA"
+    },
+    {
+      "courseID": "IE3235",
+      "name": "Operations Research",
+      "credits": 4,
+      "grade": "DD"
+    },
+    {
+      "courseID": "COM2202",
+      "courseName": "Tech. Comm. & Entrepreneurship",
+      "credits": 2,
+      "grade": "DC"
+    },
+    {
+      "courseID": "CSE3044",
+      "courseName": "Software Engineering",
+      "credits": 7,
+      "grade": "BB"
+    },
+    {
+      "courseID": "CSE3264",
+      "courseName": "Formal Lang. & Auto. Theory",
+      "credits": 5,
+      "grade": "CC"      
+    },
+    {
+      "courseID": "CSE3038",
+      "courseName": "Computer Organization",
+      "credits": 7,
+      "grade": "CB"
+    },
+    {
+      "courseID": "CSE3048",
+      "courseName": "Int. to Signals and Systems",
+      "credits": 5,
+      "grade": "BA"
+    }
+  ],
+  "currentCourses": [
+    
+  ],
+  "waitedCourses": [
+  ],
+  "currentSections": [
+    
+  ],
+  "waitedSections": [
+  ]
 }
+
