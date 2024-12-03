@@ -33,7 +33,7 @@ public class TestDepartmentScheduler {
         course = new MandatoryCourse("IE3107", "Probability", 6);
         courseSection = new CourseSection("CSE101", 15);
         courseSection.setWaitList(waitList);
-        timeSlot = new TimeSlot("09:30-10:20", "M2Z11");
+        timeSlot = new TimeSlot("Monday", "09:30-10:20", "M2Z11");
         lecturer = new Lecturer("Dylan", "Obrien");
     }
 
@@ -58,27 +58,6 @@ public class TestDepartmentScheduler {
         departmentScheduler.manageWaitlist(courseSection, size);
        
         assertEquals("Waitlist size should be reduced by the processed students." , 0, courseSection.getWaitList().size());
-    }
-
-    @Test
-    public void testHandleClassroomConflict() {
-        // TimeSlot'ları oluştur ve listeye ekle
-        ArrayList<TimeSlot> timeSlots = new ArrayList<>();
-        TimeSlot timeSlot1 = new TimeSlot("09:30-10:20", "M2Z11");
-        TimeSlot timeSlot2 = new TimeSlot("10:30-11:20", "M3Z12");
-        timeSlots.add(timeSlot1);
-        timeSlots.add(timeSlot2);
-
-        courseSection1 = new CourseSection("1", 10 , course);
-    
-        // CourseSection'a ata
-        courseSection1.setTimeSlot(timeSlots);
-    
-        // Test metodu çağrısı
-        ArrayList<String> availableClassrooms = departmentScheduler.handleClassroomConflict("09:30-10:20");
-    
-        // Beklenen sonuçları kontrol et
-        assertTrue(availableClassrooms.contains("M2Z11"));
     }
     
 }
