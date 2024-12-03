@@ -1,0 +1,38 @@
+{
+  "year": 1,
+  "completedCourses": [
+    {
+      "courseID": "MATH1001",
+      "courseName": "Calculus I",
+      "credits": 6,
+      "grade": "BB"
+    }   
+  ],
+  "currentCourses": [
+    {
+      "courseID": "CSE1241",
+      "courseName": "Computer Programming I",
+      "credits": 6
+    },
+    {
+      "courseID": "PHYS1101",
+      "courseName": "Physics I",
+      "credits": 4
+    }
+  ],
+  "waitedCourses": [
+  ],
+  "currentSections": [
+    {
+      "courseID": "CSE1241",
+      "sectionID": "2"
+    },
+    {
+      "courseID": "PHYS1101",
+      "sectionID": "1"
+    }
+  ],
+  "waitedSections": [
+  ]
+}
+

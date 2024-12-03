@@ -95,13 +95,13 @@ public class TestAdvisor {
     @Test
     public void testCheckSectionConflict() {
         // Existing course section with a specific time slot.
-        TimeSlot existingTimeSlot = new TimeSlot("09:30-10:20", "M2Z11");
+        TimeSlot existingTimeSlot = new TimeSlot("Monday", "09:30-10:20", "M2Z11");
         CourseSection existingSection = new CourseSection("CSE101.1", 30);
         existingSection.getTimeSlots().add(existingTimeSlot);
         student.getTranscript().addCurrentSection(existingSection);
 
         // New course section with a non-conflicting time slot.
-        TimeSlot newTimeSlot = new TimeSlot("10:30-11:20", "M2Z12");
+        TimeSlot newTimeSlot = new TimeSlot("Monday", "10:30-11:20", "M2Z12");
         CourseSection newSection = new CourseSection("CSE102.1", 30);
         newSection.getTimeSlots().add(newTimeSlot);
 
@@ -110,7 +110,7 @@ public class TestAdvisor {
         assertTrue("Sections should not conflict.", resultNoConflict);
 
         // New course section with a conflicting time slot.
-        TimeSlot conflictingTimeSlot = new TimeSlot("09:30-10:20", "M2Z14");
+        TimeSlot conflictingTimeSlot = new TimeSlot("Monday", "09:30-10:20", "M2Z14");
         newSection.getTimeSlots().clear();
         newSection.getTimeSlots().add(conflictingTimeSlot);
 

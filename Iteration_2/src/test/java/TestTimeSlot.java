@@ -11,7 +11,7 @@ public class TestTimeSlot {
     @Before
     public void setUp() {
         courseSection = new CourseSection("CSE101", 15);
-        timeSlot = new TimeSlot("09:30-10:20", "M2Z11");
+        timeSlot = new TimeSlot("Monday", "09:30-10:20", "M2Z11");
     }
 
     @Test
