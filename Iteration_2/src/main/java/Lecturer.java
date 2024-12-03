@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Lecturer extends Staff{
-    protected ArrayList<Course> courses;
+    private ArrayList<Course> courses;
 
     //constructors
     public Lecturer (){
