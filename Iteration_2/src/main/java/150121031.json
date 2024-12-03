@@ -95,13 +95,13 @@
         "courseID": "EE2031",
         "courseName": "Electric Circuits",
         "credits": 5,
-        "grade": "CC"
+        "grade": "CB"
       },
       {
         "courseID": "ECON2004",
         "courseName": "Engineering Economy",
         "credits": 4,
-        "grade": "DC"
+        "grade": "CC"
       },
       {
         "courseID": "MATH2055",
@@ -125,7 +125,7 @@
         "courseID": "CSE2138",
         "courseName": "Systems Programming",
         "credits": 7,
-        "grade": "CC"
+        "grade": "CB"
       },
       {
         "courseID": "STAT2253",
