@@ -63,11 +63,10 @@ public class JsonManagement {
 
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject rootObject = (JSONObject) parser.parse(reader);
-            JSONObject courseSections = (JSONObject) rootObject.get("courseSections");
 
-            for (Object courseKey : courseSections.keySet()) {
+            for (Object courseKey : rootObject.keySet()) {
                 String courseId = (String) courseKey;
-                JSONArray sectionsArray = (JSONArray) courseSections.get(courseId);
+                JSONArray sectionsArray = (JSONArray) rootObject.get(courseId);
 
                 for (Object sectionObj : sectionsArray) {
                     JSONObject section = (JSONObject) sectionObj;

@@ -1,5 +1,4 @@
 {
-  "courseSections": {
     "MATH1001": [
       {
         "sectionID": 1,
@@ -534,5 +533,4 @@
         "capacity": 2
       }
     ] 
-  }
 }

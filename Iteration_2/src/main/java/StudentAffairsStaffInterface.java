@@ -29,13 +29,10 @@ public class StudentAffairsStaffInterface implements UserInterface {
                     addCourse();
                     break;
                 case 2:
-                    removeCourse();
-                    break;
-                case 3:
                     System.out.println("You have successfully logged out\n");
                     return true;
                 default:
-                    System.out.println("Enter 1, 2 or 3.");
+                    System.out.println("Enter 1 or 2.");
                     break;
             }
     
