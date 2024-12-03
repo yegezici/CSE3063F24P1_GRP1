@@ -14,29 +14,27 @@ public class CourseSection {
    public CourseSection() {
       this.timeSlots = new ArrayList<TimeSlot>();
       this.currentStudents = new ArrayList<Student>();
+      this.waitList = new ArrayList<Student>();
    }
 
    public CourseSection(String sectionID, int capacity, Course parentCourse) {
+      this();
       this.capacity = capacity;
       this.sectionID = sectionID;
       this.parentCourse = parentCourse;
-      this.timeSlots = new ArrayList<TimeSlot>();
-      this.currentStudents = new ArrayList<Student>();
    }
 
    public CourseSection(String sectionId, int capacity, Lecturer lecturer) {
+      this();
       this.sectionID = sectionId;
       this.capacity = capacity;
       this.lecturer = lecturer;
-      this.timeSlots = new ArrayList<TimeSlot>();
-      this.currentStudents = new ArrayList<Student>();
    }
 
    public CourseSection(String sectionId, int capacity) {
+      this();
       this.sectionID = sectionId;
       this.capacity = capacity;
-      this.timeSlots = new ArrayList<TimeSlot>();
-      this.currentStudents = new ArrayList<Student>();
    }
 
    public String getSectionID() {

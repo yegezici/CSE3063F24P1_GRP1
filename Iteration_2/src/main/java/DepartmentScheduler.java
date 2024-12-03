@@ -9,8 +9,8 @@ public class DepartmentScheduler extends Staff {
 
     public DepartmentScheduler() {
         super();
+        this.allTimeIntervals = initTimeIntervals();
     }
-
     public DepartmentScheduler(String name, String surname, ArrayList<CourseSection> courseSections, ArrayList<String> allClassrooms) {
         super(name, surname);
         this.allTimeIntervals = initTimeIntervals();

@@ -61,7 +61,7 @@ public class StudentAffairsStaffInterface implements UserInterface {
             try {
                 Course newCourse = staff.createCourse(course[0], course[1], course[3],Integer.parseInt(course[2]), Integer.parseInt(course[4])); 
                 courses.add(newCourse);
-                JsonManagement.getInstance().writeCoursesToJson(newCourse);
+                JsonManagement.getInstance().writeCourseToJson();
                 courseSections.addAll(newCourse.getCourseSections());
                 
             } catch (NumberFormatException e) {

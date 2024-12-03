@@ -115,21 +115,21 @@ public class Transcript {
     public void showWaitedCourses(){
         System.out.println("\nCourses that are waiting for approve listed below:");
         for(int i = 0; i < waitedCourses.size(); i++){
-            System.out.printf("%d-   %-10s %-50s %d\n", (i+1), waitedCourses.get(i).getCourseId(), waitedCourses.get(i).getCourseName(), waitedCourses.get(i).getCredits());
+            System.out.printf("%-3d-   %-10s %-50s %d\n", (i+1), waitedCourses.get(i).getCourseId(), waitedCourses.get(i).getCourseName(), waitedCourses.get(i).getCredits());
         }
     }
 //Scans the completedCourses list and prints the courses there
     public void showCompletedCourses(){
         System.out.println("\nCourses that are completed listed below:");
         for(int i = 0; i < completedCourses.size(); i++){
-            System.out.printf("%d-   %-10s %-50s %-10d %s\n", (i+1), completedCourses.get(i).getCourseId(), completedCourses.get(i).getCourseName(), completedCourses.get(i).getCredits(), completedCourses.get(i).getGrade());
+            System.out.printf("%-3d-   %-10s %-50s %-10d %s\n", (i+1), completedCourses.get(i).getCourseId(), completedCourses.get(i).getCourseName(), completedCourses.get(i).getCredits(), completedCourses.get(i).getGrade());
         }
     }
 //Scans the currentCourses list and prints the courses there
     public void showCurrentCourses(){
         System.out.println("\nCourses that are registered listed below:");
         for(int i = 0; i < currentCourses.size(); i++){
-            System.out.printf("%d-   %-10s %-50s %d\n", (i+1), currentCourses.get(i).getCourseId(), currentCourses.get(i).getCourseName(), currentCourses.get(i).getCredits());
+            System.out.printf("%-3d-   %-10s %-50s %d\n", (i+1), currentCourses.get(i).getCourseId(), currentCourses.get(i).getCourseName(), currentCourses.get(i).getCredits());
         }
     }
    public ArrayList<CourseSection> addCourseSections(ArrayList<Course> courses){
