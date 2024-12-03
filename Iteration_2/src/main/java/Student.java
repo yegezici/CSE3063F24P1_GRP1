@@ -3,7 +3,6 @@ import java.util.Date;
 public class Student extends Person {
     private Transcript transcript;
     private Advisor advisor;
-    private WeeklySchedule weeklySchedule;
 
     public Student() {}
 
