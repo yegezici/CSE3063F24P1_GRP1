@@ -197,7 +197,7 @@
   "currentCourses": [
     {
       "courseID": "CSE4074",
-      "name": "Computer Networks",
+      "courseName": "Computer Networks",
       "credits": 5
     }
   ],
