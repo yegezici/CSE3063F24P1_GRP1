@@ -87,34 +87,37 @@ public class DepartmentSchedulerInterface implements UserInterface {
     public boolean showMenu() {
         boolean logOut = false;
         CourseSection chosenSection;
-        while((chosenSection = chooseCourseSection()) == null);
-        switch (getChoice()) {
-            case 1:
-                updateTimeInterval(chosenSection);
-                break;
-            case 2:
-                updateClassroom(chosenSection);
-                break;
-            case 3:
-                System.out.println("Current capacity is " + chosenSection.getCapacity());
-                System.out.println("Enter new capacity:");
-                int newCapacity = scan.nextInt();
-                departmentScheduler.manageCapacity(chosenSection, newCapacity);
-                break;
-            case 4:
-                System.out.println("You have successfully logged out\n");
-                logOut = true;
-                break;
-            default:
-                System.out.println("Enter a number between 1 and 4.");
+        System.out.println("Enter 1 to access course configuration menu. If you want to quit press any button.");
+        String choice = scan.next();
+        if(choice.equals("1")){
+            while((chosenSection = chooseCourseSection()) == null);
+                switch (getChoice()) {
+                    case 1:
+                        updateTimeInterval(chosenSection);
+                    break;
+                    case 2:
+                        updateClassroom(chosenSection);
+                    break;
+                    case 3:
+                        System.out.println("Current capacity is " + chosenSection.getCapacity());
+                        System.out.println("Enter new capacity:");
+                        int newCapacity = scan.nextInt();
+                        departmentScheduler.manageCapacity(chosenSection, newCapacity);
+                    break;
+                    default:
+                        System.out.println("Enter a number between 1 and 3.");
+                }
+            return logOut;
+            }
+        else{
+            return true;
         }
-        return logOut;
     }
 
     @Override
     public int getChoice() {
         System.out.println(
-                "Choose an operation\n1- Update time interval\n2- Update classroom\n3- Manage Capacity \n4- Log Out");
+                "Choose an operation\n1- Update time interval\n2- Update classroom\n3- Manage Capacity");
         int choice = 0;
         try {
             choice = scan.nextInt();
