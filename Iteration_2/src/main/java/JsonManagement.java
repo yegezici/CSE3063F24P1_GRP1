@@ -114,7 +114,7 @@ public class JsonManagement {
     private ArrayList<Course> loadCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        String filePath = "iteration_2/src/main/java/cimbom.json";
+        String filePath = "iteration_2/src/main/java/courseList.json";
         try (FileReader reader = new FileReader(filePath)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             JSONArray mandatoryArray = (JSONArray) jsonObject.get("mandatory");
@@ -615,95 +615,7 @@ public class JsonManagement {
         }
     }
 
-    public void writeCoursesToJson(Course course) {
-
-        // ben bu dosyayı githuba pushlamıyorum kendinizde courseList in kopyası bi
-        // dosya açıp deneyin
-        String filePath = "Iteration_2/src/main/java/cimbom.json"; // JSON dosya yolu
-
-        try {
-            // Read the file content
-            File file = new File(filePath);
-            if (!file.exists()) {
-                System.out.println("File not found: " + filePath);
-                return;
-            }
-
-            String content = new String(Files.readAllBytes(Paths.get(filePath)));
-
-            // Use JSONParser to parse the content
-            JSONParser parser = new JSONParser();
-            JSONObject root = (JSONObject) parser.parse(content); // Parse the content into a JSONObject
-
-            // Add new courses to the mandatory array
-
-            JSONObject courses = (JSONObject) root.get("courses");
-            if (course instanceof MandatoryCourse) {
-                JSONArray mandatoryCourses = (JSONArray) courses.get("mandatory");
-
-                if (mandatoryCourses == null) {
-                    mandatoryCourses = new JSONArray();
-                    courses.put("mandatory", mandatoryCourses);
-                }
-
-                JSONObject newMandatoryCourse = new JSONObject();
-                newMandatoryCourse.put("year", course.getSemester());
-                newMandatoryCourse.put("credits", course.getCredits());
-                newMandatoryCourse.put("courseID", course.getCourseId());
-                newMandatoryCourse.put("name", course.getCourseName());
-
-                // newMandatoryCourse.put("prerequisite",
-                // course.getPrerequisiteCourse().getCourseId());
-                mandatoryCourses.add(newMandatoryCourse);
-
-                // Add new courses to the technicalElective array
-            } else if (course instanceof TechnicalElectiveCourse) {
-
-                JSONArray technicalElectives = (JSONArray) courses.get("technicalElective");
-                if (technicalElectives == null) {
-                    technicalElectives = new JSONArray();
-                    courses.put("technicalElective", technicalElectives);
-                }
-
-                JSONObject newTechnicalCourse = new JSONObject();
-                newTechnicalCourse.put("name", course.getCourseName());
-                newTechnicalCourse.put("year", course.getSemester());
-                newTechnicalCourse.put("credits", course.getCredits());
-                newTechnicalCourse.put("courseID", course.getCourseId());
-
-                // newTechnicalCourse.put("prerequisite",
-                // course.getPrerequisiteCourse().getCourseId());
-                technicalElectives.add(newTechnicalCourse);
-            } else if (course instanceof NonTechnicalElectiveCourse) {
-                // Add new courses to the nonTechnicalElective array
-                JSONArray nonTechnicalElectives = (JSONArray) courses.get("nonTechnicalElective");
-                if (nonTechnicalElectives == null) {
-                    nonTechnicalElectives = new JSONArray();
-                    courses.put("nonTechnicalElective", nonTechnicalElectives);
-                }
-
-                JSONObject newNonTechnicalCourse = new JSONObject();
-                newNonTechnicalCourse.put("credits", course.getCredits());
-                newNonTechnicalCourse.put("courseID", course.getCourseId());
-                newNonTechnicalCourse.put("name", course.getCourseName());
-                nonTechnicalElectives.add(newNonTechnicalCourse);
-            }
-            // Write the updated JSON back to the file
-            try (FileWriter writer = new FileWriter(filePath)) {
-                writer.write((root.toString())); // Write the updated content back
-                System.out.println("JSON file successfully updated!");
-            }
-
-        } catch (NoSuchFileException e) {
-            System.err.println("file error " + filePath);
-        } catch (IOException e) {
-            System.out.println("IO error " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("JSON error " + e.getMessage());
-            e.printStackTrace();
-        }
-
-    }
+   
 
     // BURAYI SİZE BIRAKTIM BAYILMAK ÜZEREYİM
     public void removeCoursesFromJson(Course course) {
