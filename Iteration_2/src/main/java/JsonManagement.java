@@ -590,7 +590,7 @@ public class JsonManagement {
     }
 
     public void writeCourseToJson() {
-        String filePath = "Iteration_2/src/main/java/cimbom.json";
+        String filePath = "Iteration_2/src/main/java/courseList.json";
         try (FileWriter writer = new FileWriter(filePath)) {
             JSONObject root = new JSONObject();
             JSONArray mandatoryCourses = new JSONArray();
