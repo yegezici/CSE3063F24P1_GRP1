@@ -1,42 +1,117 @@
 {
-    "completedCourses": [
-        {
-            "courseID": "CSE1241",
-            "courseName": "Computer Programming I",
-            "credits": 6,
-            "grade": "BB"
-        },
-        {
-            "courseID": "CSE1242",
-            "courseName": "Computer Programming II",
-            "credits": 6,
-            "grade": "CB"
-        },
-        {
-            "courseID": "CSE2225",
-            "courseName": "Data Structures",
-            "credits": 7,
-            "grade": "AA"
-        }
-    ],
-    "currentCourses": [
-        {
-            "courseID": "CSE2030",
-            "courseName": "Algorithms",
-            "credits": 6
-        },
-        {
-            "courseID": "CSE3055",
-            "courseName": "Database Systems",
-            "credits": 7
-        }
-    ],
-    "waitedCourses": [
-        
-    ],
-    "currentSections": [
-     
-    ],
-    "waitedSections": [
-    ]
+  "year": 2,
+  "completedCourses": [
+    {
+      "courseID": "MATH1001",
+      "courseName": "Calculus I",
+      "credits": 6,
+      "grade": "BA"
+    },
+    {
+      "courseID": "CSE1200",
+      "courseName": "Introduction to Computer Engineering",
+      "credits": 4,
+      "grade": "CB"
+    },
+    {
+      "courseID": "CSE1241",
+      "courseName": "Computer Programming I",
+      "credits": 6,
+      "grade": "CC"
+    },
+    {
+      "courseID": "PHYS1101",
+      "courseName": "Physics I",
+      "credits": 4,
+      "grade": "AA"
+    },
+    {
+      "courseID": "ATA121",
+      "courseName": "Atatürk s Prin. & History I",
+      "credits": 2,
+      "grade": "AA"
+    },
+    {
+      "courseID": "MBG1201",
+      "courseName": "Introduction to Modern Biology",
+      "credits": 2,
+      "grade": "BB"
+    },
+    {
+      "courseID": "TRD121",
+      "courseName": "Turkish Language I",
+      "credits": 2,
+      "grade": "CC"
+    },
+    {
+      "courseID": "MATH1002",
+      "courseName": "Calculus II",
+      "credits": 6,
+      "grade": "BA"
+    },
+    {
+      "courseID": "CSE1242",
+      "courseName": "Computer Programming II",
+      "credits": 6,
+      "grade": "CB"
+    },
+    {
+      "courseID": "ATA122",
+      "courseName": "Atatürk s Prin. & History II",
+      "credits": 2,
+      "grade": "AA"
+    },
+    {
+      "courseID": "MATH2256",
+      "courseName": "Linear Algebra for Comp. Eng.",
+      "credits": 5,
+      "grade": "BB"
+    },
+    {
+      "courseID": "TRD122",
+      "courseName": "Turkish Language II",
+      "credits": 2,
+      "grade": "AA"
+    },
+    {
+      "courseID": "MATH2059",
+      "courseName": "Numerical Methods",
+      "credits": 4,
+      "grade": "BB"
+    },
+    {
+      "courseID": "CSE2225",
+      "courseName": "Data Structures",
+      "credits": 7,
+      "grade": "CB"
+    }
+  ],
+  "currentCourses": [
+    {
+      "courseID": "CSE2023",
+      "courseName": "Discrete Comp. Structures",
+      "credits": 6
+    },
+    {
+      "courseID": "PHYS1102",
+      "courseName": "Physics II",
+      "credits": 4
+    }
+  ],
+  "waitedCourses": [
+  ],
+  "currentSections": [
+    {
+      "courseID": "CSE2023",
+      "sectionID": "1"
+    },
+    {
+      "courseID": "PHYS1102",
+      "sectionID": "2"
+   
+    }
+  ],
+  "waitedSections": [
+  ]
 }
+
