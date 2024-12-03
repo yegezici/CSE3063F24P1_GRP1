@@ -182,8 +182,9 @@ public class StudentInterface implements UserInterface {
         int size = selectedCourse.getCourseSections().size();
         for (int k = 0; k < size; k++) {
             System.out.println((k + 1) + "- Section " + selectedCourse.getCourseSections().get(k).getSectionID());
-            System.out.println(selectedCourse.getCourseSections().get(k).getTimeSlots().get(0).getTimeInterval());
-            System.out.println();
+            System.out.println(selectedCourse.getCourseSections().get(k).getTimeSlots().get(0).getDay() + "   "
+                    + selectedCourse.getCourseSections().get(k).getTimeSlots().get(0).getTimeInterval() + "   " + 
+                    selectedCourse.getCourseSections().get(k).getTimeSlots().get(0).getClassroom());
         }
     }
 

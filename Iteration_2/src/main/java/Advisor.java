@@ -23,10 +23,8 @@ public class Advisor extends Lecturer {
             }else{
             student.getTranscript().addCurrentCourse(courseSection.getParentCourse());
             student.getTranscript().addCurrentSection(courseSection);
-            System.out.println(courseSection.getParentCourse().getCourseId() + "." + courseSection.getSectionID()  + " has been approved.");
             student.getTranscript().deleteFromWaitedCourse(courseSection.getParentCourse());}
             student.getTranscript().deleteFromWaitedSections(courseSection);
-            System.out.println(courseSection.getParentCourse().getCourseId() + "." + courseSection.getSectionID()  + " has been approved.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
