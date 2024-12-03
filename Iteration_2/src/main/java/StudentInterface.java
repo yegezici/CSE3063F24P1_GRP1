@@ -137,7 +137,7 @@ public class StudentInterface implements UserInterface {
             }
         }
         for(int i = 0; i < selectingArray.size(); i++){
-            if(selectingArray.get(i).getSemester() != student.getTranscript().getSemester()){
+            if(selectingArray.get(i).getSemester() > student.getTranscript().getSemester()){
                 selectingArray.remove(i);
                 i--;
             }
