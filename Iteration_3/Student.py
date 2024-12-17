@@ -1,3 +1,9 @@
+from datetime import date
+from Person import Person
+from CourseSection import CourseSection
+from Advisor import Advisor
+from Transcript import Transcript
+
 class Student(Person):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, transcript: 'Transcript' = None, student_id: str = None):
         super().__init__(name, surname, birthdate, gender, student_id)

@@ -1,5 +1,9 @@
 from typing import List, Optional
-from datetime import time
+from Iteration_3.AdvisorInterface import AdvisorInterface
+from Student import Student
+from Lecturer import Lecturer
+from Course import Course
+from TimeSlot import TimeSlot
 
 class CourseSection:
     def __init__(self,

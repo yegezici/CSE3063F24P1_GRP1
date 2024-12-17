@@ -1,4 +1,7 @@
 from typing import List, Optional
+from Lecturer import Lecturer
+from Student import Student
+from CourseSection import CourseSection
 
 class Course:
     def __init__(self,

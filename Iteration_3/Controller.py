@@ -1,3 +1,4 @@
+from CourseRegistration import CourseRegistration
 class Controller:
     @staticmethod
     def main():

@@ -1,3 +1,7 @@
+from datetime import date
+from Person import Person
+
+
 class Staff(Person):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
         super().__init__(name, surname, birthdate, gender, ssn)

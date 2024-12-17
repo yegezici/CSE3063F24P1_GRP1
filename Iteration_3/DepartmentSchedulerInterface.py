@@ -1,3 +1,5 @@
+from TimeSlot import TimeSlot
+
 class DepartmentSchedulerInterface:
     def __init__(self, department_scheduler, course_sections):
         self.department_scheduler = department_scheduler
