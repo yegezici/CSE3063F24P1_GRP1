@@ -1,3 +1,5 @@
+from Course import Course
+
 class MandatoryCourse(Course):
     def __init__(self, course_id: str, course_name: str, credits: int, prerequisite_course: 'Course' = None, semester: int = None):
         if prerequisite_course and semester is not None:

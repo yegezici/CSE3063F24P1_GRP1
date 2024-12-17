@@ -1,3 +1,5 @@
+from WeeklySchedule import WeeklySchedule
+
 class StudentInterface:
     def __init__(self, student=None, courses=None):
         self.student = student

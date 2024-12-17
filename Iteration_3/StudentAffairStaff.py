@@ -1,5 +1,11 @@
 from datetime import date
 from typing import List
+from Staff import Staff
+from Course import Course
+from CourseSection import CourseSection
+from MandatoryCourse import MandatoryCourse
+from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
+from TechnicalElectiveCourse import TechnicalElectiveCourse
 
 class StudentAffairsStaff(Staff):
     def __init__(self, affair_id: str = None, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):

@@ -1,4 +1,4 @@
-from course import Course  # Course sınıfının bulunduğu modüle göre düzeltin.
+from Course import Course  # Course sınıfının bulunduğu modüle göre düzeltin.
 
 class TechnicalElectiveCourse(Course):
     def __init__(self, course_id, course_name, credits, prerequisite_course=None, semester=None, grade=None):
