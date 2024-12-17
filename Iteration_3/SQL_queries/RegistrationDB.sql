@@ -2,6 +2,8 @@ CREATE DATABASE OTUZBIR
 
 USE OTUZBIR
 
+
+	
 CREATE TABLE Course(
    courseID NVARCHAR(50) PRIMARY KEY NOT NULL,
    name NVARCHAR(50) NOT NULL,
@@ -9,18 +11,6 @@ CREATE TABLE Course(
    prerequisiteID NVARCHAR(50),
    courseType NVARCHAR(3)
 )
-INSERT INTO Course VALUES ('CSE1200', 'Computer Programming I',6,NULL,'m')
-INSERT INTO Course VALUES ('MATH1001', 'Calculus I',6,NULL,'m')
-INSERT INTO Course VALUES ('CSE1241', 'Introduction to Computer Engineering',4,NULL,'m')
-INSERT INTO Course VALUES ('PHYS1101', 'Physics I',4,NULL,'m')
-INSERT INTO Course VALUES ('ATA121', 'Atatürks Prin. & History I' ,2,NULL,'m')
-INSERT INTO Course VALUES ('MBG1201', 'Introduction to Modern Biology',2,NULL,'m')
-INSERT INTO Course VALUES ('TRD121', 'Turkish Language I',2,NULL,'m')
-INSERT INTO Course VALUES ('MATH1002', 'Calculus II',6,NULL,'m')
-INSERT INTO Course VALUES ('CSE1242', 'Computer Programming II',6,'CSE1241','m')
-INSERT INTO Course VALUES ('PYHS1102', 'Physics II',4,NULL,'m')
-INSERT INTO Course VALUES ('ATA122', 'Atatürks Prin. & History',2,NULL,'m')
-INSERT INTO Course VALUES ('MATH2256', 'Linear Algebra for Comp. Eng.',5,NULL,'m')
 
 CREATE TABLE Mandatory(
 	courseID NVARCHAR(50) PRIMARY KEY,
@@ -28,13 +18,7 @@ CREATE TABLE Mandatory(
 	FOREIGN KEY (CourseID) REFERENCES Course(CourseID) ON DELETE CASCADE
 )
 
-INSERT INTO Mandatory VALUES ('MATH1001',1)
-INSERT INTO Mandatory VALUES ('CSE1200',1)
-INSERT INTO Mandatory VALUES ('CSE1241',1)
-INSERT INTO Mandatory VALUES ('PHYS1101',1)
-INSERT INTO Mandatory VALUES ('ATA121',1)
-INSERT INTO Mandatory VALUES ('TRD121',1)
-INSERT INTO Mandatory VALUES ('MBG1201',1)
+
 
 CREATE TABLE NTE(
 	courseID NVARCHAR(50),
@@ -45,6 +29,28 @@ CREATE TABLE TE(
 	year INT,
 	FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
 )
+
+INSERT INTO Mandatory VALUES ('MATH1001',1)
+INSERT INTO Mandatory VALUES ('CSE1200',1)
+INSERT INTO Mandatory VALUES ('CSE1241',1)
+INSERT INTO Mandatory VALUES ('PHYS1101',1)
+INSERT INTO Mandatory VALUES ('ATA121',1)
+INSERT INTO Mandatory VALUES ('TRD121',1)
+INSERT INTO Mandatory VALUES ('MBG1201',1)
+
+INSERT INTO Course VALUES ('CSE1200', 'Computer Programming I',6,NULL,'m')
+INSERT INTO Course VALUES ('MATH1001', 'Calculus I',6,NULL,'m')
+INSERT INTO Course VALUES ('CSE1241', 'Introduction to Computer Engineering',4,NULL,'m')
+INSERT INTO Course VALUES ('PHYS1101', 'Physics I',4,NULL,'m')
+INSERT INTO Course VALUES ('ATA121', 'AtatÃ¼rks Prin. & History I' ,2,NULL,'m')
+INSERT INTO Course VALUES ('MBG1201', 'Introduction to Modern Biology',2,NULL,'m')
+INSERT INTO Course VALUES ('TRD121', 'Turkish Language I',2,NULL,'m')
+INSERT INTO Course VALUES ('MATH1002', 'Calculus II',6,NULL,'m')
+INSERT INTO Course VALUES ('CSE1242', 'Computer Programming II',6,'CSE1241','m')
+INSERT INTO Course VALUES ('PYHS1102', 'Physics II',4,NULL,'m')
+INSERT INTO Course VALUES ('ATA122', 'AtatÃ¼rks Prin. & History',2,NULL,'m')
+INSERT INTO Course VALUES ('MATH2256', 'Linear Algebra for Comp. Eng.',5,NULL,'m')
+
 
 CREATE TABLE Lecturer (
     ssn NVARCHAR(50) PRIMARY KEY,
