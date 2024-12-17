@@ -1,10 +1,11 @@
 from WeeklySchedule import WeeklySchedule
+from Student import Student
 
 class StudentInterface:
     def __init__(self, student=None, courses=None):
         self.student = student
         self.courses = courses or []
-    
+
     def show_menu(self):
         log_out = False
         choice = self.get_choice()
@@ -82,23 +83,22 @@ class StudentInterface:
                 print(f"An error occurred: {e}")
 
     def show_registerable_courses(self):
-        registerable_courses = []
+        registrable_courses = []
         transcript = self.student.get_transcript()
 
         for course in self.courses:
+
             is_completed = self.check_course_exist_in_list(course, transcript.get_completed_courses())
             is_waited = self.check_course_exist_in_list(course, transcript.get_waited_courses())
             is_current = self.check_course_exist_in_list(course, transcript.get_current_courses())
 
             if not is_completed and not is_waited and not is_current and self.check_prerequisite(course):
-                registerable_courses.append(course)
-
+                registrable_courses.append(course)
         # Remove courses from future semesters
-        registerable_courses = [
-            course for course in registerable_courses if course.get_semester() <= transcript.get_semester()
+        registrable_courses = [
+            course for course in registrable_courses if course.get_semester() <= transcript.get_semester()
         ]
-        return registerable_courses
-
+        return registrable_courses
     def check_prerequisite(self, course):
         prerequisite = course.get_prerequisite_course()
         if not prerequisite:
