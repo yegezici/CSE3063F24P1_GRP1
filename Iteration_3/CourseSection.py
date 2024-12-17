@@ -1,6 +1,4 @@
 from typing import List, Optional
-from Iteration_3.AdvisorInterface import AdvisorInterface
-from Student import Student
 from Lecturer import Lecturer
 from Course import Course
 from TimeSlot import TimeSlot
@@ -13,11 +11,11 @@ class CourseSection:
                  lecturer: Optional['Lecturer'] = None):
         self.section_id: str = section_id
         self.time_slots: List['TimeSlot'] = []
-        self.wait_list: List['Student'] = []
+        self.wait_list: List['Student'] = []  # String tip kullanımı
         self.capacity: int = capacity
         self.lecturer: Optional['Lecturer'] = lecturer
         self.parent_course: Optional['Course'] = parent_course
-        self.current_students: List['Student'] = []
+        self.current_students: List['Student'] = []  # String tip kullanımı
 
     # Getters and Setters
     def get_section_id(self) -> str:
@@ -37,12 +35,6 @@ class CourseSection:
 
     def set_wait_list(self, wait_list: List['Student']) -> None:
         self.wait_list = wait_list
-
-    def get_lecturer(self) -> Optional['Lecturer']:
-        return self.lecturer
-
-    def set_lecturer(self, lecturer: 'Lecturer') -> None:
-        self.lecturer = lecturer
 
     def get_capacity(self) -> int:
         return self.capacity

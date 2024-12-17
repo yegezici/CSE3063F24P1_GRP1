@@ -1,7 +1,9 @@
 from datetime import date
-from typing import List
+from typing import List, TYPE_CHECKING
 from Staff import Staff
-from Course import Course
+
+if TYPE_CHECKING:
+    from Course import Course
 
 class Lecturer(Staff):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None, courses: List['Course'] = None):

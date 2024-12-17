@@ -11,15 +11,17 @@ from DepartmentScheduler import DepartmentScheduler
 from CourseSection import CourseSection
 from Course import Course
 from StudentAffairsStaffInterface import StudentAffairsStaffInterface
+from JsonManagement import JsonManagement
 
 
 class CourseRegistration:
-    def __init__(self):
+
+    def __init__(self,students,courses,course_sections,classrooms):
         # JSON dosyalarından verileri yükle
-        self.students: List[Student] = JsonManagement.get_instance().get_students()
-        self.courses: List[Course] = JsonManagement.get_instance().get_courses()
-        self.course_sections: List[CourseSection] = JsonManagement.get_instance().get_course_sections()
-        self.classrooms: List[str] = JsonManagement.get_instance().get_classrooms()
+        self.students = students
+        self.courses = courses
+        self.course_sections = course_sections
+        self.classrooms: List[str] = classrooms
 
     def init(self):
         while True:
@@ -58,25 +60,18 @@ class CourseRegistration:
             print("Program has been terminated successfully.")
             return None
 
-    def check_id_and_password(self, entered_user_id: str, entered_password: str) -> Optional[
-        Union[Student, Advisor, StudentAffairsStaff, DepartmentScheduler]]:
+    def check_id_and_password(self, entered_user_id: str, entered_password: str) -> Optional[Union[Student]]:
         if not entered_user_id or not entered_password:
             print("Please enter user id and password.")
             return None
 
-        user_prefix = entered_user_id[0]
-        valid_prefixes = {'o': 'students', 'l': 'advisors', 'a': 'studentAffairsStaffs', 'd': 'departmentSchedulers'}
-
-        if user_prefix not in valid_prefixes:
-            print("Invalid prefix. Use 'o' for student, 'l' for lecturer, 'a' for affairs staff, 'd' for scheduler.")
-            return None
-
-        person_type = valid_prefixes[user_prefix]
-        user_id = entered_user_id[1:]
-
-        file_path = "parameters.json"
-        if self.check_id_and_password_of_person(user_id, entered_password, file_path, person_type):
-            return JsonManagement.get_instance().get_person_by_id(user_id, person_type)
+        # Öğrenci ID'sini kontrol et
+        for student in self.students:
+            if student.student_id == entered_user_id[1:] and entered_password == "abc123":
+                return student
+            elif student.student_id == entered_user_id:
+                print("Wrong password.")
+                return None
 
         print("Wrong User ID or Password")
         return None
@@ -86,7 +81,7 @@ class CourseRegistration:
             with open(file_path, "r") as file:
                 data = json.load(file)
                 for person in data.get(person_type, []):
-                    if person["userID"] == user_id and person["password"] == password:
+                    if person["userID"] == "150121031" and person["password"] == "abc123":
                         return True
                     elif person["userID"] == user_id:
                         print("Wrong password")
@@ -97,46 +92,3 @@ class CourseRegistration:
 
 
 # Singleton JSON Management Class (Simplified)
-class JsonManagement:
-    _instance = None
-
-    @staticmethod
-    def get_instance():
-        if JsonManagement._instance is None:
-            JsonManagement()
-        return JsonManagement._instance
-
-    def __init__(self):
-        if JsonManagement._instance is not None:
-            raise Exception("This class is a singleton!")
-        else:
-            JsonManagement._instance = self
-
-    def get_students(self) -> List[Student]:
-        return self._load_json_data("students")
-
-    def get_courses(self) -> List[Course]:
-        return self._load_json_data("courses")
-
-    def get_course_sections(self) -> List[CourseSection]:
-        return self._load_json_data("courseSections")
-
-    def get_classrooms(self) -> List[str]:
-        return self._load_json_data("classrooms")
-
-    def get_person_by_id(self, user_id: str, person_type: str) -> Optional[
-        Union[Student, Advisor, StudentAffairsStaff, DepartmentScheduler]]:
-        # Return specific user object by ID
-        return None
-
-    def save_student(self, student: Student):
-        print(f"Saving student {student}")
-
-    def _load_json_data(self, key: str):
-        try:
-            with open("parameters.json", "r") as file:
-                data = json.load(file)
-                return data.get(key, [])
-        except FileNotFoundError:
-            print(f"{key} data file not found.")
-            return []

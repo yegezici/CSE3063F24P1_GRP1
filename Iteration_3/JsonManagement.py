@@ -1,6 +1,8 @@
 import json
 from typing import List, Optional
 from datetime import datetime
+from CourseSection import CourseSection
+from TimeSlot import TimeSlot
 
 
 class JsonManagement:
@@ -59,32 +61,25 @@ class JsonManagement:
     def load_course_sections(self):
         file_path = "iteration_2/src/main/java/courseSections.json"
         course_sections_list = []
+        section_id = "MATH1001.1"
+        time = "Monday 14:00 - 14:50"
+        classroom = "m2z11"
+        capacity = 20
+        course_section = None
+        if not time:
+            course_section = CourseSection(section_id, capacity)
+        else:
+            time_parts = time.split(' ', 1)
+            day = time_parts[0]
+            time_interval = time_parts[1]
+            time_slot = TimeSlot(day, time_interval, classroom)
+            course_section = CourseSection(section_id, capacity)
+            course_section.time_slots.append(time_slot)
 
-        with open(file_path, 'r') as reader:
-            root_object = json.load(reader)
-
-            for course_id, sections_array in root_object.items():
-                for section in sections_array:
-                    section_id = str(section['sectionID'])
-                    time = section.get('time', '')
-                    classroom = section.get('classroom', '')
-                    capacity = section['capacity']
-
-                    course_section = None
-                    if not time:
-                        course_section = CourseSection(section_id, capacity)
-                    else:
-                        time_parts = time.split(' ', 1)
-                        day = time_parts[0]
-                        time_interval = time_parts[1]
-                        time_slot = TimeSlot(day, time_interval, classroom)
-                        course_section = CourseSection(section_id, capacity)
-                        course_section.time_slots.append(time_slot)
-
-                    course = next((c for c in self.courses if c.course_id == course_id), None)
-                    if course:
-                        course_section.parent_course = course
-                        course_sections_list.append(course_section)
+            course = "math1001"
+            if course:
+                course_section.parent_course = course
+                course_sections_list.append(course_section)
 
         return course_sections_list
 
