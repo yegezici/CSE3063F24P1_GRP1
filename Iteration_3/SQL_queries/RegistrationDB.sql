@@ -107,13 +107,13 @@ CREATE TABLE Student (
 );
 
 CREATE TABLE CourseSection (
-    sectionID NVARCHAR(50) PRIMARY KEY,
+    	sectionID NVARCHAR(50),
 	capacity INT,
 	courseID NVARCHAR(50),
 	lecturerSSN NVARCHAR(50),
 	FOREIGN KEY (courseID) REFERENCES Course(courseID),
 	FOREIGN KEY (lecturerSSN) REFERENCES Lecturer(ssn)
-)
+);
 INSERT INTO CourseSection VALUES (1, 2, 'MATH1001', NULL);
 INSERT INTO CourseSection VALUES (2, 2, 'MATH1001', NULL);
 INSERT INTO CourseSection VALUES (1, 2, 'CSE1200', NULL);
