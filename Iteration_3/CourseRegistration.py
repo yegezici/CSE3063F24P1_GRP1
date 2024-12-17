@@ -1,12 +1,16 @@
 import json
 from typing import List, Optional, Union
-from student import Student
-from advisor import Advisor
-from lecturer import Lecturer
-from student_affairs_staff import StudentAffairsStaff
-from department_scheduler import DepartmentScheduler
-from course_section import CourseSection
-from course import Course
+from Iteration_3.AdvisorInterface import AdvisorInterface
+from Iteration_3.DepartmentSchedulerInterface import DepartmentSchedulerInterface
+from Iteration_3.StudentInterface import StudentInterface
+from Student import Student
+from Advisor import Advisor
+from Lecturer import Lecturer
+from StudentAffairStaff import StudentAffairsStaff
+from DepartmentScheduler import DepartmentScheduler
+from CourseSection import CourseSection
+from Course import Course
+from StudentAffairsStaffInterface import StudentAffairsStaffInterface
 
 
 class CourseRegistration:
