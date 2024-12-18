@@ -2,6 +2,7 @@ from datetime import date
 from Person import Person
 from Advisor import Advisor
 from Transcript import Transcript
+from CourseSection import CourseSection
 
 class Student(Person):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, transcript: 'Transcript' = None, student_id: str = None):

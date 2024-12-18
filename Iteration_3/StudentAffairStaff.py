@@ -8,9 +8,8 @@ from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
 
 class StudentAffairsStaff(Staff):
-    def __init__(self, affair_id: str = None, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
+    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
         super().__init__(name, surname, birthdate, gender, ssn)
-        self.affair_id = affair_id
     
     def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int) -> Course:
         course = None
@@ -34,10 +33,7 @@ class StudentAffairsStaff(Staff):
         return sections
     
     def get_id(self):
-        return self.affair_id
-    
-    def set_id(self, id: str):
-        self.affair_id = id
+        return super().get_id()
     
     def get_name(self):
         return super().get_name()
