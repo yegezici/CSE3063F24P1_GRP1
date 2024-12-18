@@ -4,7 +4,8 @@ CREATE TABLE Course(
    name NVARCHAR(50) NOT NULL,
    credit INT,
    prerequisiteID NVARCHAR(50),
-   courseType NVARCHAR(3)
+   courseType NVARCHAR(3),
+semester int default(0)
 );
 -- Mandatory Courses
 INSERT INTO Course VALUES ('MATH1001', 'Calculus I', 6, NULL, 'm');
@@ -132,7 +133,7 @@ INSERT INTO StudentsOfAdvisor VALUES ('150122042', '654321');
 
 
 CREATE TABLE CourseSection (
-    	sectionID NVARCHAR(50),
+    	sectionID int,
 	capacity INT,
 	courseID NVARCHAR(50),
 	lecturerSSN NVARCHAR(50),
@@ -483,26 +484,54 @@ INSERT INTO CurrentCourse VALUES ('150122040', 'CSE1200');
 INSERT INTO CurrentCourse VALUES ('150122041', 'CSE1241');
 INSERT INTO CurrentCourse VALUES ('150122041', 'PHYS1101');
 
-create table WaitedCourse(
+CREATE TABLE WaitedCourse(
 	studentID nvarchar(50) primary key,
 	courseID nvarchar(50),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseID) references Course(courseID) on delete set null
 );
 
-create table CurrentSection(
+CREATE TABLE CurrentSection(
 	studentID nvarchar(50) primary key,
 	courseID nvarchar(50),
-	courseSectionID nvarchar(50),
+	courseSectionID int,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete set null,
 	foreign key (courseID) references Course(courseID) on delete set null
 );
 
-create table WaitedSection(
-	studentID primary key,
-	courseID,
-	courseSectionID ,
+INSERT INTO CurrentSection VALUES ('150121031', 'CSE2225', 1);
+INSERT INTO CurrentSection VALUES ('150121031', 'CSE3215', 1);
+
+INSERT INTO CurrentSection VALUES ('150121032', 'CSE2246', 1);
+INSERT INTO CurrentSection VALUES ('150121032', 'CSE3215', 1);
+
+INSERT INTO CurrentSection VALUES ('150121033', 'CSE2246', 1);
+INSERT INTO CurrentSection VALUES ('150121033', 'CSE3063', 2);
+
+INSERT INTO CurrentSection VALUES ('150121034', 'CSE2023', 1);
+INSERT INTO CurrentSection VALUES ('150121034', 'PHYS1102', 2);
+
+INSERT INTO CurrentSection VALUES ('150121035', 'CSE2023', 1);
+INSERT INTO CurrentSection VALUES ('150121035', 'ECON2004', 1);
+
+INSERT INTO CurrentSection VALUES ('150122037', 'IE3235', 1);
+INSERT INTO CurrentSection VALUES ('150122037', 'ISG121', 1);
+
+INSERT INTO CurrentSection VALUES ('150122038', 'CSE4074', 2);
+
+INSERT INTO CurrentSection VALUES ('150122040', 'MATH1001', 1);
+INSERT INTO CurrentSection VALUES ('150122040', 'CSE1200', 1);
+
+INSERT INTO CurrentSection VALUES ('150122041', 'CSE1241', 2);
+INSERT INTO CurrentSection VALUES ('150122041', 'PHYS1101', 1);
+
+
+
+CREATE TABLE WaitedSection(
+	studentID NVARCHAR(50) primary key,
+	courseID NVARCHAR(50),
+	courseSectionID int,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete set null,
 	foreign key (courseID) references Course(courseID) on delete set null
