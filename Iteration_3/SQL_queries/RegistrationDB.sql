@@ -126,6 +126,18 @@ create table StudentsOfAdvisor(
 	foreign key (studentID) references Student(studentID) on delete cascade,
 	foreign key (advisorID) references Advisor(advisorID) on delete cascade
 );
+INSERT INTO StudentsOfAdvisor VALUES ('150121031', '123456');
+INSERT INTO StudentsOfAdvisor VALUES ('150121032', '123456');
+INSERT INTO StudentsOfAdvisor VALUES ('150121033', '123456');
+INSERT INTO StudentsOfAdvisor VALUES ('150121034', '123456');
+INSERT INTO StudentsOfAdvisor VALUES ('150121035', '123456');
+INSERT INTO StudentsOfAdvisor VALUES ('150122036', '654321');
+INSERT INTO StudentsOfAdvisor VALUES ('150122037', '654321');
+INSERT INTO StudentsOfAdvisor VALUES ('150122038', '654321');
+INSERT INTO StudentsOfAdvisor VALUES ('150122039', '654321');
+INSERT INTO StudentsOfAdvisor VALUES ('150122040', '654321');
+INSERT INTO StudentsOfAdvisor VALUES ('150122041', '654321');
+INSERT INTO StudentsOfAdvisor VALUES ('150122042', '654321');
 
 CREATE TABLE CourseSection (
     	sectionID NVARCHAR(50),
