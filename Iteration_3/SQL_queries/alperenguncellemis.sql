@@ -448,11 +448,9 @@ INSERT INTO CompletedCourse VALUES ('150122039', 'CSE3264', 'CC');
 INSERT INTO CompletedCourse VALUES ('150122039', 'CSE3038', 'CB');
 INSERT INTO CompletedCourse VALUES ('150122039', 'CSE3048', 'BA');
 
-INSERT INTO CompletedCourse VALUES ('150122040', NULL, NULL);
-
 INSERT INTO CompletedCourse VALUES ('150122041', 'MATH1001', 'BB');
 
-INSERT INTO CompletedCourse VALUES ('150122042', NULL, NULL);
+
 
 create table CurrentCourse(
 	studentID nvarchar(50) primary key,
