@@ -12,7 +12,7 @@ class SqliteManager:
         self.cursor = self.conn.cursor()
         self.courseSections = self.initialize_courseSections()
 
-    def print_table(self, table_name: str):        
+    def print_table(self, table_name: str) ->None:        
         try:
             self.cursor.execute(f"SELECT * FROM {table_name}")
             rows = self.cursor.fetchall()
@@ -30,9 +30,34 @@ class SqliteManager:
             print("SQLite error:", e)
             return False
         
-    def save_student(self, student: Student):
-        student.get_name()
-        
+    
+    def save_student(self, student: Student) -> None:
+        try:
+            sql = '''
+            INSERT INTO Student (studentID, name, surname, gender, birthDate, advisorID)
+            VALUES (?, ?, ?, ?, ?, ?)
+            '''
+            #ADVISOR ID EKSIK
+            self.cursor.execute(sql, (student.get_id, student.get_name, student.get_surname, student.get_gender, student.get_birthdate,  ))
+            self.conn.commit()        
+       
+        except sqlite3.IntegrityError as e:
+            print(f"Error: {e}")
+    
+    
+    def save_courseSection(self, courseSection: CourseSection) -> None:
+        try:
+            sql = '''
+            INSERT INTO CourseSection (sectionID, capacity, courseID, lecturerSSN)
+            VALUES (?, ?, ?, ?)
+            '''
+            self.cursor.execute(sql, (courseSection.get_section_id, courseSection.get_capacity, courseSection.parent_course.course_id, courseSection.get_lecturer_ssn))
+            self.conn.commit()        
+       
+        except sqlite3.IntegrityError as e:
+            print(f"Error: {e}")
+            
+    def save_course(self, course: Course) -> None:
         
         
     def initialize_courseSections(self) -> list:
@@ -74,3 +99,7 @@ class SqliteManager:
 
 
 manager = SqliteManager()
+for courseSection in manager.courseSections:
+    print(courseSection.get_section_id())
+    print(courseSection.get_parent_course().get_course_id())
+   

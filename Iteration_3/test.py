@@ -1,11 +1,21 @@
+import sys
+import os
+
+# Projenizin ana dizinini (CSE3063F24P1_GRP1) sys.path'e ekleyin
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
+# Kontrol için yazdırabilirsiniz:
+print("Güncellenmiş sys.path:", sys.path)
+
 from datetime import date
 from Student import Student
-from StudentInterface import StudentInterface
-from Course import Course
-from Transcript import Transcript
-from CourseSection import CourseSection
-from TimeSlot import TimeSlot
-from CourseRegistration import CourseRegistration
+from Iteration_3.StudentInterface import StudentInterface
+from Iteration_3.Course import Course
+from Iteration_3.Transcript import Transcript
+from Iteration_3.CourseSection import CourseSection
+from Iteration_3.TimeSlot import TimeSlot
+from Iteration_3.CourseRegistration import CourseRegistration
 
 dummy_transcript = Transcript()
 dummy_transcript.set_semester(1)
