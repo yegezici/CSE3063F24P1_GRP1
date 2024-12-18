@@ -5,7 +5,7 @@ CREATE TABLE Course(
    credit INT,
    prerequisiteID NVARCHAR(50),
    courseType NVARCHAR(3),
-   semester int default(0)
+   semester int
 );
 -- Mandatory Courses
 INSERT INTO Course VALUES ('MATH1001', 'Calculus I', 6, NULL, 'm',1);
@@ -58,27 +58,11 @@ INSERT INTO Course VALUES ('CSE4061', 'Compiler Design', 5, 'CSE3264', 'te',4);
 INSERT INTO Course VALUES ('CSE4217', 'Microprocessors', 5, 'CSE3038', 'te',4);
 
 -- Non-Technical Elective Courses
-INSERT INTO Course VALUES ('NTE1003', 'The Culture of Radiation Safety', 3, NULL, 'nte', 0);
-INSERT INTO Course VALUES ('YDA1001', 'German for Beginners', 3, NULL, 'nte', 0);
+INSERT INTO Course VALUES ('NTE1003', 'The Culture of Radiation Safety', 3, NULL, 'nte',0);
+INSERT INTO Course VALUES ('YDA1001', 'German for Beginners', 3, NULL, 'nte',0);
 INSERT INTO Course VALUES ('HSS3002', 'Ethics in Engineering and Science', 3, NULL, 'nte',0);
 INSERT INTO Course VALUES ('MGT1021', 'Design, Innovation and Entrepreneurship', 3, NULL, 'nte',0);
 
-
-CREATE TABLE Mandatory(
-	courseID NVARCHAR(50) PRIMARY KEY,
-	year INT,
-	FOREIGN KEY (CourseID) REFERENCES Course(CourseID) ON DELETE CASCADE
-);
-
-CREATE TABLE NTE(
-	courseID NVARCHAR(50),
-	FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
-);
-CREATE TABLE TE(
-	courseID NVARCHAR(50),
-	year INT,
-	FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
-);
 
 CREATE TABLE Lecturer (
     ssn NVARCHAR(50) PRIMARY KEY,
@@ -96,26 +80,27 @@ CREATE TABLE Student (
     gender CHAR,
     birthDate DATE,
     advisorID NVARCHAR(50),
-	foreign key (advisorID) references Advisor(advisorID) on delete set null
+	semeste int,
+	foreign key (advisorID) references Lecturer(SSN) on delete set null
 );
-INSERT INTO Student VALUES ('150121031', 'Kenan', 'Yildiz', 'M', '2000-01-01', '123456');
-INSERT INTO Student VALUES ('150121032', 'Enis', 'Destan', 'M', '1999-02-14', '123456');
-INSERT INTO Student VALUES ('150121033', 'Oguz', 'Aydin', 'M', '2001-03-12', '123456');
-INSERT INTO Student VALUES ('150121034', 'Aslı', 'Cakir', 'F', '2001-05-20', '123456');
-INSERT INTO Student VALUES ('150121035', 'Necip', 'Uysal', 'M', '2002-06-30', '123456');
-INSERT INTO Student VALUES ('150122036', 'Berkan', 'Kutlu', 'M', '2002-08-15', '654321');
-INSERT INTO Student VALUES ('150122037', 'Ferdi', 'Kadioglu', 'M', '2001-10-22', '654321');
-INSERT INTO Student VALUES ('150122038', 'Ceyda', 'Santos', 'F', '1998-12-05', '654321');
-INSERT INTO Student VALUES ('150122039', 'Elif', 'Yildirim', 'F', '1999-04-17', '654321');
-INSERT INTO Student VALUES ('150122040', 'Kerem', 'Akturkoglu', 'M', '2005-06-09', '654321');
-INSERT INTO Student VALUES ('150122041', 'Baris', 'Alper', 'M', '2006-01-09', '654321');
-INSERT INTO Student VALUES ('150122042', 'Baki', 'Mercimek', 'M', '2005-11-09', '654321');
+INSERT INTO Student VALUES ('150121031', 'Kenan', 'Yildiz', 'M', '2000-01-01', '123456',3);
+INSERT INTO Student VALUES ('150121032', 'Enis', 'Destan', 'M', '1999-02-14', '123456',3);
+INSERT INTO Student VALUES ('150121033', 'Oguz', 'Aydin', 'M', '2001-03-12', '123456',3);
+INSERT INTO Student VALUES ('150121034', 'Aslı', 'Cakir', 'F', '2001-05-20', '123456',2);
+INSERT INTO Student VALUES ('150121035', 'Necip', 'Uysal', 'M', '2002-06-30', '123456',2);
+INSERT INTO Student VALUES ('150122036', 'Berkan', 'Kutlu', 'M', '2002-08-15', '654321',2);
+INSERT INTO Student VALUES ('150122037', 'Ferdi', 'Kadioglu', 'M', '2001-10-22', '654321',4);
+INSERT INTO Student VALUES ('150122038', 'Ceyda', 'Santos', 'F', '1998-12-05', '654321',4);
+INSERT INTO Student VALUES ('150122039', 'Elif', 'Yildirim', 'F', '1999-04-17', '654321',4);
+INSERT INTO Student VALUES ('150122040', 'Kerem', 'Akturkoglu', 'M', '2005-06-09', '654321',1);
+INSERT INTO Student VALUES ('150122041', 'Baris', 'Alper', 'M', '2006-01-09', '654321',1);
+INSERT INTO Student VALUES ('150122042', 'Baki', 'Mercimek', 'M', '2005-11-09', '654321',1);
 
 create table StudentsOfAdvisor(
 	studentID nvarchar(50) primary key,
 	advisorID nvarchar(50),
 	foreign key (studentID) references Student(studentID) on delete cascade,
-	foreign key (advisorID) references Advisor(advisorID) on delete cascade
+	foreign key (advisorID) references Lecturer(SSN) on delete cascade
 );
 
 INSERT INTO StudentsOfAdvisor VALUES ('150121031', '123456');
@@ -536,7 +521,5 @@ CREATE TABLE WaitedSection(
 	foreign key (courseSectionID) references CourseSection(sectionID) on delete set null,
 	foreign key (courseID) references Course(courseID) on delete set null
 );
-
-
 
 
