@@ -1,11 +1,9 @@
-2024-12-18 13:18:29,431 - CourseRegistrationSystem - INFO - Course Registration system is started.
-2024-12-18 13:18:34,843 - CourseRegistrationSystem - INFO - Succesfully logged in
-2024-12-18 13:18:34,843 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
-2024-12-18 13:18:41,574 - CourseRegistrationSystem - INFO - Course Registration system is started.
-2024-12-18 13:18:47,609 - CourseRegistrationSystem - INFO - Wrong user id or password
-2024-12-18 13:18:47,609 - CourseRegistrationSystem - WARNING - Invalid login attempt.
-2024-12-18 13:22:25,319 - CourseRegistrationSystem - INFO - Course Registration system is started.
-2024-12-18 13:22:32,741 - CourseRegistrationSystem - WARNING - Wrong user id or password
-2024-12-18 13:22:32,741 - CourseRegistrationSystem - WARNING - Invalid login attempt.
-2024-12-18 13:22:42,934 - CourseRegistrationSystem - WARNING - Wrong user id or password
-2024-12-18 13:22:42,936 - CourseRegistrationSystem - WARNING - Invalid login attempt.
+2024-12-18 14:22:19,117 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 14:22:23,592 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 14:22:23,592 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 14:22:30,893 - CourseRegistrationSystem - INFO - Choice 1:  Show Transcript is selected     - Hasan Erz
+2024-12-18 14:22:43,487 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 14:22:46,398 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 14:23:01,295 - CourseRegistrationSystem - WARNING - Invalid section choice!
+2024-12-18 14:23:05,511 - CourseRegistrationSystem - INFO - Choice 3:  Print Weekly Schedule is selected     - Hasan Erz
+2024-12-18 14:23:17,074 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
