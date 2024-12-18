@@ -450,14 +450,38 @@ INSERT INTO CompletedCourse VALUES ('150122039', 'CSE3048', 'BA');
 
 INSERT INTO CompletedCourse VALUES ('150122041', 'MATH1001', 'BB');
 
-
-
 create table CurrentCourse(
-	studentID nvarchar(50) primary key,
-	courseID nvarchar(50),
+	studentID NVARCHAR(50) primary key,
+	courseID NVARCHAR(50),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
-	foreign key (courseID) references Course(courseID) on delete set null
+	foreign key (courseID) references Course(courseID) on delete cascade,
 );
+
+INSERT INTO CurrentCourse VALUES ('150121031', 'CSE2225');
+INSERT INTO CurrentCourse VALUES ('150121031', 'CSE3215');
+
+INSERT INTO CurrentCourse VALUES ('150121032', 'CSE2246');
+INSERT INTO CurrentCourse VALUES ('150121032', 'CSE3215');
+
+INSERT INTO CurrentCourse VALUES ('150121033', 'CSE2246');
+INSERT INTO CurrentCourse VALUES ('150121033', 'CSE3063');
+
+INSERT INTO CurrentCourse VALUES ('150121034', 'CSE2023');
+INSERT INTO CurrentCourse VALUES ('150121034', 'PHYS1102');
+
+INSERT INTO CurrentCourse VALUES ('150121035', 'CSE2023');
+INSERT INTO CurrentCourse VALUES ('150121035', 'ECON2004');
+
+INSERT INTO CurrentCourse VALUES ('150122037', 'IE3235');
+INSERT INTO CurrentCourse VALUES ('150122037', 'ISG121');
+
+INSERT INTO CurrentCourse VALUES ('150122038', 'CSE4074');
+
+INSERT INTO CurrentCourse VALUES ('150122040', 'MATH1001');
+INSERT INTO CurrentCourse VALUES ('150122040', 'CSE1200');
+
+INSERT INTO CurrentCourse VALUES ('150122041', 'CSE1241');
+INSERT INTO CurrentCourse VALUES ('150122041', 'PHYS1101');
 
 create table WaitedCourse(
 	studentID nvarchar(50) primary key,
