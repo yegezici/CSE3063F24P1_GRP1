@@ -2,6 +2,7 @@ from typing import List, Optional
 from Lecturer import Lecturer
 from Course import Course
 from TimeSlot import TimeSlot
+from Student import Student
 
 class CourseSection:
     def __init__(self,

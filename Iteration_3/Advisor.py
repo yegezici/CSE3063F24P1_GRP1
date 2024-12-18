@@ -1,17 +1,9 @@
 from datetime import date
 from typing import List
-
-class Lecturer:
-    def __init__(self, name="", surname="", birthdate=None, gender='', ssn='', courses=None):
-        self.name = name
-        self.surname = surname
-        self.birthdate = birthdate or date.today()
-        self.gender = gender
-        self.ssn = ssn
-        self.courses = courses or []
+from Lecturer import Lecturer
 
 class Advisor(Lecturer):
-    def __init__(self, name="", surname="", birthdate=None, gender='', ssn='', courses=None, students=None):
+    def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', ssn: str ='', courses=None, students=None):
         super().__init__(name, surname, birthdate, gender, ssn, courses)
         self.students = students or []
 

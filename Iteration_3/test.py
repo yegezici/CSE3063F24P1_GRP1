@@ -4,6 +4,7 @@ import os
 # Projenizin ana dizinini (CSE3063F24P1_GRP1) sys.path'e ekleyin
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+
 # Kontrol için yazdırabilirsiniz:
 print("Güncellenmiş sys.path:", sys.path)
 
