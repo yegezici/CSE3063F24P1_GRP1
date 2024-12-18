@@ -225,7 +225,7 @@ CREATE TABLE TimeSlot(
 );
 
 CREATE TABLE CompletedCourse(
-	studentID NVARCHAR(50) primary key,
+	studentID NVARCHAR(50),
 	courseID NVARCHAR(50),
 	grade NVARCHAR(50),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
@@ -452,7 +452,7 @@ INSERT INTO CompletedCourse VALUES ('150122039', 'CSE3048', 'BA');
 INSERT INTO CompletedCourse VALUES ('150122041', 'MATH1001', 'BB');
 
 create table CurrentCourse(
-	studentID NVARCHAR(50) primary key,
+	studentID NVARCHAR(50) ,
 	courseID NVARCHAR(50),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseID) references Course(courseID) on delete cascade,
@@ -485,14 +485,14 @@ INSERT INTO CurrentCourse VALUES ('150122041', 'CSE1241');
 INSERT INTO CurrentCourse VALUES ('150122041', 'PHYS1101');
 
 CREATE TABLE WaitedCourse(
-	studentID nvarchar(50) primary key,
+	studentID nvarchar(50) ,
 	courseID nvarchar(50),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseID) references Course(courseID) on delete set null
 );
 
 CREATE TABLE CurrentSection(
-	studentID nvarchar(50) primary key,
+	studentID nvarchar(50) ,
 	courseID nvarchar(50),
 	courseSectionID int,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
@@ -529,7 +529,7 @@ INSERT INTO CurrentSection VALUES ('150122041', 'PHYS1101', 1);
 
 
 CREATE TABLE WaitedSection(
-	studentID NVARCHAR(50) primary key,
+	studentID NVARCHAR(50) ,
 	courseID NVARCHAR(50),
 	courseSectionID int,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
