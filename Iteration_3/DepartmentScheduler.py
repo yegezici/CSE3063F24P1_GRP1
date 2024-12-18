@@ -1,5 +1,10 @@
-class DepartmentScheduler:
-    def __init__(self, name, surname, course_sections, all_classrooms):
+from datetime import date
+from CourseSection import CourseSection
+from typing import List,Optional
+from Lecturer import Lecturer
+
+class DepartmentScheduler(Lecturer):
+    def __init__(self, name: str ="", surname: str ="", birthdate: date=None, gender: str ='', ssn: str ='', course_sections: List['CourseSection'] =None, all_classrooms: List[str] =None):
         self.name = name
         self.surname = surname
         self.course_sections = course_sections
@@ -72,3 +77,18 @@ class DepartmentScheduler:
                     day_to_times[slot.day].remove(slot.time_interval)
 
         return [day for day, times in day_to_times.items() if times]
+
+    def get_id(self):
+        return super().get_id()
+
+    def get_name(self):
+        return super().get_name()
+
+    def get_surname(self):
+        return super().get_surname()
+
+    def get_birthdate(self):
+        return super().get_birthdate()
+
+    def get_gender(self):
+        return super().get_gender()
