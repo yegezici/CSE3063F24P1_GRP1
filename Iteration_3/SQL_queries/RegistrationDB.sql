@@ -1,7 +1,5 @@
 CREATE DATABASE OTUZBIR
 
-USE OTUZBIR
-
 CREATE TABLE Course(
    courseID NVARCHAR(50) PRIMARY KEY NOT NULL,
    name NVARCHAR(50) NOT NULL,
@@ -95,6 +93,8 @@ CREATE TABLE Advisor (
     ssn NVARCHAR(50),            
     FOREIGN KEY (ssn) REFERENCES Lecturer(ssn)
 );
+INSERT INTO Advisor VALUES ('123456', NULL);
+INSERT INTO Advisor VALUES ('654321', NULL);
 
 CREATE TABLE Student (
     studentID NVARCHAR(50) PRIMARY KEY,
@@ -105,6 +105,19 @@ CREATE TABLE Student (
     advisorID NVARCHAR(50),
 	foreign key (advisorID) references Advisor(advisorID)
 );
+INSERT INTO Student VALUES ('150121031', 'Kenan', 'Yildiz', 'M', '2000-01-01', '123456');
+INSERT INTO Student VALUES ('150121032', 'Enis', 'Destan', 'M', '1999-02-14', '123456');
+INSERT INTO Student VALUES ('150121033', 'Oguz', 'Aydin', 'M', '2001-03-12', '123456');
+INSERT INTO Student VALUES ('150121034', 'Aslı', 'Cakir', 'F', '2001-05-20', '123456');
+INSERT INTO Student VALUES ('150121035', 'Necip', 'Uysal', 'M', '2002-06-30', '123456');
+INSERT INTO Student VALUES ('150122036', 'Berkan', 'Kutlu', 'M', '2002-08-15', '654321');
+INSERT INTO Student VALUES ('150122037', 'Ferdi', 'Kadioglu', 'M', '2001-10-22', '654321');
+INSERT INTO Student VALUES ('150122038', 'Ceyda', 'Santos', 'F', '1998-12-05', '654321');
+INSERT INTO Student VALUES ('150122039', 'Elif', 'Yildirim', 'F', '1999-04-17', '654321');
+INSERT INTO Student VALUES ('150122040', 'Kerem', 'Akturkoglu', 'M', '2005-06-09', '654321');
+INSERT INTO Student VALUES ('150122041', 'Baris', 'Alper', 'M', '2006-01-09', '654321');
+INSERT INTO Student VALUES ('150122042', 'Baki', 'Mercimek', 'M', '2005-11-09', '654321');
+
 
 CREATE TABLE CourseSection (
     	sectionID NVARCHAR(50),
@@ -206,4 +219,3 @@ CREATE TABLE Transcript(
 	waitedCoursesSection NVARCHAR(50),
 	FOREIGN KEY (studentID) REFERENCES Student(studentID)
 )
-
