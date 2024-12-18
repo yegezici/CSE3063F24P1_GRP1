@@ -1,5 +1,7 @@
 from WeeklySchedule import WeeklySchedule
 from Student import Student
+from Logging_Config import logger
+
 
 class StudentInterface:
     def __init__(self, student=None, courses=None):
@@ -10,24 +12,29 @@ class StudentInterface:
         log_out = False
         choice = self.get_choice()
         if choice == 1:
+            logger.info(f"Choice 1:  Show Transcript is selected     - {self.student.get_name()} {self.student.get_surname()}")
             self.show_transcripts()
         elif choice == 2:
+            logger.info(f"Choice 2:  Register Course is selected     - {self.student.get_name()} {self.student.get_surname()}")
             self.register_course()
         elif choice == 3:
+            logger.info(f"Choice 3:  Print Weekly Schedule is selected     - {self.student.get_name()} {self.student.get_surname()}")
             self.print_student_weekly_schedule()
         elif choice == 4:
-            print("You have successfully logged out\n")
+            logger.info(f"{self.student.get_name()} {self.student.get_surname()} succesfully logged out.")
             log_out = True
         else:
+            logger.warning("Invalid choice")
             print("Enter 1, 2, 3, or 4.")
         return log_out
-    
+
     def get_choice(self):
         print("Select an operation:\n1. Transcript\n2. Register for course\n3. Weekly Schedule\n4. Log out")
         try:
             choice = int(input("Enter your choice: "))
             return choice
         except ValueError:
+            logger.warning(f"Invalid choice    - {self.student.get_name()} {self.student.get_surname()}")
             print("Enter an integer value.")
             return 0
 
@@ -39,16 +46,19 @@ class StudentInterface:
         transcript.show_waited_courses()
 
     def register_course(self):
-        available_courses = self.show_registerable_courses()
+        available_courses = self.show_registrable_courses()
         while True:
             total_number_of_courses = len(self.student.get_transcript().get_current_courses()) + \
                                       len(self.student.get_transcript().get_waited_courses())
             if total_number_of_courses >= 5:
-                print("You have reached the maximum number of courses. Redirecting to the main menu.")
+                logger.warning(
+                    f"{self.student.get_name()} {self.student.get_surname()} have reached the maximum number of courses")
+                print("Redirecting to the main menu.")
                 break
-            
+
             if not available_courses:
-                print("There are no available courses.")
+                logger.warning(
+                    f"There are no available courses for {self.student.get_name()} {self.student.get_surname()}")
                 break
 
             print("These are the courses available for registration:")
@@ -60,7 +70,7 @@ class StudentInterface:
                 if course_choice == 0:
                     break
                 if course_choice < 1 or course_choice > len(available_courses):
-                    print("Please enter a valid choice.")
+                    logger.warning(f"Invalid choice for course choice     - {self.student.get_name()} {self.student.get_surname()}")
                     continue
 
                 selected_course = available_courses[course_choice - 1]
@@ -72,17 +82,18 @@ class StudentInterface:
 
                 selected_section = selected_course.get_course_sections()[section_choice]
                 self.student.register_course(selected_section)
-                print(f"{selected_course.get_course_name()}. Section {selected_section.get_section_id()} "
-                      f"is sent to your advisor for approval.")
+                logger.info(f"{selected_course.get_course_name()}. Section {selected_section.get_section_id()} "
+                            f"is sent to your advisor for approval.     - {self.student.get_name()} {self.student.get_surname()}")
                 available_courses.pop(course_choice - 1)
             except ValueError:
-                print("Invalid input! Please enter an integer.")
+                logger.warning("Invalid input.     - {self.student.get_name()} {self.student.get_surname()}")
+                print("Please enter an integer.")
             except IndexError as e:
-                print(e)
+                logger.warning(e)
             except Exception as e:
-                print(f"An error occurred: {e}")
+                logger.warning(f"An error occured: {e}     - {self.student.get_name()} {self.student.get_surname()}")
 
-    def show_registerable_courses(self):
+    def show_registrable_courses(self):
         registrable_courses = []
         transcript = self.student.get_transcript()
 
@@ -99,6 +110,7 @@ class StudentInterface:
             course for course in registrable_courses if course.get_semester() <= transcript.get_semester()
         ]
         return registrable_courses
+
     def check_prerequisite(self, course):
         prerequisite = course.get_prerequisite_course()
         if not prerequisite:

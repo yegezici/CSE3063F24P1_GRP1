@@ -25,6 +25,7 @@ class CourseRegistration:
 
     def init(self):
         logger.info("Course Registration system is started.")
+
         while True:
             current_user = self.login()
             if current_user is None:
@@ -32,14 +33,11 @@ class CourseRegistration:
                 break
             if isinstance(current_user, Lecturer) and not isinstance(current_user, Advisor):
                 break
-
+            logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
             while True:
                 if isinstance(current_user, Student):
-                    logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
                     user_interface = StudentInterface(current_user, self.courses)
                 elif isinstance(current_user, Advisor):
-                    logger.info(
-                        f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in.")
                     user_interface = AdvisorInterface(current_user)
                 elif isinstance(current_user, StudentAffairsStaff):
                     user_interface = StudentAffairsStaffInterface(current_user, self.courses, self.course_sections)
@@ -62,7 +60,7 @@ class CourseRegistration:
             entered_password = input("Password: ")
             return self.check_id_and_password(entered_user_id, entered_password)
         else:
-            print("Program has been terminated successfully.")
+            logger.info("Program has been terminated succesfully.")
             return None
 
     def check_id_and_password(self, entered_user_id: str, entered_password: str) -> Optional[Union[Student]]:
@@ -81,7 +79,6 @@ class CourseRegistration:
                 print("Wrong password.")
                 return None
 
-        print("Wrong User ID or Password")
         logger.warning("Wrong user id or password")
         return None
 
@@ -91,10 +88,11 @@ class CourseRegistration:
                 data = json.load(file)
                 for person in data.get(person_type, []):
                     if person["userID"] == "150121031" and person["password"] == "abc123":
+                        logger.info("Succefully logged in.")
                         return True
                     elif person["userID"] == user_id:
-                        print("Wrong password")
+                        logger.warning("Wrong Password")
                         return False
         except Exception as e:
-            print("An error occurred while checking credentials:", e)
+            logger.warning("An error occurred while checking credentials:", e)
         return False

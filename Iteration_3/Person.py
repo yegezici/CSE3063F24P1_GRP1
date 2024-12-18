@@ -6,7 +6,7 @@ class Person:
         self.surname = surname
         self.birthdate = birthdate
         self.gender = gender
-        self.ID = person_id
+        self.person_id = person_id
 
     def get_name_field(self):
         return self.name
@@ -21,7 +21,7 @@ class Person:
         return self.gender
 
     def get_id_field(self):
-        return self.ID
+        return self.person_id
 
     def get_name(self):
         raise NotImplementedError("Subclasses must implement this method.")
