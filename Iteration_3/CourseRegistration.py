@@ -29,8 +29,7 @@ class CourseRegistration:
             current_user = self.login()
             if current_user is None:
                 logger.warning("Invalid login attempt.")
-                continue
-
+                break
             if isinstance(current_user, Lecturer) and not isinstance(current_user, Advisor):
                 break
 
