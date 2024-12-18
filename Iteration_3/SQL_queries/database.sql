@@ -58,10 +58,10 @@ INSERT INTO Course VALUES ('CSE4061', 'Compiler Design', 5, 'CSE3264', 'te',4);
 INSERT INTO Course VALUES ('CSE4217', 'Microprocessors', 5, 'CSE3038', 'te',4);
 
 -- Non-Technical Elective Courses
-INSERT INTO Course VALUES ('NTE1003', 'The Culture of Radiation Safety', 3, NULL, 'nte');
-INSERT INTO Course VALUES ('YDA1001', 'German for Beginners', 3, NULL, 'nte');
-INSERT INTO Course VALUES ('HSS3002', 'Ethics in Engineering and Science', 3, NULL, 'nte');
-INSERT INTO Course VALUES ('MGT1021', 'Design, Innovation and Entrepreneurship', 3, NULL, 'nte');
+INSERT INTO Course VALUES ('NTE1003', 'The Culture of Radiation Safety', 3, NULL, 'nte', 0);
+INSERT INTO Course VALUES ('YDA1001', 'German for Beginners', 3, NULL, 'nte', 0);
+INSERT INTO Course VALUES ('HSS3002', 'Ethics in Engineering and Science', 3, NULL, 'nte',0);
+INSERT INTO Course VALUES ('MGT1021', 'Design, Innovation and Entrepreneurship', 3, NULL, 'nte',0);
 
 
 CREATE TABLE Mandatory(
