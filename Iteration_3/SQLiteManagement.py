@@ -98,21 +98,22 @@ class SqliteManager:
             self.cursor.execute(f"SELECT * FROM Student s WHERE s.studentID = '{student_id}'")
             row = self.cursor.fetchone()
             if row:
-                return Student(row[0], row[1], row[2], row[3], row[4], row[5])
+                currentCourses: list[Course] = self.get_courses_of_transcript(student_id, "CurrentCourse")
+                waitedCourses: list[Course] = self.get_courses_of_transcript(student_id, "WaitedCourse")
+                completedCourses: list[Course] = self.get_courses_of_transcript(student_id, "CompletedCourse")
+                
+                currentSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "CurrentSection")
+                waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
+
+                transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
+
+                return Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
             else:
                 return None
         except sqlite3.Error as e:
             print("SQLite error:", e)
             return None
     
-    def get_transcript(self, student_id: str)-> Transcript:
-        try:
-            self.cursor.execute(f"SELECT * FROM Transcript t WHERE t.studentID = '{student_id}'")
-            rows = self.cursor.fetchall()
-            return rows
-        except sqlite3.Error as e:
-            print("SQLite error:", e)
-            return None
     
     def get_courses_of_transcript(self, student_id: str, courseList_type: str)-> list:
         courses = []
@@ -133,6 +134,22 @@ class SqliteManager:
                 courses.append(row)
                 
             return courses
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+    
+    def get_course_sections_from_course(self, student_id: str, courseSectionList_type: str) -> list:
+        courseSectionList = []
+        try:
+            self.cursor.execute(f"SELECT * FROM {courseSectionList_type} t WHERE t.studentID = '{student_id}'")
+            rows = self.cursor.fetchall()
+            for row in rows:
+                storedSection = row[2]
+
+                for section in self.courseSections:
+                    if section.get_section_id() == storedSection:
+                        courseSectionList.append(section)
+
+            return courseSectionList
         except sqlite3.Error as e:
             print("SQLite error:", e)
         
