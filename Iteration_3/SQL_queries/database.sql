@@ -4,7 +4,8 @@ CREATE TABLE Course(
    name NVARCHAR(50) NOT NULL,
    credit INT,
    prerequisiteID NVARCHAR(50),
-   courseType NVARCHAR(3)
+   courseType NVARCHAR(3),
+year int
 );
 -- Mandatory Courses
 INSERT INTO Course VALUES ('MATH1001', 'Calculus I', 6, NULL, 'm');
