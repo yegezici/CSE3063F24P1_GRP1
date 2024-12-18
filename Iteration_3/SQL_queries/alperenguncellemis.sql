@@ -234,35 +234,39 @@ create table CompletedCourse(
 	studentID primary key,
 	courseID,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
-	foreign key (courseID) references Course(courseID) on delete cascade,
+	foreign key (courseID) references Course(courseID) on delete set null
 );
 
 create table CurrentCourse(
 	studentID primary key,
 	courseID,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
-	foreign key (courseID) references Course(courseID) on delete cascade,
+	foreign key (courseID) references Course(courseID) on delete set null
 );
 
 create table WaitedCourse(
 	studentID primary key,
 	courseID,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
-	foreign key (courseID) references Course(courseID) on delete cascade,
+	foreign key (courseID) references Course(courseID) on delete set null
 );
 
 create table CurrentSection(
 	studentID primary key,
-	courseSectionID,
+	courseID,
+	courseSectionID ,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
-	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete cascade,
+	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete set null,
+	foreign key (courseID) references Course(courseID) on delete set null
 );
 
 create table WaitedSection(
 	studentID primary key,
+	courseID,
 	courseSectionID ,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
-	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete cascade,
+	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete set null,
+	foreign key (courseID) references Course(courseID) on delete set null
 );
 
 
