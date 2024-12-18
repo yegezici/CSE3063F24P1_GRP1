@@ -5,57 +5,57 @@ CREATE TABLE Course(
    credit INT,
    prerequisiteID NVARCHAR(50),
    courseType NVARCHAR(3),
-semester int default(0)
+   semester int default(0)
 );
 -- Mandatory Courses
-INSERT INTO Course VALUES ('MATH1001', 'Calculus I', 6, NULL, 'm');
-INSERT INTO Course VALUES ('CSE1200', 'Introduction to Computer Engineering', 4, NULL, 'm');
-INSERT INTO Course VALUES ('CSE1241', 'Computer Programming I', 6, NULL, 'm');
-INSERT INTO Course VALUES ('PHYS1101', 'Physics I', 4, NULL, 'm');
-INSERT INTO Course VALUES ('ATA121', 'Atatürk s Prin. & History I', 2, NULL, 'm');
-INSERT INTO Course VALUES ('MBG1201', 'Introduction to Modern Biology', 2, NULL, 'm');
-INSERT INTO Course VALUES ('TRD121', 'Turkish Language I', 2, NULL, 'm');
-INSERT INTO Course VALUES ('MATH1002', 'Calculus II', 6, NULL, 'm');
-INSERT INTO Course VALUES ('CSE1242', 'Computer Programming II', 6, 'CSE1241', 'm');
-INSERT INTO Course VALUES ('PHYS1102', 'Physics II', 4, NULL, 'm');
-INSERT INTO Course VALUES ('ATA122', 'Atatürk s Prin. & History II', 2, NULL, 'm');
-INSERT INTO Course VALUES ('MATH2256', 'Linear Algebra for Comp. Eng.', 5, NULL, 'm');
-INSERT INTO Course VALUES ('TRD122', 'Turkish Language II', 2, NULL, 'm');
-INSERT INTO Course VALUES ('MATH2059', 'Numerical Methods', 4, 'MATH1001', 'm');
-INSERT INTO Course VALUES ('CSE2225', 'Data Structures', 7, 'CSE1242', 'm');
-INSERT INTO Course VALUES ('CSE2023', 'Discrete Comp. Structures', 6, NULL, 'm');
-INSERT INTO Course VALUES ('EE2031', 'Electric Circuits', 5, 'PHYS1102', 'm');
-INSERT INTO Course VALUES ('ECON2004', 'Engineering Economy', 4, NULL, 'm');
-INSERT INTO Course VALUES ('MATH2055', 'Differential Equations', 4, NULL, 'm');
-INSERT INTO Course VALUES ('CSE2246', 'Analysis of Algorithms', 6, 'CSE2225', 'm');
-INSERT INTO Course VALUES ('CSE2260', 'Principles of Prog. Languages', 6, 'CSE1242', 'm');
-INSERT INTO Course VALUES ('EE2032', 'Electronics', 5, 'EE2031', 'm');
-INSERT INTO Course VALUES ('CSE2138', 'Systems Programming', 7, NULL, 'm');
-INSERT INTO Course VALUES ('STAT2253', 'Prob. and Stat. for Comp. Eng.', 5, NULL, 'm');
-INSERT INTO Course VALUES ('CSE3055', 'Database Systems', 7, 'CSE2225', 'm');
-INSERT INTO Course VALUES ('CSE3033', 'Operating Systems', 7, 'CSE2225', 'm');
-INSERT INTO Course VALUES ('CSE3063', 'Object-Oriented Software Desg.', 5, 'CSE1242', 'm');
-INSERT INTO Course VALUES ('CSE3215', 'Digital Logic Design', 6, NULL, 'm');
-INSERT INTO Course VALUES ('IE3081', 'Modeling and Disc. Simulation', 4, 'STAT2253', 'm');
-INSERT INTO Course VALUES ('COM2202', 'Tech. Comm. & Entrepreneurship', 2, NULL, 'm');
-INSERT INTO Course VALUES ('CSE3044', 'Software Engineering', 7, 'CSE3055', 'm');
-INSERT INTO Course VALUES ('CSE3264', 'Formal Lang. & Auto. Theory', 5, 'CSE2023', 'm');
-INSERT INTO Course VALUES ('CSE3038', 'Computer Organization', 7, 'CSE2138', 'm');
-INSERT INTO Course VALUES ('CSE3048', 'Int. to Signals and Systems', 5, 'MATH2055', 'm');
-INSERT INTO Course VALUES ('IE3235', 'Operations Research', 4, 'MATH2256', 'm');
-INSERT INTO Course VALUES ('CSE4297', 'Engineering Project I', 5, NULL, 'm');
-INSERT INTO Course VALUES ('CSE4074', 'Computer Networks', 5, NULL, 'm');
-INSERT INTO Course VALUES ('CSE4219', 'Prin. of Embed. System Design', 6, 'CSE3038', 'm');
-INSERT INTO Course VALUES ('ISG121', 'Work Safety I', 2, NULL, 'm');
-INSERT INTO Course VALUES ('CSE4288', 'Int. to Machine Learning', 5, 'STAT2253', 'm');
-INSERT INTO Course VALUES ('CSE4298', 'Engineering Project II', 5, 'CSE4297', 'm');
-INSERT INTO Course VALUES ('ISG122', 'Work Safety II', 2, NULL, 'm');
+INSERT INTO Course VALUES ('MATH1001', 'Calculus I', 6, NULL, 'm',1);
+INSERT INTO Course VALUES ('CSE1200', 'Introduction to Computer Engineering', 4, NULL, 'm',1);
+INSERT INTO Course VALUES ('CSE1241', 'Computer Programming I', 6, NULL, 'm',1);
+INSERT INTO Course VALUES ('PHYS1101', 'Physics I', 4, NULL, 'm',1);
+INSERT INTO Course VALUES ('ATA121', 'Atatürk s Prin. & History I', 2, NULL, 'm',1);
+INSERT INTO Course VALUES ('MBG1201', 'Introduction to Modern Biology', 2, NULL, 'm',1);
+INSERT INTO Course VALUES ('TRD121', 'Turkish Language I', 2, NULL, 'm',1);
+INSERT INTO Course VALUES ('MATH1002', 'Calculus II', 6, NULL, 'm',1);
+INSERT INTO Course VALUES ('CSE1242', 'Computer Programming II', 6, 'CSE1241', 'm',1);
+INSERT INTO Course VALUES ('PHYS1102', 'Physics II', 4, NULL, 'm',1);
+INSERT INTO Course VALUES ('ATA122', 'Atatürk s Prin. & History II', 2, NULL, 'm',1);
+INSERT INTO Course VALUES ('MATH2256', 'Linear Algebra for Comp. Eng.', 5, NULL, 'm',2);
+INSERT INTO Course VALUES ('TRD122', 'Turkish Language II', 2, NULL, 'm',1);
+INSERT INTO Course VALUES ('MATH2059', 'Numerical Methods', 4, 'MATH1001', 'm',2);
+INSERT INTO Course VALUES ('CSE2225', 'Data Structures', 7, 'CSE1242', 'm',2);
+INSERT INTO Course VALUES ('CSE2023', 'Discrete Comp. Structures', 6, NULL, 'm',2);
+INSERT INTO Course VALUES ('EE2031', 'Electric Circuits', 5, 'PHYS1102', 'm',2);
+INSERT INTO Course VALUES ('ECON2004', 'Engineering Economy', 4, NULL, 'm',2);
+INSERT INTO Course VALUES ('MATH2055', 'Differential Equations', 4, NULL, 'm',2);
+INSERT INTO Course VALUES ('CSE2246', 'Analysis of Algorithms', 6, 'CSE2225', 'm',2);
+INSERT INTO Course VALUES ('CSE2260', 'Principles of Prog. Languages', 6, 'CSE1242', 'm',2);
+INSERT INTO Course VALUES ('EE2032', 'Electronics', 5, 'EE2031', 'm',2);
+INSERT INTO Course VALUES ('CSE2138', 'Systems Programming', 7, NULL, 'm',2);
+INSERT INTO Course VALUES ('STAT2253', 'Prob. and Stat. for Comp. Eng.', 5, NULL, 'm',2);
+INSERT INTO Course VALUES ('CSE3055', 'Database Systems', 7, 'CSE2225', 'm',3);
+INSERT INTO Course VALUES ('CSE3033', 'Operating Systems', 7, 'CSE2225', 'm',3);
+INSERT INTO Course VALUES ('CSE3063', 'Object-Oriented Software Desg.', 5, 'CSE1242', 'm',3);
+INSERT INTO Course VALUES ('CSE3215', 'Digital Logic Design', 6, NULL, 'm',3);
+INSERT INTO Course VALUES ('IE3081', 'Modeling and Disc. Simulation', 4, 'STAT2253', 'm',3);
+INSERT INTO Course VALUES ('COM2202', 'Tech. Comm. & Entrepreneurship', 2, NULL, 'm',3);
+INSERT INTO Course VALUES ('CSE3044', 'Software Engineering', 7, 'CSE3055', 'm',3);
+INSERT INTO Course VALUES ('CSE3264', 'Formal Lang. & Auto. Theory', 5, 'CSE2023', 'm',3);
+INSERT INTO Course VALUES ('CSE3038', 'Computer Organization', 7, 'CSE2138', 'm',3);
+INSERT INTO Course VALUES ('CSE3048', 'Int. to Signals and Systems', 5, 'MATH2055', 'm',3);
+INSERT INTO Course VALUES ('IE3235', 'Operations Research', 4, 'MATH2256', 'm',3);
+INSERT INTO Course VALUES ('CSE4297', 'Engineering Project I', 5, NULL, 'm',4);
+INSERT INTO Course VALUES ('CSE4074', 'Computer Networks', 5, NULL, 'm',4);
+INSERT INTO Course VALUES ('CSE4219', 'Prin. of Embed. System Design', 6, 'CSE3038', 'm',4);
+INSERT INTO Course VALUES ('ISG121', 'Work Safety I', 2, NULL, 'm',4);
+INSERT INTO Course VALUES ('CSE4288', 'Int. to Machine Learning', 5, 'STAT2253', 'm',4);
+INSERT INTO Course VALUES ('CSE4298', 'Engineering Project II', 5, 'CSE4297', 'm',4);
+INSERT INTO Course VALUES ('ISG122', 'Work Safety II', 2, NULL, 'm',4);
 
 -- Technical Elective Courses
-INSERT INTO Course VALUES ('CSE4075', 'Wireless & Mobile Networks', 5, 'CSE4074', 'te');
-INSERT INTO Course VALUES ('CSE4034', 'Advanced Unix Programming', 5, 'CSE3033', 'te');
-INSERT INTO Course VALUES ('CSE4061', 'Compiler Design', 5, 'CSE3264', 'te');
-INSERT INTO Course VALUES ('CSE4217', 'Microprocessors', 5, 'CSE3038', 'te');
+INSERT INTO Course VALUES ('CSE4075', 'Wireless & Mobile Networks', 5, 'CSE4074', 'te',4);
+INSERT INTO Course VALUES ('CSE4034', 'Advanced Unix Programming', 5, 'CSE3033', 'te',4);
+INSERT INTO Course VALUES ('CSE4061', 'Compiler Design', 5, 'CSE3264', 'te',4);
+INSERT INTO Course VALUES ('CSE4217', 'Microprocessors', 5, 'CSE3038', 'te',4);
 
 -- Non-Technical Elective Courses
 INSERT INTO Course VALUES ('NTE1003', 'The Culture of Radiation Safety', 3, NULL, 'nte');
