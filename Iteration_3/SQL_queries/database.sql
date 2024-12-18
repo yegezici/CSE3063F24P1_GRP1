@@ -132,7 +132,7 @@ INSERT INTO StudentsOfAdvisor VALUES ('150122042', '654321');
 
 
 CREATE TABLE CourseSection (
-    	sectionID NVARCHAR(50),
+    	sectionID int,
 	capacity INT,
 	courseID NVARCHAR(50),
 	lecturerSSN NVARCHAR(50),
@@ -493,7 +493,7 @@ create table WaitedCourse(
 create table CurrentSection(
 	studentID nvarchar(50) primary key,
 	courseID nvarchar(50),
-	courseSectionID nvarchar(50),
+	courseSectionID int,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete set null,
 	foreign key (courseID) references Course(courseID) on delete set null
@@ -501,8 +501,8 @@ create table CurrentSection(
 
 create table WaitedSection(
 	studentID primary key,
-	courseID,
-	courseSectionID ,
+	courseID nvarchar(50),
+	courseSectionID int,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete set null,
 	foreign key (courseID) references Course(courseID) on delete set null
