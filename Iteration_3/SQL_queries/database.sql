@@ -455,7 +455,7 @@ create table CurrentCourse(
 	studentID NVARCHAR(50) ,
 	courseID NVARCHAR(50),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
-	foreign key (courseID) references Course(courseID) on delete cascade,
+	foreign key (courseID) references Course(courseID) on delete cascade
 );
 
 INSERT INTO CurrentCourse VALUES ('150121031', 'CSE2225');
