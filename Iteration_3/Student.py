@@ -5,10 +5,10 @@ from Transcript import Transcript
 
 class Student(Person):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, transcript: 'Transcript' = None, student_id: str = None):
-        super().__init__(name, surname, birthdate, gender)
+        super().__init__(name, surname, birthdate, gender, student_id)
         self.transcript = transcript
         self.advisor = None
-        self.student_id = student_id
+
 
     def get_name(self):
         return super().get_name_field()

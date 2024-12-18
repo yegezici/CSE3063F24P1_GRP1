@@ -9,7 +9,7 @@ from CourseRegistration import CourseRegistration
 
 dummy_transcript = Transcript()
 dummy_transcript.set_semester(1)
-dummy_student = Student(name="John", surname="Doe", birthdate=date(2000, 1, 1), gender="M", student_id="150121031",transcript=dummy_transcript)
+dummy_student = Student(name="Hasan", surname="Erz", birthdate=date(2000, 1, 1), gender="M", student_id="150121031",transcript=dummy_transcript)
 dummy_course = Course(course_id="MATH1001",course_name="calculus",credits=6,prerequisite_course=None,semester=1,grade="AA")
 dummy_course2 = Course(course_id="MATH1002",course_name="calculus2",credits=6,prerequisite_course=dummy_course,semester=1,grade="AA")
 dummy_course3 = Course(course_id="CSE1200",course_name="programming",credits=6,prerequisite_course=None,semester=1,grade=None)
@@ -30,6 +30,7 @@ studentList = [dummy_student]
 courseList = [dummy_course,dummy_course2,dummy_course3]
 courseSectionList = [dummy_courseSection,dummy_courseSection2]
 classrooms = [dummy_classroom]
+print(dummy_student.get_id())
 course_reg = CourseRegistration(students=studentList,courses=courseList,course_sections=courseSectionList,classrooms=classrooms)
 
 # Menü gösterimi

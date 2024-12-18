@@ -12,7 +12,7 @@ from CourseSection import CourseSection
 from Course import Course
 from StudentAffairsStaffInterface import StudentAffairsStaffInterface
 from JsonManagement import JsonManagement
-
+from Logging_Config import logger
 
 class CourseRegistration:
 
@@ -24,9 +24,11 @@ class CourseRegistration:
         self.classrooms: List[str] = classrooms
 
     def init(self):
+        logger.info("Course Registration system is started.")
         while True:
             current_user = self.login()
             if current_user is None:
+                logger.warning("Invalid login attempt.")
                 continue
 
             if isinstance(current_user, Lecturer) and not isinstance(current_user, Advisor):
@@ -34,8 +36,11 @@ class CourseRegistration:
 
             while True:
                 if isinstance(current_user, Student):
+                    logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
                     user_interface = StudentInterface(current_user, self.courses)
                 elif isinstance(current_user, Advisor):
+                    logger.info(
+                        f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in.")
                     user_interface = AdvisorInterface(current_user)
                 elif isinstance(current_user, StudentAffairsStaff):
                     user_interface = StudentAffairsStaffInterface(current_user, self.courses, self.course_sections)
@@ -51,6 +56,7 @@ class CourseRegistration:
             JsonManagement.get_instance().save_student(student)
 
     def login(self) -> Optional[Union[Student, Advisor, StudentAffairsStaff, DepartmentScheduler]]:
+
         print("Welcome!\n1- Login\nPress any other key to exit")
         if input() == "1":
             entered_user_id = input("User ID: ")
@@ -63,17 +69,21 @@ class CourseRegistration:
     def check_id_and_password(self, entered_user_id: str, entered_password: str) -> Optional[Union[Student]]:
         if not entered_user_id or not entered_password:
             print("Please enter user id and password.")
+            logger.info("Invalid login attempt")
             return None
 
         # Öğrenci ID'sini kontrol et
         for student in self.students:
-            if student.student_id == entered_user_id[1:] and entered_password == "abc123":
+            if student.get_id() == entered_user_id[1:] and entered_password == "abc123":
+                logger.info("Succesfully logged in")
                 return student
-            elif student.student_id == entered_user_id:
+            elif student.get_id() == entered_user_id:
+                logger.warning("Wrong password")
                 print("Wrong password.")
                 return None
 
         print("Wrong User ID or Password")
+        logger.warning("Wrong user id or password")
         return None
 
     def check_id_and_password_of_person(self, user_id: str, password: str, file_path: str, person_type: str) -> bool:
@@ -89,6 +99,3 @@ class CourseRegistration:
         except Exception as e:
             print("An error occurred while checking credentials:", e)
         return False
-
-
-# Singleton JSON Management Class (Simplified)

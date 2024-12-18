@@ -72,3 +72,6 @@ class DepartmentScheduler:
                     day_to_times[slot.day].remove(slot.time_interval)
 
         return [day for day, times in day_to_times.items() if times]
+
+    def get_name(self):
+        return self.name
