@@ -232,35 +232,35 @@ CREATE TABLE TimeSlot(
 
 create table CompletedCourse(
 	studentID primary key,
-	courseID primary key,
+	courseID,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseID) references Course(courseID) on delete cascade,
 );
 
 create table CurrentCourse(
 	studentID primary key,
-	courseID primary key,
+	courseID,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseID) references Course(courseID) on delete cascade,
 );
 
 create table WaitedCourse(
 	studentID primary key,
-	courseID primary key,
+	courseID,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseID) references Course(courseID) on delete cascade,
 );
 
 create table CurrentSection(
 	studentID primary key,
-	courseSectionID primary key,
+	courseSectionID,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete cascade,
 );
 
 create table WaitedSection(
 	studentID primary key,
-	courseSectionID primary key,
+	courseSectionID ,
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete cascade,
 );
