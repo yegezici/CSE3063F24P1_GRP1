@@ -87,13 +87,6 @@ CREATE TABLE Lecturer (
     gender CHAR(1)
 );
 
-CREATE TABLE Advisor (
-    advisorID NVARCHAR(50) PRIMARY KEY, 
-    ssn NVARCHAR(50),            
-    FOREIGN KEY (ssn) REFERENCES Lecturer(ssn) on delete cascade
-);
-INSERT INTO Advisor VALUES ('123456', NULL);
-INSERT INTO Advisor VALUES ('654321', NULL);
 
 CREATE TABLE Student (
     studentID NVARCHAR(50) PRIMARY KEY,
@@ -231,30 +224,31 @@ CREATE TABLE TimeSlot(
 );
 
 create table CompletedCourse(
-	studentID primary key,
-	courseID,
+	studentID nvarchar(50) primary key,
+	courseID nvarchar(50),
+	grade nvarchar(20),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseID) references Course(courseID) on delete set null
 );
 
 create table CurrentCourse(
-	studentID primary key,
-	courseID,
+	studentID nvarchar(50) primary key,
+	courseID nvarchar(50),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseID) references Course(courseID) on delete set null
 );
 
 create table WaitedCourse(
-	studentID primary key,
-	courseID,
+	studentID nvarchar(50) primary key,
+	courseID nvarchar(50),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseID) references Course(courseID) on delete set null
 );
 
 create table CurrentSection(
-	studentID primary key,
-	courseID,
-	courseSectionID ,
+	studentID nvarchar(50) primary key,
+	courseID nvarchar(50),
+	courseSectionID nvarchar(50),
 	foreign key (studentID) references StudentID(studentID) on delete cascade,
 	foreign key (courseSectionID) references CourseSection(courseSectionID) on delete set null,
 	foreign key (courseID) references Course(courseID) on delete set null
