@@ -1,12 +1,14 @@
 CREATE DATABASE OTUZBIR
 
+
+	
 CREATE TABLE Course(
    courseID NVARCHAR(50) PRIMARY KEY NOT NULL,
    name NVARCHAR(50) NOT NULL,
    credit INT,
    prerequisiteID NVARCHAR(50),
    courseType NVARCHAR(3)
-)
+);
 -- Mandatory Courses
 INSERT INTO Course VALUES ('MATH1001', 'Calculus I', 6, NULL, 'm');
 INSERT INTO Course VALUES ('CSE1200', 'Introduction to Computer Engineering', 4, NULL, 'm');
@@ -68,17 +70,17 @@ CREATE TABLE Mandatory(
 	courseID NVARCHAR(50) PRIMARY KEY,
 	year INT,
 	FOREIGN KEY (CourseID) REFERENCES Course(CourseID) ON DELETE CASCADE
-)
+);
 
 CREATE TABLE NTE(
 	courseID NVARCHAR(50),
 	FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
-)
+);
 CREATE TABLE TE(
 	courseID NVARCHAR(50),
 	year INT,
 	FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
-)
+);
 
 CREATE TABLE Lecturer (
     ssn NVARCHAR(50) PRIMARY KEY,
@@ -91,7 +93,7 @@ CREATE TABLE Lecturer (
 CREATE TABLE Advisor (
     advisorID NVARCHAR(50) PRIMARY KEY, 
     ssn NVARCHAR(50),            
-    FOREIGN KEY (ssn) REFERENCES Lecturer(ssn)
+    FOREIGN KEY (ssn) REFERENCES Lecturer(ssn) on delete cascade
 );
 INSERT INTO Advisor VALUES ('123456', NULL);
 INSERT INTO Advisor VALUES ('654321', NULL);
@@ -103,7 +105,7 @@ CREATE TABLE Student (
     gender CHAR,
     birthDate DATE,
     advisorID NVARCHAR(50),
-	foreign key (advisorID) references Advisor(advisorID)
+	foreign key (advisorID) references Advisor(advisorID) on delete set null
 );
 INSERT INTO Student VALUES ('150121031', 'Kenan', 'Yildiz', 'M', '2000-01-01', '123456');
 INSERT INTO Student VALUES ('150121032', 'Enis', 'Destan', 'M', '1999-02-14', '123456');
@@ -118,14 +120,20 @@ INSERT INTO Student VALUES ('150122040', 'Kerem', 'Akturkoglu', 'M', '2005-06-09
 INSERT INTO Student VALUES ('150122041', 'Baris', 'Alper', 'M', '2006-01-09', '654321');
 INSERT INTO Student VALUES ('150122042', 'Baki', 'Mercimek', 'M', '2005-11-09', '654321');
 
+create table StudentsOfAdvisor(
+	studentID nvarchar(50) primary key,
+	advisorID nvarchar(50),
+	foreign key (studentID) references Student(studentID) on delete cascade,
+	foreign key (advisorID) references Advisor(advisorID) on delete cascade
+);
 
 CREATE TABLE CourseSection (
     	sectionID NVARCHAR(50),
 	capacity INT,
 	courseID NVARCHAR(50),
 	lecturerSSN NVARCHAR(50),
-	FOREIGN KEY (courseID) REFERENCES Course(courseID),
-	FOREIGN KEY (lecturerSSN) REFERENCES Lecturer(ssn)
+	FOREIGN KEY (courseID) REFERENCES Course(courseID) on delete cascade,
+	FOREIGN KEY (lecturerSSN) REFERENCES Lecturer(ssn) on delete set null
 );
 INSERT INTO CourseSection VALUES (1, 2, 'MATH1001', NULL);
 INSERT INTO CourseSection VALUES (2, 2, 'MATH1001', NULL);
@@ -208,8 +216,8 @@ CREATE TABLE TimeSlot(
 	day NVARCHAR(50),
 	classroom NVARCHAR(50),
 	sectionID NVARCHAR(50),
-	FOREIGN KEY (sectionID) REFERENCES CourseSection(sectionID)
-)
+	FOREIGN KEY (sectionID) REFERENCES CourseSection(sectionID) on delete set null
+);
 CREATE TABLE Transcript(
     studentID NVARCHAR(50) PRIMARY KEY,
 	completedCourses NVARCHAR(50),
@@ -217,5 +225,5 @@ CREATE TABLE Transcript(
 	waitedCourses NVARCHAR(50),
 	currentCoursesSection NVARCHAR(50),
 	waitedCoursesSection NVARCHAR(50),
-	FOREIGN KEY (studentID) REFERENCES Student(studentID)
-)
+	FOREIGN KEY (studentID) REFERENCES Student(studentID) on delete set null
+);
