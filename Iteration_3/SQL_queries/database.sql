@@ -500,7 +500,7 @@ CREATE TABLE CurrentSection(
 	foreign key (courseID) references Course(courseID) on delete set null
 );
 
-INSERT INTO CurrentSection VALUES ('150121031', 'CSE2225', 1);
+INSERT INTO CurrentSection VALUES ('150121031', 'CSE2225', 'CSE2225.1');
 INSERT INTO CurrentSection VALUES ('150121031', 'CSE3215', 1);
 
 INSERT INTO CurrentSection VALUES ('150121032', 'CSE2246', 1);
