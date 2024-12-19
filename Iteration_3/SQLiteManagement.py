@@ -15,6 +15,7 @@ class SqliteManager:
         self.cursor = self.conn.cursor()
         self.courseSections = self.initialize_courseSections()
         self.courses = self.initialize_courses()
+        self.set_prerequisites()
     def print_table(self, table_name: str) ->None:        
         try:
             self.cursor.execute(f"SELECT * FROM {table_name}")
@@ -35,17 +36,19 @@ class SqliteManager:
                 course = NonTechnicalElectiveCourse(row[0], row[1], row[2], row[4])
             elif row[4] == 'nte':
                 course = TechnicalElectiveCourse(row[0], row[1], row[2], row[3])
-                    
-                
-            courses.append(Course(row[0], row[1], row[2], row[3], row[4]))
+            courses.append(course)
         return courses
 
+    
     def set_prerequisites(self) -> None:
         for course in self.courses:
-            self.cursor.execute(f"SELECT prerequisiteID FROM Course WHERE courseID = '{course.get_course_id}'")
+            self.cursor.execute(f"SELECT prerequisiteID FROM Course WHERE courseID = '{course.get_course_id()}'")
             rows = self.cursor.fetchall()
             for row in rows:
-                course.set_prerequisite(row[0])
+                for prerequisite in self.courses:
+                    if row[0] == prerequisite.get_course_id():
+                        course.set_prerequisite_course(prerequisite)
+                
     def find_user(self, username: str, password: str) -> bool:
         try:
             self.cursor.execute(f"SELECT * FROM User u WHERE u.UserID = '{username}' AND u.password = '{password}'")
@@ -123,15 +126,15 @@ class SqliteManager:
             for row in rows:
                 self.cursor.execute(f"SELECT * FROM Course WHERE courseID = '{row[0]}'") 
                 row = self.cursor.fetchone()
-                course_type = row[4]
                 course
-                if course_type == 'm':
-                    course = new MandatoryCourse(row[0], row[1], row[2], )
-                elif course_type == 'te':
-                elif course_type == 'nte':    
+                if row[4] == 'm':
+                    course =  MandatoryCourse(row[0], row[1], row[2], None ,row[4])
+                elif row[4] == 'te':
+                    course = NonTechnicalElectiveCourse(row[0], row[1], row[2], row[4])
+                elif row[4] == 'nte':
+                    course = TechnicalElectiveCourse(row[0], row[1], row[2], row[3])
                 
-                
-                courses.append(row)
+                courses.append(course)
                 
             return courses
         except sqlite3.Error as e:
@@ -192,7 +195,8 @@ class SqliteManager:
 
 
 manager = SqliteManager()
-for courseSection in manager.courseSections:
-    print(courseSection.get_section_id())
-    print(courseSection.get_parent_course().get_course_id())
-   
+for course in manager.courses:
+    if  course.get_prerequisite_course() is not None:
+        print(course.get_course_name())
+        print(course.get_prerequisite_course())
+        print("-----------")
