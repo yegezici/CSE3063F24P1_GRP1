@@ -11,17 +11,19 @@ from DepartmentScheduler import DepartmentScheduler
 from CourseSection import CourseSection
 from Course import Course
 from StudentAffairsStaffInterface import StudentAffairsStaffInterface
-from JsonManagement import JsonManagement
+
 from Logging_Config import logger
+
 
 class CourseRegistration:
 
-    def __init__(self,students,courses,course_sections,classrooms):
+    def __init__(self, students, courses, course_sections, classrooms, advisors):
         # JSON dosyalarından verileri yükle
         self.students = students
         self.courses = courses
         self.course_sections = course_sections
         self.classrooms: List[str] = classrooms
+        self.advisors = advisors
 
     def init(self):
         logger.info("Course Registration system is started.")
@@ -30,7 +32,8 @@ class CourseRegistration:
             current_user = self.login()
             if current_user is None:
                 logger.warning("Invalid login attempt.")
-                break
+                continue
+
             if isinstance(current_user, Lecturer) and not isinstance(current_user, Advisor):
                 break
             logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
@@ -45,12 +48,7 @@ class CourseRegistration:
                     user_interface = DepartmentSchedulerInterface(current_user, self.course_sections)
 
                 if user_interface.show_menu():
-                    self.save_students()
                     break
-
-    def save_students(self):
-        for student in self.students:
-            JsonManagement.get_instance().save_student(student)
 
     def login(self) -> Optional[Union[Student, Advisor, StudentAffairsStaff, DepartmentScheduler]]:
 
@@ -68,6 +66,11 @@ class CourseRegistration:
             print("Please enter user id and password.")
             logger.info("Invalid login attempt")
             return None
+
+        for advisor in self.advisors:
+            if advisor.get_id() == entered_user_id[1:] and entered_password == "ganiz123":
+                logger.info("Advisor logged in")
+                return advisor
 
         # Öğrenci ID'sini kontrol et
         for student in self.students:
