@@ -1,4 +1,5 @@
 import sqlite3
+import copy
 from Student import Student
 from CourseSection import CourseSection
 from Course import Course
@@ -128,9 +129,13 @@ class SqliteManager:
             self.cursor.execute(f"SELECT * FROM {courseList_type} t WHERE t.studentID = '{student_id}'")
             rows = self.cursor.fetchall()
             for row in rows:
-                self.cursor.execute(f"SELECT * FROM Course WHERE courseID = '{row[0]}'") 
-                row = self.cursor.fetchone()
-                course = Course(row[0], row[1], row[2], row[3], row[4])
+                for course in self.courses:
+                    if course.get_course_id() == row[1]:
+                        new_course = copy.deepcopy(course) 
+                        if courseList_type == "CompletedCourse":
+                            new_course.set_grade(row[2])
+                        courses.append(new_course)
+                    
                 courses.append(course)
                 
             return courses
@@ -166,6 +171,7 @@ class SqliteManager:
                 parent_course = None
                 if parent_course_row:
                     course_id, name, credit, prerequisite_id, course_type = parent_course_row
+                    #BURASI DU
                     parent_course = Course(course_id, name, credit, prerequisite_id, course_type)
         
                 # Step 3: Fetch TimeSlots for the Section
@@ -191,5 +197,8 @@ class SqliteManager:
 
 
 manager = SqliteManager()
-for section in manager.courseSections:
-    print(section.get_section_id())
+student = manager.get_student("150121031")
+completed_course = student.get_transcript().get_completed_courses()
+for course in completed_course:
+    print(course.get_course_id(), course.get_grade())
+    print("****************************************")
