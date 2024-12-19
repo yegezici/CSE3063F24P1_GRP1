@@ -1,6 +1,8 @@
 import sqlite3
 import copy
 from Student import Student
+from DepartmentScheduler import DepartmentScheduler
+from Advisor import Advisor
 from CourseSection import CourseSection
 from Course import Course
 from TimeSlot import TimeSlot
@@ -101,7 +103,7 @@ class SqliteManager:
         except sqlite3.IntegrityError as e:
             print(f"Error: {e}")
             
-    def get_student(self, student_id: str) -> Student:
+    def get_student_without_advisor(self, student_id: str) -> Student:
         try:
             self.cursor.execute(f"SELECT * FROM Student s WHERE s.studentID = '{student_id}'")
             row = self.cursor.fetchone()
@@ -112,17 +114,40 @@ class SqliteManager:
                 
                 currentSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "CurrentSection")
                 waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
+                
+                #advisor = self.get_advisor(row[5])
 
                 transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
 
+                
                 return Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
             else:
                 return None
         except sqlite3.Error as e:
             print("SQLite error:", e)
             return None
+        
+    def get_student(self, student_id: str) -> Student:
+        student = self.get_student_without_advisor(student_id)
+        if student is not None:
+            
     
-    
+    #Advisorlar içinde kontrol yap student id'leri kontrol ederek.
+    def set_advisor_for_student(self, student: Student) -> None:
+
+    def get_advisor(self, id: str) -> Advisor:
+        try:
+            self.cursor.execute(f"SELECT * FROM Advisor a WHERE a.advisorID = '{id}'")
+            row = self.cursor.fetchone()
+            if row:
+                
+                return Advisor()
+            else:
+                return None
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+            return None
+
     def get_courses_of_transcript(self, student_id: str, courseList_type: str)-> list:
         courses = []
         try:
