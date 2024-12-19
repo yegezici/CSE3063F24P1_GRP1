@@ -90,7 +90,8 @@ CREATE TABLE Lecturer (
     birthdate DATE,
     gender CHAR(1)
 );
-
+INSERT INTO Lecturer VALUES ('123456', 'Murat Can', 'Ganiz', '1970-01-01', 'M');
+INSERT INTO Lecturer VALUES ('654321', 'Sanem', 'Yilmaz', '1975-01-01', 'F'); 
 
 CREATE TABLE Student (
     studentID NVARCHAR(50) PRIMARY KEY,
