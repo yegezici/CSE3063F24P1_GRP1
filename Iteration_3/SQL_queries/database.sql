@@ -63,6 +63,21 @@ INSERT INTO Course VALUES ('YDA1001', 'German for Beginners', 3, NULL, 'nte',0);
 INSERT INTO Course VALUES ('HSS3002', 'Ethics in Engineering and Science', 3, NULL, 'nte',0);
 INSERT INTO Course VALUES ('MGT1021', 'Design, Innovation and Entrepreneurship', 3, NULL, 'nte',0);
 
+CREATE TABLE Mandatory(
+	courseID NVARCHAR(50) PRIMARY KEY,
+	year INT,
+	FOREIGN KEY (CourseID) REFERENCES Course(CourseID) ON DELETE CASCADE
+);
+
+CREATE TABLE NTE(
+	courseID NVARCHAR(50),
+	FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
+);
+CREATE TABLE TE(
+	courseID NVARCHAR(50),
+	year INT,
+	FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
+);
 
 CREATE TABLE Lecturer (
     ssn NVARCHAR(50) PRIMARY KEY,
@@ -83,7 +98,7 @@ CREATE TABLE Student (
 	semeste int,
 	foreign key (advisorID) references Lecturer(SSN) on delete set null
 );
-INSERT INTO Student VALUES ('150121031', 'Kenan', 'Yildiz', 'M', '2000-01-01', '123456',3);
+INSERT INTO Student VALUES ('150121031', 'Hasan', 'Erzincanli', 'M', '2002-09-18', '123456',3);
 INSERT INTO Student VALUES ('150121032', 'Enis', 'Destan', 'M', '1999-02-14', '123456',3);
 INSERT INTO Student VALUES ('150121033', 'Oguz', 'Aydin', 'M', '2001-03-12', '123456',3);
 INSERT INTO Student VALUES ('150121034', 'Aslı', 'Cakir', 'F', '2001-05-20', '123456',2);
@@ -521,5 +536,24 @@ CREATE TABLE WaitedSection(
 	foreign key (courseSectionID) references CourseSection(sectionID) on delete set null,
 	foreign key (courseID) references Course(courseID) on delete set null
 );
+
+CREATE TABLE User(
+  UserID NVARCHAR(50) PRIMARY KEY NOT NULL,
+  Password NVARCHAR(50) NOT NULL
+);
+
+INSERT INTO User VALUES('150121031','abc123');
+INSERT INTO User VALUES('150121032','password2');
+INSERT INTO User VALUES('150121033','password3');
+INSERT INTO User VALUES('150121034','password4');
+INSERT INTO User VALUES('150121035','password5');
+INSERT INTO User VALUES('150122036','password6');
+INSERT INTO User VALUES('150122037','password7');
+INSERT INTO User VALUES('150122038','password8');
+INSERT INTO User VALUES('150122039','password9');
+INSERT INTO User VALUES('150122040','password10');
+INSERT INTO User VALUES('150122041','password11');
+INSERT INTO User VALUES('150122042','password12');
+
 
 

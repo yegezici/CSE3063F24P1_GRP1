@@ -82,8 +82,8 @@ class StudentInterface:
 
                 selected_section = selected_course.get_course_sections()[section_choice]
                 self.student.register_course(selected_section)
-                logger.info(f"{selected_course.get_course_name()}. Section {selected_section.get_section_id()} "
-                            f"is sent to your advisor for approval.     - {self.student.get_name()} {self.student.get_surname()}")
+                logger.info(f"{self.student.get_name()} {self.student.get_surname()} your {selected_course.get_course_name()} Section {selected_section.get_section_id()} "
+                            f"is sent to your advisor for approval.")
                 available_courses.pop(course_choice - 1)
             except ValueError:
                 logger.warning("Invalid input.     - {self.student.get_name()} {self.student.get_surname()}")
@@ -130,6 +130,7 @@ class StudentInterface:
             print(f"{i}. {course.get_course_id()} - {course.get_course_name()}")
 
     def show_available_course_sections(self, course):
+        print(course.get_course_sections())
         for i, section in enumerate(course.get_course_sections(), start=1):
             time_slot = section.get_time_slots()[0]
             print(f"{i}. Section {section.get_section_id()} - {time_slot.get_day()} "
