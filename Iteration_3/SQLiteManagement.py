@@ -31,11 +31,11 @@ class SqliteManager:
         rows = self.cursor.fetchall()
         for row in rows:
             if row[4] == 'm':
-                course =  MandatoryCourse(row[0], row[1], row[2], None ,row[4])
+                course =  MandatoryCourse(course_id=row[0], course_name=row[1], credits=row[2])
             elif row[4] == 'te':
-                course = NonTechnicalElectiveCourse(row[0], row[1], row[2], row[4])
+                course = NonTechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
             elif row[4] == 'nte':
-                course = TechnicalElectiveCourse(row[0], row[1], row[2], row[3])
+                course = TechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
             courses.append(course)
         return courses
 
@@ -45,8 +45,13 @@ class SqliteManager:
             self.cursor.execute(f"SELECT prerequisiteID FROM Course WHERE courseID = '{course.get_course_id()}'")
             rows = self.cursor.fetchall()
             for row in rows:
+                if row[0] == None:
+                    course.set_prerequisite_course(None)
+                    continue
+                prerequisite : Course
                 for prerequisite in self.courses:
                     if row[0] == prerequisite.get_course_id():
+                        print(f"Prerequisite: {prerequisite}")
                         course.set_prerequisite_course(prerequisite)
                 
     def find_user(self, username: str, password: str) -> bool:
@@ -198,5 +203,5 @@ manager = SqliteManager()
 for course in manager.courses:
     if  course.get_prerequisite_course() is not None:
         print(course.get_course_name())
-        print(course.get_prerequisite_course())
+        print(course.get_prerequisite_course().get_course_id())
         print("-----------")
