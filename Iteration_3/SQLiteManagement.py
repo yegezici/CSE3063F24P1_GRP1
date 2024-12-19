@@ -7,7 +7,7 @@ from Transcript import Transcript
 from MandatoryCourse import MandatoryCourse
 from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
-
+from Logging_Config import logger
 class SqliteManager:
 
     def __init__(self):
@@ -23,7 +23,7 @@ class SqliteManager:
             for row in rows:
               print(row)
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
 
     def initialize_courses(self) -> list:
         courses = []
@@ -51,7 +51,6 @@ class SqliteManager:
                 prerequisite : Course
                 for prerequisite in self.courses:
                     if row[0] == prerequisite.get_course_id():
-                        print(f"Prerequisite: {prerequisite}")
                         course.set_prerequisite_course(prerequisite)
                 
     def find_user(self, username: str, password: str) -> bool:
@@ -60,7 +59,7 @@ class SqliteManager:
             rows = self.cursor.fetchall()
             return len(rows) > 0
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             return False
         
     
@@ -75,7 +74,7 @@ class SqliteManager:
             self.conn.commit()        
        
         except sqlite3.IntegrityError as e:
-            print(f"Error: {e}")
+            logger.warning(f"Error: {e}")
     
     
     def save_courseSection(self, courseSection: CourseSection) -> None:
@@ -88,7 +87,7 @@ class SqliteManager:
             self.conn.commit()        
        
         except sqlite3.IntegrityError as e:
-            print(f"Error: {e}")
+            logger.warning(f"Error: {e}")
             
     def save_course(self, course: Course) -> None:
         try:
@@ -99,7 +98,7 @@ class SqliteManager:
             self.cursor.execute(sql, (course.get_course_id, course.get_name, course.get_credit, course.get_prerequisite_id, course.get_course_type))
             self.conn.commit()
         except sqlite3.IntegrityError as e:
-            print(f"Error: {e}")
+            logger.warning(f"Error: {e}")
             
     def get_student(self, student_id: str) -> Student:
         try:
@@ -119,7 +118,7 @@ class SqliteManager:
             else:
                 return None
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             return None
     
     
@@ -143,7 +142,7 @@ class SqliteManager:
                 
             return courses
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
     
     def get_course_sections_from_course(self, student_id: str, courseSectionList_type: str) -> list:
         courseSectionList = []
@@ -159,7 +158,7 @@ class SqliteManager:
 
             return courseSectionList
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
         
     def initialize_courseSections(self) -> list:
         courseSections = []
@@ -189,6 +188,7 @@ class SqliteManager:
                     parent_course=parent_course,
                     lecturer=None  # Lecturer object can be populated later if needed
                 )
+               
                 course_section.set_time_slots(time_slots)
                 courseSections.append(course_section)
                 # Step 5: Add CourseSection to the List
@@ -200,8 +200,3 @@ class SqliteManager:
 
 
 manager = SqliteManager()
-for course in manager.courses:
-    if  course.get_prerequisite_course() is not None:
-        print(course.get_course_name())
-        print(course.get_prerequisite_course().get_course_id())
-        print("-----------")
