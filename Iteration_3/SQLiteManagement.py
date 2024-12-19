@@ -11,7 +11,7 @@ from TechnicalElectiveCourse import TechnicalElectiveCourse
 class SqliteManager:
 
     def __init__(self):
-        self.conn = sqlite3.connect('Iteration_3/database/CourseRegistration.db')
+        self.conn = sqlite3.connect('Iteration_3/database/CourseRegSys.db')
         self.cursor = self.conn.cursor()
         self.courseSections = self.initialize_courseSections()
         self.courses = self.initialize_courses()
@@ -51,7 +51,6 @@ class SqliteManager:
                 prerequisite : Course
                 for prerequisite in self.courses:
                     if row[0] == prerequisite.get_course_id():
-                        print(f"Prerequisite: {prerequisite}")
                         course.set_prerequisite_course(prerequisite)
                 
     def find_user(self, username: str, password: str) -> bool:
@@ -96,7 +95,7 @@ class SqliteManager:
             INSERT INTO Course (courseID, name, credit, prerequisiteID, courseType)
             VALUES (?, ?, ?, ?, ?)
             '''
-            self.cursor.execute(sql, (course.get_course_id, course.get_name, course.get_credit, course.get_prerequisite_id, course.get_course_type))
+            self.cursor.execute(sql, (course.get_course_id(), course.get_name, course.get_credit, course.get_prerequisite_id, course.get_course_type()))
             self.conn.commit()
         except sqlite3.IntegrityError as e:
             print(f"Error: {e}")
@@ -131,14 +130,7 @@ class SqliteManager:
             for row in rows:
                 self.cursor.execute(f"SELECT * FROM Course WHERE courseID = '{row[0]}'") 
                 row = self.cursor.fetchone()
-                course
-                if row[4] == 'm':
-                    course =  MandatoryCourse(row[0], row[1], row[2], None ,row[4])
-                elif row[4] == 'te':
-                    course = NonTechnicalElectiveCourse(row[0], row[1], row[2], row[4])
-                elif row[4] == 'nte':
-                    course = TechnicalElectiveCourse(row[0], row[1], row[2], row[3])
-                
+                course = Course(row[0], row[1], row[2], row[3], row[4])
                 courses.append(course)
                 
             return courses
@@ -152,7 +144,6 @@ class SqliteManager:
             rows = self.cursor.fetchall()
             for row in rows:
                 storedSection = row[2]
-
                 for section in self.courseSections:
                     if section.get_section_id() == storedSection:
                         courseSectionList.append(section)
@@ -200,8 +191,5 @@ class SqliteManager:
 
 
 manager = SqliteManager()
-for course in manager.courses:
-    if  course.get_prerequisite_course() is not None:
-        print(course.get_course_name())
-        print(course.get_prerequisite_course().get_course_id())
-        print("-----------")
+for section in manager.courseSections:
+    print(section.get_section_id())
