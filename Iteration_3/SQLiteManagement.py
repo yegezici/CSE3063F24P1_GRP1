@@ -135,9 +135,7 @@ class SqliteManager:
                         if courseList_type == "CompletedCourse":
                             new_course.set_grade(row[2])
                         courses.append(new_course)
-                    
-                courses.append(course)
-                
+                                    
             return courses
         except sqlite3.Error as e:
             print("SQLite error:", e)
@@ -199,6 +197,7 @@ class SqliteManager:
 manager = SqliteManager()
 student = manager.get_student("150121031")
 completed_course = student.get_transcript().get_completed_courses()
+print('size of completed course:', len(completed_course))
 for course in completed_course:
     print(course.get_course_id(), course.get_grade())
     print("****************************************")
