@@ -44,12 +44,31 @@ class DepartmentSchedulerInterface:
         except (ValueError, IndexError):
             print("Enter a valid integer.")
 
+    def update_lecturer(self, chosen_section):
+        if self.lecturers:
+            print("Current lecturer is " + chosen_section.lecturer.get_name())
+        print("Choose a new lecturer:")
+        for idx, lecturer in enumerate(self.lecturers, 1):
+            print(f"{idx}- {lecturer.get_name()}")
+        try:
+            new_lecturer = self.lecturers[int(input()) - 1]
+            if self.department_scheduler.handle_lecturer_conflict(new_lecturer, chosen_section):
+                chosen_section.lecturer = new_lecturer
+                print("Lecturer has been updated successfully.")
+            else:
+                print("Selected lecturer has a conflict with the course section.")
+        except (ValueError, IndexError):
+            print("Enter a valid integer.")
+
     def choose_course_section(self):
         self.show_available_course_sections()
         try:
             print("Choose a course section:")
             section_no = int(input()) - 1
             chosen_section = self.course_sections[section_no]
+            if not chosen_section.lecturer:
+                print("Selected course does not have any lecturer yet.")
+                self.update_lecturer(chosen_section)
             if not chosen_section.time_slots:
                 print("Selected course does not have any time slot or classroom yet.")
                 self.set_time_slot(chosen_section)
@@ -69,6 +88,7 @@ class DepartmentSchedulerInterface:
                 chosen_section = None
                 while chosen_section is None:
                     chosen_section = self.choose_course_section()
+                    
                 match self.get_choice():
                     case 1:
                         self.update_time_interval(chosen_section)
@@ -79,6 +99,8 @@ class DepartmentSchedulerInterface:
                         print("Enter new capacity:")
                         new_capacity = int(input())
                         self.department_scheduler.manage_capacity(chosen_section, new_capacity)
+                    case 4: 
+                        self.update_lecturer(chosen_section)
                     case _:
                         print("Enter a number between 1 and 3.")
         else:
