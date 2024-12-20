@@ -219,15 +219,86 @@ INSERT INTO CourseSection VALUES ('YDA1001.1', 2, 'YDA1001', NULL);
 INSERT INTO CourseSection VALUES ('HSS3002.1', 2, 'HSS3002', NULL);
 INSERT INTO CourseSection VALUES ('MGT1021.1', 2, 'MGT1021', NULL);
 
-
 CREATE TABLE TimeSlot(
-	id INT PRIMARY KEY,
+	id INT IDENTITY(1,1) PRIMARY KEY,
 	timeInterval NVARCHAR(50),
 	day NVARCHAR(50),
 	classroom NVARCHAR(50),
 	sectionID NVARCHAR(50),
 	FOREIGN KEY (sectionID) REFERENCES CourseSection(sectionID) on delete set null
 );
+
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Monday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Monday', 'M2Z10', 2);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Monday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Tuesday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('13:30-14:20', 'Tuesday', 'M2Z10', 2);
+INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Monday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Monday', 'M2Z10', 2);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Tuesday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Tuesday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('8:30-9:20', 'Wednesday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Thursday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Thursday', 'M2Z10', 2);
+INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Tuesday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Tuesday', 'M2Z10', 2);
+INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Friday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Friday', 'M2Z10', 2);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Thursday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Thursday', 'M2Z10', 1);
+INSERT INTO TimeSlot VALUES ('8:30-9:20', 'Monday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Monday', 'M2Z09', 2);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Monday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Monday', 'M2Z09', 2);
+INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Monday', 'M2Z09', 3);
+INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Monday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Tuesday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Tuesday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Tuesday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('13:30-14:20', 'Tuesday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('8:30-9:20', 'Wednesday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Wednesday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Wednesday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Thursday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Thursday', 'M2Z09', 2);
+INSERT INTO TimeSlot VALUES ('13:30-14:20', 'Friday', 'M2Z09', 1);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Monday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Monday', 'M2Z11', 2);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Friday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Friday', 'M2Z11', 2);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Wednesday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Wednesday', 'M2Z11', 2);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Thursday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Thursday', 'M2Z11', 2);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Thursday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Tuesday', 'M2Z11', 2);
+INSERT INTO TimeSlot VALUES ('13:30-14:20', 'Friday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Friday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Friday', 'M2Z11', 2);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Friday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Wednesday', 'M2Z11', 2);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Wednesday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Wednesday', 'M2Z11', 2);
+INSERT INTO TimeSlot VALUES ('13:30-12:20', 'Wednesday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Thursday', 'M2Z11', 1);
+INSERT INTO TimeSlot VALUES ('8:30-9:20', 'Monday', 'M2Z12', 1);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Monday', 'M2Z12', 2);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Friday', 'M2Z12', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Friday', 'M2Z12', 2);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Tuesday', 'M2Z12', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Tuesday', 'M2Z12', 2);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Tuesday', 'M2Z12', 1);
+INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Tuesday', 'M2Z12', 2);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Thursday', 'M2Z12', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Thursday', 'M2Z12', 1);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Wednesday', 'M2Z12', 1);
+INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Wednesday', 'M2Z12', 2);
+INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Wednesday', 'M2Z12', 1);
+INSERT INTO TimeSlot VALUES ('13:30-12:20', 'Wednesday', 'M2Z12', 2);
+INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Thursday', 'M2Z04', 1);
+INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Friday', 'M2Z04', 1);
+INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Tuesday', 'M2Z04', 1);
+INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Monday', 'M2Z04', 1);
 
 CREATE TABLE CompletedCourse(
 	studentID NVARCHAR(50),
