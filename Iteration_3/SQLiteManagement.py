@@ -10,6 +10,8 @@ from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
 from DepartmentScheduler import DepartmentScheduler
 from Advisor import Advisor
+from Notification import Notification
+from typing import Optional
 
 class SqliteManager:
 
@@ -238,6 +240,12 @@ class SqliteManager:
             return None       
     '''
 
+    '''
+    bu method oluşturulmuş notification objelerini database e ekler.
+
+    def save_notifications(self, notifications: Optional['Notification']):
+
+    '''
 
 
 manager = SqliteManager()
