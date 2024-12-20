@@ -9,11 +9,12 @@ from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
 from DepartmentScheduler import DepartmentScheduler
 from Advisor import Advisor
-from Notification import Notification
+
 from typing import Optional
 
 from Logging_Config import logger
-class SqliteManager:
+class SQLiteManagement:
+
 
     def __init__(self):
         self.conn = sqlite3.connect('Iteration_3/database/CourseRegSys.db')
@@ -22,7 +23,9 @@ class SqliteManager:
         self.courses = self.initialize_courses()
         self.set_prerequisites()
         self.students = []
-        
+
+        self.advisors = []
+
     def print_table(self, table_name: str) ->None:        
         try:
             self.cursor.execute(f"SELECT * FROM {table_name}")
@@ -229,8 +232,12 @@ class SqliteManager:
             advisor = self.get_advisor(row[1])
             student.set_advisor(advisor)
 
-        
+
+    
     def get_advisor(self, id: str) -> Advisor:
+        exist_advisor = self.check_advisor_exists(id)
+        if exist_advisor is not None:
+            return exist_advisor
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
             row = self.cursor.fetchone()
@@ -241,6 +248,10 @@ class SqliteManager:
                 for row in rows:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
+
+                self.advisors.append(advisor)
+                return advisor
+
             else:
                 return None
         except sqlite3.Error as e:
@@ -258,6 +269,20 @@ class SqliteManager:
             print(f'Exception type: {type(e).__name__}')
             return None
         return None
+
+    
+    def check_advisor_exists(self, advisor_id: str) -> Advisor:
+        try:
+            for advisor in self.advisors:
+                if advisor.get_id() == advisor_id:
+                    return advisor
+        except Exception as e:
+            logger.warning(f'There is an error in check_advisor_exists function: {e}')
+            logger.warning(f'Exception type: {type(e).__name__}')
+            return None
+        return None
+    
+    """
     #Add new student to Student table
     def add_student(self, student: Student) -> None:
     #Delete that student from Student table
@@ -274,7 +299,9 @@ class SqliteManager:
     def add_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
     #Delete that department scheduler from DepartmentScheduler table
     def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
-     
+
+    """ 
+
 
     def get_students(self) -> list[Student]:
         return self.students
@@ -282,3 +309,6 @@ class SqliteManager:
         return self.courseSections
     def get_courses(self) -> list[Course]:
         return self.courses
+    def get_advisors(self) -> list[Advisor]:
+        return self.advisors
+
