@@ -9,7 +9,7 @@ from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
 from DepartmentScheduler import DepartmentScheduler
 from Advisor import Advisor
-
+import copy
 from typing import Optional
 from Person import Person   
 from Logging_Config import logger
@@ -23,6 +23,7 @@ class SQLiteManagement:
         self.courses = self.initialize_courses()
         self.set_prerequisites()
         self.students = []
+        self.advisors = []
         
     
     def print_table(self, table_name: str) ->None:        
@@ -38,14 +39,10 @@ class SQLiteManagement:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
         row = self.cursor.fetchone()
         if row:
-            if row[1] == 'S':
+            if row[2] == 'S':
                 return self.get_student(row[0])
-            elif row[2] == 'a':
+            if row[2] == 'A':
                 return self.get_advisor(row[0])
-            elif row[2] == 'l':
-                return self.get_lecturer(row[0])
-            elif row[2] == 'd':
-                return self.get_department_scheduler(row[0])
             
     
     def initialize_courses(self) -> list:
@@ -55,13 +52,9 @@ class SQLiteManagement:
         for row in rows:
             if row[4] == 'm':
                 course =  MandatoryCourse(course_id=row[0], course_name=row[1], credits=row[2])
-                course =  MandatoryCourse(course_id=row[0], course_name=row[1], credits=row[2])
             elif row[4] == 'te':
                 course = NonTechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
-                course = NonTechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
             elif row[4] == 'nte':
-                course = TechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
-            courses.append(course)
                 course = TechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
             courses.append(course)
         return courses
@@ -72,17 +65,8 @@ class SQLiteManagement:
     def set_prerequisites(self) -> None:
         for course in self.courses:
             self.cursor.execute(f"SELECT prerequisiteID FROM Course WHERE courseID = '{course.get_course_id()}'")
-            self.cursor.execute(f"SELECT prerequisiteID FROM Course WHERE courseID = '{course.get_course_id()}'")
             rows = self.cursor.fetchall()
             for row in rows:
-                if row[0] == None:
-                    course.set_prerequisite_course(None)
-                    continue
-                prerequisite : Course
-                for prerequisite in self.courses:
-                    if row[0] == prerequisite.get_course_id():
-                        course.set_prerequisite_course(prerequisite)
-                
                 if row[0] == None:
                     course.set_prerequisite_course(None)
                     continue
@@ -97,7 +81,6 @@ class SQLiteManagement:
             rows = self.cursor.fetchall()
             return len(rows) > 0
         except sqlite3.Error as e:
-            logger.warning("SQLite error:", e)
             logger.warning("SQLite error:", e)
             return False
         
@@ -114,7 +97,6 @@ class SQLiteManagement:
        
         except sqlite3.IntegrityError as e:
             logger.warning(f"Error: {e}")
-            logger.warning(f"Error: {e}")
     
     
     def save_courseSection(self, courseSection: CourseSection) -> None:
@@ -128,7 +110,6 @@ class SQLiteManagement:
        
         except sqlite3.IntegrityError as e:
             logger.warning(f"Error: {e}")
-            logger.warning(f"Error: {e}")
             
     def save_course(self, course: Course) -> None:
         try:
@@ -137,43 +118,9 @@ class SQLiteManagement:
             VALUES (?, ?, ?, ?, ?)
             '''
             self.cursor.execute(sql, (course.get_course_id(), course.get_name, course.get_credit, course.get_prerequisite_id, course.get_course_type()))
-            self.cursor.execute(sql, (course.get_course_id(), course.get_name, course.get_credit, course.get_prerequisite_id, course.get_course_type()))
             self.conn.commit()
         except sqlite3.IntegrityError as e:
             logger.warning(f"Error: {e}")
-            logger.warning(f"Error: {e}")
-            
-    def get_student(self, student_id: str) -> Student:
-        try:
-            self.cursor.execute(f"SELECT * FROM Student s WHERE s.studentID = '{student_id}'")
-            row = self.cursor.fetchone()
-            if row:
-                currentCourses: list[Course] = self.get_courses_of_transcript(student_id, "CurrentCourse")
-                waitedCourses: list[Course] = self.get_courses_of_transcript(student_id, "WaitedCourse")
-                completedCourses: list[Course] = self.get_courses_of_transcript(student_id, "CompletedCourse")
-                
-                currentSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "CurrentSection")
-                waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
-
-                transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
-
-                return Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
-                currentCourses: list[Course] = self.get_courses_of_transcript(student_id, "CurrentCourse")
-                waitedCourses: list[Course] = self.get_courses_of_transcript(student_id, "WaitedCourse")
-                completedCourses: list[Course] = self.get_courses_of_transcript(student_id, "CompletedCourse")
-                
-                currentSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "CurrentSection")
-                waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
-
-                transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
-
-                return Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
-            else:
-                return None
-        except sqlite3.Error as e:
-            logger.warning("SQLite error:", e)
-            logger.warning("SQLite error:", e)
-            return None
     
     
     def get_courses_of_transcript(self, student_id: str, courseList_type: str)-> list:
@@ -188,13 +135,7 @@ class SQLiteManagement:
                         if courseList_type == "CompletedCourse":
                             new_course.set_grade(row[2])
                         courses.append(new_course)
-                                    
-                for course in self.courses:
-                    if course.get_course_id() == row[1]:
-                        new_course = copy.deepcopy(course) 
-                        if courseList_type == "CompletedCourse":
-                            new_course.set_grade(row[2])
-                        courses.append(new_course)
+
                                     
             return courses
         except sqlite3.Error as e:
@@ -213,7 +154,6 @@ class SQLiteManagement:
 
             return courseSectionList
         except sqlite3.Error as e:
-            logger.warning("SQLite error:", e)
             logger.warning("SQLite error:", e)
     
     def get_course_sections_from_course(self, student_id: str, courseSectionList_type: str) -> list:
@@ -300,6 +240,7 @@ class SQLiteManagement:
         if row:
             advisor = self.get_advisor(row[1])
             student.set_advisor(advisor)
+        return student
 
         
     def get_advisor(self, id: str) -> Advisor:
@@ -313,6 +254,8 @@ class SQLiteManagement:
                 for row in rows:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
+                self.advisors.append(advisor)
+                return advisor
             else:
                 return None
         except sqlite3.Error as e:
@@ -337,6 +280,8 @@ class SQLiteManagement:
         return self.courseSections
     def get_courses(self) -> list[Course]:
         return self.courses
+    def get_advisors(self) -> list[Advisor]:
+        return self.advisors
 
    
     """
@@ -358,15 +303,4 @@ class SQLiteManagement:
     def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
 
     """ 
-
-     """
-
-    def get_students(self) -> list[Student]:
-        return self.students
-    def get_course_sections(self) -> list[CourseSection]:
-        return self.courseSections
-    def get_courses(self) -> list[Course]:
-        return self.courses
-    def get_advisors(self) -> list[Advisor]:
-        return self.advisors
 
