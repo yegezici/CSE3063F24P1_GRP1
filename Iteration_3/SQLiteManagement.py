@@ -7,6 +7,11 @@ from Transcript import Transcript
 from MandatoryCourse import MandatoryCourse
 from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
+from DepartmentScheduler import DepartmentScheduler
+from Advisor import Advisor
+from Notification import Notification
+from typing import Optional
+
 from Logging_Config import logger
 class SqliteManager:
 
@@ -208,4 +213,9 @@ class SqliteManager:
 
        
 manager = SqliteManager()
-print(manager.courseSections[0].get_parent_course().get_course_name())
+student = manager.get_student("150121031")
+completed_course = student.get_transcript().get_completed_courses()
+print('size of completed course:', len(completed_course))
+for course in completed_course:
+    print(course.get_course_id(), course.get_grade())
+    print("****************************************")
