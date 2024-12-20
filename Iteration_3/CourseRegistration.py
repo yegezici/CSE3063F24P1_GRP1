@@ -11,6 +11,7 @@ from DepartmentScheduler import DepartmentScheduler
 from CourseSection import CourseSection
 from Course import Course
 from StudentAffairsStaffInterface import StudentAffairsStaffInterface
+from NotificationSystem import NotificationSystem
 
 from SQLiteManagement import SQLiteManagement
 
@@ -35,20 +36,23 @@ class CourseRegistration:
         while True:
             current_user = self.login()
             if current_user is None:
-                logger.warning("Invalid login attempt.")
-                continue
+                break
 
             if isinstance(current_user, Lecturer) and not isinstance(current_user, Advisor):
                 break
             logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
             while True:
                 if isinstance(current_user, Student):
+                    NotificationSystem.print_user_notifications(user=current_user)
                     user_interface = StudentInterface(current_user, self.courses)
                 elif isinstance(current_user, Advisor):
+                    NotificationSystem.print_user_notifications(user=current_user)
                     user_interface = AdvisorInterface(current_user)
                 elif isinstance(current_user, StudentAffairsStaff):
+                    NotificationSystem.print_user_notifications(user=current_user)
                     user_interface = StudentAffairsStaffInterface(current_user, self.courses, self.course_sections)
                 elif isinstance(current_user, DepartmentScheduler):
+                    NotificationSystem.print_user_notifications(user=current_user)
                     user_interface = DepartmentSchedulerInterface(current_user, self.course_sections)
 
                 if user_interface.show_menu():

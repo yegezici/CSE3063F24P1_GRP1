@@ -4,6 +4,7 @@ from TimeSlot import TimeSlot
 from NotificationSystem import NotificationSystem
 from DepartmentScheduler import DepartmentScheduler
 from Lecturer import Lecturer
+
 class DepartmentSchedulerInterface:
     def __init__(self, department_scheduler: 'DepartmentScheduler', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]'):
         self.department_scheduler = department_scheduler
