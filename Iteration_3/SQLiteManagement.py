@@ -11,7 +11,7 @@ from Logging_Config import logger
 class SqliteManager:
 
     def __init__(self):
-        self.conn = sqlite3.connect('Iteration_3/database/CourseRegistration.db')
+        self.conn = sqlite3.connect('Iteration_3/database/CourseRegSys.db')
         self.cursor = self.conn.cursor()
         self.courseSections = self.initialize_courseSections()
         self.courses = self.initialize_courses()
@@ -95,7 +95,7 @@ class SqliteManager:
             INSERT INTO Course (courseID, name, credit, prerequisiteID, courseType)
             VALUES (?, ?, ?, ?, ?)
             '''
-            self.cursor.execute(sql, (course.get_course_id, course.get_name, course.get_credit, course.get_prerequisite_id, course.get_course_type))
+            self.cursor.execute(sql, (course.get_course_id(), course.get_name, course.get_credit, course.get_prerequisite_id, course.get_course_type()))
             self.conn.commit()
         except sqlite3.IntegrityError as e:
             logger.warning(f"Error: {e}")
@@ -128,18 +128,13 @@ class SqliteManager:
             self.cursor.execute(f"SELECT * FROM {courseList_type} t WHERE t.studentID = '{student_id}'")
             rows = self.cursor.fetchall()
             for row in rows:
-                self.cursor.execute(f"SELECT * FROM Course WHERE courseID = '{row[0]}'") 
-                row = self.cursor.fetchone()
-                course
-                if row[4] == 'm':
-                    course =  MandatoryCourse(row[0], row[1], row[2], None ,row[4])
-                elif row[4] == 'te':
-                    course = NonTechnicalElectiveCourse(row[0], row[1], row[2], row[4])
-                elif row[4] == 'nte':
-                    course = TechnicalElectiveCourse(row[0], row[1], row[2], row[3])
-                
-                courses.append(course)
-                
+                for course in self.courses:
+                    if course.get_course_id() == row[1]:
+                        new_course = copy.deepcopy(course) 
+                        if courseList_type == "CompletedCourse":
+                            new_course.set_grade(row[2])
+                        courses.append(new_course)
+                                    
             return courses
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -151,7 +146,6 @@ class SqliteManager:
             rows = self.cursor.fetchall()
             for row in rows:
                 storedSection = row[2]
-
                 for section in self.courseSections:
                     if section.get_section_id() == storedSection:
                         courseSectionList.append(section)
@@ -174,6 +168,7 @@ class SqliteManager:
                 parent_course = None
                 if parent_course_row:
                     course_id, name, credit, prerequisite_id, course_type = parent_course_row
+                    #BURASI DU
                     parent_course = Course(course_id, name, credit, prerequisite_id, course_type)
         
                 # Step 3: Fetch TimeSlots for the Section
@@ -193,10 +188,24 @@ class SqliteManager:
                 courseSections.append(course_section)
                 # Step 5: Add CourseSection to the List
         return courseSections
+    #Add new student to Student table
+    def add_student(self, student: Student) -> None:
+    #Delete that student from Student table
+    def delete_student(self, student: Student) -> None:
+    #Add new advisor to Advisor table
+    def add_advisor(self, advisor: Advisor) -> None:
+    #Delete that advisor from Advisor table
+    def delete_advisor(self, advisor: Advisor) -> None:
+    #Add new lecturer to Lecturer table
+    def add_lecturer(self, lecturer: Lecturer) -> None:
+    #Delete that lecturer from Lecturer table
+    def delete_lecturer(self, lecturer: Lecturer) -> None:
+    #Add new department scheduler to DepartmentScheduler table
+    def add_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
+    #Delete that department scheduler from DepartmentScheduler table
+    def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
+     
 
-        
-
-
-
-
+       
 manager = SqliteManager()
+print(manager.courseSections[0].get_parent_course().get_course_name())

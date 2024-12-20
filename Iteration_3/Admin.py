@@ -1,15 +1,26 @@
 from Iteration_3.Staff import Staff
 from Logging_Config import logger
 from SQLiteManagement import SqliteManager
+from typing import List,Optional
+from datetime import date
 class Admin(Staff):
-    def __init__(self, name: str ="", surname: str ="", birthdate: date ="",ssn="",students="",advisors="",lecturers="",department_schedulers=""):
+    def __init__(self, 
+                 name: str = "", 
+                 surname: str = "", 
+                 birthdate: Optional[date] = None, 
+                 ssn: str = "", 
+                 students: Optional[List['Student']] = None, 
+                 advisors: Optional[List['Advisor']] = None, 
+                 lecturers: Optional[List['Lecturer']] = None, 
+                 department_schedulers: Optional[List['DepartmentScheduler']] = None):
         self.name = name
         self.surname = surname
         self.birthdate = birthdate
         self.ssn = ssn
-        self.students = students
-        self.advisors = advisors
-        self.lecturers = lecturers
+        self.students = students if students is not None else []
+        self.advisors = advisors if advisors is not None else []
+        self.lecturers = lecturers if lecturers is not None else []
+        self.department_schedulers = department_schedulers if department_schedulers is not None else []
     
     def add_student(self, student):
         try:

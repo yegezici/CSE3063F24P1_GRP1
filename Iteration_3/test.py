@@ -16,11 +16,14 @@ from Iteration_3.Transcript import Transcript
 from Iteration_3.CourseSection import CourseSection
 from Iteration_3.TimeSlot import TimeSlot
 from Iteration_3.CourseRegistration import CourseRegistration
+from Iteration_3.Admin import Admin
 
 dummy_transcript = Transcript()
 dummy_transcript.set_semester(1)
 dummy_student = Student(name="Hasan", surname="Erz", birthdate=date(2000, 1, 1), gender="M", student_id="150121031",
                         transcript=dummy_transcript)
+dummy_student2 = Student(name="Alperen", surname="Denen Kisi", birthdate=date(2001, 1, 1), gender="M", student_id="150121035",
+                        transcript=dummy_transcript)                        
 dummy_advisor = Advisor(name="Murat",surname="Ganiz",birthdate=date(1970,1,1),gender="m",ssn="123456",courses=None,students=[dummy_student])
 dummy_course = Course(course_id="MATH1001", course_name="calculus", credits=6, prerequisite_course=None, semester=1,
                       grade="AA")
@@ -53,6 +56,16 @@ studentList = [dummy_student]
 courseList = [dummy_course, dummy_course2, dummy_course3]
 courseSectionList = [dummy_courseSection, dummy_courseSection2]
 classrooms = [dummy_classroom]
+
+admin = Admin(students=studentList, advisors=[dummy_advisor], lecturers=None, department_schedulers=None)
+admin.add_student(dummy_student2)
+admin.add_advisor(dummy_advisor)
+admin.add_lecturer(dummy_advisor)
+for student in admin.students:
+    print(student)
+admin.delete_student(dummy_student2)
+for student in admin.students:
+    print(student)
 course_reg = CourseRegistration(students=studentList, courses=courseList, course_sections=courseSectionList,
                                 classrooms=classrooms,advisors=[dummy_advisor])
 
