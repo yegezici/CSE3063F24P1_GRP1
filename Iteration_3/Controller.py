@@ -1,6 +1,6 @@
 from CourseRegistration import CourseRegistration
 class Controller:
-    @staticmethod
+
     def main():
         course_reg = CourseRegistration()
         course_reg.init()

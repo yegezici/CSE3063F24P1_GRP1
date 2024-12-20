@@ -1,5 +1,4 @@
 import sqlite3
-import copy
 from Student import Student
 from CourseSection import CourseSection
 from Course import Course
@@ -11,7 +10,11 @@ from TechnicalElectiveCourse import TechnicalElectiveCourse
 from DepartmentScheduler import DepartmentScheduler
 from Advisor import Advisor
 
-class SqliteManager:
+from typing import Optional
+
+from Logging_Config import logger
+class SQLiteManagement:
+
 
     def __init__(self):
         self.conn = sqlite3.connect('Iteration_3/database/CourseRegSys.db')
@@ -19,6 +22,10 @@ class SqliteManager:
         self.courseSections = self.initialize_courseSections()
         self.courses = self.initialize_courses()
         self.set_prerequisites()
+        self.students = []
+
+        self.advisors = []
+
     def print_table(self, table_name: str) ->None:        
         try:
             self.cursor.execute(f"SELECT * FROM {table_name}")
@@ -26,7 +33,7 @@ class SqliteManager:
             for row in rows:
               print(row)
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
 
     def initialize_courses(self) -> list:
         courses = []
@@ -62,7 +69,7 @@ class SqliteManager:
             rows = self.cursor.fetchall()
             return len(rows) > 0
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             return False
         
     
@@ -77,7 +84,7 @@ class SqliteManager:
             self.conn.commit()        
        
         except sqlite3.IntegrityError as e:
-            print(f"Error: {e}")
+            logger.warning(f"Error: {e}")
     
     
     def save_courseSection(self, courseSection: CourseSection) -> None:
@@ -90,7 +97,7 @@ class SqliteManager:
             self.conn.commit()        
        
         except sqlite3.IntegrityError as e:
-            print(f"Error: {e}")
+            logger.warning(f"Error: {e}")
             
     def save_course(self, course: Course) -> None:
         try:
@@ -101,7 +108,7 @@ class SqliteManager:
             self.cursor.execute(sql, (course.get_course_id(), course.get_name, course.get_credit, course.get_prerequisite_id, course.get_course_type()))
             self.conn.commit()
         except sqlite3.IntegrityError as e:
-            print(f"Error: {e}")
+            logger.warning(f"Error: {e}")
             
     def get_student(self, student_id: str) -> Student:
         try:
@@ -121,7 +128,7 @@ class SqliteManager:
             else:
                 return None
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             return None
     
     
@@ -140,7 +147,7 @@ class SqliteManager:
                                     
             return courses
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
     
     def get_course_sections_from_course(self, student_id: str, courseSectionList_type: str) -> list:
         courseSectionList = []
@@ -155,7 +162,7 @@ class SqliteManager:
 
             return courseSectionList
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
         
     def initialize_courseSections(self) -> list:
         courseSections = []
@@ -186,14 +193,16 @@ class SqliteManager:
                     parent_course=parent_course,
                     lecturer=None  # Lecturer object can be populated later if needed
                 )
+               
                 course_section.set_time_slots(time_slots)
                 courseSections.append(course_section)
                 # Step 5: Add CourseSection to the List
         return courseSections
 
-
-
     def get_student_without_advisor(self, student_id: str) -> Student:
+        exist_student = self.check_student_exists(student_id)
+        if exist_student is not None:
+            return exist_student
         try:
             self.cursor.execute(f"SELECT * FROM Student s WHERE s.studentID = '{student_id}'")
             row = self.cursor.fetchone()
@@ -201,49 +210,105 @@ class SqliteManager:
                 currentCourses: list[Course] = self.get_courses_of_transcript(student_id, "CurrentCourse")
                 waitedCourses: list[Course] = self.get_courses_of_transcript(student_id, "WaitedCourse")
                 completedCourses: list[Course] = self.get_courses_of_transcript(student_id, "CompletedCourse")
-                
                 currentSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "CurrentSection")
                 waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
-                
-                #advisor = self.get_advisor(row[5])
-
                 transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
+                student = Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
+                self.students.append(student)
+                return student
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+            return None
+        return None
+    
+    def get_student(self, student_id: str) -> Student:
+        exist_student = self.check_student_exists(student_id)
+        if exist_student is not None:
+            return exist_student
+        student = self.get_student_without_advisor(student_id)
+        self.cursor.execute(f"SELECT * FROM StudentsOfAdvisor s WHERE s.studentID = '{student_id}'")
+        row = self.cursor.fetchone()
+        if row:
+            advisor = self.get_advisor(row[1])
+            student.set_advisor(advisor)
 
-                
-                return Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
+
+    
+    def get_advisor(self, id: str) -> Advisor:
+        exist_advisor = self.check_advisor_exists(id)
+        if exist_advisor is not None:
+            return exist_advisor
+        try:
+            self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
+            row = self.cursor.fetchone()
+            if row:
+                advisor = Advisor(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], ssn=row[0])
+                self.cursor.execute(f"select * from StudentsOfAdvisor s where s.advisorID = '{id}'")
+                rows = self.cursor.fetchall()
+                for row in rows:
+                    student = self.get_student_without_advisor(row[0])
+                    advisor.add_student(student)
+
+                self.advisors.append(advisor)
+                return advisor
+
             else:
                 return None
         except sqlite3.Error as e:
             print("SQLite error:", e)
             return None
-        
-    def get_student(self, student_id: str) -> Student:
-        student = self.get_student_without_advisor(student_id)
-        if student is not None:
-            
-    '''
-    def set_advisor_for_student(self, student: Student) -> None:        
-
-    def get_advisor(self, id: str) -> Advisor:
+        return None       
+    
+    def check_student_exists(self, student_id: str) -> Student:
         try:
-            self.cursor.execute(f"SELECT * FROM Advisor a WHERE a.advisorID = '{id}'")
-            row = self.cursor.fetchone()
-            if row:
-                
-                return Advisor()
-            else:
-                return None
-        except sqlite3.Error as e:
-            print("SQLite error:", e)
-            return None       
-    '''
+            for student in self.students:
+                if student.get_id() == student_id:
+                    return student
+        except Exception as e:
+            print(f'There is an error in check_student_exists function: {e}')
+            print(f'Exception type: {type(e).__name__}')
+            return None
+        return None
+
+    
+    def check_advisor_exists(self, advisor_id: str) -> Advisor:
+        try:
+            for advisor in self.advisors:
+                if advisor.get_id() == advisor_id:
+                    return advisor
+        except Exception as e:
+            logger.warning(f'There is an error in check_advisor_exists function: {e}')
+            logger.warning(f'Exception type: {type(e).__name__}')
+            return None
+        return None
+    
+    """
+    #Add new student to Student table
+    def add_student(self, student: Student) -> None:
+    #Delete that student from Student table
+    def delete_student(self, student: Student) -> None:
+    #Add new advisor to Advisor table
+    def add_advisor(self, advisor: Advisor) -> None:
+    #Delete that advisor from Advisor table
+    def delete_advisor(self, advisor: Advisor) -> None:
+    #Add new lecturer to Lecturer table
+    def add_lecturer(self, lecturer: Lecturer) -> None:
+    #Delete that lecturer from Lecturer table
+    def delete_lecturer(self, lecturer: Lecturer) -> None:
+    #Add new department scheduler to DepartmentScheduler table
+    def add_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
+    #Delete that department scheduler from DepartmentScheduler table
+    def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
+
+    """ 
 
 
+    def get_students(self) -> list[Student]:
+        return self.students
+    def get_course_sections(self) -> list[CourseSection]:
+        return self.courseSections
+    def get_courses(self) -> list[Course]:
+        return self.courses
+    def get_advisors(self) -> list[Advisor]:
+        return self.advisors
 
-manager = SqliteManager()
-student = manager.get_student("150121031")
-completed_course = student.get_transcript().get_completed_courses()
-print('size of completed course:', len(completed_course))
-for course in completed_course:
-    print(course.get_course_id(), course.get_grade())
-    print("****************************************")

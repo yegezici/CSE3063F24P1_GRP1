@@ -1,8 +1,8 @@
 import json
 from typing import List, Optional, Union
-from Iteration_3.AdvisorInterface import AdvisorInterface
-from Iteration_3.DepartmentSchedulerInterface import DepartmentSchedulerInterface
-from Iteration_3.StudentInterface import StudentInterface
+from AdvisorInterface import AdvisorInterface
+from DepartmentSchedulerInterface import DepartmentSchedulerInterface
+from StudentInterface import StudentInterface
 from Student import Student
 from Advisor import Advisor
 from Lecturer import Lecturer
@@ -12,18 +12,22 @@ from CourseSection import CourseSection
 from Course import Course
 from StudentAffairsStaffInterface import StudentAffairsStaffInterface
 
+from SQLiteManagement import SQLiteManagement
+
 from Logging_Config import logger
 
 
 class CourseRegistration:
 
-    def __init__(self, students, courses, course_sections, classrooms, advisors):
-        # JSON dosyalarından verileri yükle
-        self.students = students
-        self.courses = courses
-        self.course_sections = course_sections
-        self.classrooms: List[str] = classrooms
-        self.advisors = advisors
+
+    def __init__(self):
+        manager = SQLiteManagement()
+        self.students = manager.get_students()
+        self.courses = manager.get_courses()
+        self.course_sections = manager.get_course_sections()
+        self.advisors = manager.get_advisors()
+        
+
 
     def init(self):
         logger.info("Course Registration system is started.")
@@ -68,7 +72,9 @@ class CourseRegistration:
             return None
 
         for advisor in self.advisors:
-            if advisor.get_id() == entered_user_id[1:] and entered_password == "ganiz123":
+
+            if advisor.get_ssn() == entered_user_id[1:] and entered_password == "ganiz123":
+
                 logger.info("Advisor logged in")
                 return advisor
 

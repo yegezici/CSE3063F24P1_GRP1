@@ -1,9 +1,16 @@
+from typing import List
+from CourseSection import CourseSection
 from TimeSlot import TimeSlot
 from NotificationSystem import NotificationSystem
+from DepartmentScheduler import DepartmentScheduler
+from Lecturer import Lecturer
+
 class DepartmentSchedulerInterface:
-    def __init__(self, department_scheduler, course_sections):
+    def __init__(self, department_scheduler: 'DepartmentScheduler', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]'):
         self.department_scheduler = department_scheduler
         self.course_sections = course_sections
+        self.lecturers = lecturers
+
 
     def update_time_interval(self, chosen_section):
         print("Time slots of the selected course are listed below:")
@@ -129,6 +136,9 @@ class DepartmentSchedulerInterface:
         print("Choose a classroom:")
         classroom = self.department_scheduler.handle_classroom_conflict(day, time_interval)[int(input()) - 1]
         chosen_section.time_slots.append(TimeSlot(day, time_interval, classroom))
+        #print("Choose a lecturer:")
+        #--------------------------------DOLDURULACAK-----------------------------
+        
         print("Selected time slot and classroom has been assigned.")
 
     def set_capacity(self, chosen_section):
