@@ -237,11 +237,9 @@ class SqliteManager:
             return None
         return None
 
-
-manager = SqliteManager()
-student = manager.get_student("150121032")
-students = manager.students
-
-print(len(students))
-for student in students: 
-    print(student.get_name(), student.get_surname(), student.get_id())
+    def get_students(self) -> list[Student]:
+        return self.students
+    def get_course_sections(self) -> list[CourseSection]:
+        return self.courseSections
+    def get_courses(self) -> list[Course]:
+        return self.courses
