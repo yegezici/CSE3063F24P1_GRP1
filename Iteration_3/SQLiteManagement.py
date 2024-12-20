@@ -88,16 +88,105 @@ class SQLiteManagement:
     def save_student(self, student: Student) -> None:
         try:
             sql = '''
-            INSERT INTO Student (studentID, name, surname, gender, birthDate, advisorID)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO Student (studentID, name, surname, gender, birthDate, advisorID, semester)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             '''
-            #ADVISOR ID EKSIK
-            self.cursor.execute(sql, (student.get_id, student.get_name, student.get_surname, student.get_gender, student.get_birthdate,  ))
+
+            self.cursor.execute(sql, (
+                student.get_id(), 
+                student.get_name(), 
+                student.get_surname(), 
+                student.get_gender(), 
+                student.get_birthdate(), 
+                student.get_advisor().ssn
+            ))
             self.conn.commit()        
        
         except sqlite3.IntegrityError as e:
             logger.warning(f"Error: {e}")
     
+    #Function to save student current section information into the database.
+    def save_current_section_of_student(self, student: Student) -> None:
+        try:
+            #Check is there any current section record belonging to student.
+            check_sql = '''
+            SELECT COUNT(*) FROM CurrentSection WHERE studentID = ?
+            '''
+            self.cursor.execute(check_sql, (student.get_id(),))
+            record_count = self.cursor.fetchone()[0]
+
+            #If there is any record, delete it first, insert all later.
+            if record_count > 0:
+                delete_sql = '''
+                DELETE FROM CurrentSection WHERE studentID = ?
+                '''
+                self.cursor.execute(delete_sql, (student.get_id(),))
+
+            # Get Transcript object of the Student object. 
+            transcript = student.get_transcript()
+            # Get CurrentSection list from transcript object. 
+            current_sections = transcript.get_current_sections()
+
+            # Insert every section in the list into sql
+            for section in current_sections:
+                section_id = section.get_section_id()  # Get Section ID
+                course = section.get_parent_course()  # Get Parent Course object.
+                course_id = course.get_course_id()    # Get Course ID of Parent Course object.
+
+                sql = '''
+                INSERT INTO CurrentSection (studentID, courseID, courseSectionID)
+                VALUES (?, ?, ?)
+                '''
+                self.cursor.execute(sql, (student.get_id(), course_id, section_id))
+
+            self.conn.commit()
+
+        except sqlite3.IntegrityError as e:
+            print(f"Integrity error while saving CurrentSection: {e}")
+        except sqlite3.Error as e:
+            print(f"SQLite error while saving CurrentSection: {e}")
+
+    def save_waited_section_of_student(self, student: Student) -> None:
+        try:
+            #Check is there any waited section record belonging to student.
+            check_sql = '''
+            SELECT COUNT(*) FROM WaitedSection WHERE studentID = ?
+            '''
+            self.cursor.execute(check_sql, (student.get_id(),))
+            record_count = self.cursor.fetchone()[0]
+            
+            #If there is any record, delete it first, insert all later.
+            if record_count > 0:
+                delete_sql = '''
+                DELETE FROM WaitedSection WHERE studentID = ?
+                '''
+                self.cursor.execute(delete_sql, (student.get_id(),))  
+
+            # Get Transcript object of the Student object. 
+            transcript = student.get_transcript()
+            # WaitedSection'lar alınır
+            waited_sections = transcript.get_waited_sections()
+
+            # Her bir WaitedSection için SQL'e ekleme yapılır
+            for section in waited_sections:
+                section_id = section.get_section_id()  # Get Section ID
+                course = section.get_parent_course()  # Get Parent Course object.
+                course_id = course.get_course_id()    # Get Course ID of Parent Course object.
+
+                sql = '''
+                INSERT INTO WaitedSection (studentID, courseID, courseSectionID)
+                VALUES (?, ?, ?)
+                '''
+                self.cursor.execute(sql, (student.get_id(), course_id, section_id))
+
+            self.conn.commit()
+            print(f"{student.get_id()} için WaitedSection bilgileri kaydedildi.")
+        except sqlite3.IntegrityError as e:
+            print(f"Integrity error while saving WaitedSection: {e}")
+        except sqlite3.Error as e:
+            print(f"SQLite error while saving WaitedSection: {e}")
+            
+
     
     def save_courseSection(self, courseSection: CourseSection) -> None:
         try:
