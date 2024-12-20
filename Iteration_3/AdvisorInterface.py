@@ -1,3 +1,6 @@
+from NotificationSystem import NotificationSystem
+
+
 class AdvisorInterface:
     def __init__(self, advisor=None):
         self.advisor = advisor
@@ -53,12 +56,14 @@ class AdvisorInterface:
 
     def approve_course(self, student, course_section):
         self.advisor.approve_course(student, course_section)
+        NotificationSystem.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been approved.")
         if not student.transcript.waited_courses:
             print("No more courses to approve.")
 
     def reject_course(self, student, course_section):
         self.advisor.reject_course(student, course_section.parent_course)
         print("The course has been rejected.")
+        NotificationSystem.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been rejected.")
 
     def course_operations(self, student, course_index):
         log_out = False
