@@ -13,11 +13,12 @@ from Course import Course
 from StudentAffairsStaffInterface import StudentAffairsStaffInterface
 from SQLiteManagement import SQLiteManagement
 from Logging_Config import logger
+from Person import Person
 
 class CourseRegistration:
 
     def __init__(self):
-        manager = SQLiteManagement()
+        self.manager = SQLiteManagement()
         self.students = manager.get_students()
         self.courses = manager.get_courses()
         self.course_sections = manager.get_course_sections()
@@ -47,12 +48,9 @@ class CourseRegistration:
                     user_interface = DepartmentSchedulerInterface(current_user, self.course_sections)
 
                 if user_interface.show_menu():
-                    self.save_students()
                     break
 
-    def save_students(self):
-        for student in self.students:
-            JsonManagement.get_instance().save_student(student)
+
 
     def login(self) -> Optional[Union[Student, Advisor, StudentAffairsStaff, DepartmentScheduler]]:
 
@@ -65,7 +63,7 @@ class CourseRegistration:
             logger.info("Program has been terminated succesfully.")
             return None
 
-    def check_id_and_password(self, entered_user_id: str, entered_password: str) -> Optional[Union[Student]]:
+    def check_id_and_password(self, entered_user_id: str, entered_password: str) -> Person:
         if not entered_user_id or not entered_password:
             print("Please enter user id and password.")
             logger.info("Invalid login attempt")
