@@ -2,6 +2,7 @@ from datetime import date
 from CourseSection import CourseSection
 from typing import List,Optional
 from Lecturer import Lecturer
+from NotificationSystem import NotificationSystem
 
 class DepartmentScheduler(Lecturer):
     def __init__(self, name: str ="", surname: str ="", birthdate: date=None, gender: str ='', ssn: str ='', course_sections: List['CourseSection'] =None, all_classrooms: List[str] =None):
@@ -33,13 +34,15 @@ class DepartmentScheduler(Lecturer):
         self.manage_waitlist(course_section, size_increase)
 
     def manage_waitlist(self, course_section, size):
-        waitlist = course_section.waitlist
+        waitlist = course_section.get_wait_list()
         for _ in range(size):
             if not waitlist:
                 break
             student = waitlist.pop(0)
             student.transcript.add_current_course(course_section.parent_course)
-        course_section.set_waitlist(waitlist)
+            NotificationSystem.create_notification(sender=self, receiver=student, message="Capacity of " +course_section.get_name() + " has been updated, You are now registered to the course.")
+        course_section.set_wait_list(waitlist)
+
 
     def handle_time_conflict(self, semester_courses, day):
         available_times = self.all_time_intervals.copy()

@@ -7,3 +7,143 @@
 2024-12-18 14:23:01,295 - CourseRegistrationSystem - WARNING - Invalid section choice!
 2024-12-18 14:23:05,511 - CourseRegistrationSystem - INFO - Choice 3:  Print Weekly Schedule is selected     - Hasan Erz
 2024-12-18 14:23:17,074 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:27:56,697 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:28:03,679 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:28:03,679 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:28:04,205 - CourseRegistrationSystem - WARNING - Invalid choice    - Hasan Erz
+2024-12-18 15:28:04,206 - CourseRegistrationSystem - WARNING - Invalid choice
+2024-12-18 15:28:08,626 - CourseRegistrationSystem - INFO - Choice 1:  Show Transcript is selected     - Hasan Erz
+2024-12-18 15:28:11,768 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:28:14,403 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:28:43,732 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:28:48,105 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:28:48,852 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:28:49,408 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:29:02,121 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:31:36,180 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:32:41,482 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:32:46,277 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:32:46,277 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:32:47,261 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:32:48,267 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:33:32,534 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:33:38,503 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:33:44,629 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-18 15:33:44,630 - CourseRegistrationSystem - WARNING - Program has terminated succesfully.
+2024-12-18 15:33:50,105 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:34:00,216 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:34:00,217 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:34:01,435 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:34:10,046 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:34:16,137 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:34:25,262 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:42:42,117 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:43:35,562 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:44:16,934 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:44:21,982 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:44:21,982 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:44:23,918 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:44:26,137 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:45:36,974 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:45:42,510 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:45:42,510 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:45:43,708 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:45:44,797 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:45:52,483 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:47:12,792 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:47:17,270 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:47:17,270 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:47:19,644 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:47:20,654 - CourseRegistrationSystem - WARNING - list index out of range
+2024-12-18 15:49:08,116 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:49:11,986 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:49:11,987 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:49:15,323 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:49:16,785 - CourseRegistrationSystem - WARNING - An error occured: name 'time_slot' is not defined     - Hasan Erz
+2024-12-18 15:49:34,232 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:49:38,662 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:49:38,662 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:49:39,993 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:49:58,801 - CourseRegistrationSystem - INFO - calculus2. Section MATH1001.2 is sent to your advisor for approval.     - Hasan Erz
+2024-12-18 15:52:45,189 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:52:49,616 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:52:49,616 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:53:58,103 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:54:02,074 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:54:02,074 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:54:05,955 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:08,658 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:12,374 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:14,732 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:15,225 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:15,463 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:15,657 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:15,830 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:15,989 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:17,382 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:54:17,954 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:54:53,719 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 15:54:58,767 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:54:58,767 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:55:00,180 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:55:11,742 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 15:55:11,743 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 15:55:25,232 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 15:55:27,371 - CourseRegistrationSystem - INFO - Hasan Erz your calculus2 Section MATH1001.2 is sent to your advisor for approval.
+2024-12-18 15:55:37,536 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 15:55:50,247 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-18 15:55:50,247 - CourseRegistrationSystem - WARNING - Program has terminated succesfully.
+2024-12-18 16:24:18,107 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:25:26,896 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:26:00,231 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:26:04,696 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 16:26:04,697 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 16:26:06,716 - CourseRegistrationSystem - INFO - Choice 1:  Show Transcript is selected     - Hasan Erz
+2024-12-18 16:26:08,425 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erz
+2024-12-18 16:26:10,228 - CourseRegistrationSystem - INFO - Hasan Erz your calculus2 Section MATH1001.2 is sent to your advisor for approval.
+2024-12-18 16:26:18,006 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 16:27:00,133 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:27:29,521 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:28:27,600 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:29:42,946 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:29:50,862 - CourseRegistrationSystem - INFO - Succesfully logged in
+2024-12-18 16:29:50,862 - CourseRegistrationSystem - INFO - Hasan Erz with ID 150121031 has succesfully logged in
+2024-12-18 16:29:52,413 - CourseRegistrationSystem - INFO - Hasan Erz succesfully logged out.
+2024-12-18 16:30:43,757 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:31:18,635 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:31:24,123 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:32:18,336 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:32:24,248 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:34:12,637 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:34:19,741 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:35:52,300 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:36:53,910 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:37:01,276 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:37:43,692 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:37:50,105 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:38:38,012 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:38:45,088 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:39:07,117 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:39:12,672 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:39:12,672 - CourseRegistrationSystem - INFO - Murat Ganiz with ID 123456 has succesfully logged in
+2024-12-18 16:39:51,714 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:40:12,298 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:40:12,298 - CourseRegistrationSystem - INFO - Murat Ganiz with ID 123456 has succesfully logged in
+2024-12-18 16:41:10,694 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:41:16,132 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:41:16,132 - CourseRegistrationSystem - INFO - Murat Ganiz with ID 123456 has succesfully logged in
+2024-12-18 16:42:17,368 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:42:27,971 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:42:27,971 - CourseRegistrationSystem - INFO - Murat Ganiz with ID 123456 has succesfully logged in
+2024-12-18 16:44:01,884 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:44:07,562 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:44:07,562 - CourseRegistrationSystem - INFO - Murat Ganiz with ID 123456 has succesfully logged in
+2024-12-18 16:44:40,670 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:44:45,865 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:44:45,865 - CourseRegistrationSystem - INFO - Murat Ganiz with ID 123456 has succesfully logged in
+2024-12-18 16:45:22,320 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:45:27,731 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:45:27,731 - CourseRegistrationSystem - INFO - Murat Ganiz with ID 123456 has succesfully logged in
+2024-12-18 16:50:26,775 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-18 16:50:34,779 - CourseRegistrationSystem - INFO - Advisor logged in
+2024-12-18 16:50:34,779 - CourseRegistrationSystem - INFO - Murat Ganiz with ID 123456 has succesfully logged in
