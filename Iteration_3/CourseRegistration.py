@@ -11,11 +11,14 @@ from DepartmentScheduler import DepartmentScheduler
 from CourseSection import CourseSection
 from Course import Course
 from StudentAffairsStaffInterface import StudentAffairsStaffInterface
+
 from SQLiteManagement import SQLiteManagement
+
 from Logging_Config import logger
 from Person import Person
 
 class CourseRegistration:
+
 
     def __init__(self):
         self.manager = SQLiteManagement()
@@ -24,6 +27,7 @@ class CourseRegistration:
         self.course_sections = manager.get_course_sections()
         self.advisors = manager.get_advisors()
         
+
 
     def init(self):
         logger.info("Course Registration system is started.")
@@ -70,7 +74,9 @@ class CourseRegistration:
             return None
 
         for advisor in self.advisors:
+
             if advisor.get_ssn() == entered_user_id[1:] and entered_password == "ganiz123":
+
                 logger.info("Advisor logged in")
                 return advisor
 

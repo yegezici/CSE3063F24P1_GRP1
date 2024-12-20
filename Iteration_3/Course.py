@@ -37,6 +37,9 @@ class Course:
 
     def get_grade(self) -> Optional[str]:
         return self.grade
+    
+    def set_grade(self, grade: str) -> None:
+        self.grade = grade
 
     def add_student(self, student: 'Student') -> None:
         try:
