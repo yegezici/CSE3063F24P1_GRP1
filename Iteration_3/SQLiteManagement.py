@@ -9,20 +9,20 @@ from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
 from DepartmentScheduler import DepartmentScheduler
 from Advisor import Advisor
-from Notification import Notification
 from typing import Optional
-
+from Person import Person   
 from Logging_Config import logger
 class SQLiteManagement:
 
     def __init__(self):
         self.conn = sqlite3.connect('Iteration_3/database/CourseRegSys.db')
-        self.cursor = self.conn.cursor()
+        self.cursor = self.conn.cursor()    
         self.courseSections = self.initialize_courseSections()
         self.courses = self.initialize_courses()
         self.set_prerequisites()
         self.students = []
         
+    
     def print_table(self, table_name: str) ->None:        
         try:
             self.cursor.execute(f"SELECT * FROM {table_name}")
@@ -32,6 +32,20 @@ class SQLiteManagement:
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
 
+    def check_user(self, user_id: str, password: str) -> Person:
+        self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
+        row = self.cursor.fetchone()
+        if row:
+            if row[1] == 'S':
+                return self.get_student(row[0])
+            elif row[2] == 'a':
+                return self.get_advisor(row[0])
+            elif row[2] == 'l':
+                return self.get_lecturer(row[0])
+            elif row[2] == 'd':
+                return self.get_department_scheduler(row[0])
+            
+    
     def initialize_courses(self) -> list:
         courses = []
         self.cursor.execute("SELECT * FROM Course")
@@ -258,12 +272,14 @@ class SQLiteManagement:
             print(f'Exception type: {type(e).__name__}')
             return None
         return None
+    
     def get_students(self) -> list[Student]:
         return self.students
     def get_course_sections(self) -> list[CourseSection]:
         return self.courseSections
     def get_courses(self) -> list[Course]:
         return self.courses
+
    
     """
     #Add new student to Student table
