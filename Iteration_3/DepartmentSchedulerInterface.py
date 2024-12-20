@@ -1,5 +1,5 @@
 from TimeSlot import TimeSlot
-
+from NotificationSystem import NotificationSystem
 class DepartmentSchedulerInterface:
     def __init__(self, department_scheduler, course_sections):
         self.department_scheduler = department_scheduler
@@ -13,6 +13,8 @@ class DepartmentSchedulerInterface:
             print("Which time slot do you want to update?")
             chosen_section.time_slots.pop(int(input()) - 1)
             self.set_time_slot(chosen_section)
+            print("Time slot has been updated successfully.")
+            NotificationSystem.create_notification(sender=self, receiver=chosen_section.current_students, message="Time slot of " + chosen_section.get_name() + " has been updated.")
         except (ValueError, IndexError):
             print("Enter a valid integer within the list range.")
 
@@ -31,6 +33,7 @@ class DepartmentSchedulerInterface:
             print("Choose a new classroom:")
             chosen_time_slot.classroom = available_classrooms[int(input()) - 1]
             print("Classroom has been updated successfully.")
+            NotificationSystem.create_notification(sender=self, receiver=chosen_section.current_students, message="Classroom of " + chosen_section.get_name() + " has been updated.")
         except (ValueError, IndexError):
             print("Enter a valid integer.")
 
