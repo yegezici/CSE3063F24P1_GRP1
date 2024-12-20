@@ -10,6 +10,8 @@ from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
 from DepartmentScheduler import DepartmentScheduler
 from Advisor import Advisor
+from Notification import Notification
+from typing import Optional
 
 class SqliteManager:
 
