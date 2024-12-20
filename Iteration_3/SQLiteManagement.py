@@ -7,14 +7,21 @@ from Transcript import Transcript
 from MandatoryCourse import MandatoryCourse
 from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
+from DepartmentScheduler import DepartmentScheduler
+from Advisor import Advisor
+from typing import Optional
 
-class SqliteManager:
+from Logging_Config import logger
+class SQLiteManagement:
 
     def __init__(self):
         self.conn = sqlite3.connect('Iteration_3/database/CourseRegistration.db')
         self.cursor = self.conn.cursor()
         self.courseSections = self.initialize_courseSections()
         self.courses = self.initialize_courses()
+        self.set_prerequisites()
+        self.students = []
+        self.advisors = []
     def print_table(self, table_name: str) ->None:        
         try:
             self.cursor.execute(f"SELECT * FROM {table_name}")
@@ -169,13 +176,109 @@ class SqliteManager:
                 # Step 5: Add CourseSection to the List
         return courseSections
 
-        
+    def get_student_without_advisor(self, student_id: str) -> Student:
+        exist_student = self.check_student_exists(student_id)
+        if exist_student is not None:
+            return exist_student
+        try:
+            self.cursor.execute(f"SELECT * FROM Student s WHERE s.studentID = '{student_id}'")
+            row = self.cursor.fetchone()
+            if row:
+                currentCourses: list[Course] = self.get_courses_of_transcript(student_id, "CurrentCourse")
+                waitedCourses: list[Course] = self.get_courses_of_transcript(student_id, "WaitedCourse")
+                completedCourses: list[Course] = self.get_courses_of_transcript(student_id, "CompletedCourse")
+                currentSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "CurrentSection")
+                waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
+                transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
+                student = Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
+                self.students.append(student)
+                return student
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+            return None
+        return None
+    
+    def get_student(self, student_id: str) -> Student:
+        exist_student = self.check_student_exists(student_id)
+        if exist_student is not None:
+            return exist_student
+        student = self.get_student_without_advisor(student_id)
+        self.cursor.execute(f"SELECT * FROM StudentsOfAdvisor s WHERE s.studentID = '{student_id}'")
+        row = self.cursor.fetchone()
+        if row:
+            advisor = self.get_advisor(row[1])
+            student.set_advisor(advisor)
 
+    
+    def get_advisor(self, id: str) -> Advisor:
+        exist_advisor = self.check_advisor_exists(id)
+        if exist_advisor is not None:
+            return exist_advisor
+        try:
+            self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
+            row = self.cursor.fetchone()
+            if row:
+                advisor = Advisor(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], ssn=row[0])
+                self.cursor.execute(f"select * from StudentsOfAdvisor s where s.advisorID = '{id}'")
+                rows = self.cursor.fetchall()
+                for row in rows:
+                    student = self.get_student_without_advisor(row[0])
+                    advisor.add_student(student)
+                self.advisors.append(advisor)
+                return advisor
+            else:
+                return None
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+            return None
+        return None       
+    
+    def check_student_exists(self, student_id: str) -> Student:
+        try:
+            for student in self.students:
+                if student.get_id() == student_id:
+                    return student
+        except Exception as e:
+            print(f'There is an error in check_student_exists function: {e}')
+            print(f'Exception type: {type(e).__name__}')
+            return None
+        return None
+    
+    def check_advisor_exists(self, advisor_id: str) -> Advisor:
+        try:
+            for advisor in self.advisors:
+                if advisor.get_id() == advisor_id:
+                    return advisor
+        except Exception as e:
+            logger.warning(f'There is an error in check_advisor_exists function: {e}')
+            logger.warning(f'Exception type: {type(e).__name__}')
+            return None
+        return None
+    
+    """
+    #Add new student to Student table
+    def add_student(self, student: Student) -> None:
+    #Delete that student from Student table
+    def delete_student(self, student: Student) -> None:
+    #Add new advisor to Advisor table
+    def add_advisor(self, advisor: Advisor) -> None:
+    #Delete that advisor from Advisor table
+    def delete_advisor(self, advisor: Advisor) -> None:
+    #Add new lecturer to Lecturer table
+    def add_lecturer(self, lecturer: Lecturer) -> None:
+    #Delete that lecturer from Lecturer table
+    def delete_lecturer(self, lecturer: Lecturer) -> None:
+    #Add new department scheduler to DepartmentScheduler table
+    def add_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
+    #Delete that department scheduler from DepartmentScheduler table
+    def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
+    """ 
 
-
-
-manager = SqliteManager()
-for courseSection in manager.courseSections:
-    print(courseSection.get_section_id())
-    print(courseSection.get_parent_course().get_course_id())
-   
+    def get_students(self) -> list[Student]:
+        return self.students
+    def get_course_sections(self) -> list[CourseSection]:
+        return self.courseSections
+    def get_courses(self) -> list[Course]:
+        return self.courses
+    def get_advisors(self) -> list[Advisor]:
+        return self.advisors
