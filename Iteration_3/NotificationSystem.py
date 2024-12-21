@@ -2,7 +2,7 @@
 from Notification import Notification
 from typing import List, Optional
 from Person import Person
-from SQLiteManagement import SQLiteManagement
+
 class NotificationSystem:
     def __init__(self, notifications: Optional[List[Notification]] = None):
         self._notifications =  []
@@ -19,6 +19,7 @@ class NotificationSystem:
             print(notification)
 
     def create_notification(self, sender: Person, receiver: Person, message: str) -> None:
+        from SQLiteManagement import SQLiteManagement
         manager = SQLiteManagement()
         notification = Notification(sender, receiver, message)
         self._notifications.append(notification)
