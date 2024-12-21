@@ -23,12 +23,15 @@ class Advisor(Lecturer):
                 student.transcript.delete_from_waited_sections(course_section)
 
             course_section.current_students.append(student)
+            print("The course has been approved.")
         except Exception as e:
             print(str(e))
 
-    def reject_course(self, student, course):
+    def reject_course(self, student, courseSection):
         try:
-            student.transcript.delete_from_waited_course(course)
+            student.transcript.delete_from_waited_course(courseSection.parent_course)
+            student.transcript.delete_from_waited_sections(courseSection)
+            print("The course has been rejected.")
         except Exception as e:
             print(str(e))
 
