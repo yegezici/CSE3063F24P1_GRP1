@@ -5,8 +5,9 @@ from Course import Course
 from UserInterface import UserInterface
 from DepartmentHead import DepartmentHead
 from Lecturer import Lecturer
+from NotificationSystem import NotificationSystem
 class DepartmentHeadInterface(UserInterface):
-    def __init__(self, department_head: 'DepartmentHead', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]'):
+    def __init__(self, department_head: 'DepartmentHead', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]', notification_system: 'NotificationSystem' = None):
         self.department_head = department_head
         self.course_sections = course_sections
         self.lecturers = lecturers
@@ -24,7 +25,7 @@ class DepartmentHeadInterface(UserInterface):
                 print(f"Current capacity is {chosen_section.get_capacity()}")
                 print("Enter new capacity:")
                 new_capacity = int(input())
-                self.department_head.manage_capacity(chosen_section, new_capacity)
+                self.department_head.manage_capacity(chosen_section, new_capacity, self.notification_system)
             elif choice == 3:
                 print("You have successfully logged out\n")
                 return True
