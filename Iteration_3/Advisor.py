@@ -3,8 +3,8 @@ from typing import List
 from Lecturer import Lecturer
 
 class Advisor(Lecturer):
-    def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', id: str ='', courses=None, students=None):
-        super().__init__(name, surname, birthdate, gender, id, courses)
+    def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', ssn: str ='', courses=None, students=None):
+        super().__init__(name, surname, birthdate, gender, ssn, courses)
         self.__students = students or []
 
     def approve_course(self, student, course_section):
@@ -78,4 +78,4 @@ class Advisor(Lecturer):
         return super().get_surname()
     
     def get_id(self):
-        return super().get_id()
+        return super().get_ssn()
