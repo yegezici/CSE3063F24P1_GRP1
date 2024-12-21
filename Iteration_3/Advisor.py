@@ -3,8 +3,8 @@ from typing import List
 from Lecturer import Lecturer
 
 class Advisor(Lecturer):
-    def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', ssn: str ='', courses=None, students=None):
-        super().__init__(name, surname, birthdate, gender, ssn, courses)
+    def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', id: str ='', courses=None, students=None):
+        super().__init__(name, surname, birthdate, gender, id, courses)
         self.__students = students or []
 
     def approve_course(self, student, course_section):
@@ -61,3 +61,21 @@ class Advisor(Lecturer):
         except Exception as e:
             print(str(e))
             return False
+    
+    def get_birthdate(self):
+        return super().get_birthdate()
+    
+    def get_courses(self):
+        return super().get_courses()
+    
+    def get_gender(self):
+        return super().get_gender()
+    
+    def get_name(self):
+        return super().get_name()
+    
+    def get_surname(self):
+        return super().get_surname()
+    
+    def get_id(self):
+        return super().get_id()

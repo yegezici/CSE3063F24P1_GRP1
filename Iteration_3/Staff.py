@@ -6,8 +6,8 @@ class Staff(Person):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
         super().__init__(name, surname, birthdate, gender, ssn)
 
-    def get_id(self):
-        return super().get_id()
+    def get_ssn(self):
+        return super().get_ssn()
 
     def get_name(self):
         return super().get_name()

@@ -4,8 +4,9 @@ from typing import List,Optional
 from Lecturer import Lecturer
 from NotificationSystem import NotificationSystem
 
-class DepartmentScheduler:
-    def __init__(self, course_sections=None, all_time_intervals=None):
+class DepartmentScheduler(Lecturer):
+    def __init__(self,name: str = None, surname: str = None, birthdate: date = None, gender: str = None, id: str = None,courses = None, course_sections=None, all_time_intervals=None):
+        super().__init__(name, surname, birthdate, gender, id, courses)
         self.__course_sections = course_sections or []
         self.__all_time_intervals = all_time_intervals or []
 
