@@ -86,6 +86,15 @@ class DepartmentScheduler:
                     day_to_times[slot.day].remove(slot.time_interval)
 
         return [day for day, times in day_to_times.items() if times]
+    
+    def semester_x_courses(self, x):
+        semester_x_courses = []
+
+        for course_section in self.course_sections:
+            if course_section.get_parent_course().get_semester() == x:
+                semester_x_courses.append(course_section)
+
+        return semester_x_courses
 
     def get_id(self):
         return super().get_id()
