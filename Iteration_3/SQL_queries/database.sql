@@ -256,87 +256,87 @@ INSERT INTO CourseSection VALUES ('HSS3002.1', 2, 'HSS3002', '654321');
 INSERT INTO CourseSection VALUES ('MGT1021.1', 2, 'MGT1021', '789012');
 
 CREATE TABLE TimeSlot(
-	id INT IDENTITY(1,1) PRIMARY KEY,
-	timeInterval NVARCHAR(50),
-	day NVARCHAR(50),
-	classroom NVARCHAR(50),
-	sectionID NVARCHAR(50),
-	FOREIGN KEY (sectionID) REFERENCES CourseSection(sectionID) on delete set null
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timeInterval NVARCHAR(50),
+    day NVARCHAR(50),
+    classroom NVARCHAR(50),
+    sectionID NVARCHAR(50),
+    FOREIGN KEY (sectionID) REFERENCES CourseSection(sectionID) ON DELETE SET NULL
 );
 
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Monday', 'M2Z10', 'MATH1001.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Monday', 'M2Z10', 'MATH1001.2');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Monday', 'M2Z10', 'CSE1200.1');
-INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Tuesday', 'M2Z10', 'CSE1241.1');
-INSERT INTO TimeSlot VALUES ('13:30-14:20', 'Tuesday', 'M2Z10', 'CSE1241.2');
-INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Monday', 'M2Z10', 'PHYS1101.1');
-INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Monday', 'M2Z10', 'PHYS1101.2');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Tuesday', 'M2Z10', 'ATA121.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Tuesday', 'M2Z10', 'MBG1201.1');
-INSERT INTO TimeSlot VALUES ('8:30-9:20', 'Wednesday', 'M2Z10', 'TRD121.1');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Thursday', 'M2Z10', 'MATH1002.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Thursday', 'M2Z10', 'MATH1002.2');
-INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Tuesday', 'M2Z10', 'CSE1242.1');
-INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Tuesday', 'M2Z10', 'CSE1242.2');
-INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Friday', 'M2Z10', 'PHYS1102.1');
-INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Friday', 'M2Z10', 'PHYS1102.2');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Thursday', 'M2Z10', 'ATA122.1');
-INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Thursday', 'M2Z10', 'TRD122.1');
-INSERT INTO TimeSlot VALUES ('8:30-9:20', 'Monday', 'M2Z09', 'CSE2246.1');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Monday', 'M2Z09', 'CSE2246.2');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Monday', 'M2Z09', 'CSE2225.1');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Monday', 'M2Z09', 'CSE2225.2');
-INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Monday', 'M2Z09', 'CSE2225.3');
-INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Monday', 'M2Z09', 'MATH2256.1');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Tuesday', 'M2Z09', 'MATH2059.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Tuesday', 'M2Z09', 'CSE2023.1');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Tuesday', 'M2Z09', 'EE2031.1');
-INSERT INTO TimeSlot VALUES ('13:30-14:20', 'Tuesday', 'M2Z09', 'ECON2004.1');
-INSERT INTO TimeSlot VALUES ('8:30-9:20', 'Wednesday', 'M2Z09', 'MATH2055.1');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Wednesday', 'M2Z09', 'CSE2260.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Wednesday', 'M2Z09', 'EE2032.1');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Thursday', 'M2Z09', 'CSE2138.1');
-INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Thursday', 'M2Z09', 'CSE2138.2');
-INSERT INTO TimeSlot VALUES ('13:30-14:20', 'Friday', 'M2Z09', 'STAT2253.1');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Monday', 'M2Z11', 'CSE3055.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Monday', 'M2Z11', 'CSE3055.2');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Friday', 'M2Z11', 'CSE3033.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Friday', 'M2Z11', 'CSE3033.2');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Wednesday', 'M2Z11', 'CSE3063.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Wednesday', 'M2Z11', 'CSE3063.2');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Thursday', 'M2Z11', 'CSE3215.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Thursday', 'M2Z11', 'CSE3215.2');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Thursday', 'M2Z11', 'IE3081.1');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Tuesday', 'M2Z11', 'IE3081.2');
-INSERT INTO TimeSlot VALUES ('13:30-14:20', 'Friday', 'M2Z11', 'COM2202.1');
-INSERT INTO TimeSlot VALUES ('14:30-15:20', 'Friday', 'M2Z11', 'CSE3044.1');
-INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Friday', 'M2Z11', 'CSE3044.2');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Friday', 'M2Z11', 'CSE3264.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Wednesday', 'M2Z11', 'CSE3264.2');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Wednesday', 'M2Z11', 'CSE3038.1');
-INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Wednesday', 'M2Z11', 'CSE3038.2');
-INSERT INTO TimeSlot VALUES ('13:30-12:20', 'Wednesday', 'M2Z11', 'CSE3048.1');
-INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Thursday', 'M2Z11', 'IE3235.1');
-INSERT INTO TimeSlot VALUES ('8:30-9:20', 'Monday', 'M2Z12', 'CSE4074.1');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Monday', 'M2Z12', 'CSE4074.2');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Friday', 'M2Z12', 'CSE4219.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Friday', 'M2Z12', 'CSE4219.2');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Tuesday', 'M2Z12', 'CSE4288.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Tuesday', 'M2Z12', 'CSE4288.2');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Tuesday', 'M2Z12', 'CSE4075.1');
-INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Tuesday', 'M2Z12', 'CSE4075.2');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Thursday', 'M2Z12', 'ISG121.1');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Thursday', 'M2Z12', 'ISG122.1');
-INSERT INTO TimeSlot VALUES ('8:30-9:20', 'Wednesday', 'M2Z12', 'CSE4034.1');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Wednesday', 'M2Z12', 'CSE4034.2');
-INSERT INTO TimeSlot VALUES ('10:30-11:20', 'Wednesday', 'M2Z12', 'CSE4061.1');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Wednesday', 'M2Z12', 'CSE4061.2');
-INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Wednesday', 'M2Z12', 'CSE4217.1');
-INSERT INTO TimeSlot VALUES ('13:30-12:20', 'Wednesday', 'M2Z12', 'CSE4217.2');
-INSERT INTO TimeSlot VALUES ('9:30-10:20', 'Thursday', 'M2Z04', 'NTE1003.1');
-INSERT INTO TimeSlot VALUES ('15:30-16:20', 'Friday', 'M2Z04', 'YDA1001.1');
-INSERT INTO TimeSlot VALUES ('12:30-13:20', 'Tuesday', 'M2Z04', 'HSS3002.1');
-INSERT INTO TimeSlot VALUES ('11:30-12:20', 'Monday', 'M2Z04', 'MGT1021.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Monday', 'M2Z10', 'MATH1001.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Monday', 'M2Z10', 'CSE1200.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Tuesday', 'M2Z10', 'CSE1241.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('13:30-14:20', 'Tuesday', 'M2Z10', 'CSE1241.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('14:30-15:20', 'Monday', 'M2Z10', 'PHYS1101.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('15:30-16:20', 'Monday', 'M2Z10', 'PHYS1101.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Tuesday', 'M2Z10', 'ATA121.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Tuesday', 'M2Z10', 'MBG1201.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('8:30-9:20', 'Wednesday', 'M2Z10', 'TRD121.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Thursday', 'M2Z10', 'MATH1002.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Thursday', 'M2Z10', 'MATH1002.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('14:30-15:20', 'Tuesday', 'M2Z10', 'CSE1242.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('15:30-16:20', 'Tuesday', 'M2Z10', 'CSE1242.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('14:30-15:20', 'Friday', 'M2Z10', 'PHYS1102.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('15:30-16:20', 'Friday', 'M2Z10', 'PHYS1102.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Thursday', 'M2Z10', 'ATA122.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Thursday', 'M2Z10', 'TRD122.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('8:30-9:20', 'Monday', 'M2Z09', 'CSE2246.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Monday', 'M2Z09', 'CSE2246.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Monday', 'M2Z09', 'CSE2225.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Monday', 'M2Z09', 'CSE2225.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Monday', 'M2Z09', 'CSE2225.3');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('14:30-15:20', 'Monday', 'M2Z09', 'MATH2256.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Tuesday', 'M2Z09', 'MATH2059.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Tuesday', 'M2Z09', 'CSE2023.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Tuesday', 'M2Z09', 'EE2031.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('13:30-14:20', 'Tuesday', 'M2Z09', 'ECON2004.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('8:30-9:20', 'Wednesday', 'M2Z09', 'MATH2055.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Wednesday', 'M2Z09', 'CSE2260.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Wednesday', 'M2Z09', 'EE2032.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Thursday', 'M2Z09', 'CSE2138.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Thursday', 'M2Z09', 'CSE2138.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('13:30-14:20', 'Friday', 'M2Z09', 'STAT2253.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Monday', 'M2Z11', 'CSE3055.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Monday', 'M2Z11', 'CSE3055.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Friday', 'M2Z11', 'CSE3033.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Friday', 'M2Z11', 'CSE3033.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Wednesday', 'M2Z11', 'CSE3063.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Wednesday', 'M2Z11', 'CSE3063.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Thursday', 'M2Z11', 'CSE3215.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Thursday', 'M2Z11', 'CSE3215.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Thursday', 'M2Z11', 'IE3081.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Tuesday', 'M2Z11', 'IE3081.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('13:30-14:20', 'Friday', 'M2Z11', 'COM2202.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('14:30-15:20', 'Friday', 'M2Z11', 'CSE3044.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('15:30-16:20', 'Friday', 'M2Z11', 'CSE3044.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Friday', 'M2Z11', 'CSE3264.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Wednesday', 'M2Z11', 'CSE3264.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Wednesday', 'M2Z11', 'CSE3038.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Wednesday', 'M2Z11', 'CSE3038.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('13:30-12:20', 'Wednesday', 'M2Z11', 'CSE3048.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Thursday', 'M2Z11', 'IE3235.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('8:30-9:20', 'Monday', 'M2Z12', 'CSE4074.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Monday', 'M2Z12', 'CSE4074.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Friday', 'M2Z12', 'CSE4219.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Friday', 'M2Z12', 'CSE4219.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Tuesday', 'M2Z12', 'CSE4288.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Tuesday', 'M2Z12', 'CSE4288.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Tuesday', 'M2Z12', 'CSE4075.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Tuesday', 'M2Z12', 'CSE4075.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Thursday', 'M2Z12', 'ISG121.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Thursday', 'M2Z12', 'ISG122.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('8:30-9:20', 'Wednesday', 'M2Z12', 'CSE4034.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Wednesday', 'M2Z12', 'CSE4034.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Wednesday', 'M2Z12', 'CSE4061.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Wednesday', 'M2Z12', 'CSE4061.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Wednesday', 'M2Z12', 'CSE4217.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('13:30-12:20', 'Wednesday', 'M2Z12', 'CSE4217.2');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Thursday', 'M2Z04', 'NTE1003.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('15:30-16:20', 'Friday', 'M2Z04', 'YDA1001.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Tuesday', 'M2Z04', 'HSS3002.1');
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Monday', 'M2Z04', 'MGT1021.1');
+
 
 
 CREATE TABLE CompletedCourse(
@@ -650,6 +650,13 @@ CREATE TABLE WaitedSection(
 	foreign key (studentID) references Student(studentID) on delete cascade,
 	foreign key (courseSectionID) references CourseSection(sectionID) on delete set null,
 	foreign key (courseID) references Course(courseID) on delete set null
+);
+
+CREATE TABLE Notification(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	receiverID NVARCHAR(50),
+	senderID NVARCHAR(50),
+	message NVARCHAR(100)
 );
 
 
