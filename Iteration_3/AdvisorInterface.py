@@ -55,63 +55,77 @@ class AdvisorInterface:
         return log_out
 
     def approve_course(self, student, course_section):
-        self.advisor.approve_course(student, course_section)
-        NotificationSystem.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been approved.")
-        if not student.transcript.waited_courses:
-            print("No more courses to approve.")
+        try:
+            self.advisor.approve_course(student, course_section)
+            NotificationSystem.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been approved.")
+            if not student.transcript.waited_courses:
+                print("No more courses to approve.")
+        except Exception as e:
+            print(str(e))
 
     def reject_course(self, student, course_section):
-        self.advisor.reject_course(student, course_section)
-        NotificationSystem.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been rejected.")
+        try:
+            self.advisor.reject_course(student, course_section)
+            NotificationSystem.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been rejected.")
+        except Exception as e:
+            print(str(e))
 
     def course_operations(self, student, course_index):
-        log_out = False
-        # Get Course Section
-        parent_course = student.transcript.waited_courses[course_index - 1]
-        course_section = None
+        try:
+            log_out = False
+            # Get Course Section
+            parent_course = student.transcript.waited_courses[course_index - 1]
+            course_section = None
 
-        for section in student.transcript.waited_sections:
-            if section.parent_course.course_id == parent_course.course_id:
-                course_section = section
+            for section in student.transcript.waited_sections:
+                if section.parent_course.course_id == parent_course.course_id:
+                    course_section = section
 
-        # Check for section conflict
-        if not self.advisor.check_section_conflict(student, course_section):
-            print("There is a conflict between sections. The course cannot be approved! It is automatically rejected.")
-            self.reject_course(student, course_section)
+            # Check for section conflict
+            if not self.advisor.check_section_conflict(student, course_section):
+                print("There is a conflict between sections. The course cannot be approved! It is automatically rejected.")
+                self.reject_course(student, course_section)
+                return log_out
+
+            # User confirmation
+            print("Do you want to approve this course? (y/n): \nIf you want to turn back enter \"0\": ", end="")
+            approve = input().strip()
+
+            if approve not in ("0", "y", "n"):
+                print("Enter \"y\", \"n\" or \"0\".")
+            elif approve == "0":
+                log_out = True
+            elif approve == "y":
+                self.approve_course(student, course_section)
+            else:
+                self.reject_course(student, course_section)
+
             return log_out
 
-        # User confirmation
-        print("Do you want to approve this course? (y/n): \nIf you want to turn back enter \"0\": ", end="")
-        approve = input().strip()
-
-        if approve not in ("0", "y", "n"):
-            print("Enter \"y\", \"n\" or \"0\".")
-        elif approve == "0":
-            log_out = True
-        elif approve == "y":
-            self.approve_course(student, course_section)
-        else:
-            self.reject_course(student, course_section)
-
-        return log_out
+        except Exception as e:
+            print(str(e))
 
     def student_operations(self, student):
-        while True:
-            if not student.transcript.waited_courses:
-                print("All waited courses have been approved. You will be directed to main menu.")
-                break
-
-            student.transcript.show_waited_courses()
-            try:
-                course_index = int(input("Which course do you want to select?: \nIf you want to turn back enter \"0\": "))
-                if course_index == 0:
+        try:
+            while True:
+                if not student.transcript.waited_courses:
+                    print("All waited courses have been approved. You will be directed to main menu.")
                     break
-                size = len(student.transcript.waited_courses)
-                if course_index <= 0 or course_index > size:
-                    print(f"Enter a value between 1 and {size}")
-                else:
-                    if self.course_operations(student, course_index):
+
+                student.transcript.show_waited_courses()
+                try:
+                    course_index = int(input("Which course do you want to select?: \nIf you want to turn back enter \"0\": "))
+                    if course_index == 0:
                         break
-            except ValueError:
-                print("Enter an integer value.")
-                break
+                    size = len(student.transcript.waited_courses)
+                    if course_index <= 0 or course_index > size:
+                        print(f"Enter a value between 1 and {size}")
+                    else:
+                        if self.course_operations(student, course_index):
+                            break
+                except ValueError:
+                    print("Enter an integer value.")
+                    break
+
+        except Exception as e:
+            print(str(e))

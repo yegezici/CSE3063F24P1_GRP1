@@ -24,14 +24,17 @@ class StudentAffairsStaff(Staff):
         return course
     
     def create_course_section(self, number_of_sections: int, parent_course: Course) -> List[CourseSection]:
-        sections = []
-        for i in range(number_of_sections):
-            course_section = CourseSection()
-            course_section.set_parent_course(parent_course)
-            course_section.set_section_id(str(i + 1))
-            sections.append(course_section)
-        return sections
-    
+        try:
+            sections = []
+            for i in range(number_of_sections):
+                course_section = CourseSection()
+                course_section.set_parent_course(parent_course)
+                course_section.set_section_id(str(i + 1))
+                sections.append(course_section)
+            return sections
+        except Exception as e:
+            print(str(e))
+        
     def get_id(self):
         return super().get_id()
     

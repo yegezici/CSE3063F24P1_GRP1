@@ -158,9 +158,17 @@ class DepartmentSchedulerInterface:
         print("Choose a classroom:")
         classroom = self.department_scheduler.handle_classroom_conflict(day, time_interval)[int(input()) - 1]
         chosen_section.time_slots.append(TimeSlot(day, time_interval, classroom))
-        #print("Choose a lecturer:")
-        #--------------------------------DOLDURULACAK-----------------------------
-        
+        while(True):
+            print("Choose a lecturer:")
+            for index in self.lecturers:
+                print(self.lecturers.get_id + "  " + self.lecturers.get_name)
+            lecturer = self.lecturers[input()]
+            if (self.department_scheduler.handle_lecturer_conflict(lecturer, chosen_section) == False):
+                print("Selected lecturer has a conflict with the course section. Please choose another one.")
+                continue
+            else:
+                chosen_section.set_lecturer(lecturer)
+                break
         print("Selected time slot and classroom has been assigned.")
 
     def set_capacity(self, chosen_section):

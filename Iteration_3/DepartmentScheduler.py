@@ -34,42 +34,54 @@ class DepartmentScheduler(Lecturer):
         self.manage_waitlist(course_section, size_increase)
 
     def manage_waitlist(self, course_section, size):
-        waitlist = course_section.get_wait_list()
-        for _ in range(size):
-            if not waitlist:
-                break
-            student = waitlist.pop(0)
-            student.transcript.add_current_course(course_section.parent_course)
-            NotificationSystem.create_notification(sender=self, receiver=student, message="Capacity of " +course_section.get_name() + " has been updated, You are now registered to the course.")
-        course_section.set_wait_list(waitlist)
+        try:
+            waitlist = course_section.get_wait_list()
+            for _ in range(size):
+                if not waitlist:
+                    break
+                student = waitlist.pop(0)
+                student.transcript.add_current_course(course_section.parent_course)
+                NotificationSystem.create_notification(sender=self, receiver=student, message="Capacity of " +course_section.get_name() + " has been updated, You are now registered to the course.")
+            course_section.set_wait_list(waitlist)
+        except Exception as e:
+            print(str(e))
 
 
     def handle_time_conflict(self, semester_courses, day):
-        available_times = self.all_time_intervals.copy()
-        for section in semester_courses:
-            for time_slot in section.time_slots:
-                if time_slot.day == day and time_slot.time_interval in available_times:
-                    available_times.remove(time_slot.time_interval)
-        return available_times
-
+        try:
+            available_times = self.all_time_intervals.copy()
+            for section in semester_courses:
+                for time_slot in section.time_slots:
+                    if time_slot.day == day and time_slot.time_interval in available_times:
+                        available_times.remove(time_slot.time_interval)
+            return available_times
+        except Exception as e:
+            print(str(e))
+        
     def handle_classroom_conflict(self, day, time_interval):
-        available_classrooms = self.all_classrooms.copy()
-        for section in self.course_sections:
-            for time_slot in section.time_slots:
-                if time_slot.day == day and time_slot.time_interval == time_interval:
-                    if time_slot.classroom in available_classrooms:
-                        available_classrooms.remove(time_slot.classroom)
-        return available_classrooms
-
+        try:
+            available_classrooms = self.all_classrooms.copy()
+            for section in self.course_sections:
+                for time_slot in section.time_slots:
+                    if time_slot.day == day and time_slot.time_interval == time_interval:
+                        if time_slot.classroom in available_classrooms:
+                            available_classrooms.remove(time_slot.classroom)
+            return available_classrooms
+        except Exception as e:
+            print(str(e))
+            
     def handle_lecturer_conflict(self, lecturer, course_section):
-        for section in self.course_sections:
-            if section.lecturer == lecturer:
-                for slot in section.time_slots:
-                    for new_slot in course_section.time_slots:
-                        if slot.time_interval == new_slot.time_interval:
-                            return False
-        return True
-
+        try:
+            for section in self.course_sections:
+                if section.lecturer == lecturer:
+                    for slot in section.time_slots:
+                        for new_slot in course_section.time_slots:
+                            if slot.time_interval == new_slot.time_interval:
+                                return False
+            return True
+        except Exception as e:
+            print(str(e))
+            
     def get_available_days(self, semester_courses):
         all_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
         day_to_times = {day: self.all_time_intervals.copy() for day in all_days}

@@ -30,9 +30,12 @@ class Student(Person):
         return self.transcript
 
     def register_course(self, course_section: 'CourseSection'):  # String tip kullanımı
-        self.transcript.add_waited_course(course_section.get_parent_course())
-        self.transcript.get_waited_sections().append(course_section)
-
+        try:
+            self.transcript.add_waited_course(course_section.get_parent_course())
+            self.transcript.get_waited_sections().append(course_section)
+        except Exception as e:
+            print(str(e))
+            
     def get_advisor(self):
         return self.advisor
 
