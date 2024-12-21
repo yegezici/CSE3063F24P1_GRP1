@@ -108,6 +108,11 @@ INSERT INTO Lecturer VALUES ('567890', 'Ayse', 'Aydin', '1982-07-22', 'F');
 INSERT INTO Lecturer VALUES ('678901', 'Fatma', 'Sen', '1988-09-12', 'F');
 INSERT INTO Lecturer VALUES ('789013', 'Elif', 'Dogan', '1992-01-30', 'F');
 INSERT INTO Lecturer VALUES ('890124', 'Zeynep', 'Korkmaz', '1979-04-18', 'F');
+INSERT INTO Lecturer VALUES ('96321', 'Arda', 'Ülkü', '1987-04-21', 'M');
+INSERT INTO Lecturer VALUES ('85213', 'Esra', 'Bilir', '1991-08-10', 'F');
+INSERT INTO Lecturer VALUES ('1453', 'Volkan', 'Bakırel', '1985-02-14', 'M');
+INSERT INTO Lecturer VALUES ('1071', 'Anastasya', 'Aras', '1992-11-07', 'F');
+
 
 CREATE TABLE Student (
     studentID NVARCHAR(50) PRIMARY KEY,
@@ -152,26 +157,7 @@ INSERT INTO StudentsOfAdvisor VALUES ('150122040', '654321');
 INSERT INTO StudentsOfAdvisor VALUES ('150122041', '654321');
 INSERT INTO StudentsOfAdvisor VALUES ('150122042', '654321');
 
-CREATE TABLE DepartmentHead (
-	headID NVARCHAR(50) PRIMARY KEY,
-	name NVARCHAR(50),
-	surname NVARCHAR(50),
-	birthdate DATE,
-	gender CHAR(1),
-);
-INSERT INTO DepartmentHead VALUES ('96321', 'Arda', 'Ülkü', '1987-04-21', 'M');
-INSERT INTO DepartmentHead VALUES ('85213', 'Esra', 'Bilir', '1991-08-10', 'F');
 
-
-CREATE TABLE DepartmentScheduler (
-	schedulerID NVARCHAR(50) PRIMARY KEY,
-	name NVARCHAR(50),
-	surname NVARCHAR(50),
-	birthdate DATE,
-	gender CHAR(1),
-);
-INSERT INTO DepartmentScheduler VALUES ('1453', 'Volkan', 'Bakırel', '1985-02-14', 'M');
-INSERT INTO DepartmentScheduler VALUES ('1071', 'Anastasya', 'Aras', '1992-11-07', 'F');
 
 CREATE TABLE CourseSection (
     sectionID NVARCHAR(50) PRIMARY KEY,

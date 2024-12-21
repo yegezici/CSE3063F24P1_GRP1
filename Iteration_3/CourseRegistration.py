@@ -60,6 +60,8 @@ class CourseRegistration:
                 """
                 if user_interface.show_menu():
 #-------------------------------BU KISIMDA NOTIFICATIONLARIN KAYDEDILMESI GEREKMEKTEDIR---------------------------------
+                    #self.manager.save_all_notifications()
+                    self.manager.save_all_students()
                     break
 
 

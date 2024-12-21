@@ -5,7 +5,8 @@ class Advisor(Lecturer):
     def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', ssn: str ='', courses=None, students=None):
         super().__init__(name, surname, birthdate, gender, ssn, courses)
         self.__students = students or []
-
+        self.__interface = None
+        
     def approve_course(self, student, course_section):
         try:
             if not course_section.has_capacity():
@@ -78,7 +79,9 @@ class Advisor(Lecturer):
     
     def get_id(self):
         return super().get_ssn()
+    
+    def set_interface(self, interface):
+        self.__interface = interface
 
     def initialize_interface(self):
-        from AdvisorInterface import AdvisorInterface
-        return AdvisorInterface(self)
+        return self.__interface

@@ -21,6 +21,7 @@ class Admin(Staff):
         self.advisors = advisors if advisors is not None else []
         self.lecturers = lecturers if lecturers is not None else []
         self.department_schedulers = department_schedulers if department_schedulers is not None else []
+        self.__interface = None
     
     def add_student(self, student):
         try:
@@ -34,7 +35,7 @@ class Admin(Staff):
             #SqliteManager.delete_student(student)
             for student in self.students:
                 if student.get_id() == student_id_to_be_deleted:
-            self.students.remove(student)
+                    self.students.remove(student)
         except Exception as e:
             logger.warning(str(e))
     
@@ -80,4 +81,9 @@ class Admin(Staff):
         except Exception as e:
             logger.warning(str(e))
 
+    def set_interface(self, interface):
+        self.__interface = interface
+    
+    def initialize_interface(self):
+        return self.__interface
     

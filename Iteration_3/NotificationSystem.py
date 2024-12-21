@@ -1,5 +1,6 @@
 from typing import List, Optional
 from Person import Person
+from Notification import Notification
 
 class NotificationSystem:
     def __init__(self, notifications: Optional[List['Notification']] = None):
