@@ -9,6 +9,7 @@ from NonTechnicalElectiveCourse import NonTechnicalElectiveCourse
 from TechnicalElectiveCourse import TechnicalElectiveCourse
 from DepartmentScheduler import DepartmentScheduler
 from Advisor import Advisor
+from DepartmentHead import DepartmentHead
 import copy
 from typing import Optional
 from Person import Person   
@@ -425,7 +426,18 @@ class SQLiteManagement:
             return None
         return None       
     
-    #def get_department_head(self, headID: str) -> DepartmentHead(
+    def get_department_head(self, headID: str) -> DepartmentHead:
+        try:
+            self.cursor.execute(f"SELECT * FROM DeparmentHead d WHERE d.headID = '{headID}'")
+            row = self.cursor.fetchone()
+            if row:
+                dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], id=headID,)
+                return dephead
+            else:
+                return None
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+            return None 
 
     def get_deparment_scheduler(self, schedulerID: str) -> DepartmentScheduler:
         try:
