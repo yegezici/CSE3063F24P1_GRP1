@@ -18,6 +18,10 @@ INSERT INTO User VALUES('150122041', 'password11', 'S');
 INSERT INTO User VALUES('150122042', 'password12', 'S');
 INSERT INTO User VALUES('123456', 'ganiz123', 'A');
 INSERT INTO User VALUES('654321', 'sanem123', 'A');
+INSERT INTO User VALUES('96321', 'arda123', 'H');
+INSERT INTO User VALUES('85213', 'esra123', 'H');
+INSERT INTO User VALUES('1453', 'volkan123', 'S');
+INSERT INTO User VALUES('1071','anastasya123','S');
 
 
 
@@ -155,8 +159,8 @@ CREATE TABLE DepartmentHead (
 	birthdate DATE,
 	gender CHAR(1),
 );
-INSERT INTO DepartmentHead VALUES ('9630', 'Arda', 'Ülkü', '1987-04-21', 'M');
-INSERT INTO DepartmentHead VALUES ('8520', 'Esra', 'Bilir', '1991-08-10', 'F');
+INSERT INTO DepartmentHead VALUES ('96321', 'Arda', 'Ülkü', '1987-04-21', 'M');
+INSERT INTO DepartmentHead VALUES ('85213', 'Esra', 'Bilir', '1991-08-10', 'F');
 
 
 CREATE TABLE DepartmentScheduler (
