@@ -2,7 +2,6 @@ from datetime import date
 from CourseSection import CourseSection
 from typing import List,Optional
 from Lecturer import Lecturer
-from NotificationSystem import NotificationSystem
 
 class DepartmentScheduler(Lecturer):
     def __init__(self,name: str = None, surname: str = None, birthdate: date = None, gender: str = None, id: str = None,courses = None, course_sections=None, all_time_intervals=None):
