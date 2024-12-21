@@ -14,6 +14,9 @@ from typing import Optional
 from Person import Person   
 from Logging_Config import logger
 from Lecturer import Lecturer
+from Notification import Notification
+from NotificationSystem import NotificationSystem
+
 class SQLiteManagement:
 
 
@@ -502,4 +505,48 @@ class SQLiteManagement:
             self.connection.commit()        
         except sqlite3.Error as e:
             print("There is an error in delete_department_scheduler function in SQLiteManagement.py\nDepartment Scheduler is not deleted.\nSQLite error:", e)
+
+    def get_user(self, userID : str)-> Person:
+        try:
+            self.cursor.execute(f"SELECT userType FROM User WHERE UserID = '{userID}'")
+            row = self.cursor.fetchone()
+            if row:
+                if row[2] == 'S':
+                    return self.get_student(row[0])
+                if row[2] == 'A':
+                    return self.get_advisor(row[0])
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+            return None
+        
+    def initialize_notification_system(self)-> NotificationSystem:
+        try:
+            self.cursor.execute(f"SELECT (receiverID, senderID, message) FROM Notification")
+            rows = self.cursor.fetchall()
+            notifications = []
+            for row in rows:
+                receiver = self.get_user(row[0])
+                sender = self.get_user(row[1])
+                notification = Notification(sender, receiver, row[2])
+                notifications.append(notification)
+            return NotificationSystem(notifications)
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+            
+    def save_notification(self, receiver : Person, sender : Person, message : str)-> None:
+        try:
+            self.cursor.execute(f"INSERT INTO Notification (receiverID, senderID, message) VALUES (?, ?, ?);",
+                                (receiver.get_ssn(), sender.get_ssn(), message))
+            self.connection.commit()
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+            
+    def delete_notification(self, notification : Notification)-> None:
+        try:
+            self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}' AND senderID = '{notification.get_sender().get_ssn()}' AND message = '{notification.get_message()}'")
+            self.connection.commit()
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
+            
+    
 
