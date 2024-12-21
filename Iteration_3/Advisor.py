@@ -3,8 +3,8 @@ from typing import List
 from Lecturer import Lecturer
 
 class Advisor(Lecturer):
-    def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', ssn: str ='', courses=None, students=None):
-        super().__init__(name, surname, birthdate, gender, ssn, courses)
+    def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', id: str ='', courses=None, students=None):
+        super().__init__(name, surname, birthdate, gender, id, courses)
         self.__students = students or []
 
     def approve_course(self, student, course_section):
@@ -13,24 +13,24 @@ class Advisor(Lecturer):
                 course_section.wait_list.append(student)
                 print("Capacity is full. You are listed in waitlist.")
             else:
-                student.transcript.add_current_course(course_section.parent_course)
-                student.transcript.add_current_section(course_section)
+                student.get_transcript().add_current_course(course_section.get_parent_course())
+                student.get_transcript().add_current_section(course_section)
 
-                for course in student.transcript.waited_courses[:]:
-                    if course.course_id == course_section.parent_course.course_id:
-                        student.transcript.delete_from_waited_course(course)
+                for course in student.get_transcript().waited_courses[:]:
+                    if course.course_id == course_section.get_parent_course().course_id:
+                        student.get_transcript().delete_from_waited_course(course)
 
-                student.transcript.delete_from_waited_sections(course_section)
+                student.get_transcript().delete_from_waited_sections(course_section)
 
             course_section.current_students.append(student)
             print("The course has been approved.")
         except Exception as e:
             print(str(e))
 
-    def reject_course(self, student, courseSection):
+    def reject_course(self, student, course_section):
         try:
-            student.transcript.delete_from_waited_course(courseSection.parent_course)
-            student.transcript.delete_from_waited_sections(courseSection)
+            student.get_transcript().delete_from_waited_course(course_section.get_parent_course())
+            student.get_transcript().delete_from_waited_sections(course_section)
             print("The course has been rejected.")
         except Exception as e:
             print(str(e))
@@ -50,7 +50,7 @@ class Advisor(Lecturer):
 
     def check_section_conflict(self, student, course_section):
         try:
-            course_sections_of_student = student.transcript.current_sections
+            course_sections_of_student = student.get_transcript().current_sections
 
             for time_slot in course_section.time_slots:
                 for existing_section in course_sections_of_student:
@@ -61,3 +61,21 @@ class Advisor(Lecturer):
         except Exception as e:
             print(str(e))
             return False
+    
+    def get_birthdate(self):
+        return super().get_birthdate()
+    
+    def get_courses(self):
+        return super().get_courses()
+    
+    def get_gender(self):
+        return super().get_gender()
+    
+    def get_name(self):
+        return super().get_name()
+    
+    def get_surname(self):
+        return super().get_surname()
+    
+    def get_id(self):
+        return super().get_id()

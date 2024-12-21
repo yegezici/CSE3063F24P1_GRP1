@@ -19,9 +19,9 @@ class SQLiteManagement:
 
     def __init__(self):
         self.conn = sqlite3.connect('Iteration_3/database/CourseRegSys.db')
-        self.cursor = self.conn.cursor()    
+        self.cursor = self.conn.cursor()
+        self.courses = self.initialize_courses()            
         self.courseSections = self.initialize_courseSections()
-        self.courses = self.initialize_courses()
         self.set_prerequisites()
         self.students = []
         self.advisors = []
@@ -328,27 +328,23 @@ class SQLiteManagement:
                 section_id, capacity, course_id, lecturer_ssn = section_row
                 
                 # Step 2: Fetch Parent Course Information
-                self.cursor.execute("SELECT courseID, name, credit, prerequisiteID, courseType FROM Course WHERE courseID = ?;", (course_id,))
-                parent_course_row = self.cursor.fetchone()
-                parent_course = None
-                if parent_course_row:
-                    course_id, name, credit, prerequisite_id, course_type = parent_course_row
-                    #BURASI DU
-                    #BURASI DU
-                    parent_course = Course(course_id, name, credit, prerequisite_id, course_type)
-        
+                for course in self.courses:
+                    if course.get_course_id() == course_id:
+                        parent_course = course
+                        break
+                        
                 # Step 3: Fetch TimeSlots for the Section
                 self.cursor.execute("SELECT id, day, timeInterval, classroom FROM TimeSlot WHERE sectionID = ?;", (section_id,))
                 time_slots_data = self.cursor.fetchall()
-                time_slots = [
-                    TimeSlot(
+                time_slots = []
+                for row in time_slots_data:
+                    time_slot = TimeSlot(
                         day=row[1], 
                         time_interval=row[2], 
                         classroom=row[3], 
                     ) 
-                    for row in time_slots_data
-                ]
-
+                    time_slots.append(time_slot)
+                
                 # Step 4: Create CourseSection Object
                 course_section = CourseSection(
                     section_id=section_id,
@@ -356,10 +352,9 @@ class SQLiteManagement:
                     parent_course=parent_course,
                     lecturer=None  # Lecturer object can be populated later if needed
                 )
-               
-               
                 course_section.set_time_slots(time_slots)
                 courseSections.append(course_section)
+                parent_course.get_course_sections().append(course_section)
                 # Step 5: Add CourseSection to the List
         return courseSections
 
