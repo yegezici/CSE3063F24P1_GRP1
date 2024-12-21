@@ -1,5 +1,8 @@
 from Admin import Admin
-
+from Student import Student
+from typing import List
+from SQLiteManagement import SQLiteManagement
+from Logging_Config import logger
 
 class AdminInterface:
     __init__(self, admin: Admin, advisors: List[Advisor]):
@@ -20,9 +23,12 @@ class AdminInterface:
                     break
             student = Student(student_id, student_name, student_surname, student_birthdate)
             self.admin.add_student(student)
+            SQLiteManagement.add_student(student)
         elif choice == 2:
             logger.info(f"Choice 2:  Delete Student is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
-            self.admin.delete_student()
+            student_id_to_be_deleted = input("Enter student ID to be deleted: ")
+            self.admin.delete_student(student_id_to_be_deleted)
+            SQLiteManagement.delete_student(student_id_to_be_deleted)
         elif choice == 3:
             logger.info(f"Choice 3:  Add Advisor is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
             self.admin.add_advisor()
