@@ -210,7 +210,57 @@ class SQLiteManagement:
             self.conn.commit()
         except sqlite3.IntegrityError as e:
             logger.warning(f"Error: {e}")
-    
+
+    def save_time_slots(self) -> None:
+        try:
+            # Mevcut TimeSlot kayıtlarını al
+            self.cursor.execute("SELECT id, timeInterval, day, classroom, sectionID FROM TimeSlot")
+            existing_time_slots = {
+                (row[1], row[2], row[3], row[4]): row[0]  # (timeInterval, day, classroom, sectionID): id
+                for row in self.cursor.fetchall()
+            }
+
+            # Güncel kullanılacak TimeSlot'lar için bir set oluştur
+            current_time_slots = set()
+
+            for section in self.courseSections:
+                for time_slot in section.get_time_slots():
+                    time_interval = time_slot.get_time_interval()
+                    day = time_slot.get_day()
+                    classroom = time_slot.get_classroom()
+                    section_id = section.get_section_id()
+
+                    current_time_slots.add((time_interval, day, classroom, section_id))
+
+                    # Eğer TimeSlot mevcutsa güncelle
+                    if (time_interval, day, classroom, section_id) in existing_time_slots:
+                        sql = '''
+                        UPDATE TimeSlot
+                        SET timeInterval = ?, day = ?, classroom = ?, sectionID = ?
+                        WHERE id = ?
+                        '''
+                        self.cursor.execute(sql, (time_interval, day, classroom, section_id, existing_time_slots[(time_interval, day, classroom, section_id)]))
+                    else:
+                        # Mevcut değilse ekle
+                        sql = '''
+                        INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID)
+                        VALUES (?, ?, ?, ?)
+                        '''
+                        self.cursor.execute(sql, (time_interval, day, classroom, section_id))
+
+            # Delete time slot record if it doesn't exist anymore.
+            for key, id in existing_time_slots.items():
+                if key not in current_time_slots:
+                    self.cursor.execute("DELETE FROM TimeSlot WHERE id = ?", (id,))
+
+            self.conn.commit()
+
+        except sqlite3.IntegrityError as e:
+            print(f"Integrity error while saving TimeSlot: {e}")
+        except sqlite3.Error as e:
+            print(f"SQLite error while saving TimeSlot: {e}")
+
+
     
     def get_courses_of_transcript(self, student_id: str, courseList_type: str)-> list:
         courses = []
