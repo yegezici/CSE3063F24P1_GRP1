@@ -29,6 +29,7 @@ class SQLiteManagement:
         self.set_prerequisites()
         self.students = []
         self.advisors = []
+        self.__notificationSystem = self.initialize_notification_system()
         
     def get_students(self) -> list[Student]:
         return self.students
@@ -51,12 +52,17 @@ class SQLiteManagement:
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
         row = self.cursor.fetchone()
+        print("GIRDI MI1")
         if row:
             if row[2] == 'S':
                 return self.get_student(row[0])
             if row[2] == 'A':
                 return self.get_advisor(row[0])
-            
+            if row[2] == 'S':
+                return self.get_deparment_scheduler(row[0])
+            if row[2] == 'H':
+                print("GIRDI MI")
+                return self.get_department_head(row[0])
     
     def initialize_courses(self) -> list:
         courses = []
@@ -129,6 +135,11 @@ class SQLiteManagement:
        
         except sqlite3.IntegrityError as e:
             logger.warning(f"Error: {e}")
+    
+    def save_all_students(self) -> None:
+        for student in self.students:
+            self.save_current_section_of_student(student)
+            self.save_waited_section_of_student(student)
     
     #Function to save student current section information into the database.
     def save_current_section_of_student(self, student: Student) -> None:
@@ -382,6 +393,7 @@ class SQLiteManagement:
         return courseSections
 
     def get_student_without_advisor(self, student_id: str) -> Student:
+        from StudentInterface import StudentInterface
         exist_student = self.check_student_exists(student_id)
         if exist_student is not None:
             return exist_student
@@ -396,6 +408,7 @@ class SQLiteManagement:
                 waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
                 transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
                 student = Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
+                student.set_interface(StudentInterface(student, self.courses, self.__notificationSystem))
                 self.students.append(student)
                 return student
         except sqlite3.Error as e:
@@ -417,6 +430,7 @@ class SQLiteManagement:
 
         
     def get_advisor(self, id: str) -> Advisor:
+        from AdvisorInterface import AdvisorInterface
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
             row = self.cursor.fetchone()
@@ -427,6 +441,7 @@ class SQLiteManagement:
                 for row in rows:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
+                advisor.set_interface(AdvisorInterface(advisor, self.__notificationSystem))
                 self.advisors.append(advisor)
                 return advisor
             else:
@@ -437,11 +452,14 @@ class SQLiteManagement:
         return None       
     
     def get_department_head(self, headID: str) -> DepartmentHead:
+        from DepartmentHeadInterface import DepartmentHeadInterface
         try:
-            self.cursor.execute(f"SELECT * FROM DeparmentHead d WHERE d.headID = '{headID}'")
+            self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{headID}'")
             row = self.cursor.fetchone()
             if row:
                 dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], id=headID,)
+                #BURADAKI self.advisors LECTURER LISTI OLDUGUNDA DUZELTILECEK
+                dephead.set_interface(DepartmentHeadInterface(dephead,self.courseSections, self.advisors ,self.__notificationSystem))
                 return dephead
             else:
                 return None
@@ -450,8 +468,9 @@ class SQLiteManagement:
             return None 
 
     def get_deparment_scheduler(self, schedulerID: str) -> DepartmentScheduler:
+        from DepartmentSchedulerInterface import DepartmentSchedulerInterface
         try:
-            self.cursor.execute(f"SELECT * FROM DeparmentScheduler d WHERE d.scheduler = '{schedulerID}'")
+            self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{schedulerID}'")
             row = self.cursor.fetchone()
             if row:
                 depsch = DepartmentScheduler(name=row[1], surname=row[2], birthdate=row[3], gender=row[4],
@@ -459,6 +478,7 @@ class SQLiteManagement:
                                              courses=self.courses,
                                              course_sections=self.courseSections,
                                              all_time_intervals= self.init_time_intervals())
+                depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch,course_sections= self.courseSections, lecturers= self.advisors, notification_system= self.__notificationSystem))
                 return depsch
             else:
                 return None
@@ -583,6 +603,12 @@ class SQLiteManagement:
         except sqlite3.Error as e:
             print("SQLite error:", e)
             
+    def save_all_notifications(self)-> None:
+        try:
+            for notification in self.__notificationSystem.get_notifications():
+                self.save_notification(notification.get_receiver(), notification.get_sender(), notification.get_message())
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
     def save_notification(self, receiver : Person, sender : Person, message : str)-> None:
         try:
             self.cursor.execute(f"INSERT INTO Notification (receiverID, senderID, message) VALUES (?, ?, ?);",
