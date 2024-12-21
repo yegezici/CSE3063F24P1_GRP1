@@ -5,9 +5,9 @@ class MandatoryCourse(Course):
         if prerequisite_course and semester is not None:
             super().__init__(course_id, course_name, credits, prerequisite_course, semester)
         elif semester is not None:
-            super().__init__(course_id, course_name, credits, semester)
+            super().__init__(course_id, course_name, credits, semester=semester)
         elif prerequisite_course:
-            super().__init__(course_id, course_name, credits, prerequisite_course)
+            super().__init__(course_id, course_name, credits, prerequisite_course=prerequisite_course)
         else:
             super().__init__(course_id, course_name, credits)
 

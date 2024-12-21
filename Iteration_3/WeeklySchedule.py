@@ -1,15 +1,15 @@
 class WeeklySchedule:
     def __init__(self, student):
-        self.student = student
+        self.__student = student
 
     def print_student_weekly_schedule(self):
         days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-        current_courses = self.student.get_transcript().get_current_courses()
+        current_courses = self.__student.get_transcript().get_current_courses()
         print(f"{len(current_courses)} courses taken this term.")
 
         for day in days:
             day_printed = False
-            current_sections = self.student.get_transcript().get_current_sections()
+            current_sections = self.__student.get_transcript().get_current_sections()
 
             for section in current_sections:
                 time_slots = section.get_time_slots()

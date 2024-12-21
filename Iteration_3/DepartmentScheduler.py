@@ -4,16 +4,10 @@ from typing import List,Optional
 from Lecturer import Lecturer
 from NotificationSystem import NotificationSystem
 
-class DepartmentScheduler(Lecturer):
-    def __init__(self, name: str ="", surname: str ="", birthdate: date=None, gender: str ='', ssn: str ='', course_sections: List['CourseSection'] =None, all_classrooms: List[str] =None):
-        self.name = name
-        self.surname = surname
-        self.course_sections = course_sections
-        self.all_classrooms = all_classrooms
-        self.all_time_intervals = [
-            "8:30-9:20", "9:30-10:20", "10:30-11:20", "11:30-12:20",
-            "12:30-13:20", "13:30-14:20", "14:30-15:20", "15:30-16:20"
-        ]
+class DepartmentScheduler:
+    def __init__(self, course_sections=None, all_time_intervals=None):
+        self.__course_sections = course_sections or []
+        self.__all_time_intervals = all_time_intervals or []
 
     def assign_time_slot_to_section(self, course_section, time_slot):
         if not course_section or not time_slot:
@@ -49,7 +43,7 @@ class DepartmentScheduler(Lecturer):
 
     def handle_time_conflict(self, semester_courses, day):
         try:
-            available_times = self.all_time_intervals.copy()
+            available_times = self.__all_time_intervals.copy()
             for section in semester_courses:
                 for time_slot in section.time_slots:
                     if time_slot.day == day and time_slot.time_interval in available_times:
@@ -72,7 +66,7 @@ class DepartmentScheduler(Lecturer):
             
     def handle_lecturer_conflict(self, lecturer, course_section):
         try:
-            for section in self.course_sections:
+            for section in self.__course_sections:
                 if section.lecturer == lecturer:
                     for slot in section.time_slots:
                         for new_slot in course_section.time_slots:
@@ -84,7 +78,7 @@ class DepartmentScheduler(Lecturer):
             
     def get_available_days(self, semester_courses):
         all_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-        day_to_times = {day: self.all_time_intervals.copy() for day in all_days}
+        day_to_times = {day: self.__all_time_intervals.copy() for day in all_days}
 
         for section in semester_courses:
             for slot in section.time_slots:
@@ -92,6 +86,15 @@ class DepartmentScheduler(Lecturer):
                     day_to_times[slot.day].remove(slot.time_interval)
 
         return [day for day, times in day_to_times.items() if times]
+    
+    def semester_x_courses(self, x):
+        semester_x_courses = []
+
+        for course_section in self.course_sections:
+            if course_section.get_parent_course().get_semester() == x:
+                semester_x_courses.append(course_section)
+
+        return semester_x_courses
 
     def get_id(self):
         return super().get_id()

@@ -7,16 +7,16 @@ class Staff(Person):
         super().__init__(name, surname, birthdate, gender, ssn)
 
     def get_id(self):
-        return super().get_id_field()
+        return super().get_id()
 
     def get_name(self):
-        return super().get_name_field()
+        return super().get_name()
 
     def get_surname(self):
-        return super().get_surname_field()
+        return super().get_surname()
 
     def get_birthdate(self):
-        return super().get_birthdate_field()
+        return super().get_birthdate()
 
     def get_gender(self):
-        return super().get_gender_field()
+        return super().get_gender()

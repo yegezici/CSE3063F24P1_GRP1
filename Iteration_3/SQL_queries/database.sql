@@ -1,20 +1,24 @@
 CREATE TABLE User(
   UserID NVARCHAR(50) PRIMARY KEY NOT NULL,
-  Password NVARCHAR(50) NOT NULL
+  Password NVARCHAR(50) NOT NULL,
+  userType CHAR(50)
 );
 
-INSERT INTO User VALUES('150121031','abc123');
-INSERT INTO User VALUES('150121032','password2');
-INSERT INTO User VALUES('150121033','password3');
-INSERT INTO User VALUES('150121034','password4');
-INSERT INTO User VALUES('150121035','password5');
-INSERT INTO User VALUES('150122036','password6');
-INSERT INTO User VALUES('150122037','password7');
-INSERT INTO User VALUES('150122038','password8');
-INSERT INTO User VALUES('150122039','password9');
-INSERT INTO User VALUES('150122040','password10');
-INSERT INTO User VALUES('150122041','password11');
-INSERT INTO User VALUES('150122042','password12');
+INSERT INTO User VALUES('150121031', 'abc123', 'S');
+INSERT INTO User VALUES('150121032', 'password2', 'S');
+INSERT INTO User VALUES('150121033', 'password3', 'S');
+INSERT INTO User VALUES('150121034', 'password4', 'S');
+INSERT INTO User VALUES('150121035', 'password5', 'S');
+INSERT INTO User VALUES('150122036', 'password6', 'S');
+INSERT INTO User VALUES('150122037', 'password7', 'S');
+INSERT INTO User VALUES('150122038', 'password8', 'S');
+INSERT INTO User VALUES('150122039', 'password9', 'S');
+INSERT INTO User VALUES('150122040', 'password10', 'S');
+INSERT INTO User VALUES('150122041', 'password11', 'S');
+INSERT INTO User VALUES('150122042', 'password12', 'S');
+INSERT INTO User VALUES('123456', 'ganiz123', 'A');
+INSERT INTO User VALUES('654321', 'sanem123', 'A');
+
 
 
 
@@ -100,7 +104,7 @@ CREATE TABLE Student (
     gender CHAR,
     birthDate DATE,
     advisorID NVARCHAR(50),
-	semeste int,
+	semester int,
 	foreign key (advisorID) references Lecturer(SSN) on delete set null
 );
 INSERT INTO Student VALUES ('150121031', 'Hasan', 'Erzincanli', 'M', '2002-09-18', '123456',3);

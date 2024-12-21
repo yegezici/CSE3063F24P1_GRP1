@@ -49,10 +49,10 @@ class CourseRegistration:
                     #NotificationSystem.print_user_notifications(user=current_user)
                     user_interface = AdvisorInterface(current_user)
                 elif isinstance(current_user, StudentAffairsStaff):
-                    NotificationSystem.print_user_notifications(user=current_user)
+                    #NotificationSystem.print_user_notifications(user=current_user)
                     user_interface = StudentAffairsStaffInterface(current_user, self.courses, self.course_sections)
                 elif isinstance(current_user, DepartmentScheduler):
-                    NotificationSystem.print_user_notifications(user=current_user)
+                    #NotificationSystem.print_user_notifications(user=current_user)
                     user_interface = DepartmentSchedulerInterface(current_user, self.course_sections)
 
                 if user_interface.show_menu():
