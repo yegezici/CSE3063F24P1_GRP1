@@ -2,12 +2,14 @@ import sys
 from typing import List
 from CourseSection import CourseSection
 from Course import Course
-
-class StudentAffairsStaffInterface:
-    def __init__(self, staff, courses: List['Course'], course_sections: List['CourseSection']):
-        self.staff = staff
-        self.courses = courses
+from UserInterface import UserInterface
+from DepartmentHead import DepartmentHead
+from Lecturer import Lecturer
+class DepartmentHeadInterface(UserInterface):
+    def __init__(self, department_head: 'DepartmentHead', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]'):
+        self.department_head = department_head
         self.course_sections = course_sections
+        self.lecturers = lecturers
 
     def show_menu(self):
         while True:
@@ -15,13 +17,22 @@ class StudentAffairsStaffInterface:
             if choice == 1:
                 self.add_course()
             elif choice == 2:
+                self.show_available_course_sections()
+                print("Choose a course section:")
+                section_no = int(input()) - 1
+                chosen_section = self.course_sections[section_no]
+                print(f"Current capacity is {chosen_section.get_capacity()}")
+                print("Enter new capacity:")
+                new_capacity = int(input())
+                self.department_head.manage_capacity(chosen_section, new_capacity)
+            elif choice == 3:
                 print("You have successfully logged out\n")
                 return True
             else:
                 print("Enter 1 or 2.")
 
     def get_choice(self):
-        print("1-  Add Course\n2-  Log Out\nSelect an operation: ", end="")
+        print("1-  Add Course\n2-  Manage Capacity\nSelect an operation: ", end="")
         try:
             choice = int(input())
         except ValueError:
@@ -32,7 +43,7 @@ class StudentAffairsStaffInterface:
     def add_course(self):
         course_params = self.ask_course_parameters()
         try:
-            new_course = self.staff.create_course(
+            new_course = self.department_head.create_course(
                 course_params[0], course_params[1], course_params[3], int(course_params[2]), int(course_params[4])
             )
             self.courses.append(new_course)
@@ -73,3 +84,9 @@ class StudentAffairsStaffInterface:
     def print_courses(self):
         for i, course in enumerate(self.courses, 1):
             print(f"{i}- {course}")
+
+    def show_available_course_sections(self):
+        print("All available course sections are listed below:")
+        for idx, section in enumerate(self.course_sections, 1):
+            course = section.get_parent_course()
+            print(f"{idx}- {course.get_course_id()}.{section.get_section_id()}")

@@ -2,8 +2,8 @@ from WeeklySchedule import WeeklySchedule
 from Student import Student
 from Logging_Config import logger
 from NotificationSystem import NotificationSystem
-
-class StudentInterface:
+from UserInterface import UserInterface
+class StudentInterface(UserInterface):
     def __init__(self, student=None, courses=None):
         self.student = student
         self.courses = courses or []

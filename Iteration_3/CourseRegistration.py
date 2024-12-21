@@ -10,11 +10,10 @@ from StudentAffairStaff import StudentAffairsStaff
 from DepartmentScheduler import DepartmentScheduler
 from CourseSection import CourseSection
 from Course import Course
-from StudentAffairsStaffInterface import StudentAffairsStaffInterface
 from NotificationSystem import NotificationSystem
-
+from DepartmentHead import DepartmentHead
 from SQLiteManagement import SQLiteManagement
-
+from DepartmentHeadInterface import DepartmentHeadInterface
 from Logging_Config import logger
 from Person import Person
 
@@ -54,7 +53,9 @@ class CourseRegistration:
                 elif isinstance(current_user, DepartmentScheduler):
                     #NotificationSystem.print_user_notifications(user=current_user)
                     user_interface = DepartmentSchedulerInterface(current_user, self.course_sections)
-
+                elif isinstance(current_user, DepartmentHead):
+                    #NotificationSystem.print_user_notifications(user=current_user)
+                    user_interface = DepartmentHeadInterface(current_user, self.course_sections, self.courses)
                 if user_interface.show_menu():
                     break
 
