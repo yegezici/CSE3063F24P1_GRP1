@@ -2,15 +2,14 @@ from typing import List, Optional
 from Lecturer import Lecturer
 from Course import Course
 from TimeSlot import TimeSlot
-from Student import Student
 
 class CourseSection:
-    def __init__(self, capacity: int, parent_course: 'Course', lecturer: 'Lecturer'):
+    def __init__(self, capacity: int, parent_course: 'Course', lecturer: 'Lecturer', section_id: str):
         self.__capacity = capacity
         self.__parent_course = parent_course
         self.__lecturer = lecturer
         self.__current_students: List['Student'] = []
-
+        self.section_id = section_id
     def get_capacity(self) -> int:
         return self.__capacity
 
