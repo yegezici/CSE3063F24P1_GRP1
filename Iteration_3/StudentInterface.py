@@ -131,7 +131,6 @@ class StudentInterface(UserInterface):
             print(f"{i}. {course.get_course_id()} - {course.get_course_name()}")
 
     def show_available_course_sections(self, course):
-        print(course.get_course_sections())
         for i, section in enumerate(course.get_course_sections(), start=1):
             time_slot = section.get_time_slots()[0]
             print(f"{i}. Section {section.get_section_id()} - {time_slot.get_day()} "
