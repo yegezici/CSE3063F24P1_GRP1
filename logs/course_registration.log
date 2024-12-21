@@ -1,0 +1,58 @@
+2024-12-20 21:36:24,592 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 21:36:29,573 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-20 21:38:13,567 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 21:38:19,802 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-20 21:38:31,889 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 21:38:34,805 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-20 21:38:37,556 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 21:41:17,530 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 21:41:24,412 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-20 21:42:06,303 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 21:42:11,108 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-20 21:42:35,988 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 21:42:44,291 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-20 21:45:40,409 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:45:46,259 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-20 21:49:24,963 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:49:27,866 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:49:34,597 - CourseRegistrationSystem - WARNING - Wrong user id or password
+2024-12-20 21:50:13,191 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:50:36,256 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:50:43,710 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 21:51:39,469 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:54:20,265 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:54:57,791 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:55:53,291 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:56:30,358 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:56:34,920 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 21:56:43,902 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 22:00:33,264 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:01:20,869 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:01:46,795 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:02:39,819 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:03:30,993 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:03:39,358 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 22:04:03,929 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:51:24,921 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:51:26,840 - CourseRegistrationSystem - INFO - Program has been terminated succesfully.
+2024-12-20 22:52:30,826 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:53:26,867 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:56:12,684 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 22:56:21,889 - CourseRegistrationSystem - INFO - Choice 1:  Show Transcript is selected     - Hasan Erzincanli
+2024-12-20 22:56:24,238 - CourseRegistrationSystem - INFO - Choice 3:  Print Weekly Schedule is selected     - Hasan Erzincanli
+2024-12-20 22:58:04,144 - CourseRegistrationSystem - WARNING - Invalid choice    - Hasan Erzincanli
+2024-12-20 22:58:04,145 - CourseRegistrationSystem - WARNING - Invalid choice
+2024-12-20 22:58:13,461 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 23:01:49,185 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-20 23:01:57,921 - CourseRegistrationSystem - INFO - Hasan Erzincanli succesfully logged out.
+2024-12-21 15:58:13,571 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-21 16:21:17,426 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-21 16:30:59,797 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-21 16:31:43,402 - CourseRegistrationSystem - INFO - Choice 1:  Show Transcript is selected     - Hasan Erzincanli
+2024-12-21 16:31:47,386 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erzincanli
+2024-12-21 16:31:52,547 - CourseRegistrationSystem - WARNING - Invalid section choice!
+2024-12-21 16:31:57,021 - CourseRegistrationSystem - INFO - Choice 3:  Print Weekly Schedule is selected     - Hasan Erzincanli
+2024-12-21 16:39:14,102 - CourseRegistrationSystem - WARNING - Invalid choice    - Hasan Erzincanli
+2024-12-21 16:39:14,103 - CourseRegistrationSystem - WARNING - Invalid choice
+2024-12-21 16:39:21,063 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-21 16:40:37,617 - CourseRegistrationSystem - INFO - Hasan Erzincanli succesfully logged out.
