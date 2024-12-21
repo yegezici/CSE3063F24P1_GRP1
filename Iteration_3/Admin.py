@@ -14,11 +14,14 @@ class Admin(Staff):
                  advisors: Optional[List['Advisor']] = None, 
                  lecturers: Optional[List['Lecturer']] = None, 
                  department_schedulers: Optional[List['DepartmentScheduler']] = None):
+
         super().__init__(name=_name, surname=_surname, birthdate=_birthdate, gender=_gender, ssn=_ssn)
         self._students = students if students is not None else []
         self._advisors = advisors if advisors is not None else []
         self._lecturers = lecturers if lecturers is not None else []
         self._department_schedulers = department_schedulers if department_schedulers is not None else []
+        self.__interface = None
+
     
     def add_student(self, student):
         try:
@@ -33,6 +36,7 @@ class Admin(Staff):
             for student in self._students:
                 if student.get_id() == student_id_to_be_deleted:
                     self._students.remove(student)
+
         except Exception as e:
             logger.warning(str(e))
     
@@ -126,3 +130,10 @@ class Admin(Staff):
 
     def set_department_schedulers(self, department_schedulers):
         self._department_schedulers = department_schedulers
+
+    def set_interface(self, interface):
+        self.__interface = interface
+    
+    def initialize_interface(self):
+        return self.__interface
+

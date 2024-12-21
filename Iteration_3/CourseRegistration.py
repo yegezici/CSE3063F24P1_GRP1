@@ -40,10 +40,13 @@ class CourseRegistration:
                 break
             #logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
             while True:
+                user_interface = current_user.initialize_interface()
+                """
                 if isinstance(current_user, Student):     
                     user_interface = StudentInterface(current_user, self.courses, self.notificationSystem)
                 elif isinstance(current_user, Advisor):
                     notificationSystem.print_user_notifications(user = current_user)
+                    user_interface = AdvisorInterface(current_user)
                     user_interface = AdvisorInterface(current_user, self.notificationSystem)
                 elif isinstance(current_user, StudentAffairsStaff):
                     notificationSystem.print_user_notifications(user = current_user)
@@ -53,9 +56,12 @@ class CourseRegistration:
                     user_interface = DepartmentSchedulerInterface(current_user, self.course_sections, self.notificationSystem)
                 elif isinstance(current_user, DepartmentHead):
                     notificationSystem.print_user_notifications(user = current_user)
-                    user_interface = DepartmentHeadInterface(current_user, self.course_sections, self.courses, self.notificationSystem)
+                    user_interface = DepartmentHeadInterface(current_user, self.course_sections, self.courses)
+                """
                 if user_interface.show_menu():
 #-------------------------------BU KISIMDA NOTIFICATIONLARIN KAYDEDILMESI GEREKMEKTEDIR---------------------------------
+                    #self.manager.save_all_notifications()
+                    self.manager.save_all_students()
                     break
 
 
@@ -72,5 +78,4 @@ class CourseRegistration:
             return None
 
     def check_id_and_password(self, entered_user_id: str, entered_password: str) -> Person:
-        print(entered_user_id, entered_password)
         return self.manager.check_user(entered_user_id, entered_password)

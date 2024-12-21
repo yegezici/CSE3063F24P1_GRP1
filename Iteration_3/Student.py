@@ -5,11 +5,11 @@ from Transcript import Transcript
 from CourseSection import CourseSection
 
 class Student(Person):
-    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, transcript: 'Transcript' = None, student_id: str = None):
+    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, transcript: 'Transcript' = None, student_id: str = None,):
         super().__init__(name, surname, birthdate, gender, student_id)
         self.__transcript = transcript
         self.__advisor = None
-
+        self.__interface = None
     def get_name(self):
         return super().get_name()
 
@@ -27,6 +27,9 @@ class Student(Person):
 
     def get_transcript(self):
         return self.__transcript
+    
+    def set_interface(self, interface):
+        self.__interface = interface
 
     def register_course(self, course_section: 'CourseSection'):  # String tip kullanımı
         try:
@@ -40,3 +43,6 @@ class Student(Person):
 
     def set_advisor(self, advisor: 'Advisor'):  # String tip kullanımı
         self.__advisor = advisor
+        
+    def initialize_interface(self):
+        return self.__interface

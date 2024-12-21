@@ -2,13 +2,13 @@ from datetime import date
 from CourseSection import CourseSection
 from typing import List,Optional
 from Lecturer import Lecturer
-from NotificationSystem import NotificationSystem
 
 class DepartmentScheduler(Lecturer):
     def __init__(self,name: str = None, surname: str = None, birthdate: date = None, gender: str = None, id: str = None,courses = None, course_sections=None, all_time_intervals=None):
         super().__init__(name, surname, birthdate, gender, id, courses)
         self.__course_sections = course_sections or []
         self.__all_time_intervals = all_time_intervals or []
+        self.__interface = None
 
     def assign_time_slot_to_section(self, course_section, time_slot):
         if not course_section or not time_slot:
@@ -91,3 +91,9 @@ class DepartmentScheduler(Lecturer):
 
     def get_gender(self):
         return super().get_gender()
+    
+    def set_interface(self, interface):
+        self.__interface = interface
+        
+    def initialize_interface(self):
+        return self.__interface

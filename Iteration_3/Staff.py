@@ -1,22 +1,26 @@
 from datetime import date
 from Person import Person
 
-
 class Staff(Person):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
         super().__init__(name, surname, birthdate, gender, ssn)
 
     def get_ssn(self):
-        return super().get_ssn()
+        """Override abstract method to return the SSN"""
+        return self._Person__ssn
 
     def get_name(self):
-        return super().get_name()
+        """Override abstract method to return the name"""
+        return self._Person__name
 
     def get_surname(self):
-        return super().get_surname()
+        """Override abstract method to return the surname"""
+        return self._Person__surname
 
     def get_birthdate(self):
-        return super().get_birthdate()
+        """Override abstract method to return the birthdate"""
+        return self._Person__birthdate
 
     def get_gender(self):
-        return super().get_gender()
+        """Override abstract method to return the gender"""
+        return self._Person__gender

@@ -11,7 +11,8 @@ class DepartmentHeadInterface(UserInterface):
         self.department_head = department_head
         self.course_sections = course_sections
         self.lecturers = lecturers
-
+        self.__notification_system = notification_system
+        self.__interface = None
     def show_menu(self):
         while True:
             choice = self.get_choice()
@@ -91,3 +92,10 @@ class DepartmentHeadInterface(UserInterface):
         for idx, section in enumerate(self.course_sections, 1):
             course = section.get_parent_course()
             print(f"{idx}- {course.get_course_id()}.{section.get_section_id()}")
+
+
+    def set_interface(self, interface):
+        self.__interface = interface
+    
+    def initialize_interface(self):
+        return self.__interface
