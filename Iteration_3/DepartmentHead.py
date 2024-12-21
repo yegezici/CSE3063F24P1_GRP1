@@ -40,14 +40,14 @@ class DepartmentHead(Lecturer):
         chosen_section.set_capacity(int(input()))
         print("Capacity has been set successfully.")
 
-    def manage_capacity(self, course_section, new_capacity):
+    def manage_capacity(self, course_section, new_capacity, notification_system: NotificationSystem):
         if new_capacity < course_section.capacity:
             raise ValueError("New capacity cannot be smaller than the old capacity.")
         size_increase = new_capacity - course_section.get_capacity()
         course_section.set_capacity(new_capacity)
-        self.manage_waitlist(course_section, size_increase)
+        self.manage_waitlist(course_section, size_increase, notification_system)
 
-    def manage_waitlist(self, course_section: CourseSection, size):
+    def manage_waitlist(self, course_section: CourseSection, size, notification_system: NotificationSystem):
         try:
             waitlist = course_section.get_wait_list()
             for _ in range(size):
@@ -55,7 +55,7 @@ class DepartmentHead(Lecturer):
                     break
                 student = waitlist.pop(0)
                 student.get_transcript().add_current_course(course_section.parent_course)
-                NotificationSystem.create_notification(sender=self, receiver=student, message="Capacity of " +course_section.get_name() + " has been updated, You are now registered to the course.")
+                notification_system.create_notification(sender=self, receiver=student, message="Capacity of " +course_section.get_name() + " has been updated, You are now registered to the course.")
             course_section.set_wait_list(waitlist)
         except Exception as e:
             print(str(e))

@@ -2,9 +2,10 @@ from NotificationSystem import NotificationSystem
 from UserInterface import UserInterface
 
 class AdvisorInterface(UserInterface):
-    def __init__(self, advisor=None):
+    def __init__(self, advisor=None, notification_system: 'NotificationSystem' = None):
         self.advisor = advisor
         self.scanner = None
+        self.notification_system = notification_system
 
     def show_menu(self):
         log_out = False
@@ -57,7 +58,7 @@ class AdvisorInterface(UserInterface):
     def approve_course(self, student, course_section):
         try:
             self.advisor.approve_course(student, course_section)
-            NotificationSystem.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been approved.")
+            self.notification_system.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been approved.")
             if not student.get_transcript().get_waited_courses():
                 print("No more courses to approve.")
         except Exception as e:
@@ -66,7 +67,7 @@ class AdvisorInterface(UserInterface):
     def reject_course(self, student, course_section):
         try:
             self.advisor.reject_course(student, course_section)
-            NotificationSystem.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been rejected.")
+            self.notification_system.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been rejected.")
         except Exception as e:
             print(str(e))
 

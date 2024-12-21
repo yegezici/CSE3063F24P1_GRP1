@@ -6,11 +6,11 @@ from DepartmentScheduler import DepartmentScheduler
 from Lecturer import Lecturer
 from UserInterface import UserInterface
 class DepartmentSchedulerInterface(UserInterface):
-    def __init__(self, department_scheduler: 'DepartmentScheduler', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]'):
+    def __init__(self, department_scheduler: 'DepartmentScheduler', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]', notification_system: 'NotificationSystem' = None):
         self.department_scheduler = department_scheduler
         self.course_sections = course_sections
         self.lecturers = lecturers
-
+        self.notification_system = notification_system
 
     def update_time_interval(self, chosen_section):
         print("Time slots of the selected course are listed below:")
@@ -21,7 +21,7 @@ class DepartmentSchedulerInterface(UserInterface):
             chosen_section.get_time_slots().pop(int(input()) - 1)
             self.set_time_slot(chosen_section)
             print("Time slot has been updated successfully.")
-            NotificationSystem.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Time slot of " + chosen_section.get_name() + " has been updated.")
+            self.notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Time slot of " + chosen_section.get_name() + " has been updated.")
         except (ValueError, IndexError):
             print("Enter a valid integer within the list range.")
 
@@ -40,7 +40,7 @@ class DepartmentSchedulerInterface(UserInterface):
             print("Choose a new classroom:")
             chosen_time_slot.set_classroom(available_classrooms[int(input()) - 1])
             print("Classroom has been updated successfully.")
-            NotificationSystem.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Classroom of " + chosen_section.get_name() + " has been updated.")
+            self.notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Classroom of " + chosen_section.get_name() + " has been updated.")
         except (ValueError, IndexError):
             print("Enter a valid integer.")
 
