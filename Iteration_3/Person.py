@@ -1,6 +1,7 @@
 from datetime import date
+from abc import ABC, abstractmethod
 
-class Person:
+class Person(ABC):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
         self.__name = name
         self.__surname = surname
@@ -8,17 +9,27 @@ class Person:
         self.__gender = gender
         self.__ssn = ssn
 
+    @abstractmethod
     def get_name(self):
-        return self.__name
+        """Get the name of the person"""
+        pass
 
+    @abstractmethod
     def get_surname(self):
-        return self.__surname
+        """Get the surname of the person"""
+        pass
 
+    @abstractmethod
     def get_birthdate(self):
-        return self.__birthdate
+        """Get the birthdate of the person"""
+        pass
 
+    @abstractmethod
     def get_gender(self):
-        return self.__gender
+        """Get the gender of the person"""
+        pass
 
+    @abstractmethod
     def get_ssn(self):
-        return self.__ssn
+        """Get the SSN of the person"""
+        pass
