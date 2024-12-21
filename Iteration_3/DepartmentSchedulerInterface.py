@@ -14,46 +14,46 @@ class DepartmentSchedulerInterface:
 
     def update_time_interval(self, chosen_section):
         print("Time slots of the selected course are listed below:")
-        for idx, slot in enumerate(chosen_section.time_slots, 1):
-            print(f"{idx}- {slot.day} {slot.time_interval} {slot.classroom}")
+        for idx, slot in enumerate(chosen_section.get_time_slots(), 1):
+            print(f"{idx}- {slot.get_day()} {slot.get_time_interval()} {slot.get_classroom()}")
         try:
             print("Which time slot do you want to update?")
-            chosen_section.time_slots.pop(int(input()) - 1)
+            chosen_section.get_time_slots().pop(int(input()) - 1)
             self.set_time_slot(chosen_section)
             print("Time slot has been updated successfully.")
-            NotificationSystem.create_notification(sender=self, receiver=chosen_section.current_students, message="Time slot of " + chosen_section.get_name() + " has been updated.")
+            NotificationSystem.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Time slot of " + chosen_section.get_name() + " has been updated.")
         except (ValueError, IndexError):
             print("Enter a valid integer within the list range.")
 
     def update_classroom(self, chosen_section):
         print("Time slots of the selected course are listed below:")
-        for idx, slot in enumerate(chosen_section.time_slots, 1):
-            print(f"{idx}- {slot.day} {slot.time_interval} {slot.classroom}")
+        for idx, slot in enumerate(chosen_section.get_time_slots(), 1):
+            print(f"{idx}- {slot.get_day()} {slot.get_time_interval()} {slot.get_classroom()}")
         try:
             print("Which classroom do you want to update?")
-            chosen_time_slot = chosen_section.time_slots[int(input()) - 1]
-            day = chosen_time_slot.day
-            time_interval = chosen_time_slot.time_interval
+            chosen_time_slot = chosen_section.get_time_slots()[int(input()) - 1]
+            day = chosen_time_slot.get_day()
+            time_interval = chosen_time_slot.get_time_interval()
             available_classrooms = self.department_scheduler.handle_classroom_conflict(day, time_interval)
             for idx, room in enumerate(available_classrooms, 1):
                 print(f"{idx}- {room}")
             print("Choose a new classroom:")
-            chosen_time_slot.classroom = available_classrooms[int(input()) - 1]
+            chosen_time_slot.set_classroom(available_classrooms[int(input()) - 1])
             print("Classroom has been updated successfully.")
-            NotificationSystem.create_notification(sender=self, receiver=chosen_section.current_students, message="Classroom of " + chosen_section.get_name() + " has been updated.")
+            NotificationSystem.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Classroom of " + chosen_section.get_name() + " has been updated.")
         except (ValueError, IndexError):
             print("Enter a valid integer.")
 
     def update_lecturer(self, chosen_section):
         if self.lecturers:
-            print("Current lecturer is " + chosen_section.lecturer.get_name())
+            print("Current lecturer is " + chosen_section.get_lecturer().get_name())
         print("Choose a new lecturer:")
         for idx, lecturer in enumerate(self.lecturers, 1):
             print(f"{idx}- {lecturer.get_name()}")
         try:
             new_lecturer = self.lecturers[int(input()) - 1]
             if self.department_scheduler.handle_lecturer_conflict(new_lecturer, chosen_section):
-                chosen_section.lecturer = new_lecturer
+                chosen_section.set_lecturer(new_lecturer)
                 print("Lecturer has been updated successfully.")
             else:
                 print("Selected lecturer has a conflict with the course section.")
@@ -66,13 +66,13 @@ class DepartmentSchedulerInterface:
             print("Choose a course section:")
             section_no = int(input()) - 1
             chosen_section = self.course_sections[section_no]
-            if not chosen_section.lecturer:
+            if not chosen_section.get_lecturer():
                 print("Selected course does not have any lecturer yet.")
                 self.update_lecturer(chosen_section)
             if not chosen_section.time_slots:
                 print("Selected course does not have any time slot or classroom yet.")
                 self.set_time_slot(chosen_section)
-            if chosen_section.capacity == 0:
+            if chosen_section.get_capacity() == 0:
                 print("Capacity of the selected course has not been set yet.")
                 self.set_capacity(chosen_section)
             return chosen_section
@@ -95,7 +95,7 @@ class DepartmentSchedulerInterface:
                     case 2:
                         self.update_classroom(chosen_section)
                     case 3:
-                        print(f"Current capacity is {chosen_section.capacity}")
+                        print(f"Current capacity is {chosen_section.get_capacity()}")
                         print("Enter new capacity:")
                         new_capacity = int(input())
                         self.department_scheduler.manage_capacity(chosen_section, new_capacity)
@@ -139,11 +139,11 @@ class DepartmentSchedulerInterface:
     def show_available_course_sections(self):
         print("All available course sections are listed below:")
         for idx, section in enumerate(self.course_sections, 1):
-            course = section.parent_course
-            print(f"{idx}- {course.course_id}.{section.section_id}")
+            course = section.get_parent_course()
+            print(f"{idx}- {course.get_course_id()}.{section.get_section_id()}")
 
     def set_time_slot(self, chosen_section):
-        semester = chosen_section.parent_course.semester
+        semester = chosen_section.get_parent_course().get_semester()
         self.show_days(semester)
         print("Choose a day:")
         day = self.department_scheduler.get_available_days(
@@ -157,11 +157,11 @@ class DepartmentSchedulerInterface:
         self.show_classrooms(day, time_interval)
         print("Choose a classroom:")
         classroom = self.department_scheduler.handle_classroom_conflict(day, time_interval)[int(input()) - 1]
-        chosen_section.time_slots.append(TimeSlot(day, time_interval, classroom))
+        chosen_section.get_time_slots().append(TimeSlot(day, time_interval, classroom))
         while(True):
             print("Choose a lecturer:")
             for index in self.lecturers:
-                print(self.lecturers.get_id + "  " + self.lecturers.get_name)
+                print(self.lecturers[index].get_id() + "  " + self.lecturers[index].get_name())
             lecturer = self.lecturers[input()]
             if (self.department_scheduler.handle_lecturer_conflict(lecturer, chosen_section) == False):
                 print("Selected lecturer has a conflict with the course section. Please choose another one.")
@@ -173,5 +173,5 @@ class DepartmentSchedulerInterface:
 
     def set_capacity(self, chosen_section):
         print("Enter a capacity:")
-        chosen_section.capacity = int(input())
+        chosen_section.set_capacity(int(input()))
         print("Capacity has been set successfully.")

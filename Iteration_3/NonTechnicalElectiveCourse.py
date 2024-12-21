@@ -7,7 +7,5 @@ class NonTechnicalElectiveCourse(Course):
         else:
             super().__init__(course_id, course_name, credits)
 
-
-
     def get_course_type(self):
         return "Non-Technical Elective"
