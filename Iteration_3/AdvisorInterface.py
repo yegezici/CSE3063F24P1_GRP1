@@ -1,7 +1,7 @@
 from NotificationSystem import NotificationSystem
+from UserInterface import UserInterface
 
-
-class AdvisorInterface:
+class AdvisorInterface(UserInterface):
     def __init__(self, advisor=None):
         self.advisor = advisor
         self.scanner = None

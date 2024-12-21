@@ -21,26 +21,6 @@ class DepartmentScheduler(Lecturer):
         if self.handle_lecturer_conflict(lecturer, course_section):
             course_section.set_lecturer(lecturer)
 
-    def manage_capacity(self, course_section, new_capacity):
-        if new_capacity < course_section.capacity:
-            raise ValueError("New capacity cannot be smaller than the old capacity.")
-        size_increase = new_capacity - course_section.capacity
-        course_section.set_capacity(new_capacity)
-        self.manage_waitlist(course_section, size_increase)
-
-    def manage_waitlist(self, course_section, size):
-        try:
-            waitlist = course_section.get_wait_list()
-            for _ in range(size):
-                if not waitlist:
-                    break
-                student = waitlist.pop(0)
-                student.transcript.add_current_course(course_section.parent_course)
-                NotificationSystem.create_notification(sender=self, receiver=student, message="Capacity of " +course_section.get_name() + " has been updated, You are now registered to the course.")
-            course_section.set_wait_list(waitlist)
-        except Exception as e:
-            print(str(e))
-
 
     def handle_time_conflict(self, semester_courses, day):
         try:
