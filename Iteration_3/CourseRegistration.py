@@ -31,7 +31,7 @@ class CourseRegistration:
 
     def init(self):
         logger.info("Course Registration system is started.")
-
+        notificationSystem = NotificationSystem()  
         while True:
             current_user = self.login()
             if current_user is None:
@@ -41,20 +41,19 @@ class CourseRegistration:
                 break
             #logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
             while True:
-                if isinstance(current_user, Student):
-                    #NotificationSystem.print_user_notifications(current_user)
+                if isinstance(current_user, Student):     
                     user_interface = StudentInterface(current_user, self.courses)
                 elif isinstance(current_user, Advisor):
-                    #NotificationSystem.print_user_notifications(user=current_user)
+                    notificationSystem.print_user_notifications(user = current_user)
                     user_interface = AdvisorInterface(current_user)
                 elif isinstance(current_user, StudentAffairsStaff):
-                    #NotificationSystem.print_user_notifications(user=current_user)
+                    notificationSystem.print_user_notifications(user = current_user)
                     user_interface = StudentAffairsStaffInterface(current_user, self.courses, self.course_sections)
                 elif isinstance(current_user, DepartmentScheduler):
-                    #NotificationSystem.print_user_notifications(user=current_user)
+                    notificationSystem.print_user_notifications(user = current_user)
                     user_interface = DepartmentSchedulerInterface(current_user, self.course_sections)
                 elif isinstance(current_user, DepartmentHead):
-                    #NotificationSystem.print_user_notifications(user=current_user)
+                    notificationSystem.print_user_notifications(user = current_user)
                     user_interface = DepartmentHeadInterface(current_user, self.course_sections, self.courses)
                 if user_interface.show_menu():
                     break
@@ -67,7 +66,7 @@ class CourseRegistration:
         if input() == "1":
             entered_user_id = input("User ID: ")
             entered_password = input("Password: ")
-            return self.check_id_and_password(entered_user_id, entered_password)
+            return self.check_id_and_password(entered_user_id[1:], entered_password)
         else:
             logger.info("Program has been terminated succesfully.")
             return None
