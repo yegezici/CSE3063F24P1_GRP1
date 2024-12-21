@@ -54,3 +54,9 @@ class CourseSection:
 
     def add_student_to_section(self, student: 'Student') -> None:
         self.current_students.append(student)
+
+    def get_lecturer(self) -> Optional['Lecturer']:
+        return self.lecturer
+    
+    def set_lecturer(self, lecturer: 'Lecturer') -> None:
+        self.lecturer = lecturer

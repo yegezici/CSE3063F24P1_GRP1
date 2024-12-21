@@ -23,12 +23,15 @@ class Advisor(Lecturer):
                 student.transcript.delete_from_waited_sections(course_section)
 
             course_section.current_students.append(student)
+            print("The course has been approved.")
         except Exception as e:
             print(str(e))
 
-    def reject_course(self, student, course):
+    def reject_course(self, student, courseSection):
         try:
-            student.transcript.delete_from_waited_course(course)
+            student.transcript.delete_from_waited_course(courseSection.parent_course)
+            student.transcript.delete_from_waited_sections(courseSection)
+            print("The course has been rejected.")
         except Exception as e:
             print(str(e))
 
@@ -42,11 +45,14 @@ class Advisor(Lecturer):
         return self.students
 
     def check_section_conflict(self, student, course_section):
-        course_sections_of_student = student.transcript.current_sections
+        try:
+            course_sections_of_student = student.transcript.current_sections
 
-        for time_slot in course_section.time_slots:
-            for existing_section in course_sections_of_student:
-                for existing_time_slot in existing_section.time_slots:
-                    if time_slot.time_interval == existing_time_slot.time_interval:
-                        return False
-        return True
+            for time_slot in course_section.time_slots:
+                for existing_section in course_sections_of_student:
+                    for existing_time_slot in existing_section.time_slots:
+                        if time_slot.time_interval == existing_time_slot.time_interval:
+                            return False
+            return True
+        except Exception as e:
+            print(str(e))
