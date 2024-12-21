@@ -69,6 +69,18 @@ class SQLiteManagement:
         return courses
 
     
+    def init_time_intervals():
+        all_time_intervals = [
+            "8:30-9:20",
+            "9:30-10:20",
+            "10:30-11:20",
+            "11:30-12:20",
+            "12:30-13:20",
+            "13:30-14:20",
+            "14:30-15:20",
+            "15:30-16:20"
+        ]
+        return all_time_intervals
 
     
     def set_prerequisites(self) -> None:
@@ -416,25 +428,21 @@ class SQLiteManagement:
     #def get_department_head(self, headID: str) -> DepartmentHead(
 
     def get_deparment_scheduler(self, schedulerID: str) -> DepartmentScheduler:
-
         try:
             self.cursor.execute(f"SELECT * FROM DeparmentScheduler d WHERE d.scheduler = '{schedulerID}'")
             row = self.cursor.fetchone()
             if row:
-                advisor = DepartmentScheduler(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], ssn=row[0])
-                self.cursor.execute(f"select * from StudentsOfAdvisor s where s.advisorID = '{id}'")
-                rows = self.cursor.fetchall()
-                for row in rows:
-                    student = self.get_student_without_advisor(row[0])
-                    advisor.add_student(student)
-                self.advisors.append(advisor)
-                return advisor
+                depsch = DepartmentScheduler(name=row[1], surname=row[2], birthdate=row[3], gender=row[4],
+                                             id=schedulerID,
+                                             courses=self.courses,
+                                             course_sections=self.courseSections,
+                                             all_time_intervals= self.init_time_intervals())
+                return depsch
             else:
                 return None
         except sqlite3.Error as e:
             print("SQLite error:", e)
-            return None
-        return None      
+            return None 
 
     def check_student_exists(self, student_id: str) -> Student:
         try:
