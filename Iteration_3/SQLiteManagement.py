@@ -213,14 +213,14 @@ class SQLiteManagement:
 
     def save_time_slots(self) -> None:
         try:
-            # Mevcut TimeSlot kayıtlarını al
+            # Get existing data for time slots.
             self.cursor.execute("SELECT id, timeInterval, day, classroom, sectionID FROM TimeSlot")
             existing_time_slots = {
                 (row[1], row[2], row[3], row[4]): row[0]  # (timeInterval, day, classroom, sectionID): id
                 for row in self.cursor.fetchall()
             }
 
-            # Güncel kullanılacak TimeSlot'lar için bir set oluştur
+            # Create set for existing time slots in code.
             current_time_slots = set()
 
             for section in self.courseSections:
@@ -232,7 +232,7 @@ class SQLiteManagement:
 
                     current_time_slots.add((time_interval, day, classroom, section_id))
 
-                    # Eğer TimeSlot mevcutsa güncelle
+                    # If time slot exist already, update it.
                     if (time_interval, day, classroom, section_id) in existing_time_slots:
                         sql = '''
                         UPDATE TimeSlot
@@ -241,7 +241,7 @@ class SQLiteManagement:
                         '''
                         self.cursor.execute(sql, (time_interval, day, classroom, section_id, existing_time_slots[(time_interval, day, classroom, section_id)]))
                     else:
-                        # Mevcut değilse ekle
+                        # If time slot doesn't exist, create a new one.
                         sql = '''
                         INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID)
                         VALUES (?, ?, ?, ?)
