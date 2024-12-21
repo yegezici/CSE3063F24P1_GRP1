@@ -388,7 +388,7 @@ class SQLiteManagement:
                 currentSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "CurrentSection")
                 waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
                 transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
-                student = Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
+                student = Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0], courses= self.courses)
                 self.students.append(student)
                 return student
         except sqlite3.Error as e:

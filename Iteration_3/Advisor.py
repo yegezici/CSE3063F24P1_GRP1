@@ -1,7 +1,6 @@
 from datetime import date
 from typing import List
 from Lecturer import Lecturer
-
 class Advisor(Lecturer):
     def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', ssn: str ='', courses=None, students=None):
         super().__init__(name, surname, birthdate, gender, ssn, courses)
@@ -79,3 +78,7 @@ class Advisor(Lecturer):
     
     def get_id(self):
         return super().get_ssn()
+
+    def initialize_interface(self):
+        from AdvisorInterface import AdvisorInterface
+        return AdvisorInterface(self)
