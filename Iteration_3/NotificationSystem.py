@@ -17,9 +17,13 @@ class NotificationSystem:
         for notification in user_notifications:
             print(notification)
 
-    def create_notification(self, sender: 'Person' = None, receiver: 'Person' = None, message: str = None):
-        from Notification import Notification  # Local import to avoid circular dependency
-        self.__notifications.append(Notification(sender, receiver, message))
+
+    def create_notification(self, sender: Person, receiver: Person, message: str) -> None:
+        from SQLiteManagement import SQLiteManagement
+        manager = SQLiteManagement()
+        notification = Notification(sender, receiver, message)
+        self.__notifications.append(notification)
+        manager.save_notification(notification)
 
     def get_notifications(self):
         return self.__notifications
