@@ -123,7 +123,7 @@ class SQLiteManagement:
                 student.get_surname(), 
                 student.get_gender(), 
                 student.get_birthdate(), 
-                student.get_advisor().ssn
+                student.get_advisor().get_ssn()
             ))
             self.conn.commit()        
        
@@ -219,7 +219,10 @@ class SQLiteManagement:
             INSERT INTO CourseSection (sectionID, capacity, courseID, lecturerSSN)
             VALUES (?, ?, ?, ?)
             '''
-            self.cursor.execute(sql, (courseSection.get_section_id, courseSection.get_capacity, courseSection.parent_course.course_id, courseSection.get_lecturer_ssn()))
+            self.cursor.execute(sql, (courseSection.get_section_id(),
+                                      courseSection.get_capacity(),
+                                      courseSection.get_parent_course().get_course_id(),
+                                      courseSection.get_lecturer().get_ssn()))
             self.conn.commit()        
        
         except sqlite3.IntegrityError as e:
@@ -231,7 +234,11 @@ class SQLiteManagement:
             INSERT INTO Course (courseID, name, credit, prerequisiteID, courseType)
             VALUES (?, ?, ?, ?, ?)
             '''
-            self.cursor.execute(sql, (course.get_course_id(), course.get_name, course.get_credit, course.get_prerequisite_id, course.get_course_type()))
+            self.cursor.execute(sql, (course.get_course_id(),
+                                      course.get_course_name(),
+                                      course.get_credits(),
+                                      course.get_prerequisite_course().get_course_id(),
+                                      course.get_course_type()))
             self.conn.commit()
         except sqlite3.IntegrityError as e:
             logger.warning(f"Error: {e}")
