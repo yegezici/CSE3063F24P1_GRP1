@@ -203,7 +203,7 @@ class SQLiteManagement:
             INSERT INTO CourseSection (sectionID, capacity, courseID, lecturerSSN)
             VALUES (?, ?, ?, ?)
             '''
-            self.cursor.execute(sql, (courseSection.get_section_id, courseSection.get_capacity, courseSection.parent_course.course_id, courseSection.get_lecturer_ssn))
+            self.cursor.execute(sql, (courseSection.get_section_id, courseSection.get_capacity, courseSection.parent_course.course_id, courseSection.get_lecturer_ssn()))
             self.conn.commit()        
        
         except sqlite3.IntegrityError as e:
@@ -338,9 +338,16 @@ class SQLiteManagement:
                     parent_course = Course(course_id, name, credit, prerequisite_id, course_type)
         
                 # Step 3: Fetch TimeSlots for the Section
-                self.cursor.execute("SELECT day, timeInterval, classroom FROM TimeSlot WHERE sectionID = ?;", (section_id,))
+                self.cursor.execute("SELECT id, day, timeInterval, classroom FROM TimeSlot WHERE sectionID = ?;", (section_id,))
                 time_slots_data = self.cursor.fetchall()
-                time_slots = [TimeSlot(day=row[0], time_interval=row[1], classroom=row[2]) for row in time_slots_data]
+                time_slots = [
+                    TimeSlot(
+                        day=row[1], 
+                        time_interval=row[2], 
+                        classroom=row[3], 
+                    ) 
+                    for row in time_slots_data
+                ]
 
                 # Step 4: Create CourseSection Object
                 course_section = CourseSection(
