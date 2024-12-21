@@ -4,8 +4,8 @@ from TimeSlot import TimeSlot
 from NotificationSystem import NotificationSystem
 from DepartmentScheduler import DepartmentScheduler
 from Lecturer import Lecturer
-
-class DepartmentSchedulerInterface:
+from UserInterface import UserInterface
+class DepartmentSchedulerInterface(UserInterface):
     def __init__(self, department_scheduler: 'DepartmentScheduler', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]'):
         self.department_scheduler = department_scheduler
         self.course_sections = course_sections
@@ -72,9 +72,6 @@ class DepartmentSchedulerInterface:
             if not chosen_section.time_slots:
                 print("Selected course does not have any time slot or classroom yet.")
                 self.set_time_slot(chosen_section)
-            if chosen_section.get_capacity() == 0:
-                print("Capacity of the selected course has not been set yet.")
-                self.set_capacity(chosen_section)
             return chosen_section
         except (ValueError, IndexError):
             print("Enter a valid integer within the list range.")
@@ -94,12 +91,7 @@ class DepartmentSchedulerInterface:
                         self.update_time_interval(chosen_section)
                     case 2:
                         self.update_classroom(chosen_section)
-                    case 3:
-                        print(f"Current capacity is {chosen_section.get_capacity()}")
-                        print("Enter new capacity:")
-                        new_capacity = int(input())
-                        self.department_scheduler.manage_capacity(chosen_section, new_capacity)
-                    case 4: 
+                    case 3: 
                         self.update_lecturer(chosen_section)
                     case _:
                         print("Enter a number between 1 and 3.")
@@ -107,7 +99,7 @@ class DepartmentSchedulerInterface:
             return True
 
     def get_choice(self):
-        print("Choose an operation:\n1- Update time interval\n2- Update classroom\n3- Manage Capacity")
+        print("Choose an operation:\n1- Update time interval\n2- Update classroom\n3- Assign lecturer")
         try:
             return int(input())
         except ValueError:
@@ -170,8 +162,3 @@ class DepartmentSchedulerInterface:
                 chosen_section.set_lecturer(lecturer)
                 break
         print("Selected time slot and classroom has been assigned.")
-
-    def set_capacity(self, chosen_section):
-        print("Enter a capacity:")
-        chosen_section.set_capacity(int(input()))
-        print("Capacity has been set successfully.")
