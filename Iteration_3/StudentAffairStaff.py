@@ -14,7 +14,7 @@ class StudentAffairsStaff(Staff):
     def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int) -> Course:
         course = None
         if course_type == "m":
-            course = MandatoryCourse(course_name, course_id, credits)
+            course = MandatoryCourse(course_id, course_name, credits)
         elif course_type == "te":
             course = TechnicalElectiveCourse(course_id, course_name, credits)
         elif course_type == "nte":
