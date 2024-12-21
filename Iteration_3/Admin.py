@@ -29,9 +29,11 @@ class Admin(Staff):
         except Exception as e:
             logger.warning(str(e))
     
-    def delete_student(self, student):
+    def delete_student(self, student_id_to_be_deleted: str):
         try:
             #SqliteManager.delete_student(student)
+            for student in self.students:
+                if student.get_id() == student_id_to_be_deleted:
             self.students.remove(student)
         except Exception as e:
             logger.warning(str(e))

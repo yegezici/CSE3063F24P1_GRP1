@@ -26,8 +26,7 @@ class CourseRegistration:
         self.courses = self.manager.get_courses()
         self.course_sections = self.manager.get_course_sections()
         self.advisors = self.manager.get_advisors()
-        
-
+        self.notificationSystem = NotificationSystem()
 
     def init(self):
         logger.info("Course Registration system is started.")
@@ -44,18 +43,23 @@ class CourseRegistration:
                 user_interface = current_user.initialize_interface()
                 """
                 if isinstance(current_user, Student):     
-                    user_interface = StudentInterface(current_user, self.courses)
+                    user_interface = StudentInterface(current_user, self.courses, self.notificationSystem)
                 elif isinstance(current_user, Advisor):
                     notificationSystem.print_user_notifications(user = current_user)
                     user_interface = AdvisorInterface(current_user)
+                    user_interface = AdvisorInterface(current_user, self.notificationSystem)
+                elif isinstance(current_user, StudentAffairsStaff):
+                    notificationSystem.print_user_notifications(user = current_user)
+                    user_interface = StudentAffairsStaffInterface(current_user, self.courses, self.course_sections, self.notificationSystem)
                 elif isinstance(current_user, DepartmentScheduler):
                     notificationSystem.print_user_notifications(user = current_user)
-                    user_interface = DepartmentSchedulerInterface(current_user, self.course_sections)
+                    user_interface = DepartmentSchedulerInterface(current_user, self.course_sections, self.notificationSystem)
                 elif isinstance(current_user, DepartmentHead):
                     notificationSystem.print_user_notifications(user = current_user)
                     user_interface = DepartmentHeadInterface(current_user, self.course_sections, self.courses)
                 """
                 if user_interface.show_menu():
+#-------------------------------BU KISIMDA NOTIFICATIONLARIN KAYDEDILMESI GEREKMEKTEDIR---------------------------------
                     break
 
 
