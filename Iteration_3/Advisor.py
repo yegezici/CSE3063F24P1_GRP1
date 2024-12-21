@@ -5,7 +5,7 @@ from Lecturer import Lecturer
 class Advisor(Lecturer):
     def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', ssn: str ='', courses=None, students=None):
         super().__init__(name, surname, birthdate, gender, ssn, courses)
-        self.students = students or []
+        self.__students = students or []
 
     def approve_course(self, student, course_section):
         try:
@@ -37,12 +37,16 @@ class Advisor(Lecturer):
 
     def add_student(self, student):
         try:
-            self.students.append(student)
+            self.__students.append(student)
         except Exception as e:
             print(str(e))
 
     def get_students(self) -> List:
-        return self.students
+        try:
+            return self.__students
+        except Exception as e:
+            print(str(e))
+            return []
 
     def check_section_conflict(self, student, course_section):
         try:
@@ -56,3 +60,4 @@ class Advisor(Lecturer):
             return True
         except Exception as e:
             print(str(e))
+            return False
