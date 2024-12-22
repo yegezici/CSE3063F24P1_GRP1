@@ -51,3 +51,6 @@ class CourseSection:
 
     def set_wait_list(self, wait_list: List['Student']) -> None:
         self.wait_list = wait_list
+
+    def has_capacity(self) -> bool:
+        return len(self.__current_students) < self.__capacity

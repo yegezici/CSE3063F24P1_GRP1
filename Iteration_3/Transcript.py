@@ -4,8 +4,8 @@ class Transcript:
         self.__completed_courses = completed_courses or []
         self.__current_courses = current_courses or []
         self.__waited_courses = waited_courses or []
-        self.__current_sections = current_sections or self.add_course_sections(self.__current_courses)
-        self.__waited_sections = waited_sections or self.add_course_sections(self.__waited_courses)
+        self.__current_sections = current_sections or []
+        self.__waited_sections = waited_sections or []
         self.semester = semester
 
     def add_completed_course(self, course):
