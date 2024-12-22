@@ -89,19 +89,19 @@ class Admin(Staff):
 
    # Getter and Setter for name
     def get_name(self):
-        return super().get_name()
+        return self.__name
 
     # Getter and Setter for surname
     def get_surname(self):
-        return super().get_surname()
+        return self.__surname
 
     # Getter and Setter for birthdate
     def get_birthdate(self):
-        return super().get_birthdate()
+        return self.__birthdate
 
     # Getter and Setter for ssn
     def get_ssn(self):
-        return super().get_ssn()
+        return self.__ssn
     
      # Getter and Setter for students
     def get_students(self):
