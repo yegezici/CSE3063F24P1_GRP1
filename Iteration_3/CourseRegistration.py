@@ -36,8 +36,6 @@ class CourseRegistration:
             if current_user is None:
                 continue
 
-            if isinstance(current_user, Lecturer) and not isinstance(current_user, Advisor):
-                break
             #logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
             while True:
                 user_interface = current_user.initialize_interface()
