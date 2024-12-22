@@ -64,19 +64,19 @@ class Advisor(Lecturer):
 
     def get_birthdate(self):
         return super().get_birthdate()
-
+   
     def get_courses(self):
         return super().get_courses()
-
+    
     def get_gender(self):
         return super().get_gender()
-
+    
     def get_name(self):
         return super().get_name()
-
+    
     def get_surname(self):
         return super().get_surname()
-
+    
     def get_id(self):
         return super().get_id()
 
