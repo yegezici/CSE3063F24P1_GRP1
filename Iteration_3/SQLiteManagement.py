@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 import sqlite3
 from Student import Student
 from CourseSection import CourseSection
@@ -415,8 +415,17 @@ class SQLiteManagement:
                 waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
                 transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
                 # Change string date value into the Date object.
-                birthdate_str = row[3]  
-                birthdate = datetime.strptime(birthdate_str, "%Y-%m-%d").date()
+                birthdate_str = row[4]  
+                birthdate = None
+                if birthdate_str:  # Eğer veri boş değilse
+                    try:
+                        # Tarihi parse et
+                        birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
+                    except ValueError:
+                        print(f"Invalid date format: {birthdate_str}, setting default date.")
+                        birthdate = date(1970, 1, 1)  # Varsayılan bir tarih ata
+                else:
+                    birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
                 student = Student(name= row[1], surname=row[2], birthdate=birthdate, gender=row[3], transcript=transcript, student_id=row[0])
                 student.set_interface(StudentInterface(student, self.courses, self.__notificationSystem))
                 self.students.append(student)
@@ -449,7 +458,16 @@ class SQLiteManagement:
             if row:
                 # Change string date value into the Date object.
                 birthdate_str = row[3]  
-                birthdate = datetime.strptime(birthdate_str, "%Y-%m-%d").date()
+                birthdate = None
+                if birthdate_str:  # Eğer veri boş değilse
+                    try:
+                        # Tarihi parse et
+                        birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
+                    except ValueError:
+                        print(f"Invalid date format: {birthdate_str}, setting default date.")
+                        birthdate = date(1970, 1, 1)  # Varsayılan bir tarih ata
+                else:
+                    birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
                 
                 advisor = Advisor(name=row[1], surname=row[2], birthdate= birthdate, gender=row[4], ssn=row[0])
                 self.cursor.execute(f"select * from StudentsOfAdvisor s where s.advisorID = '{id}'")
@@ -475,7 +493,16 @@ class SQLiteManagement:
             if row:
                 # Change string date value into the Date object.
                 birthdate_str = row[3]  
-                birthdate = datetime.strptime(birthdate_str, "%Y-%m-%d").date()
+                birthdate = None
+                if birthdate_str:  # Eğer veri boş değilse
+                    try:
+                        # Tarihi parse et
+                        birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
+                    except ValueError:
+                        print(f"Invalid date format: {birthdate_str}, setting default date.")
+                        birthdate = date(1970, 1, 1)  # Varsayılan bir tarih ata
+                else:
+                    birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
 
                 dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4], id=headID,)
                 #BURADAKI self.advisors LECTURER LISTI OLDUGUNDA DUZELTILECEK
@@ -495,7 +522,16 @@ class SQLiteManagement:
             if row:
                 # Change string date value into the Date object.
                 birthdate_str = row[3]  
-                birthdate = datetime.strptime(birthdate_str, "%Y-%m-%d").date()
+                birthdate = None
+                if birthdate_str:  # Eğer veri boş değilse
+                    try:
+                        # Tarihi parse et
+                        birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
+                    except ValueError:
+                        print(f"Invalid date format: {birthdate_str}, setting default date.")
+                        birthdate = date(1970, 1, 1)  # Varsayılan bir tarih ata
+                else:
+                    birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
 
                 depsch = DepartmentScheduler(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4],
                                              id=schedulerID,
