@@ -81,7 +81,7 @@ class SQLiteManagement:
         return courses
 
     
-    def init_time_intervals():
+    def init_time_intervals(self):
         all_time_intervals = [
             "8:30-9:20",
             "9:30-10:20",
@@ -431,8 +431,6 @@ class SQLiteManagement:
         if row:
             advisor = self.get_advisor(row[1])
             student.set_advisor(advisor)
-        for student in self.students:
-            logger.info('student:' + student.get_id())
         return student
 
         
@@ -519,11 +517,10 @@ class SQLiteManagement:
                 else:
                     birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
 
-                depsch = DepartmentScheduler(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4],
-                                             id=schedulerID,
-                                             courses=self.courses,
-                                             course_sections=self.courseSections,
-                                             all_time_intervals= self.init_time_intervals())
+                depsch = DepartmentScheduler(row[1], row[2], birthdate, row[4],
+                                             schedulerID,
+                                             self.courseSections,
+                                             self.init_time_intervals())
                 depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch,course_sections= self.courseSections, lecturers= self.advisors, notification_system= self.__notificationSystem))
                 return depsch
             else:

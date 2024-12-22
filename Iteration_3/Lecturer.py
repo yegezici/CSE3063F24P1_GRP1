@@ -6,8 +6,8 @@ if TYPE_CHECKING:
     from Course import Course
 
 class Lecturer(Staff):
-    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, id: str = None, courses: List['Course'] = None):
-        super().__init__(name, surname, birthdate, gender, id)
+    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None, courses: List['Course'] = None):
+        super().__init__(name, surname, birthdate, gender, ssn)
         self.__courses = courses if courses else []
 
     def get_courses(self):
@@ -16,6 +16,10 @@ class Lecturer(Staff):
     def set_courses(self, courses: List['Course']):
         self.__courses = courses
 
+
+    def get_id(self):
+        return super().get_ssn()
+      
     def get_name(self):
         return super().get_name()
 
@@ -27,6 +31,4 @@ class Lecturer(Staff):
 
     def get_gender(self):
         return super().get_gender()
-    
-    def get_id(self):
-        return super().get_ssn()
+
