@@ -29,11 +29,13 @@ class SQLiteManagement:
         self.courses = self.initialize_courses()            
         self.courseSections = self.initialize_courseSections()
         self.set_prerequisites()
-        self.students = []
         self.advisors = []
-        self.__notificationSystem = self.initialize_notification_system()
         self.initiate_advisors()
         self.lecturers = self.initialize_lecturers()
+        self.set_lecturer_to_sections()
+        self.students = []
+        self.__notificationSystem = self.initialize_notification_system()
+
         
     def get_students(self) -> list[Student]:
         return self.students
@@ -46,6 +48,16 @@ class SQLiteManagement:
     def get_notification_system(self) -> NotificationSystem:
         return self.__notificationSystem
     
+    def set_lecturer_to_sections(self) -> None:
+        for section in self.courseSections:
+            self.cursor.execute("SELECT lecturerSSN FROM CourseSection WHERE sectionID = ?", (section.get_section_id(),))
+            row = self.cursor.fetchone()
+            if row:
+                for lecturer in self.lecturers:
+                    if lecturer.get_ssn() == row[0]:
+                        section.set_lecturer(lecturer)
+            
+        
     def print_table(self, table_name: str) ->None:        
         try:
             self.cursor.execute(f"SELECT * FROM {table_name}")
