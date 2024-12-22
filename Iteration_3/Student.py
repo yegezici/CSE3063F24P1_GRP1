@@ -6,24 +6,32 @@ from CourseSection import CourseSection
 
 class Student(Person):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, transcript: 'Transcript' = None, student_id: str = None,):
-        super().__init__(name, surname, birthdate, gender, student_id)
+        self.__name = name
+        self.__surname = surname
+        self.__birthdate = birthdate
+        self.__gender = gender
         self.__transcript = transcript
+        self.__id = student_id
         self.__advisor = None
         self.__interface = None
+
     def get_name(self):
-        return super().get_name()
+        return self.__name
 
     def get_surname(self):
-        return super().get_surname()
+        return self.__surname
 
     def get_birthdate(self):
-        return super().get_birthdate()
+        return self.__birthdate
 
     def get_gender(self):
-        return super().get_gender()
+        return self.__gender
 
     def get_id(self) -> str:        
-        return super().get_ssn()
+        return self.__id
+    
+    def get_ssn(self):
+        return self.__id
 
     def get_transcript(self):
         return self.__transcript

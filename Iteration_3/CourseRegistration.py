@@ -30,7 +30,7 @@ class CourseRegistration:
 
     def init(self):
         logger.info("Course Registration system is started.")
-        notificationSystem = NotificationSystem()  
+        notification_system = self.manager.get_notification_system()  
         while True:
             current_user = self.login()
             if current_user is None:
@@ -39,6 +39,7 @@ class CourseRegistration:
             #logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
             while True:
                 user_interface = current_user.initialize_interface()
+                #notification_system.print_user_notifications(user = current_user)
                 """
                 if isinstance(current_user, Student):     
                     user_interface = StudentInterface(current_user, self.courses, self.notificationSystem)
