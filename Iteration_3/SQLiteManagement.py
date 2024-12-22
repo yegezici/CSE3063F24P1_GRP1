@@ -663,14 +663,14 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO Notification (receiverID, senderID, notificationMessage) VALUES (?, ?, ?);",
                                 (receiver.get_ssn(), sender.get_ssn(), message))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
             
     def delete_notification(self, notification : Notification)-> None:
         try:
             self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}' AND senderID = '{notification.get_sender().get_ssn()}' AND message = '{notification.get_message()}'")
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
             
