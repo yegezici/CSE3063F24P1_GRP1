@@ -26,7 +26,7 @@ class DepartmentHeadInterface(UserInterface):
                 print(f"Current capacity is {chosen_section.get_capacity()}")
                 print("Enter new capacity:")
                 new_capacity = int(input())
-                self.department_head.manage_capacity(chosen_section, new_capacity, self.notification_system)
+                self.department_head.manage_capacity(chosen_section, new_capacity, self.__notification_system)
             elif choice == 3:
                 print("You have successfully logged out\n")
                 return True
@@ -34,7 +34,7 @@ class DepartmentHeadInterface(UserInterface):
                 print("Enter 1 or 2.")
 
     def get_choice(self):
-        print("1-  Add Course\n2-  Manage Capacity\nSelect an operation: ", end="")
+        print("1-  Add Course\n2-  Manage Capacity\n3-  Log Out\nSelect an operation: ", end="")
         try:
             choice = int(input())
         except ValueError:
