@@ -55,12 +55,13 @@ class SQLiteManagement:
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
         row = self.cursor.fetchone()
+        
         if row:
             if row[2] == 'S':
                 return self.get_student(row[0])
             if row[2] == 'A':
                 return self.get_advisor(row[0])
-            if row[2] == 'S':
+            if row[2] == 'D':
                 return self.get_deparment_scheduler(row[0])
             if row[2] == 'H':
                 return self.get_department_head(row[0])
@@ -630,7 +631,7 @@ class SQLiteManagement:
                     return self.get_student(row[0])
                 if row[2] == 'A':
                     return self.get_advisor(row[0])
-                if row[2] == 'S':
+                if row[2] == 'D':
                     return self.get_deparment_scheduler(row[0])
                 if row[2] == 'H':
                     return self.get_department_head(row[0])
