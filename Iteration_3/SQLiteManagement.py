@@ -591,24 +591,28 @@ class SQLiteManagement:
                     return self.get_student(row[0])
                 if row[2] == 'A':
                     return self.get_advisor(row[0])
+                if row[2] == 'S':
+                    return self.get_deparment_scheduler(row[0])
+                if row[2] == 'H':
+                    return self.get_department_head(row[0])
         except sqlite3.Error as e:
             print("SQLite error:", e)
             return None
         
     def initialize_notification_system(self)-> NotificationSystem:
         try:
-            self.cursor.execute(f"SELECT (receiverID, senderID, message) FROM Notification")
+            self.cursor.execute(f"SELECT * FROM Notification")
             rows = self.cursor.fetchall()
             notifications = []
             notification_system = NotificationSystem()
             for row in rows:
-                receiver = self.get_user(row[0])
-                sender = self.get_user(row[1])
-                notification = Notification(sender, receiver, row[2])
+                receiver = self.get_user(row[1])
+                sender = self.get_user(row[2])
+                notification = Notification(sender, receiver, row[3])
                 notification_system.get_notifications().append(notification)
             return notification_system
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            print("SQLite error: HATA BURADA", e)
         except: 
             print("There is an error in initialize_notification_system function in SQLiteManagement.py")
             return NotificationSystem()

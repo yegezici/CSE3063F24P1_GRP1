@@ -642,7 +642,7 @@ CREATE TABLE Notification(
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	receiverID NVARCHAR(50),
 	senderID NVARCHAR(50),
-	message NVARCHAR(100)
+	notificationMessage NVARCHAR(100)
 );
 
 
