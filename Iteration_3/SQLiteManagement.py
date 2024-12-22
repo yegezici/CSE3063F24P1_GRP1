@@ -55,10 +55,12 @@ class SQLiteManagement:
             logger.warning("SQLite error:", e)
 
     def initiate_advisors(self) -> None:
-        self.cursor.execute("SELECT * FROM Advisor")
+        self.cursor.execute("SELECT * FROM User Where userType = 'A'")
         rows = self.cursor.fetchall()
         for row in rows:
-            self.advisors.append(Advisor(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], ssn=row[0]))
+            self.cursor.execute("SELECT * FROM Lecturer where ssn = ?", (row[0],))
+            lecturer = self.cursor.fetchone()
+            self.advisors.append(Advisor(name=lecturer[1], surname=lecturer[2], birthdate=lecturer[3], gender=lecturer[4], ssn=lecturer[0]))
 
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
