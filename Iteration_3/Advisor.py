@@ -17,7 +17,7 @@ class Advisor(Lecturer):
                 student.get_transcript().add_current_section(course_section)
 
                 for course in student.get_transcript().get_waited_courses()[:]:
-                    if course.course_id == course_section.get_parent_course().course_id:
+                    if course.get_course_id() == course_section.get_parent_course().get_course_id():
                         student.get_transcript().delete_from_waited_course(course)
 
                 student.get_transcript().delete_from_waited_sections(course_section)
@@ -64,19 +64,19 @@ class Advisor(Lecturer):
 
     def get_birthdate(self):
         return super().get_birthdate()
-
+   
     def get_courses(self):
         return super().get_courses()
-
+    
     def get_gender(self):
         return super().get_gender()
-
+    
     def get_name(self):
         return super().get_name()
-
+    
     def get_surname(self):
         return super().get_surname()
-
+    
     def get_id(self):
         return super().get_id()
 

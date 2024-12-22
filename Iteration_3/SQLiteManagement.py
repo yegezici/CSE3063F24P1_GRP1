@@ -142,46 +142,94 @@ class SQLiteManagement:
             logger.warning(f"Error: {e}")
     
     def save_all_students(self) -> None:
-        
         for student in self.students:
             try:
                 logger.info(f"Saving student {student.get_id()}")
                 self.save_current_section_of_student(student)
                 self.save_waited_section_of_student(student)
+                self.save_current_courses_of_student(student)
+                self.save_waited_courses_of_student(student)
             except Exception as e:
                 logger.warning(f"Error while saving student {student.get_id()}: {e}")
     
+    def save_current_courses_of_student(self, student: Student) -> None:
+        try:
+            # Delete all current courses for the student
+            delete_sql = '''
+            DELETE FROM CurrentCourse WHERE studentID = ?
+            '''
+            self.cursor.execute(delete_sql, (student.get_id(),))
+
+            # Get Transcript object of the Student object. 
+            transcript = student.get_transcript()
+            current_courses = transcript.get_current_courses()
+
+            # Insert current courses
+            for course in current_courses:
+                course_id = course.get_course_id()
+                sql = '''
+                INSERT INTO CurrentCourse (studentID, courseID)
+                VALUES (?, ?)
+                '''
+                self.cursor.execute(sql, (student.get_id(), course_id))
+
+            self.conn.commit()
+        except sqlite3.Error as e:
+            logger.warning(f"SQLite error while saving CurrentCourse: {e}")
+        except:
+            logger.warning(f"Error while saving CurrentCourse for {student.get_id()}")
+    
+    def save_waited_courses_of_student(self, student: Student) -> None:
+        try:
+            # Delete all waited courses for the student
+            delete_sql = '''
+            DELETE FROM WaitedCourse WHERE studentID = ?
+            '''
+            self.cursor.execute(delete_sql, (student.get_id(),))
+
+            # Get Transcript object of the Student object. 
+            transcript = student.get_transcript()
+            waited_courses = transcript.get_waited_courses()
+
+            # Insert waited courses
+            for course in waited_courses:
+                course_id = course.get_course_id()
+                sql = '''
+                INSERT INTO WaitedCourse (studentID, courseID)
+                VALUES (?, ?)
+                '''
+                self.cursor.execute(sql, (student.get_id(), course_id))
+
+            self.conn.commit()
+        except sqlite3.Error as e:
+            logger.warning(f"SQLite error while saving WaitedCourse: {e}")
+        except:
+            logger.warning(f"Error while saving WaitedCourse for {student.get_id()}")
     #Function to save student current section information into the database.
     def save_current_section_of_student(self, student: Student) -> None:
         try:
+            # Delete all current sections for the student
+            delete_sql = '''
+            DELETE FROM CurrentSection WHERE studentID = ?
+            '''
+            self.cursor.execute(delete_sql, (student.get_id(),))
+
             # Get Transcript object of the Student object. 
             transcript = student.get_transcript()
             # Get CurrentSection list from transcript object. 
             current_sections = transcript.get_current_sections()
 
-            # Her bir CurrentSection için kontrol yapılır
+            # Insert current sections
             for section in current_sections:
                 section_id = section.get_section_id()  # Get Section ID
                 course = section.get_parent_course()  # Get Parent Course object.
                 course_id = course.get_course_id()    # Get Course ID of Parent Course object.
 
-                # Öncelikle aynı kaydın olup olmadığını kontrol et
-                check_sql = '''
-                SELECT COUNT(*) FROM CurrentSection 
-                WHERE studentID = ? AND courseID = ? AND courseSectionID = ?
+                sql = '''
+                INSERT INTO CurrentSection (studentID, courseID, courseSectionID)
+                VALUES (?, ?, ?)
                 '''
-                self.cursor.execute(check_sql, (student.get_id(), course_id, section_id))
-                record_exists = self.cursor.fetchone()[0]
-
-                # Eğer kayıt yoksa, ekleme işlemi yapılır
-                if record_exists == 0:
-                    sql = '''
-                    INSERT INTO CurrentSection (studentID, courseID, courseSectionID)
-                    VALUES (?, ?, ?)
-                    '''
-                    self.cursor.execute(sql, (student.get_id(), course_id, section_id))
-                else:
-                    logger.info(f"{student.get_id()} için {course_id} - {section_id} kaydı zaten mevcut.")
+                self.cursor.execute(sql, (student.get_id(), course_id, section_id))
 
             # Commit işlemi yapılır
             self.conn.commit()
@@ -194,34 +242,28 @@ class SQLiteManagement:
     #Function to save student waited section information into the database.
     def save_waited_section_of_student(self, student: Student) -> None:
         try:
+            # Delete all waited sections for the student
+            delete_sql = '''
+            DELETE FROM WaitedSection WHERE studentID = ?
+            '''
+            self.cursor.execute(delete_sql, (student.get_id(),))
+
             # Get Transcript object of the Student object. 
             transcript = student.get_transcript()
             # WaitedSection'lar alınır
             waited_sections = transcript.get_waited_sections()
 
-            # Her bir WaitedSection için kontrol yapılır
+            # Insert waited sections
             for section in waited_sections:
                 section_id = section.get_section_id()  # Get Section ID
                 course = section.get_parent_course()  # Get Parent Course object.
                 course_id = course.get_course_id()    # Get Course ID of Parent Course object.
 
-                # Öncelikle aynı kaydın olup olmadığını kontrol et
-                check_sql = '''
-                SELECT COUNT(*) FROM WaitedSection 
-                WHERE studentID = ? AND courseID = ? AND courseSectionID = ?
+                sql = '''
+                INSERT INTO WaitedSection (studentID, courseID, courseSectionID)
+                VALUES (?, ?, ?)
                 '''
-                self.cursor.execute(check_sql, (student.get_id(), course_id, section_id))
-                record_exists = self.cursor.fetchone()[0]
-
-                # Eğer kayıt yoksa, ekleme işlemi yapılır
-                if record_exists == 0:
-                    sql = '''
-                    INSERT INTO WaitedSection (studentID, courseID, courseSectionID)
-                    VALUES (?, ?, ?)
-                    '''
-                    self.cursor.execute(sql, (student.get_id(), course_id, section_id))
-                else:
-                    logger.info(f"{student.get_id()} için {course_id} - {section_id} kaydı zaten mevcut.")
+                self.cursor.execute(sql, (student.get_id(), course_id, section_id))
 
             # Commit işlemi yapılır
             self.conn.commit()
@@ -349,6 +391,8 @@ class SQLiteManagement:
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
         
+
+
     def initialize_courseSections(self) -> list:
         courseSections = []
          # Step 1: Query all CourseSections
@@ -563,7 +607,7 @@ class SQLiteManagement:
                                 (student.get_id(), password, 'S')),
             self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
                                 (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
             
@@ -572,7 +616,7 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"DELETE FROM Student WHERE studentID = '{student.get_id()}'")
             self.cursor.execute(f"DELETE FROM User WHERE UserID = '{student.get_id()}'")
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
        
@@ -586,7 +630,7 @@ class SQLiteManagement:
             for student in advisor.get_students():
                 self.cursor.execute(f"INSERT INTO StudentOfAdvisor (studentID, advisorID) VALUES (?, ?);",
                                     (student.get_id(), advisor.get_ssn()))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
             
@@ -597,7 +641,7 @@ class SQLiteManagement:
             self.cursor.execute(f"DELETE FROM User WHERE UserID = '{advisor.get_ssn()}'")
             for student in advisor.get_students():
                 self.cursor.execute(f"DELETE FROM StudentOfAdvisor WHERE advisorID = '{advisor.get_ssn()}'")         
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_advisor function in SQLiteManagement.py\nAdvisor is not deleted.\nSQLite error:", e)
     
@@ -606,7 +650,7 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
                                 (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
             
@@ -614,7 +658,7 @@ class SQLiteManagement:
     def delete_lecturer(self, lecturer: Lecturer) -> None:
         try:
             self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{lecturer.get_ssn()}'")
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_lecturer function in SQLiteManagement.py\nLecturer is not deleted.\nSQLite error:", e)
     
@@ -623,7 +667,7 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO DepartmentScheduler (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
                                 (department_scheduler.get_ssn(), department_scheduler.get_name(), department_scheduler.get_surname(), str(department_scheduler.get_birthdate()), department_scheduler.get_gender()))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_department_scheduler function.\nDepartment Scheduler is not added.\nSQLite error:", e)
     
@@ -631,7 +675,7 @@ class SQLiteManagement:
     def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:     
         try:
             self.cursor.execute(f"DELETE FROM DepartmentScheduler WHERE ssn = '{department_scheduler.get_ssn()}'")
-            self.connection.commit()        
+            self.conn.commit()        
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_department_scheduler function in SQLiteManagement.py\nDepartment Scheduler is not deleted.\nSQLite error:", e)
 
@@ -680,18 +724,22 @@ class SQLiteManagement:
             logger.warning("SQLite error:", e)
     def save_notification(self, receiver : Person, sender : Person, message : str)-> None:
         try:
-            self.cursor.execute(f"INSERT INTO Notification (receiverID, senderID, message) VALUES (?, ?, ?);",
+            self.cursor.execute(f"INSERT INTO Notification (receiverID, senderID, notificationMessage) VALUES (?, ?, ?);",
                                 (receiver.get_ssn(), sender.get_ssn(), message))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
+        except:
+            logger.warning("There is an error in save_notification function in SQLiteManagement.py")
             
     def delete_notification(self, notification : Notification)-> None:
         try:
-            self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}' AND senderID = '{notification.get_sender().get_ssn()}' AND message = '{notification.get_message()}'")
-            self.connection.commit()
+            self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}' AND senderID = '{notification.get_sender().get_ssn()}' AND notificationMessage = '{notification.get_message()}'")
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
-            
-    
+        except:
+            logger.warning("There is an error in delete_notification function in SQLiteManagement.py")
+
+
 
