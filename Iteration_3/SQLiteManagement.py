@@ -328,7 +328,7 @@ class SQLiteManagement:
                                     
             return courses
         except sqlite3.Error as e:
-            logger.warning("SQLite error:", e)
+            logger.warning("SQLite error:", e)  
     
     def get_course_sections_from_course(self, student_id: str, courseSectionList_type: str) -> list:
         courseSectionList = []
@@ -339,21 +339,7 @@ class SQLiteManagement:
                 storedSection = row[2]
                 for section in self.courseSections:
                     if section.get_section_id() == storedSection:
-                        courseSectionList.append(section)
-
-            return courseSectionList
-        except sqlite3.Error as e:
-            logger.warning("SQLite error:", e)
-    
-    def get_course_sections_from_course(self, student_id: str, courseSectionList_type: str) -> list:
-        courseSectionList = []
-        try:
-            self.cursor.execute(f"SELECT * FROM {courseSectionList_type} t WHERE t.studentID = '{student_id}'")
-            rows = self.cursor.fetchall()
-            for row in rows:
-                storedSection = row[2]
-                for section in self.courseSections:
-                    if section.get_section_id() == storedSection:
+                        print(courseSectionList_type + "Buraya girdim ve " + storedSection + " ekledim.")
                         courseSectionList.append(section)
 
             return courseSectionList
