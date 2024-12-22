@@ -1,6 +1,5 @@
-from Iteration_3.Staff import Staff
+from Staff import Staff
 from Logging_Config import logger
-from SQLiteManagement import SqliteManager
 from typing import List,Optional
 from datetime import date
 class Admin(Staff):
