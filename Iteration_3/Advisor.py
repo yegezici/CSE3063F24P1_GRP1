@@ -63,22 +63,22 @@ class Advisor(Lecturer):
             return False
     
     def get_birthdate(self):
-        return self.__birthdate
+        return super().get_birthdate()
     
     def get_courses(self):
-        return self.__courses
+        return super().get_courses()
     
     def get_gender(self):
-        return self.__gender
+        return super().get_gender()
     
     def get_name(self):
-        return self.__name
+        return super().get_name()
     
     def get_surname(self):
-        return self.__surname
+        return super().get_surname()
     
     def get_id(self):
-        return self.__ssn
+        return super().get_id()
     
     def set_interface(self, interface):
         self.__interface = interface

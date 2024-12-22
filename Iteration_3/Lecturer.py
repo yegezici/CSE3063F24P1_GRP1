@@ -16,17 +16,17 @@ class Lecturer(Staff):
     def set_courses(self, courses: List['Course']):
         self.__courses = courses
 
-    def get_id(self):
-        return self.__ssn
-
     def get_name(self):
-        return self.__name
+        return super().get_name()
 
     def get_surname(self):
-        return self.__surname
+        return super().get_surname()
 
     def get_birthdate(self):
-        return self.__birthdate
+        return super().get_birthdate()
 
     def get_gender(self):
-        return self.__gender
+        return super().get_gender()
+    
+    def get_id(self):
+        return super().get_ssn()
