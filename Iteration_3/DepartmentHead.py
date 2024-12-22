@@ -7,12 +7,14 @@ from TechnicalElectiveCourse import TechnicalElectiveCourse
 from datetime import date
 from typing import List
 from NotificationSystem import NotificationSystem
-class DepartmentHead(Lecturer):
-    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, id: str = None):
-        super().__init__(name, surname, birthdate, gender, id)
+from Staff import Staff
+
+class DepartmentHead(Staff):
+    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
+        super().__init__(name, surname, birthdate, gender, ssn)
         self.__interface = None
     
-    def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int) -> Course:
+    def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int, capacity: int) -> Course:
         course = None
         if course_type == "m":
             course = MandatoryCourse(course_id, course_name, credits)
@@ -21,14 +23,15 @@ class DepartmentHead(Lecturer):
         elif course_type == "nte":
             course = NonTechnicalElectiveCourse(course_id, course_name, credits)
         
-        course.set_course_sections(self.create_course_section(number_of_sections, course))
+        course.set_course_sections(self.create_course_section(number_of_sections, course, capacity))
         return course
     
-    def create_course_section(self, number_of_sections: int, parent_course: Course) -> List[CourseSection]:
+    def create_course_section(self, number_of_sections: int, parent_course: Course, capacity: int) -> List[CourseSection]:
         try:
             sections = []
             for i in range(number_of_sections):
-                course_section = CourseSection()
+                course_section = CourseSection(capacity, parent_course, None, str(i + 1))
+                course_section.set_capacity(capacity)
                 course_section.set_parent_course(parent_course)
                 course_section.set_section_id(str(i + 1))
                 sections.append(course_section)
@@ -62,19 +65,19 @@ class DepartmentHead(Lecturer):
             print(str(e))
         
     def get_id(self):
-        return self.__id
+        return super().get_id()
     
     def get_name(self):
-        return self.__name
+        return super().get_name()
     
     def get_surname(self):
-        return self.__surname
+        return super().get_surname()
     
     def get_birthdate(self):
-        return self.__birthdate
+        return super().get_birthdate()
     
     def get_gender(self):
-        return self.__gender
+        return super().get_gender()
     
     def set_interface(self, interface):
         self.__interface = interface

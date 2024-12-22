@@ -20,8 +20,9 @@ INSERT INTO User VALUES('123456', 'ganiz123', 'A');
 INSERT INTO User VALUES('654321', 'sanem123', 'A');
 INSERT INTO User VALUES('96321', 'arda123', 'H');
 INSERT INTO User VALUES('85213', 'esra123', 'H');
-INSERT INTO User VALUES('1453', 'volkan123', 'S');
-INSERT INTO User VALUES('1071','anastasya123','S');
+INSERT INTO User VALUES('1453', 'volkan123', 'D');
+INSERT INTO User VALUES('1071','anastasya123','D');
+INSERT INTO User VALUES('1905','samiyen123','M');
 
 
 
@@ -89,6 +90,15 @@ INSERT INTO Course VALUES ('NTE1003', 'The Culture of Radiation Safety', 3, NULL
 INSERT INTO Course VALUES ('YDA1001', 'German for Beginners', 3, NULL, 'nte',0);
 INSERT INTO Course VALUES ('HSS3002', 'Ethics in Engineering and Science', 3, NULL, 'nte',0);
 INSERT INTO Course VALUES ('MGT1021', 'Design, Innovation and Entrepreneurship', 3, NULL, 'nte',0);
+
+CREATE TABLE Admin (
+    ssn NVARCHAR(50) PRIMARY KEY,
+    name NVARCHAR(50),
+    surname NVARCHAR(50),
+    birthdate DATE,
+    gender CHAR(1)
+);
+INSERT INTO Admin VALUES('1905', 'Ali', 'Samiyen', '1970-05-19', 'M');
 
 
 CREATE TABLE Lecturer (

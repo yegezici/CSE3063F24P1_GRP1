@@ -4,7 +4,7 @@ from Course import Course
 from TimeSlot import TimeSlot
 
 class CourseSection:
-    def __init__(self, capacity: int, parent_course: 'Course', lecturer: 'Lecturer', section_id: str):
+    def __init__(self, capacity: int = None, parent_course: 'Course' = None, lecturer: 'Lecturer' = None, section_id: str = None):
         self.__capacity = capacity
         self.__parent_course = parent_course
         self.__lecturer = lecturer
@@ -54,3 +54,6 @@ class CourseSection:
 
     def set_wait_list(self, wait_list: List['Student']) -> None:
         self.wait_list = wait_list
+
+    def has_capacity(self) -> bool:
+        return len(self.__current_students) < self.__capacity

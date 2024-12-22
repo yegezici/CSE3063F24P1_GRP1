@@ -1,12 +1,12 @@
 from datetime import date
 from typing import List
 from Lecturer import Lecturer
+
 class Advisor(Lecturer):
-    def __init__(self, name: str ="", surname: str ="", birthdate: date =None, gender: str ='', ssn: str ='', courses=None, students=None):
+    def __init__(self, name: str = "", surname: str = "", birthdate: date = None, gender: str = '', ssn: str = '', courses=None, students=None):
         super().__init__(name, surname, birthdate, gender, ssn, courses)
         self.__students = students or []
-        self.__interface = None
-        
+
     def approve_course(self, student, course_section):
         try:
             if not course_section.has_capacity():
@@ -16,8 +16,8 @@ class Advisor(Lecturer):
                 student.get_transcript().add_current_course(course_section.get_parent_course())
                 student.get_transcript().add_current_section(course_section)
 
-                for course in student.get_transcript().waited_courses[:]:
-                    if course.course_id == course_section.get_parent_course().course_id:
+                for course in student.get_transcript().get_waited_courses()[:]:
+                    if course.get_course_id() == course_section.get_parent_course().get_course_id():
                         student.get_transcript().delete_from_waited_course(course)
 
                 student.get_transcript().delete_from_waited_sections(course_section)
@@ -61,25 +61,25 @@ class Advisor(Lecturer):
         except Exception as e:
             print(str(e))
             return False
-    
+
     def get_birthdate(self):
-        return self.__birthdate
-    
+        return super().get_birthdate()
+   
     def get_courses(self):
-        return self.__courses
+        return super().get_courses()
     
     def get_gender(self):
-        return self.__gender
+        return super().get_gender()
     
     def get_name(self):
-        return self.__name
+        return super().get_name()
     
     def get_surname(self):
-        return self.__surname
+        return super().get_surname()
     
     def get_id(self):
-        return self.__ssn
-    
+        return super().get_id()
+
     def set_interface(self, interface):
         self.__interface = interface
 

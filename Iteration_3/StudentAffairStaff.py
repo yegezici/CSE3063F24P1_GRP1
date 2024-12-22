@@ -7,16 +7,16 @@ class StudentAffairsStaff(Staff):
         super().__init__(name, surname, birthdate, gender, ssn)
         
     def get_id(self):
-        return self.__ssn
+        return super().get_ssn()
     
     def get_name(self):
-        return self.__name
+        return super().get_name()
     
     def get_surname(self):
-        return self.__surname
+        return super().get_surname()
     
     def get_birthdate(self):
-        return self.__birthdate
+        return super().get_birthdate()
     
     def get_gender(self):
-        return self.__gender
+        return super().get_gender()

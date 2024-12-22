@@ -2,12 +2,12 @@ from datetime import date
 from abc import ABC, abstractmethod
 
 class Person(ABC):
-    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
-        self.__name = name
-        self.__surname = surname
-        self.__birthdate = birthdate
-        self.__gender = gender
-        self.__ssn = ssn
+    def __init__(self, _name: str = None, _surname: str = None, _birthdate: date = None, _gender: str = None, _ssn: str = None):
+        self._name = _name
+        self._surname = _surname
+        self._birthdate = _birthdate
+        self._gender = _gender
+        self._ssn = _ssn
 
     @abstractmethod
     def get_name(self):

@@ -1,11 +1,11 @@
 from datetime import date
 from CourseSection import CourseSection
 from typing import List,Optional
-from Lecturer import Lecturer
+from Staff import Staff
 
-class DepartmentScheduler(Lecturer):
-    def __init__(self,name: str = None, surname: str = None, birthdate: date = None, gender: str = None, id: str = None,courses = None, course_sections=None, all_time_intervals=None):
-        super().__init__(name, surname, birthdate, gender, id, courses)
+class DepartmentScheduler(Staff):
+    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None, course_sections=None, all_time_intervals=None):
+        super().__init__(name, surname, birthdate, gender, ssn)
         self.__course_sections = course_sections or []
         self.__all_time_intervals = all_time_intervals or []
         self.__interface = None
@@ -21,6 +21,14 @@ class DepartmentScheduler(Lecturer):
         if self.handle_lecturer_conflict(lecturer, course_section):
             course_section.set_lecturer(lecturer)
 
+    def get_available_classrooms(self, time_slot):
+        available_classrooms = self.__all_time_intervals.copy()
+        for section in self.__course_sections:
+            for slot in section.time_slots:
+                if slot.time_interval == time_slot.time_interval:
+                    if time_slot.classroom in available_classrooms:
+                        available_classrooms.remove(time_slot.classroom)
+        return available_classrooms
 
     def handle_time_conflict(self, semester_courses, day):
         try:
@@ -78,19 +86,19 @@ class DepartmentScheduler(Lecturer):
         return semester_x_courses
 
     def get_id(self):
-        return self.__id
+        return super().get_id()
 
     def get_name(self):
-        return self.__name
+        return super().get_name()
 
     def get_surname(self):
-        return self.__surname
+        return super().get_surname()
 
     def get_birthdate(self):
-        return self.__birthdate
+        return super().get_birthdate()
 
     def get_gender(self):
-        return self.__gender
+        return super().get_gender()
     
     def set_interface(self, interface):
         self.__interface = interface
