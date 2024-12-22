@@ -20,8 +20,8 @@ INSERT INTO User VALUES('123456', 'ganiz123', 'A');
 INSERT INTO User VALUES('654321', 'sanem123', 'A');
 INSERT INTO User VALUES('96321', 'arda123', 'H');
 INSERT INTO User VALUES('85213', 'esra123', 'H');
-INSERT INTO User VALUES('1453', 'volkan123', 'S');
-INSERT INTO User VALUES('1071','anastasya123','S');
+INSERT INTO User VALUES('1453', 'volkan123', 'D');
+INSERT INTO User VALUES('1071','anastasya123','D');
 
 
 
