@@ -432,6 +432,8 @@ class SQLiteManagement:
         if row:
             advisor = self.get_advisor(row[1])
             student.set_advisor(advisor)
+        for student in self.students:
+            print('student:' + student.get_id())
         return student
 
         
@@ -603,7 +605,6 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"SELECT * FROM Notification")
             rows = self.cursor.fetchall()
-            notifications = []
             notification_system = NotificationSystem()
             for row in rows:
                 receiver = self.get_user(row[1])
