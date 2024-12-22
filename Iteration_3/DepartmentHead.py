@@ -7,9 +7,11 @@ from TechnicalElectiveCourse import TechnicalElectiveCourse
 from datetime import date
 from typing import List
 from NotificationSystem import NotificationSystem
-class DepartmentHead(Lecturer):
-    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, id: str = None):
-        super().__init__(name, surname, birthdate, gender, id)
+from Staff import Staff
+
+class DepartmentHead(Staff):
+    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
+        super().__init__(name, surname, birthdate, gender, ssn)
         self.__interface = None
     
     def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int, capacity: int) -> Course:
@@ -63,19 +65,19 @@ class DepartmentHead(Lecturer):
             print(str(e))
         
     def get_id(self):
-        return self.__id
+        return super().get_id()
     
     def get_name(self):
-        return self.__name
+        return super().get_name()
     
     def get_surname(self):
-        return self.__surname
+        return super().get_surname()
     
     def get_birthdate(self):
-        return self.__birthdate
+        return super().get_birthdate()
     
     def get_gender(self):
-        return self.__gender
+        return super().get_gender()
     
     def set_interface(self, interface):
         self.__interface = interface
