@@ -18,6 +18,7 @@ from Logging_Config import logger
 from Lecturer import Lecturer
 from Notification import Notification
 from NotificationSystem import NotificationSystem
+from Admin import Admin
 
 class SQLiteManagement:
 
@@ -65,6 +66,8 @@ class SQLiteManagement:
                 return self.get_deparment_scheduler(row[0])
             if row[2] == 'H':
                 return self.get_department_head(row[0])
+            if row[2] == 'M':
+                return self.get_admin(row[0])
     
     def initialize_courses(self) -> list:
         courses = []
@@ -433,7 +436,20 @@ class SQLiteManagement:
             student.set_advisor(advisor)
         return student
 
-        
+    def get_admin(self, id: str) -> Admin:
+        from AdminInterface import AdminInterface
+        try:
+            self.cursor.execute(f"SELECT * FROM Admin a WHERE a.ssn = '{id}'")
+            row = self.cursor.fetchone()
+            if row:
+                admin = Admin(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], ssn=row[0])
+                admin.set_interface(AdminInterface(admin, self.__notificationSystem))
+                return admin
+        except sqlite3.Error as e:
+            logger.warning("SQLite error:", e)
+        return None
+
+
     def get_advisor(self, id: str) -> Advisor:
         from AdvisorInterface import AdvisorInterface
         try:
@@ -632,6 +648,9 @@ class SQLiteManagement:
                     return self.get_deparment_scheduler(row[0])
                 if row[2] == 'H':
                     return self.get_department_head(row[0])
+                if row[2] == 'M':
+                    return self.get_admin(row[0])
+                return None
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
             return None
