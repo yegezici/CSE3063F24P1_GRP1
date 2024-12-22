@@ -1,3 +1,4 @@
+from datetime import datetime
 import sqlite3
 from Student import Student
 from CourseSection import CourseSection
@@ -130,7 +131,7 @@ class SQLiteManagement:
                 student.get_name(), 
                 student.get_surname(), 
                 student.get_gender(), 
-                student.get_birthdate(), 
+                str(student.get_birthdate()), 
                 student.get_advisor().get_ssn()
             ))
             self.conn.commit()        
@@ -413,7 +414,10 @@ class SQLiteManagement:
                 currentSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "CurrentSection")
                 waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
                 transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
-                student = Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
+                # Change string date value into the Date object.
+                birthdate_str = row[3]  
+                birthdate = datetime.strptime(birthdate_str, "%Y-%m-%d").date()
+                student = Student(name= row[1], surname=row[2], birthdate=birthdate, gender=row[3], transcript=transcript, student_id=row[0])
                 student.set_interface(StudentInterface(student, self.courses, self.__notificationSystem))
                 self.students.append(student)
                 return student
@@ -443,7 +447,11 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
             row = self.cursor.fetchone()
             if row:
-                advisor = Advisor(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], ssn=row[0])
+                # Change string date value into the Date object.
+                birthdate_str = row[3]  
+                birthdate = datetime.strptime(birthdate_str, "%Y-%m-%d").date()
+                
+                advisor = Advisor(name=row[1], surname=row[2], birthdate= birthdate, gender=row[4], ssn=row[0])
                 self.cursor.execute(f"select * from StudentsOfAdvisor s where s.advisorID = '{id}'")
                 rows = self.cursor.fetchall()
                 for row in rows:
@@ -465,7 +473,11 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{headID}'")
             row = self.cursor.fetchone()
             if row:
-                dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], id=headID,)
+                # Change string date value into the Date object.
+                birthdate_str = row[3]  
+                birthdate = datetime.strptime(birthdate_str, "%Y-%m-%d").date()
+
+                dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4], id=headID,)
                 #BURADAKI self.advisors LECTURER LISTI OLDUGUNDA DUZELTILECEK
                 dephead.set_interface(DepartmentHeadInterface(dephead,self.courseSections, self.advisors ,self.__notificationSystem))
                 return dephead
@@ -481,7 +493,11 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{schedulerID}'")
             row = self.cursor.fetchone()
             if row:
-                depsch = DepartmentScheduler(name=row[1], surname=row[2], birthdate=row[3], gender=row[4],
+                # Change string date value into the Date object.
+                birthdate_str = row[3]  
+                birthdate = datetime.strptime(birthdate_str, "%Y-%m-%d").date()
+
+                depsch = DepartmentScheduler(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4],
                                              id=schedulerID,
                                              courses=self.courses,
                                              course_sections=self.courseSections,
@@ -511,7 +527,7 @@ class SQLiteManagement:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (student.get_id(), password, 'S')),
             self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
-                                (student.get_id(), student.get_name(), student.get_surname(), student.get_birthdate(), student.get_gender()))
+                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
             self.connection.commit()
         except sqlite3.Error as e:
             print("SQLite error:", e)
@@ -531,7 +547,7 @@ class SQLiteManagement:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (advisor.get_ssn(), password, 'A'))
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                advisor.get_ssn(), advisor.get_name(), advisor.get_surname(), advisor.get_birthdate(), advisor.get_gender())
+                                advisor.get_ssn(), advisor.get_name(), advisor.get_surname(), str(advisor.get_birthdate()), advisor.get_gender())
             for student in advisor.get_students():
                 self.cursor.execute(f"INSERT INTO StudentOfAdvisor (studentID, advisorID) VALUES (?, ?);",
                                     (student.get_id(), advisor.get_ssn()))
@@ -554,7 +570,7 @@ class SQLiteManagement:
     def add_lecturer(self, lecturer: Lecturer) -> None:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), lecturer.get_birthdate(), lecturer.get_gender()))
+                                (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
             self.connection.commit()
         except sqlite3.Error as e:
             print("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
@@ -571,7 +587,7 @@ class SQLiteManagement:
     def add_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
         try:
             self.cursor.execute(f"INSERT INTO DepartmentScheduler (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (department_scheduler.get_ssn(), department_scheduler.get_name(), department_scheduler.get_surname(), department_scheduler.get_birthdate(), department_scheduler.get_gender()))
+                                (department_scheduler.get_ssn(), department_scheduler.get_name(), department_scheduler.get_surname(), str(department_scheduler.get_birthdate()), department_scheduler.get_gender()))
             self.connection.commit()
         except sqlite3.Error as e:
             print("There is an error in add_department_scheduler function.\nDepartment Scheduler is not added.\nSQLite error:", e)
