@@ -10,23 +10,27 @@ from NotificationSystem import NotificationSystem
 from Staff import Staff
 
 class DepartmentHead(Staff):
-    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None):
+    def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None, manager: 'SQLiteManagement' = None):
         super().__init__(name, surname, birthdate, gender, ssn)
         self.__interface = None
-    
-    def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int, capacity: int) -> Course:
-        course = None
+        self._manager = manager
+        
+    def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int, capacity: int, lecturer: Lecturer = None, semester: int = None) -> Course:
         if course_type == "m":
-            course = MandatoryCourse(course_id, course_name, credits)
+            course = MandatoryCourse(course_id, course_name, credits, semester=semester)
         elif course_type == "te":
-            course = TechnicalElectiveCourse(course_id, course_name, credits)
+            course = TechnicalElectiveCourse(course_id, course_name, credits, semester=semester)
         elif course_type == "nte":
             course = NonTechnicalElectiveCourse(course_id, course_name, credits)
-        
-        course.set_course_sections(self.create_course_section(number_of_sections, course, capacity))
+        else:
+            print("Invalid course type.")
+        course.set_course_sections(self.create_course_section(number_of_sections, course, capacity,lecturer=lecturer))
+        print("Course has been created successfully.")
+        self._manager.save_course(course)
+        self._manager.get_courses().append(course)
         return course
     
-    def create_course_section(self, number_of_sections: int, parent_course: Course, capacity: int) -> List[CourseSection]:
+    def create_course_section(self, number_of_sections: int, parent_course: Course, capacity: int, lecturer: Lecturer = None) -> List[CourseSection]:
         try:
             sections = []
             for i in range(number_of_sections):
@@ -34,6 +38,7 @@ class DepartmentHead(Staff):
                 course_section.set_capacity(capacity)
                 course_section.set_parent_course(parent_course)
                 course_section.set_section_id(str(i + 1))
+                course_section.set_lecturer(lecturer)
                 sections.append(course_section)
             return sections
         except Exception as e:
@@ -45,10 +50,11 @@ class DepartmentHead(Staff):
         print("Capacity has been set successfully.")
 
     def manage_capacity(self, course_section, new_capacity, notification_system: NotificationSystem):
-        if new_capacity < course_section.capacity:
+        if new_capacity < course_section.get_capacity():
             raise ValueError("New capacity cannot be smaller than the old capacity.")
         size_increase = new_capacity - course_section.get_capacity()
         course_section.set_capacity(new_capacity)
+        self._manager.update_course_section_capacity(course_section.get_section_id(), new_capacity)
         self.manage_waitlist(course_section, size_increase, notification_system)
 
     def manage_waitlist(self, course_section: CourseSection, size, notification_system: NotificationSystem):
