@@ -547,7 +547,7 @@ class SQLiteManagement:
                                 (student.get_id(), password, 'S')),
             self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
                                 (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
             
@@ -556,7 +556,7 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"DELETE FROM Student WHERE studentID = '{student.get_id()}'")
             self.cursor.execute(f"DELETE FROM User WHERE UserID = '{student.get_id()}'")
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
        
@@ -570,7 +570,7 @@ class SQLiteManagement:
             for student in advisor.get_students():
                 self.cursor.execute(f"INSERT INTO StudentOfAdvisor (studentID, advisorID) VALUES (?, ?);",
                                     (student.get_id(), advisor.get_ssn()))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
             
@@ -581,7 +581,7 @@ class SQLiteManagement:
             self.cursor.execute(f"DELETE FROM User WHERE UserID = '{advisor.get_ssn()}'")
             for student in advisor.get_students():
                 self.cursor.execute(f"DELETE FROM StudentOfAdvisor WHERE advisorID = '{advisor.get_ssn()}'")         
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_advisor function in SQLiteManagement.py\nAdvisor is not deleted.\nSQLite error:", e)
     
@@ -590,7 +590,7 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
                                 (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
             
@@ -598,7 +598,7 @@ class SQLiteManagement:
     def delete_lecturer(self, lecturer: Lecturer) -> None:
         try:
             self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{lecturer.get_ssn()}'")
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_lecturer function in SQLiteManagement.py\nLecturer is not deleted.\nSQLite error:", e)
     
@@ -607,7 +607,7 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO DepartmentScheduler (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
                                 (department_scheduler.get_ssn(), department_scheduler.get_name(), department_scheduler.get_surname(), str(department_scheduler.get_birthdate()), department_scheduler.get_gender()))
-            self.connection.commit()
+            self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_department_scheduler function.\nDepartment Scheduler is not added.\nSQLite error:", e)
     
@@ -615,7 +615,7 @@ class SQLiteManagement:
     def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:     
         try:
             self.cursor.execute(f"DELETE FROM DepartmentScheduler WHERE ssn = '{department_scheduler.get_ssn()}'")
-            self.connection.commit()        
+            self.conn.commit()        
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_department_scheduler function in SQLiteManagement.py\nDepartment Scheduler is not deleted.\nSQLite error:", e)
 
