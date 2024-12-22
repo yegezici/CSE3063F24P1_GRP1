@@ -20,11 +20,8 @@ class NotificationSystem:
 
 
     def create_notification(self, sender: Person, receiver: Person, message: str) -> None:
-        from SQLiteManagement import SQLiteManagement
-        manager = SQLiteManagement()
         notification = Notification(sender, receiver, message)
         self.__notifications.append(notification)
-        manager.save_notification(notification)
 
     def get_notifications(self):
         return self.__notifications
