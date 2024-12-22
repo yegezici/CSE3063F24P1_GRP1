@@ -12,7 +12,7 @@ class DepartmentHead(Lecturer):
         super().__init__(name, surname, birthdate, gender, id)
         self.__interface = None
     
-    def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int) -> Course:
+    def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int, capacity: int) -> Course:
         course = None
         if course_type == "m":
             course = MandatoryCourse(course_id, course_name, credits)
@@ -21,14 +21,15 @@ class DepartmentHead(Lecturer):
         elif course_type == "nte":
             course = NonTechnicalElectiveCourse(course_id, course_name, credits)
         
-        course.set_course_sections(self.create_course_section(number_of_sections, course))
+        course.set_course_sections(self.create_course_section(number_of_sections, course, capacity))
         return course
     
-    def create_course_section(self, number_of_sections: int, parent_course: Course) -> List[CourseSection]:
+    def create_course_section(self, number_of_sections: int, parent_course: Course, capacity: int) -> List[CourseSection]:
         try:
             sections = []
             for i in range(number_of_sections):
-                course_section = CourseSection()
+                course_section = CourseSection(capacity, parent_course, None, str(i + 1))
+                course_section.set_capacity(capacity)
                 course_section.set_parent_course(parent_course)
                 course_section.set_section_id(str(i + 1))
                 sections.append(course_section)

@@ -46,16 +46,16 @@ class DepartmentHeadInterface(UserInterface):
         course_params = self.ask_course_parameters()
         try:
             new_course = self.department_head.create_course(
-                course_params[0], course_params[1], course_params[3], int(course_params[2]), int(course_params[4])
+                course_params[0], course_params[1], course_params[3], int(course_params[2]), int(course_params[4]), int(course_params[5])
             )
-            self.courses.append(new_course)
+            print(f"{new_course.get_course_id()} - {new_course.get_course_name()} - {new_course.get_credits()} - {new_course.get_course_type()} - This course has been added.")
             self.course_sections.extend(new_course.get_course_sections())
             # JsonManagement.getInstance().write_course_to_json()  # Uncomment when implementing JSON handling
         except ValueError:
             print("Enter an integer value for course code and course credits.")
 
     def ask_course_parameters(self):
-        course = [None] * 5
+        course = [None] * 6
         try:
             course[0] = input("Enter course name: ")
             course[1] = input("Enter course code: ")
@@ -66,7 +66,8 @@ class DepartmentHeadInterface(UserInterface):
                 raise ValueError("Invalid choice!")
 
             course[4] = input("How many sections does the course have?: ")
-
+            course[5] = input("Enter section capacity: ")
+            
         except ValueError as e:
             print(f"{e} Please enter a valid choice!")
         return course
