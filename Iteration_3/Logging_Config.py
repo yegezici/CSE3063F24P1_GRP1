@@ -14,7 +14,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",  # Log formatı
     handlers=[
         logging.FileHandler(log_file),  # Logları dosyaya yaz
-        logging.StreamHandler()  # Aynı zamanda konsola yaz
+        #logging.StreamHandler()  # Aynı zamanda konsola yaz
     ]
 )
 

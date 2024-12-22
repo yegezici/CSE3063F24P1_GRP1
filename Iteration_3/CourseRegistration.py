@@ -42,6 +42,8 @@ class CourseRegistration:
             #logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
             while True:
                 user_interface = current_user.initialize_interface()
+                
+                print(f"Welcome {current_user.get_name()} {current_user.get_surname()}\n")
                 notification_system.print_user_notifications(user = current_user)
                 """
                 if isinstance(current_user, Student):     
