@@ -695,16 +695,16 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT userType FROM User WHERE UserID = '{userID}'")
             row = self.cursor.fetchone()
             if row:
-                if row[2] == 'S':
-                    return self.get_student(row[0])
-                if row[2] == 'A':
-                    return self.get_advisor(row[0])
-                if row[2] == 'D':
-                    return self.get_deparment_scheduler(row[0])
-                if row[2] == 'H':
-                    return self.get_department_head(row[0])
-                if row[2] == 'M':
-                    return self.get_admin(row[0])
+                if row[0] == 'S':
+                    return self.get_student(userID)
+                if row[0] == 'A':
+                    return self.get_advisor(userID)
+                if row[0] == 'D':
+                    return self.get_deparment_scheduler(userID)
+                if row[0] == 'H':
+                    return self.get_department_head(userID)
+                if row[0] == 'M':
+                    return self.get_admin(userID)
                 return None
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -712,6 +712,7 @@ class SQLiteManagement:
         
     def initialize_notification_system(self)-> NotificationSystem:
         try:
+            print("initialize_notification_system function is called!")
             self.cursor.execute(f"SELECT * FROM Notification")
             rows = self.cursor.fetchall()
             notification_system = NotificationSystem()
@@ -719,10 +720,16 @@ class SQLiteManagement:
                 receiver = self.get_user(row[1])
                 sender = self.get_user(row[2])
                 notification = Notification(sender, receiver, row[3])
+                #if notification:
+                #    print(f"Notification created: {notification.get_message()}")
+                #else:
+                #    print("Failed to create notification!")
+                print("Adding notification:", notification.get_message())
                 notification_system.get_notifications().append(notification)
+                print("Notifications count:", len(notification_system.get_notifications()))
             return notification_system
         except sqlite3.Error as e:
-            logger.warning("SQLite error: HATA BURADA", e)
+            logger.warning(f"SQLite error: HATA BURADA - {e}")
         except: 
             logger.warning("There is an error in initialize_notification_system function in SQLiteManagement.py")
             return NotificationSystem()
