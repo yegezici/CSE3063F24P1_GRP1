@@ -7,11 +7,7 @@ if TYPE_CHECKING:
 
 class Lecturer(Staff):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, id: str = None, courses: List['Course'] = None):
-        self.__name = name
-        self.__surname = surname
-        self.__birthdate = birthdate
-        self.__gender = gender
-        self.__id = id
+        super().__init__(name, surname, birthdate, gender, id)
         self.__courses = courses if courses else []
 
     def get_courses(self):
@@ -21,7 +17,7 @@ class Lecturer(Staff):
         self.__courses = courses
 
     def get_id(self):
-        return self.__id
+        return self.__ssn
 
     def get_name(self):
         return self.__name
