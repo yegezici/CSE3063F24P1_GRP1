@@ -32,6 +32,7 @@ class SQLiteManagement:
         self.students = []
         self.advisors = []
         self.__notificationSystem = self.initialize_notification_system()
+        self.initiate_advisors()
         
     def get_students(self) -> list[Student]:
         return self.students
@@ -52,6 +53,14 @@ class SQLiteManagement:
               print(row)
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
+
+    def initiate_advisors(self) -> None:
+        self.cursor.execute("SELECT * FROM User Where userType = 'A'")
+        rows = self.cursor.fetchall()
+        for row in rows:
+            self.cursor.execute("SELECT * FROM Lecturer where ssn = ?", (row[0],))
+            lecturer = self.cursor.fetchone()
+            self.advisors.append(Advisor(name=lecturer[1], surname=lecturer[2], birthdate=lecturer[3], gender=lecturer[4], ssn=lecturer[0]))
 
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
@@ -487,8 +496,10 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT * FROM Admin a WHERE a.ssn = '{id}'")
             row = self.cursor.fetchone()
             if row:
+
                 admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=None, department_schedulers=None)
                 print(self.advisors)
+
                 admin.set_interface(AdminInterface(admin, self.__notificationSystem))
                 return admin
         except sqlite3.Error as e:
