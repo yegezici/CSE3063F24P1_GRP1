@@ -12,16 +12,11 @@ class AdminInterface:
     def show_menu(self):
         log_out = False
         choice = self.get_choice()
-        for student in self.admin.get_students():
-            print(student.get_id())
         if choice == 1:
             logger.info(f"Choice 1:  Add Student is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
             new_student = self.student_to_add()
-            if new_student is None:
-                print("No matching advisor found.")
-            else:
-                print("Student successfully added.")
-                self.admin.add_student(new_student)
+            if self.admin.add_student(new_student):
+                print(f"Student {new_student.get_name()} {new_student.get_surname()} added.")
             #SQLiteManagement.add_student(student)
         elif choice == 2:
             logger.info(f"Choice 2:  Delete Student is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
@@ -64,6 +59,7 @@ class AdminInterface:
 
     
     def get_choice(self):
+        print(f"Students in admin: {self.admin.get_students()}")
         print("Select an operation:\n1. Add Student\n2. Delete Student\n3. Add Advisor\n4. Delete Advisor\n5. Add Lecturer\n6. Delete Lecturer\n7. Add Department Scheduler\n8. Delete Department Scheduler\n9. Log out")
         try:
             choice = int(input("Enter your choice: "))
@@ -81,15 +77,17 @@ class AdminInterface:
         student_birthdate = input("Enter student birthdate: ")
         student_advisorID = input("Enter student advisorID: ")
         from Student import Student
-        student = None
+        from Transcript import Transcript
+        transcript = Transcript()
+        student = Student(name=student_name, surname=student_surname, birthdate=student_birthdate, gender=student_gender, transcript=transcript, student_id=student_id)        
         for advisor in self.admin.get_advisors():
                 if advisor.get_id() == student_advisorID:
-                    from Transcript import Transcript
-                    transcript = Transcript()
-                    student = Student(name=student_name, surname=student_surname, birthdate=student_birthdate, gender=student_gender, transcript=transcript, student_id=student_id)
-                    advisor.add_student(student)
                     student.set_advisor(advisor)
+                    print(f"Advisor's student list before adding: {[s.get_name() for s in advisor.get_students()]}")
+                    advisor.add_student(student)
+                    print(f"Advisor's student list after adding: {[s.get_name() for s in advisor.get_students()]}")
                     break
+       
         return student
 
     def advisor_to_add(self):
