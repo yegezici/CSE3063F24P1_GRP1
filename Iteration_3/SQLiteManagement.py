@@ -18,7 +18,7 @@ from Logging_Config import logger
 from Lecturer import Lecturer
 from Notification import Notification
 from NotificationSystem import NotificationSystem
-from Admin import Admin
+
 
 class SQLiteManagement:
 
@@ -480,20 +480,21 @@ class SQLiteManagement:
             student.set_advisor(advisor)
         return student
 
-    def get_admin(self, id: str) -> Admin:
+    def get_admin(self, id: str):
+        from Admin import Admin
         from AdminInterface import AdminInterface
         try:
             self.cursor.execute(f"SELECT * FROM Admin a WHERE a.ssn = '{id}'")
             row = self.cursor.fetchone()
             if row:
-                admin = Admin(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], ssn=row[0])
+                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=None, department_schedulers=None)
+                print(self.advisors)
                 admin.set_interface(AdminInterface(admin, self.__notificationSystem))
                 return admin
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
         return None
-
-
+    
     def get_advisor(self, id: str) -> Advisor:
         from AdvisorInterface import AdvisorInterface
         try:
