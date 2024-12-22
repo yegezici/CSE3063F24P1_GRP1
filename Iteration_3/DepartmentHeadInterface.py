@@ -46,8 +46,8 @@ class DepartmentHeadInterface(UserInterface):
         course_params = self.ask_course_parameters()
         try:
             new_course = self.department_head.create_course(
-                course_params[0], course_params[1], course_params[3], int(course_params[2]), int(course_params[4]), int(course_params[5])
-            )
+                course_params[0], course_params[1], course_params[3], int(course_params[2]), int(course_params[4]), int(course_params[5]),
+                course_params[6], int(course_params[7]))
             print(f"{new_course.get_course_id()} - {new_course.get_course_name()} - {new_course.get_credits()} - {new_course.get_course_type()} - This course has been added.")
             self.course_sections.extend(new_course.get_course_sections())
             # JsonManagement.getInstance().write_course_to_json()  # Uncomment when implementing JSON handling
@@ -55,7 +55,7 @@ class DepartmentHeadInterface(UserInterface):
             print("Enter an integer value for course code and course credits.")
 
     def ask_course_parameters(self):
-        course = [None] * 6
+        course = [None] * 8
         try:
             course[0] = input("Enter course name: ")
             course[1] = input("Enter course code: ")
@@ -67,6 +67,15 @@ class DepartmentHeadInterface(UserInterface):
 
             course[4] = input("How many sections does the course have?: ")
             course[5] = input("Enter section capacity: ")
+            i = 1
+            for lecturer in self.lecturers:
+                print(f"{i}"f" {lecturer.get_id()} - {lecturer.get_name()}  { lecturer.get_surname()}")
+                i += 1
+            index = int(input("Select the lecturer for this course(Enter the index of it): "))
+            index -= 1
+            course[6] = self.lecturers[index]
+            if course[3] == "m" or course[3] == "te":
+                course[7] = input("Enter semester: ")
             
         except ValueError as e:
             print(f"{e} Please enter a valid choice!")
