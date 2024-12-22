@@ -39,6 +39,8 @@ class SQLiteManagement:
         return self.courses
     def get_advisors(self) -> list[Advisor]:
         return self.advisors
+    def get_notification_system(self) -> NotificationSystem:
+        return self.__notificationSystem
     
     def print_table(self, table_name: str) ->None:        
         try:
@@ -138,6 +140,10 @@ class SQLiteManagement:
     
     def save_all_students(self) -> None:
         for student in self.students:
+            print(student)
+        
+        for student in self.students:
+            print(f"Saving student {student.get_id()}")
             self.save_current_section_of_student(student)
             self.save_waited_section_of_student(student)
     
@@ -594,14 +600,18 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT (receiverID, senderID, message) FROM Notification")
             rows = self.cursor.fetchall()
             notifications = []
+            notification_system = NotificationSystem()
             for row in rows:
                 receiver = self.get_user(row[0])
                 sender = self.get_user(row[1])
                 notification = Notification(sender, receiver, row[2])
-                notifications.append(notification)
-            return NotificationSystem(notifications)
+                notification_system.get_notifications().append(notification)
+            return notification_system
         except sqlite3.Error as e:
             print("SQLite error:", e)
+        except: 
+            print("There is an error in initialize_notification_system function in SQLiteManagement.py")
+            return NotificationSystem()
             
     def save_all_notifications(self)-> None:
         try:
