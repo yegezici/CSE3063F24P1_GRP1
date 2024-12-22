@@ -91,14 +91,14 @@ INSERT INTO Course VALUES ('YDA1001', 'German for Beginners', 3, NULL, 'nte',0);
 INSERT INTO Course VALUES ('HSS3002', 'Ethics in Engineering and Science', 3, NULL, 'nte',0);
 INSERT INTO Course VALUES ('MGT1021', 'Design, Innovation and Entrepreneurship', 3, NULL, 'nte',0);
 
-CREATE TABLE Admin (
+CREATE TABLE Admins (
     ssn NVARCHAR(50) PRIMARY KEY,
     name NVARCHAR(50),
     surname NVARCHAR(50),
     birthdate DATE,
     gender CHAR(1)
 );
-INSERT INTO Admin VALUES('1905', 'Ali', 'Samiyen', '1970-05-19', 'M');
+INSERT INTO Admins VALUES('1905', 'Ali', 'Samiyen', '1970-05-19', 'M');
 
 
 CREATE TABLE Lecturer (

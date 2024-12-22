@@ -2,6 +2,7 @@ from Staff import Staff
 from Logging_Config import logger
 from typing import List,Optional
 from datetime import date
+
 class Admin(Staff):
     def __init__(self, 
                  _name: str = "", 
@@ -14,17 +15,18 @@ class Admin(Staff):
                  lecturers: Optional[List['Lecturer']] = None, 
                  department_schedulers: Optional[List['DepartmentScheduler']] = None):
 
-        super().__init__(name=_name, surname=_surname, birthdate=_birthdate, gender=_gender, ssn=_ssn)
+        super().__init__(_name, _surname, _birthdate, _gender,_ssn)
         self._students = students if students is not None else []
         self._advisors = advisors if advisors is not None else []
         self._lecturers = lecturers if lecturers is not None else []
         self._department_schedulers = department_schedulers if department_schedulers is not None else []
         self.__interface = None
-
+        from SQLiteManagement import SQLiteManagement
+        self.manager = SQLiteManagement()
     
     def add_student(self, student):
         try:
-            #SqliteManager.save_student(student)
+            self.manager.save_student(student)
             self._students.append(student)
         except Exception as e:
             logger.warning(str(e))
@@ -88,19 +90,19 @@ class Admin(Staff):
 
    # Getter and Setter for name
     def get_name(self):
-        return self.__name
+        return super().get_name()
 
     # Getter and Setter for surname
     def get_surname(self):
-        return self.__surname
+        return super().get_surname()
 
     # Getter and Setter for birthdate
     def get_birthdate(self):
-        return self.__birthdate
+        return super().get_birthdate()
 
     # Getter and Setter for ssn
-    def get_ssn(self):
-        return self.__ssn
+    def get_id(self):
+        return super().get_ssn()
     
      # Getter and Setter for students
     def get_students(self):
