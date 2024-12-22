@@ -23,6 +23,9 @@ class Student(Person):
         return super().get_gender()
 
     def get_id(self) -> str:        
+        return self.get_ssn()
+    
+    def get_ssn(self):
         return super().get_ssn()
 
     def get_transcript(self):
