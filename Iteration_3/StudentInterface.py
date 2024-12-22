@@ -83,7 +83,7 @@ class StudentInterface(UserInterface):
 
                 selected_section = selected_course.get_course_sections()[section_choice]
                 self.student.register_course(selected_section)
-                self.notification_system.create_notification(sender=self, receiver=self.student.advisor, message="Student with ID " + self.student.get_id() + " has registered to a course.")
+                self.notification_system.create_notification(self.student, self.student.get_advisor(),"Student with ID " + self.student.get_id() + " has registered to a course.")
                 logger.info(f"{self.student.get_name()} {self.student.get_surname()} your {selected_course.get_course_name()} Section {selected_section.get_section_id()} "
                             f"is sent to your advisor for approval.")
                 available_courses.pop(course_choice - 1)
