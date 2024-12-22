@@ -28,10 +28,10 @@ class Student(Person):
         return self.__gender
 
     def get_id(self) -> str:        
-        return self.get_ssn()
+        return self.__id
     
     def get_ssn(self):
-        return super().get_ssn()
+        return self.__id
 
     def get_transcript(self):
         return self.__transcript
