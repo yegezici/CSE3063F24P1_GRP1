@@ -1,3 +1,4 @@
+from datetime import date, datetime
 import sqlite3
 from Student import Student
 from CourseSection import CourseSection
@@ -54,16 +55,15 @@ class SQLiteManagement:
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
         row = self.cursor.fetchone()
-        print("GIRDI MI1")
+        
         if row:
             if row[2] == 'S':
                 return self.get_student(row[0])
             if row[2] == 'A':
                 return self.get_advisor(row[0])
-            if row[2] == 'S':
+            if row[2] == 'D':
                 return self.get_deparment_scheduler(row[0])
             if row[2] == 'H':
-                print("GIRDI MI")
                 return self.get_department_head(row[0])
     
     def initialize_courses(self) -> list:
@@ -130,7 +130,7 @@ class SQLiteManagement:
                 student.get_name(), 
                 student.get_surname(), 
                 student.get_gender(), 
-                student.get_birthdate(), 
+                str(student.get_birthdate()), 
                 student.get_advisor().get_ssn()
             ))
             self.conn.commit()        
@@ -139,94 +139,95 @@ class SQLiteManagement:
             logger.warning(f"Error: {e}")
     
     def save_all_students(self) -> None:
-        for student in self.students:
-            print(student)
         
         for student in self.students:
-            print(f"Saving student {student.get_id()}")
-            self.save_current_section_of_student(student)
-            self.save_waited_section_of_student(student)
+            try:
+                logger.info(f"Saving student {student.get_id()}")
+                self.save_current_section_of_student(student)
+                self.save_waited_section_of_student(student)
+            except Exception as e:
+                logger.warning(f"Error while saving student {student.get_id()}: {e}")
     
     #Function to save student current section information into the database.
     def save_current_section_of_student(self, student: Student) -> None:
         try:
-            #Check is there any current section record belonging to student.
-            check_sql = '''
-            SELECT COUNT(*) FROM CurrentSection WHERE studentID = ?
-            '''
-            self.cursor.execute(check_sql, (student.get_id(),))
-            record_count = self.cursor.fetchone()[0]
-
-            #If there is any record, delete it first, insert all later.
-            if record_count > 0:
-                delete_sql = '''
-                DELETE FROM CurrentSection WHERE studentID = ?
-                '''
-                self.cursor.execute(delete_sql, (student.get_id(),))
-
             # Get Transcript object of the Student object. 
             transcript = student.get_transcript()
             # Get CurrentSection list from transcript object. 
             current_sections = transcript.get_current_sections()
 
-            # Insert every section in the list into sql
+            # Her bir CurrentSection için kontrol yapılır
             for section in current_sections:
                 section_id = section.get_section_id()  # Get Section ID
                 course = section.get_parent_course()  # Get Parent Course object.
                 course_id = course.get_course_id()    # Get Course ID of Parent Course object.
 
-                sql = '''
-                INSERT INTO CurrentSection (studentID, courseID, courseSectionID)
-                VALUES (?, ?, ?)
+                # Öncelikle aynı kaydın olup olmadığını kontrol et
+                check_sql = '''
+                SELECT COUNT(*) FROM CurrentSection 
+                WHERE studentID = ? AND courseID = ? AND courseSectionID = ?
                 '''
-                self.cursor.execute(sql, (student.get_id(), course_id, section_id))
+                self.cursor.execute(check_sql, (student.get_id(), course_id, section_id))
+                record_exists = self.cursor.fetchone()[0]
 
+                # Eğer kayıt yoksa, ekleme işlemi yapılır
+                if record_exists == 0:
+                    sql = '''
+                    INSERT INTO CurrentSection (studentID, courseID, courseSectionID)
+                    VALUES (?, ?, ?)
+                    '''
+                    self.cursor.execute(sql, (student.get_id(), course_id, section_id))
+                else:
+                    logger.info(f"{student.get_id()} için {course_id} - {section_id} kaydı zaten mevcut.")
+
+            # Commit işlemi yapılır
             self.conn.commit()
-
+            logger.info(f"{student.get_id()} için CurrentSection bilgileri kaydedildi.")
         except sqlite3.IntegrityError as e:
-            print(f"Integrity error while saving CurrentSection: {e}")
+            logger.warning(f"Integrity error while saving CurrentSection: {e}")
         except sqlite3.Error as e:
-            print(f"SQLite error while saving CurrentSection: {e}")
+            logger.warning(f"SQLite error while saving CurrentSection: {e}")
 
+    #Function to save student waited section information into the database.
     def save_waited_section_of_student(self, student: Student) -> None:
         try:
-            #Check is there any waited section record belonging to student.
-            check_sql = '''
-            SELECT COUNT(*) FROM WaitedSection WHERE studentID = ?
-            '''
-            self.cursor.execute(check_sql, (student.get_id(),))
-            record_count = self.cursor.fetchone()[0]
-            
-            #If there is any record, delete it first, insert all later.
-            if record_count > 0:
-                delete_sql = '''
-                DELETE FROM WaitedSection WHERE studentID = ?
-                '''
-                self.cursor.execute(delete_sql, (student.get_id(),))  
-
             # Get Transcript object of the Student object. 
             transcript = student.get_transcript()
             # WaitedSection'lar alınır
             waited_sections = transcript.get_waited_sections()
 
-            # Her bir WaitedSection için SQL'e ekleme yapılır
+            # Her bir WaitedSection için kontrol yapılır
             for section in waited_sections:
                 section_id = section.get_section_id()  # Get Section ID
                 course = section.get_parent_course()  # Get Parent Course object.
                 course_id = course.get_course_id()    # Get Course ID of Parent Course object.
 
-                sql = '''
-                INSERT INTO WaitedSection (studentID, courseID, courseSectionID)
-                VALUES (?, ?, ?)
+                # Öncelikle aynı kaydın olup olmadığını kontrol et
+                check_sql = '''
+                SELECT COUNT(*) FROM WaitedSection 
+                WHERE studentID = ? AND courseID = ? AND courseSectionID = ?
                 '''
-                self.cursor.execute(sql, (student.get_id(), course_id, section_id))
+                self.cursor.execute(check_sql, (student.get_id(), course_id, section_id))
+                record_exists = self.cursor.fetchone()[0]
 
+                # Eğer kayıt yoksa, ekleme işlemi yapılır
+                if record_exists == 0:
+                    sql = '''
+                    INSERT INTO WaitedSection (studentID, courseID, courseSectionID)
+                    VALUES (?, ?, ?)
+                    '''
+                    self.cursor.execute(sql, (student.get_id(), course_id, section_id))
+                else:
+                    logger.info(f"{student.get_id()} için {course_id} - {section_id} kaydı zaten mevcut.")
+
+            # Commit işlemi yapılır
             self.conn.commit()
-            print(f"{student.get_id()} için WaitedSection bilgileri kaydedildi.")
+            logger.info(f"{student.get_id()} için WaitedSection bilgileri kaydedildi.")
         except sqlite3.IntegrityError as e:
-            print(f"Integrity error while saving WaitedSection: {e}")
+            logger.warning(f"Integrity error while saving WaitedSection: {e}")
         except sqlite3.Error as e:
-            print(f"SQLite error while saving WaitedSection: {e}")
+            logger.warning(f"SQLite error while saving WaitedSection: {e}")
+
             
 
     
@@ -305,9 +306,9 @@ class SQLiteManagement:
             self.conn.commit()
 
         except sqlite3.IntegrityError as e:
-            print(f"Integrity error while saving TimeSlot: {e}")
+            logger.warning(f"Integrity error while saving TimeSlot: {e}")
         except sqlite3.Error as e:
-            print(f"SQLite error while saving TimeSlot: {e}")
+            logger.warning(f"SQLite error while saving TimeSlot: {e}")
 
 
     
@@ -327,7 +328,7 @@ class SQLiteManagement:
                                     
             return courses
         except sqlite3.Error as e:
-            logger.warning("SQLite error:", e)
+            logger.warning("SQLite error:", e)  
     
     def get_course_sections_from_course(self, student_id: str, courseSectionList_type: str) -> list:
         courseSectionList = []
@@ -338,21 +339,7 @@ class SQLiteManagement:
                 storedSection = row[2]
                 for section in self.courseSections:
                     if section.get_section_id() == storedSection:
-                        courseSectionList.append(section)
-
-            return courseSectionList
-        except sqlite3.Error as e:
-            logger.warning("SQLite error:", e)
-    
-    def get_course_sections_from_course(self, student_id: str, courseSectionList_type: str) -> list:
-        courseSectionList = []
-        try:
-            self.cursor.execute(f"SELECT * FROM {courseSectionList_type} t WHERE t.studentID = '{student_id}'")
-            rows = self.cursor.fetchall()
-            for row in rows:
-                storedSection = row[2]
-                for section in self.courseSections:
-                    if section.get_section_id() == storedSection:
+                        print(courseSectionList_type + "Buraya girdim ve " + storedSection + " ekledim.")
                         courseSectionList.append(section)
 
             return courseSectionList
@@ -413,12 +400,24 @@ class SQLiteManagement:
                 currentSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "CurrentSection")
                 waitedSections: list[CourseSection] = self.get_course_sections_from_course(student_id, "WaitedSection")
                 transcript = Transcript(completedCourses, currentCourses, waitedCourses, currentSections, waitedSections, row[6])
-                student = Student(name= row[1], surname=row[2], birthdate=row[4], gender=row[3], transcript=transcript, student_id=row[0])
+                # Change string date value into the Date object.
+                birthdate_str = row[4]  
+                birthdate = None
+                if birthdate_str:  # Eğer veri boş değilse
+                    try:
+                        # Tarihi parse et
+                        birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
+                    except ValueError:
+                        logger.warning(f"Invalid date format: {birthdate_str}, setting default date.")
+                        birthdate = date(1970, 1, 1)  # Varsayılan bir tarih ata
+                else:
+                    birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
+                student = Student(name= row[1], surname=row[2], birthdate=birthdate, gender=row[3], transcript=transcript, student_id=row[0])
                 student.set_interface(StudentInterface(student, self.courses, self.__notificationSystem))
                 self.students.append(student)
                 return student
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             return None
         return None
     
@@ -433,7 +432,7 @@ class SQLiteManagement:
             advisor = self.get_advisor(row[1])
             student.set_advisor(advisor)
         for student in self.students:
-            print('student:' + student.get_id())
+            logger.info('student:' + student.get_id())
         return student
 
         
@@ -443,7 +442,20 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
             row = self.cursor.fetchone()
             if row:
-                advisor = Advisor(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], ssn=row[0])
+                # Change string date value into the Date object.
+                birthdate_str = row[3]  
+                birthdate = None
+                if birthdate_str:  # Eğer veri boş değilse
+                    try:
+                        # Tarihi parse et
+                        birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
+                    except ValueError:
+                        logger.warning(f"Invalid date format: {birthdate_str}, setting default date.")
+                        birthdate = date(1970, 1, 1)  # Varsayılan bir tarih ata
+                else:
+                    birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
+                
+                advisor = Advisor(name=row[1], surname=row[2], birthdate= birthdate, gender=row[4], ssn=row[0])
                 self.cursor.execute(f"select * from StudentsOfAdvisor s where s.advisorID = '{id}'")
                 rows = self.cursor.fetchall()
                 for row in rows:
@@ -455,7 +467,7 @@ class SQLiteManagement:
             else:
                 return None
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             return None
         return None       
     
@@ -465,14 +477,27 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{headID}'")
             row = self.cursor.fetchone()
             if row:
-                dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=row[3], gender=row[4], id=headID,)
+                # Change string date value into the Date object.
+                birthdate_str = row[3]  
+                birthdate = None
+                if birthdate_str:  # Eğer veri boş değilse
+                    try:
+                        # Tarihi parse et
+                        birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
+                    except ValueError:
+                        logger.warning(f"Invalid date format: {birthdate_str}, setting default date.")
+                        birthdate = date(1970, 1, 1)  # Varsayılan bir tarih ata
+                else:
+                    birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
+
+                dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4], id=headID,)
                 #BURADAKI self.advisors LECTURER LISTI OLDUGUNDA DUZELTILECEK
                 dephead.set_interface(DepartmentHeadInterface(dephead,self.courseSections, self.advisors ,self.__notificationSystem))
                 return dephead
             else:
                 return None
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             return None 
 
     def get_deparment_scheduler(self, schedulerID: str) -> DepartmentScheduler:
@@ -481,7 +506,20 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{schedulerID}'")
             row = self.cursor.fetchone()
             if row:
-                depsch = DepartmentScheduler(name=row[1], surname=row[2], birthdate=row[3], gender=row[4],
+                # Change string date value into the Date object.
+                birthdate_str = row[3]  
+                birthdate = None
+                if birthdate_str:  # Eğer veri boş değilse
+                    try:
+                        # Tarihi parse et
+                        birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
+                    except ValueError:
+                        logger.warning(f"Invalid date format: {birthdate_str}, setting default date.")
+                        birthdate = date(1970, 1, 1)  # Varsayılan bir tarih ata
+                else:
+                    birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
+
+                depsch = DepartmentScheduler(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4],
                                              id=schedulerID,
                                              courses=self.courses,
                                              course_sections=self.courseSections,
@@ -491,7 +529,7 @@ class SQLiteManagement:
             else:
                 return None
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             return None 
 
     def check_student_exists(self, student_id: str) -> Student:
@@ -500,8 +538,8 @@ class SQLiteManagement:
                 if student.get_id() == student_id:
                     return student
         except Exception as e:
-            print(f'There is an error in check_student_exists function: {e}')
-            print(f'Exception type: {type(e).__name__}')
+            logger.warning(f'There is an error in check_student_exists function: {e}')
+            logger.warning(f'Exception type: {type(e).__name__}')
             return None
         return None
 
@@ -511,10 +549,10 @@ class SQLiteManagement:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (student.get_id(), password, 'S')),
             self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
-                                (student.get_id(), student.get_name(), student.get_surname(), student.get_birthdate(), student.get_gender()))
+                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
             self.connection.commit()
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             
         #Delete that student from Student table
     def delete_student(self, student: Student) -> None:
@@ -523,7 +561,7 @@ class SQLiteManagement:
             self.cursor.execute(f"DELETE FROM User WHERE UserID = '{student.get_id()}'")
             self.connection.commit()
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
        
         #Add new advisor to Advisor table
     def add_advisor(self, advisor: Advisor, password: str) -> None:
@@ -531,13 +569,13 @@ class SQLiteManagement:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (advisor.get_ssn(), password, 'A'))
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                advisor.get_ssn(), advisor.get_name(), advisor.get_surname(), advisor.get_birthdate(), advisor.get_gender())
+                                advisor.get_ssn(), advisor.get_name(), advisor.get_surname(), str(advisor.get_birthdate()), advisor.get_gender())
             for student in advisor.get_students():
                 self.cursor.execute(f"INSERT INTO StudentOfAdvisor (studentID, advisorID) VALUES (?, ?);",
                                     (student.get_id(), advisor.get_ssn()))
             self.connection.commit()
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             
     #Delete that advisor from Advisor table
     def delete_advisor(self, advisor: Advisor) -> None:   
@@ -548,16 +586,16 @@ class SQLiteManagement:
                 self.cursor.execute(f"DELETE FROM StudentOfAdvisor WHERE advisorID = '{advisor.get_ssn()}'")         
             self.connection.commit()
         except sqlite3.Error as e:
-            print("There is an error in delete_advisor function in SQLiteManagement.py\nAdvisor is not deleted.\nSQLite error:", e)
+            logger.warning("There is an error in delete_advisor function in SQLiteManagement.py\nAdvisor is not deleted.\nSQLite error:", e)
     
     #Add new lecturer to Lecturer table
     def add_lecturer(self, lecturer: Lecturer) -> None:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), lecturer.get_birthdate(), lecturer.get_gender()))
+                                (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
             self.connection.commit()
         except sqlite3.Error as e:
-            print("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
+            logger.warning("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
             
     #Delete that lecturer from Lecturer table
     def delete_lecturer(self, lecturer: Lecturer) -> None:
@@ -565,16 +603,16 @@ class SQLiteManagement:
             self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{lecturer.get_ssn()}'")
             self.connection.commit()
         except sqlite3.Error as e:
-            print("There is an error in delete_lecturer function in SQLiteManagement.py\nLecturer is not deleted.\nSQLite error:", e)
+            logger.warning("There is an error in delete_lecturer function in SQLiteManagement.py\nLecturer is not deleted.\nSQLite error:", e)
     
     #Add new department scheduler to DepartmentScheduler table
     def add_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
         try:
             self.cursor.execute(f"INSERT INTO DepartmentScheduler (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (department_scheduler.get_ssn(), department_scheduler.get_name(), department_scheduler.get_surname(), department_scheduler.get_birthdate(), department_scheduler.get_gender()))
+                                (department_scheduler.get_ssn(), department_scheduler.get_name(), department_scheduler.get_surname(), str(department_scheduler.get_birthdate()), department_scheduler.get_gender()))
             self.connection.commit()
         except sqlite3.Error as e:
-            print("There is an error in add_department_scheduler function.\nDepartment Scheduler is not added.\nSQLite error:", e)
+            logger.warning("There is an error in add_department_scheduler function.\nDepartment Scheduler is not added.\nSQLite error:", e)
     
     #Delete that department scheduler from DepartmentScheduler table
     def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:     
@@ -582,7 +620,7 @@ class SQLiteManagement:
             self.cursor.execute(f"DELETE FROM DepartmentScheduler WHERE ssn = '{department_scheduler.get_ssn()}'")
             self.connection.commit()        
         except sqlite3.Error as e:
-            print("There is an error in delete_department_scheduler function in SQLiteManagement.py\nDepartment Scheduler is not deleted.\nSQLite error:", e)
+            logger.warning("There is an error in delete_department_scheduler function in SQLiteManagement.py\nDepartment Scheduler is not deleted.\nSQLite error:", e)
 
     def get_user(self, userID : str)-> Person:
         try:
@@ -593,12 +631,12 @@ class SQLiteManagement:
                     return self.get_student(row[0])
                 if row[2] == 'A':
                     return self.get_advisor(row[0])
-                if row[2] == 'S':
+                if row[2] == 'D':
                     return self.get_deparment_scheduler(row[0])
                 if row[2] == 'H':
                     return self.get_department_head(row[0])
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             return None
         
     def initialize_notification_system(self)-> NotificationSystem:
@@ -613,9 +651,9 @@ class SQLiteManagement:
                 notification_system.get_notifications().append(notification)
             return notification_system
         except sqlite3.Error as e:
-            print("SQLite error: HATA BURADA", e)
+            logger.warning("SQLite error: HATA BURADA", e)
         except: 
-            print("There is an error in initialize_notification_system function in SQLiteManagement.py")
+            logger.warning("There is an error in initialize_notification_system function in SQLiteManagement.py")
             return NotificationSystem()
             
     def save_all_notifications(self)-> None:
@@ -623,21 +661,21 @@ class SQLiteManagement:
             for notification in self.__notificationSystem.get_notifications():
                 self.save_notification(notification.get_receiver(), notification.get_sender(), notification.get_message())
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
     def save_notification(self, receiver : Person, sender : Person, message : str)-> None:
         try:
             self.cursor.execute(f"INSERT INTO Notification (receiverID, senderID, message) VALUES (?, ?, ?);",
                                 (receiver.get_ssn(), sender.get_ssn(), message))
             self.connection.commit()
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             
     def delete_notification(self, notification : Notification)-> None:
         try:
             self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}' AND senderID = '{notification.get_sender().get_ssn()}' AND message = '{notification.get_message()}'")
             self.connection.commit()
         except sqlite3.Error as e:
-            print("SQLite error:", e)
+            logger.warning("SQLite error:", e)
             
     
 

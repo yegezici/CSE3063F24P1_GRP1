@@ -50,12 +50,12 @@ class Advisor(Lecturer):
 
     def check_section_conflict(self, student, course_section):
         try:
-            course_sections_of_student = student.get_transcript().current_sections
+            course_sections_of_student = student.get_transcript().get_current_sections()
 
-            for time_slot in course_section.time_slots:
+            for time_slot in course_section.get_time_slots():
                 for existing_section in course_sections_of_student:
-                    for existing_time_slot in existing_section.time_slots:
-                        if time_slot.time_interval == existing_time_slot.time_interval:
+                    for existing_time_slot in existing_section.get_time_slots():
+                        if time_slot.get_time_interval() == existing_time_slot.get_time_interval():
                             return False
             return True
         except Exception as e:
