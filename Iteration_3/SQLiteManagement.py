@@ -431,8 +431,6 @@ class SQLiteManagement:
         if row:
             advisor = self.get_advisor(row[1])
             student.set_advisor(advisor)
-        for student in self.students:
-            logger.info('student:' + student.get_id())
         return student
 
         
