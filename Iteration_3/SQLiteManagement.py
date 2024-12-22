@@ -534,9 +534,7 @@ class SQLiteManagement:
             row = self.cursor.fetchone()
             if row:
 
-                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=None, department_schedulers=None)
-                print(self.advisors)
-
+                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=self.lecturers, department_schedulers=None)
                 admin.set_interface(AdminInterface(admin, self.__notificationSystem))
                 return admin
         except sqlite3.Error as e:
@@ -654,8 +652,8 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (student.get_id(), password, 'S')),
-            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
-                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
+            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, gender, birthdate, advisorID, semester) VALUES (?, ?, ?, ?, ?, ?, ?);", 
+                                (student.get_id(), student.get_name(), student.get_surname(), student.get_gender(), str(student.get_birthdate()), student.get_advisor().get_id(), "1"))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -698,7 +696,7 @@ class SQLiteManagement:
     def add_lecturer(self, lecturer: Lecturer) -> None:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
+                                (lecturer.get_id(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
