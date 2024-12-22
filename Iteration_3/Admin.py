@@ -26,8 +26,8 @@ class Admin(Staff):
     
     def add_student(self, student):
         try:
-            self.manager.save_student(student)
             self._students.append(student)
+            self.manager.save_student(student)
         except Exception as e:
             logger.warning(str(e))
     
