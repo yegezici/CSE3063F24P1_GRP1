@@ -36,6 +36,9 @@ class CourseRegistration:
             if current_user is None:
                 continue
 
+            if current_user == "exit":
+                logger.info("Program has been terminated succesfully.")
+                break
             #logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
             while True:
                 user_interface = current_user.initialize_interface()
@@ -73,8 +76,7 @@ class CourseRegistration:
             entered_password = input("Password: ")
             return self.check_id_and_password(entered_user_id[1:], entered_password)
         else:
-            logger.info("Program has been terminated succesfully.")
-            return None
+            return "exit"
 
     def check_id_and_password(self, entered_user_id: str, entered_password: str) -> Person:
         return self.manager.check_user(entered_user_id, entered_password)
