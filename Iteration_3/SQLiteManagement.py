@@ -723,7 +723,7 @@ class SQLiteManagement:
                 #if notification:
                 #    print(f"Notification created: {notification.get_message()}")
                 #else:
-                #    print("Failed to create notification!")
+                #    print("Failed to create notification!"
                 print("Adding notification:", notification.get_message())
                 notification_system.get_notifications().append(notification)
                 print("Notifications count:", len(notification_system.get_notifications()))
