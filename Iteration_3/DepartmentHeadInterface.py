@@ -23,10 +23,12 @@ class DepartmentHeadInterface(UserInterface):
                 print("Choose a course section:")
                 section_no = int(input()) - 1
                 chosen_section = self.course_sections[section_no]
-                print(f"Current capacity is {chosen_section.get_capacity()}")
-                print("Enter new capacity:")
-                new_capacity = int(input())
-                self.department_head.manage_capacity(chosen_section, new_capacity, self.__notification_system)
+                done = False
+                while(done is False):
+                    print(f"Current capacity is {chosen_section.get_capacity()}")
+                    print("Enter new capacity:")
+                    new_capacity = int(input())
+                    done = self.department_head.manage_capacity(chosen_section, new_capacity, self.__notification_system)
             elif choice == 3:
                 print("You have successfully logged out\n")
                 return True
@@ -48,6 +50,11 @@ class DepartmentHeadInterface(UserInterface):
             new_course = self.department_head.create_course(
                 course_params[0], course_params[1], course_params[3], int(course_params[2]), int(course_params[4]), int(course_params[5])
             )
+            for section in self.course_sections:
+                for i in range(len(new_course.get_course_sections())):
+                    if(section.get_section_id() == new_course.get_course_sections()[i].get_section_id()):
+                        print("Course already exists.")
+                        return
             print(f"{new_course.get_course_id()} - {new_course.get_course_name()} - {new_course.get_credits()} - {new_course.get_course_type()} - This course has been added.")
             self.course_sections.extend(new_course.get_course_sections())
             # JsonManagement.getInstance().write_course_to_json()  # Uncomment when implementing JSON handling
