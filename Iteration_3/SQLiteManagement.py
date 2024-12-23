@@ -35,6 +35,7 @@ class SQLiteManagement:
         self.set_lecturer_to_sections()
         self.students = []
         self.__notificationSystem = self.initialize_notification_system()
+        
 
         
     def get_students(self) -> list[Student]:
@@ -323,21 +324,34 @@ class SQLiteManagement:
 
     
     def save_courseSection(self, courseSection: CourseSection) -> None:
-        print("sectionlara girdi mi")
+        print("Saving course section...")
         try:
-            sql = '''
-            INSERT INTO CourseSection (sectionID, capacity, courseID, lecturerSSN)
-            VALUES (?, ?, ?, ?)
-            '''
-            self.cursor.execute(sql, (courseSection.get_section_id(),
+            if courseSection.get_lecturer() is not  None:
+                print("Lecturer is not None")
+                sql = '''
+                INSERT INTO CourseSection (sectionID, capacity, courseID, lecturerSSN)
+                VALUES (?, ?, ?, ?)
+                '''
+                self.cursor.execute(sql, (courseSection.get_section_id(),
                                       courseSection.get_capacity(),
                                       courseSection.get_parent_course().get_course_id(),
-                                      courseSection.get_lecturer().get_ssn()))
+                                      courseSection.get_lecturer().get_id()))
+            else:
+                print("Lecturer is None")
+                sql = '''
+                INSERT INTO CourseSection (sectionID, capacity, courseID)
+                VALUES (?, ?, ?)
+                '''
+                self.cursor.execute(sql, (courseSection.get_section_id(),
+                                      courseSection.get_capacity(),
+                                      courseSection.get_parent_course().get_course_id()))
             self.conn.commit()        
             time_slots = courseSection.get_time_slots()
             for time_slot in time_slots:
                 self.save_timeSlot(time_slot)
         except sqlite3.IntegrityError as e:
+            logger.warning(f"Error: {e}")
+        except sqlite3.Error as e:
             logger.warning(f"Error: {e}")
             
     def save_course(self, course: Course) -> None:
@@ -359,6 +373,7 @@ class SQLiteManagement:
             ''', (course.get_course_id(), course.get_course_name(), course.get_credits(), prerequisite_course_id, course_type, semester))
             print("length of sections: " ,len(course.get_course_sections()))
             for section in course.get_course_sections():
+                print("GITTI MI SECTION")
                 self.save_courseSection(section)
             self.conn.commit()
             print("Course saved successfully.")
@@ -443,7 +458,6 @@ class SQLiteManagement:
                 storedSection = row[2]
                 for section in self.courseSections:
                     if section.get_section_id() == storedSection:
-                        print(courseSectionList_type + "Buraya girdim ve " + storedSection + " ekledim.")
                         courseSectionList.append(section)
 
             return courseSectionList
@@ -643,8 +657,9 @@ class SQLiteManagement:
                 depsch = DepartmentScheduler(row[1], row[2], birthdate, row[4],
                                              schedulerID,
                                              self.courseSections,
-                                             self.init_time_intervals())
-                depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch,course_sections= self.courseSections, lecturers= self.advisors, notification_system= self.__notificationSystem))
+                                             self.init_time_intervals(),
+                                             manager = self)
+                depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch,course_sections= self.courseSections, lecturers= self.lecturers, notification_system= self.__notificationSystem))
                 return depsch
             else:
                 return None
@@ -844,5 +859,16 @@ class SQLiteManagement:
             print("Course section capacity updated successfully.")
         except sqlite3.Error as e:
             print("SQLite error:", e)
-
+    
+    def update_course_section_lecturer(self, course_section: CourseSection, lecturer: Lecturer) -> None:
+        try:
+            self.cursor.execute('''
+                UPDATE CourseSection
+                SET lecturerSSN = ?
+                WHERE sectionID = ?
+            ''', (lecturer.get_id(), course_section.get_section_id()))
+            self.conn.commit()
+            print("Course section lecturer updated successfully.")
+        except sqlite3.Error as e:
+            print("SQLite error:", e)
 
