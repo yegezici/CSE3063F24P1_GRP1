@@ -45,6 +45,7 @@ class DepartmentSchedulerInterface(UserInterface):
             print("Enter a valid integer.")
 
     def update_lecturer(self, chosen_section):
+        print("len(self.lecturers): ", len(self.lecturers))
         if self.lecturers:
             print("Current lecturer is " + chosen_section.get_lecturer().get_name())
         print("Choose a new lecturer:")

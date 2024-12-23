@@ -33,6 +33,7 @@ class SQLiteManagement:
         self.students = []
         self.advisors = []
         self.initiate_advisors()
+        self.assign_advisor_to_students()
         self.lecturers = self.initialize_lecturers()
         self.set_lecturer_to_sections()
 
@@ -47,6 +48,14 @@ class SQLiteManagement:
         return self.advisors
     def get_notification_system(self) -> NotificationSystem:
         return self.__notificationSystem
+    
+    def assign_advisor_to_students(self) -> None:
+        for student in self.students:
+            self.cursor.execute("SELECT advisorID FROM Student WHERE studentID = ?", (student.get_id(),))
+            row = self.cursor.fetchone()
+            if row:
+                advisor = self.get_advisor(row[0])
+                student.set_advisor(advisor)
     
     def set_lecturer_to_sections(self) -> None:
         for section in self.courseSections:
@@ -69,34 +78,35 @@ class SQLiteManagement:
 
     def initialize_lecturers(self) -> list[Lecturer]:
         lecturers = []
-    
-        # Add advisors to the lecturers list
-        for advisor in self.advisors:
-            lecturers.append(advisor)
-    
+        for advisors in self.advisors:
+            lecturers.append(advisors)
         # Fetch remaining lecturers from the database
         self.cursor.execute("SELECT * FROM Lecturer")
         rows = self.cursor.fetchall()
-    
+
         for row in rows:
-            lecturer_id = row[0]  # Assuming the first column is the lecturer's ID
-            # Check if the lecturer is already in the advisors list
-            if not any(advisor.get_ssn() == lecturer_id for advisor in self.advisors):
-                lecturer = Lecturer(
+            self.cursor.execute("SELECT userType FROM User where userID = ?", (row[0],))
+            advisorRow = self.cursor.fetchone()
+            if advisorRow:
+                print("USERTYPE: ", advisorRow[0])
+                if advisorRow[0] == 'A':
+                    print("Advisor is already in the advisors list.")
+                    continue
+            lecturer = Lecturer(
                     ssn=row[0],
                     name=row[1],
                     surname=row[2],
                     birthdate=row[3],
                     gender=row[4]
                 )
-                lecturers.append(lecturer)
+            lecturers.append(lecturer)
+
         return lecturers
     def initiate_advisors(self) -> None:
         self.cursor.execute("SELECT * FROM User Where userType = 'A'")
         rows = self.cursor.fetchall()
         for row in rows:
             self.cursor.execute("SELECT * FROM Lecturer where ssn = ?", (row[0],))
-            lecturer = self.cursor.fetchone()
             advisor = self.get_advisor(row[0])
             self.advisors.append(advisor)
 
@@ -594,7 +604,6 @@ class SQLiteManagement:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
                 advisor.set_interface(AdvisorInterface(advisor, self.__notificationSystem))
-                self.advisors.append(advisor)
                 return advisor
             else:
                 return None
@@ -641,7 +650,7 @@ class SQLiteManagement:
                 # Change string date value into the Date object.
                 birthdate_str = row[3]  
                 birthdate = None
-                if birthdate_str:  # Eğer veri boş değilse
+                if birthdate_str:  
                     try:
                         # Tarihi parse et
                         birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
