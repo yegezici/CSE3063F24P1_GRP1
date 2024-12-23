@@ -49,6 +49,7 @@ class StudentInterface(UserInterface):
     def register_course(self):
         available_courses = self.show_registrable_courses()
         while True:
+            print(f"Your total credit is: {self.student.get_transcript().get_total_credits()}")
             total_number_of_courses = len(self.student.get_transcript().get_current_courses()) + \
                                       len(self.student.get_transcript().get_waited_courses())
             if total_number_of_courses >= 5:
@@ -105,7 +106,7 @@ class StudentInterface(UserInterface):
             is_waited = self.check_course_exist_in_list(course, transcript.get_waited_courses())
             is_current = self.check_course_exist_in_list(course, transcript.get_current_courses())
 
-            if not is_completed and not is_waited and not is_current and self.check_prerequisite(course):
+            if not is_completed and not is_waited and not is_current and self.check_prerequisite(course) and self.check_engineering_project_availability:
                 registrable_courses.append(course)
         # Remove courses from future semesters
         registrable_courses = [
@@ -140,3 +141,10 @@ class StudentInterface(UserInterface):
     def print_student_weekly_schedule(self):
         weekly_schedule = WeeklySchedule(self.student)
         weekly_schedule.print_student_weekly_schedule()
+    
+
+    def check_engineering_project_availability(self):
+        if self.student.get_transcript().get_total_credits() >= 165:
+            return True
+        
+        
