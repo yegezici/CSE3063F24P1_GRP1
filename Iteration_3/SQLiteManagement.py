@@ -29,12 +29,12 @@ class SQLiteManagement:
         self.courses = self.initialize_courses()            
         self.courseSections = self.initialize_courseSections()
         self.set_prerequisites()
+        self.__notificationSystem = self.initialize_notification_system()
+        self.students = []
         self.advisors = []
         self.initiate_advisors()
         self.lecturers = self.initialize_lecturers()
         self.set_lecturer_to_sections()
-        self.students = []
-        self.__notificationSystem = self.initialize_notification_system()
 
         
     def get_students(self) -> list[Student]:
@@ -97,7 +97,8 @@ class SQLiteManagement:
         for row in rows:
             self.cursor.execute("SELECT * FROM Lecturer where ssn = ?", (row[0],))
             lecturer = self.cursor.fetchone()
-            self.advisors.append(Advisor(name=lecturer[1], surname=lecturer[2], birthdate=lecturer[3], gender=lecturer[4], ssn=lecturer[0]))
+            advisor = self.get_advisor(row[0])
+            self.advisors.append(advisor)
 
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
@@ -553,7 +554,21 @@ class SQLiteManagement:
             logger.warning("SQLite error:", e)
         return None
     
+    def check_advisor_exists(self, advisor_id: str) -> Advisor:
+        try:
+            for advisor in self.advisors:
+                if advisor.get_ssn() == advisor_id:
+                    return advisor
+        except:
+            logger.warning("There is an error in check_advisor_exists function.")
+        return None
+    
     def get_advisor(self, id: str) -> Advisor:
+        exist_advisor = self.check_advisor_exists(id)
+        if exist_advisor is not None:
+            return exist_advisor
+        
+        
         from AdvisorInterface import AdvisorInterface
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")

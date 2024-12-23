@@ -83,6 +83,10 @@ class AdminInterface:
         from Student import Student
         student = None
         for advisor in self.admin.get_advisors():
+            print("ADVISORS:   ",advisor.get_id())
+            for student in advisor.get_students():
+                print("STUDENTS:   ",student.get_id())
+        for advisor in self.admin.get_advisors():
                 if advisor.get_id() == student_advisorID:
                     from Transcript import Transcript
                     transcript = Transcript()
@@ -90,6 +94,9 @@ class AdminInterface:
                     advisor.add_student(student)
                     student.set_advisor(advisor)
                     break
+                
+        for student in advisor.get_students():
+            print(student.get_id())
         return student
 
     def advisor_to_add(self):
