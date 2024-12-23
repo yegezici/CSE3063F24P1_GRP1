@@ -16,13 +16,15 @@ class AdminInterface:
             print(student.get_id())
         if choice == 1:
             logger.info(f"Choice 1:  Add Student is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
+            password = input("Enter new password: ")
             new_student = self.student_to_add()
             if new_student is None:
                 print("No matching advisor found.")
             else:
                 print("Student successfully added.")
                 self.admin.add_student(new_student)
-            #SQLiteManagement.add_student(student)
+
+                self.manager.add_student(new_student, password)
         elif choice == 2:
             logger.info(f"Choice 2:  Delete Student is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
             student_id_to_be_deleted = input("Enter student ID to be deleted: ")
