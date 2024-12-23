@@ -59,7 +59,7 @@ class AdvisorInterface(UserInterface):
         try:
             self.advisor.approve_course(student, course_section)
             if self.notification_system is None:
-                print("bu nonemış")
+                print("bu n")
             self.notification_system.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_section_id() + " has been approved.")
             if not student.get_transcript().get_waited_courses():
                 print("No more courses to approve.")

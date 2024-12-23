@@ -600,7 +600,8 @@ class SQLiteManagement:
                 for row in rows:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
-                advisor.set_interface(AdvisorInterface(advisor, self.__notificationSystem))
+                
+                advisor.set_interface(AdvisorInterface(advisor, self.get_notification_system()))
                 self.advisors.append(advisor)
                 return advisor
             else:
@@ -791,7 +792,7 @@ class SQLiteManagement:
                 receiver = self.get_user(row[1])
                 sender = self.get_user(row[2])
                 notification = Notification(sender, receiver, row[3])
-                print("hi")
+                #print("hi")
                 #if notification:
                 #    print(f"Notification created: {notification.get_message()}")
                 #else:
@@ -812,6 +813,7 @@ class SQLiteManagement:
             
             # Daha sonra güncel bildirimleri kaydet
             for notification in self.__notificationSystem.get_notifications():
+                #print(self.__notificationSystem.print_user_notifications())
                 self.save_notification(
                     receiver=notification.get_receiver(),
                     sender=notification.get_sender(),

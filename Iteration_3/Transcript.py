@@ -27,10 +27,10 @@ class Transcript:
             print("The course object is null")
 
     def delete_from_waited_course(self, course):
-        if course in self.__waited_courses:
-            self.__waited_courses.remove(course)
-        else:
-            print("The course object is null")
+        for existing_course in self.__waited_courses:
+            if existing_course.get_course_id() == course.get_course_id():
+                self.__waited_courses.remove(existing_course)
+                return
 
     def add_current_section(self, course_section):
         if course_section:
