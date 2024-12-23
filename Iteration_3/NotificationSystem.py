@@ -12,9 +12,11 @@ class NotificationSystem:
         count = 0
         for notification in self.get_notifications():
             print(notification.get_message())
-            if notification.get_receiver().get_ssn() == user.get_ssn():
+            receiver = notification.get_receiver()
+            if receiver is not None and receiver.get_ssn() == user.get_ssn():
                 count += 1
                 user_notifications.append(notification.get_message())
+
         print("You have " + str(count) + " notifications: ")
         for notification in user_notifications:
             print(notification)
