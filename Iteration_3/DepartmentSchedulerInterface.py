@@ -50,7 +50,7 @@ class DepartmentSchedulerInterface(UserInterface):
             print("Current lecturer is " + chosen_section.get_lecturer().get_name())
         print("Choose a new lecturer:")
         for idx, lecturer in enumerate(self.lecturers, 1):
-            print(f"{idx}- {lecturer.get_name()}")
+            print(f"{idx}- {lecturer.get_name()} {lecturer.get_surname()}")
         try:
             new_lecturer = self.lecturers[int(input()) - 1]
             if self.department_scheduler.handle_lecturer_conflict(new_lecturer, chosen_section):
