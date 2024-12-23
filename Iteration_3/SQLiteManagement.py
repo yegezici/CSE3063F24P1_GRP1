@@ -29,13 +29,15 @@ class SQLiteManagement:
         self.courses = self.initialize_courses()            
         self.courseSections = self.initialize_courseSections()
         self.set_prerequisites()
-        self.__notificationSystem = self.initialize_notification_system()
         self.students = []
         self.advisors = []
+        self.__notificationSystem = None
+        self.__notificationSystem = self.initialize_notification_system()
         self.initiate_advisors()
         self.assign_advisor_to_students()
         self.lecturers = self.initialize_lecturers()
         self.set_lecturer_to_sections()
+
 
         
     def get_students(self) -> list[Student]:
@@ -107,8 +109,7 @@ class SQLiteManagement:
         rows = self.cursor.fetchall()
         for row in rows:
             self.cursor.execute("SELECT * FROM Lecturer where ssn = ?", (row[0],))
-            advisor = self.get_advisor(row[0])
-            self.advisors.append(advisor)
+            self.get_advisor(row[0])
 
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
@@ -577,13 +578,13 @@ class SQLiteManagement:
         exist_advisor = self.check_advisor_exists(id)
         if exist_advisor is not None:
             return exist_advisor
-        
-        
         from AdvisorInterface import AdvisorInterface
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
             row = self.cursor.fetchone()
+            print("Advisor row: buldu mu ")
             if row:
+                print("buraya girdi mi")
                 # Change string date value into the Date object.
                 birthdate_str = row[3]  
                 birthdate = None
@@ -604,6 +605,8 @@ class SQLiteManagement:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
                 advisor.set_interface(AdvisorInterface(advisor, self.__notificationSystem))
+                print("Advisor row: buldu mu 2")
+                self.advisors.append(advisor)
                 return advisor
             else:
                 return None
@@ -770,9 +773,17 @@ class SQLiteManagement:
             row = self.cursor.fetchone()
             if row:
                 if row[0] == 'S':
-                    return self.get_student(userID)
+                    print("USERTYPE: ", row[0])
+                    print("USERID: ", userID)
+                    student = self.get_student(userID)
+                    print("STUDENT: ", student.get_id())
+                    return student
                 if row[0] == 'A':
-                    return self.get_advisor(userID)
+                    print("USERTYPE: ", row[0])
+                    print("USERID: ", userID)
+                    advisor = self.get_advisor(userID)
+                    print("ADVISOR: ", advisor.get_ssn())
+                    return advisor
                 if row[0] == 'D':
                     return self.get_deparment_scheduler(userID)
                 if row[0] == 'H':
@@ -786,14 +797,15 @@ class SQLiteManagement:
         
     def initialize_notification_system(self)-> NotificationSystem:
         try:
-            print("initialize_notification_system function is called!")
             self.cursor.execute(f"SELECT * FROM Notification")
             rows = self.cursor.fetchall()
             notification_system = NotificationSystem()
             for row in rows:
                 receiver = self.get_user(row[1])
                 sender = self.get_user(row[2])
+                print("Receiver")
                 notification = Notification(sender, receiver, row[3])
+                
                 #if notification:
                 #    print(f"Notification created: {notification.get_message()}")
                 #else:
