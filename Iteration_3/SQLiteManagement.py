@@ -666,6 +666,8 @@ class SQLiteManagement:
                                 (student.get_id(), password, 'S')),
             self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, gender, birthdate, advisorID, semester) VALUES (?, ?, ?, ?, ?, ?, ?);", 
                                 (student.get_id(), student.get_name(), student.get_surname(), student.get_gender(), str(student.get_birthdate()), student.get_advisor().get_id(), "1"))
+            self.cursor.execute(f"INSERT INTO StudentsOfAdvisor (studentID, advisorID) VALUES (?, ?);",
+                                (student.get_id(), student.get_advisor().get_id()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
