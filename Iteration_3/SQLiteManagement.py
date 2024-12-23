@@ -29,15 +29,12 @@ class SQLiteManagement:
         self.courses = self.initialize_courses()            
         self.courseSections = self.initialize_courseSections()
         self.set_prerequisites()
-        self.students = []
         self.advisors = []
-        self.__notificationSystem = None
-        self.__notificationSystem = self.initialize_notification_system()
         self.initiate_advisors()
-        self.assign_advisor_to_students()
         self.lecturers = self.initialize_lecturers()
         self.set_lecturer_to_sections()
-
+        self.students = []
+        self.__notificationSystem = self.initialize_notification_system()
 
         
     def get_students(self) -> list[Student]:
@@ -50,14 +47,6 @@ class SQLiteManagement:
         return self.advisors
     def get_notification_system(self) -> NotificationSystem:
         return self.__notificationSystem
-    
-    def assign_advisor_to_students(self) -> None:
-        for student in self.students:
-            self.cursor.execute("SELECT advisorID FROM Student WHERE studentID = ?", (student.get_id(),))
-            row = self.cursor.fetchone()
-            if row:
-                advisor = self.get_advisor(row[0])
-                student.set_advisor(advisor)
     
     def set_lecturer_to_sections(self) -> None:
         for section in self.courseSections:
@@ -80,34 +69,35 @@ class SQLiteManagement:
 
     def initialize_lecturers(self) -> list[Lecturer]:
         lecturers = []
-        for advisors in self.advisors:
-            lecturers.append(advisors)
+    
+        # Add advisors to the lecturers list
+        for advisor in self.advisors:
+            lecturers.append(advisor)
+    
         # Fetch remaining lecturers from the database
         self.cursor.execute("SELECT * FROM Lecturer")
         rows = self.cursor.fetchall()
-
+    
         for row in rows:
-            self.cursor.execute("SELECT userType FROM User where userID = ?", (row[0],))
-            advisorRow = self.cursor.fetchone()
-            if advisorRow:
-                if advisorRow[0] == 'A':
-                    continue
-            lecturer = Lecturer(
+            lecturer_id = row[0]  # Assuming the first column is the lecturer's ID
+            # Check if the lecturer is already in the advisors list
+            if not any(advisor.get_ssn() == lecturer_id for advisor in self.advisors):
+                lecturer = Lecturer(
                     ssn=row[0],
                     name=row[1],
                     surname=row[2],
                     birthdate=row[3],
                     gender=row[4]
                 )
-            lecturers.append(lecturer)
-
+                lecturers.append(lecturer)
         return lecturers
     def initiate_advisors(self) -> None:
         self.cursor.execute("SELECT * FROM User Where userType = 'A'")
         rows = self.cursor.fetchall()
         for row in rows:
             self.cursor.execute("SELECT * FROM Lecturer where ssn = ?", (row[0],))
-            self.get_advisor(row[0])
+            lecturer = self.cursor.fetchone()
+            self.advisors.append(Advisor(name=lecturer[1], surname=lecturer[2], birthdate=lecturer[3], gender=lecturer[4], ssn=lecturer[0]))
 
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
@@ -453,6 +443,7 @@ class SQLiteManagement:
                 storedSection = row[2]
                 for section in self.courseSections:
                     if section.get_section_id() == storedSection:
+                        print(courseSectionList_type + "Buraya girdim ve " + storedSection + " ekledim.")
                         courseSectionList.append(section)
 
             return courseSectionList
@@ -556,26 +547,16 @@ class SQLiteManagement:
             row = self.cursor.fetchone()
             if row:
 
-                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=self.lecturers, department_schedulers=None)
+                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=None, department_schedulers=None)
+                print(self.advisors)
+
                 admin.set_interface(AdminInterface(admin, self.__notificationSystem))
                 return admin
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
         return None
     
-    def check_advisor_exists(self, advisor_id: str) -> Advisor:
-        try:
-            for advisor in self.advisors:
-                if advisor.get_ssn() == advisor_id:
-                    return advisor
-        except:
-            logger.warning("There is an error in check_advisor_exists function.")
-        return None
-    
     def get_advisor(self, id: str) -> Advisor:
-        exist_advisor = self.check_advisor_exists(id)
-        if exist_advisor is not None:
-            return exist_advisor
         from AdvisorInterface import AdvisorInterface
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
@@ -629,7 +610,7 @@ class SQLiteManagement:
                 else:
                     birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
 
-                dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4], ssn=headID)
+                dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4], ssn=headID, manager = self)
                 #BURADAKI self.advisors LECTURER LISTI OLDUGUNDA DUZELTILECEK
                 dephead.set_interface(DepartmentHeadInterface(dephead,self.courseSections, self.lecturers ,self.__notificationSystem))
                 return dephead
@@ -648,7 +629,7 @@ class SQLiteManagement:
                 # Change string date value into the Date object.
                 birthdate_str = row[3]  
                 birthdate = None
-                if birthdate_str:  
+                if birthdate_str:  # Eğer veri boş değilse
                     try:
                         # Tarihi parse et
                         birthdate = datetime.strptime(birthdate_str.strip(), "%Y-%m-%d").date()
@@ -662,7 +643,7 @@ class SQLiteManagement:
                                              schedulerID,
                                              self.courseSections,
                                              self.init_time_intervals())
-                depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch,course_sections= self.courseSections, lecturers= self.lecturers, notification_system= self.__notificationSystem))
+                depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch,course_sections= self.courseSections, lecturers= self.advisors, notification_system= self.__notificationSystem))
                 return depsch
             else:
                 return None
@@ -686,10 +667,8 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (student.get_id(), password, 'S')),
-            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, gender, birthdate, advisorID, semester) VALUES (?, ?, ?, ?, ?, ?, ?);", 
-                                (student.get_id(), student.get_name(), student.get_surname(), student.get_gender(), str(student.get_birthdate()), student.get_advisor().get_id(), "1"))
-            self.cursor.execute(f"INSERT INTO StudentsOfAdvisor (studentID, advisorID) VALUES (?, ?);",
-                                (student.get_id(), student.get_advisor().get_id()))
+            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
+                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -732,7 +711,7 @@ class SQLiteManagement:
     def add_lecturer(self, lecturer: Lecturer) -> None:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (lecturer.get_id(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
+                                (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
@@ -767,16 +746,16 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT userType FROM User WHERE UserID = '{userID}'")
             row = self.cursor.fetchone()
             if row:
-                if row[0] == 'S':
-                    return self.get_student(userID)
-                if row[0] == 'A':
-                    return self.get_advisor(userID)
-                if row[0] == 'D':
-                    return self.get_deparment_scheduler(userID)
-                if row[0] == 'H':
-                    return self.get_department_head(userID)
-                if row[0] == 'M':
-                    return self.get_admin(userID)
+                if row[2] == 'S':
+                    return self.get_student(row[0])
+                if row[2] == 'A':
+                    return self.get_advisor(row[0])
+                if row[2] == 'D':
+                    return self.get_deparment_scheduler(row[0])
+                if row[2] == 'H':
+                    return self.get_department_head(row[0])
+                if row[2] == 'M':
+                    return self.get_admin(row[0])
                 return None
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -791,15 +770,10 @@ class SQLiteManagement:
                 receiver = self.get_user(row[1])
                 sender = self.get_user(row[2])
                 notification = Notification(sender, receiver, row[3])
-                
-                #if notification:
-                #    print(f"Notification created: {notification.get_message()}")
-                #else:
-                #    print("Failed to create notification!"
                 notification_system.get_notifications().append(notification)
             return notification_system
         except sqlite3.Error as e:
-            logger.warning(f"SQLite error: HATA BURADA - {e}")
+            logger.warning("SQLite error: HATA BURADA", e)
         except: 
             logger.warning("There is an error in initialize_notification_system function in SQLiteManagement.py")
             return NotificationSystem()

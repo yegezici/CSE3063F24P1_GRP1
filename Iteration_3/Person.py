@@ -28,6 +28,9 @@ class Person(ABC):
     def get_gender(self):
         """Get the gender of the person"""
         pass
+    @abstractmethod
+    def initialize_interface(self, interface):
+        pass
 
     def get_ssn(self):
         return self._ssn

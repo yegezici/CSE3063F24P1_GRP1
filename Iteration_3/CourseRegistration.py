@@ -38,31 +38,13 @@ class CourseRegistration:
             if current_user == "exit":
                 logger.info("Program has been terminated succesfully.")
                 break
-            #logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
+            logger.info(f"{current_user.get_name()} {current_user.get_surname()} with ID {current_user.get_id()} has succesfully logged in")
             while True:
                 user_interface = current_user.initialize_interface()
                 
                 print(f"Welcome {current_user.get_name()} {current_user.get_surname()}\n")
                 notification_system.print_user_notifications(user = current_user)
-                """
-                if isinstance(current_user, Student):     
-                    user_interface = StudentInterface(current_user, self.courses, self.notificationSystem)
-                elif isinstance(current_user, Advisor):
-                    notificationSystem.print_user_notifications(user = current_user)
-                    user_interface = AdvisorInterface(current_user)
-                    user_interface = AdvisorInterface(current_user, self.notificationSystem)
-                elif isinstance(current_user, StudentAffairsStaff):
-                    notificationSystem.print_user_notifications(user = current_user)
-                    user_interface = StudentAffairsStaffInterface(current_user, self.courses, self.course_sections, self.notificationSystem)
-                elif isinstance(current_user, DepartmentScheduler):
-                    notificationSystem.print_user_notifications(user = current_user)
-                    user_interface = DepartmentSchedulerInterface(current_user, self.course_sections, self.notificationSystem)
-                elif isinstance(current_user, DepartmentHead):
-                    notificationSystem.print_user_notifications(user = current_user)
-                    user_interface = DepartmentHeadInterface(current_user, self.course_sections, self.courses)
-                """
                 if user_interface.show_menu():
-#-------------------------------BU KISIMDA NOTIFICATIONLARIN KAYDEDILMESI GEREKMEKTEDIR---------------------------------
                     self.manager.save_all_notifications()
                     self.manager.save_all_students()
                     break
