@@ -546,9 +546,7 @@ class SQLiteManagement:
             row = self.cursor.fetchone()
             if row:
 
-                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=None, department_schedulers=None)
-                print(self.advisors)
-
+                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=self.lecturers, department_schedulers=None)
                 admin.set_interface(AdminInterface(admin, self.__notificationSystem))
                 return admin
         except sqlite3.Error as e:
@@ -666,8 +664,8 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (student.get_id(), password, 'S')),
-            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
-                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
+            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, gender, birthdate, advisorID, semester) VALUES (?, ?, ?, ?, ?, ?, ?);", 
+                                (student.get_id(), student.get_name(), student.get_surname(), student.get_gender(), str(student.get_birthdate()), student.get_advisor().get_id(), "1"))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -710,7 +708,7 @@ class SQLiteManagement:
     def add_lecturer(self, lecturer: Lecturer) -> None:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
+                                (lecturer.get_id(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
@@ -745,16 +743,16 @@ class SQLiteManagement:
             self.cursor.execute(f"SELECT userType FROM User WHERE UserID = '{userID}'")
             row = self.cursor.fetchone()
             if row:
-                if row[2] == 'S':
-                    return self.get_student(row[0])
-                if row[2] == 'A':
-                    return self.get_advisor(row[0])
-                if row[2] == 'D':
-                    return self.get_deparment_scheduler(row[0])
-                if row[2] == 'H':
-                    return self.get_department_head(row[0])
-                if row[2] == 'M':
-                    return self.get_admin(row[0])
+                if row[0] == 'S':
+                    return self.get_student(userID)
+                if row[0] == 'A':
+                    return self.get_advisor(userID)
+                if row[0] == 'D':
+                    return self.get_deparment_scheduler(userID)
+                if row[0] == 'H':
+                    return self.get_department_head(userID)
+                if row[0] == 'M':
+                    return self.get_admin(userID)
                 return None
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -762,6 +760,7 @@ class SQLiteManagement:
         
     def initialize_notification_system(self)-> NotificationSystem:
         try:
+            print("initialize_notification_system function is called!")
             self.cursor.execute(f"SELECT * FROM Notification")
             rows = self.cursor.fetchall()
             notification_system = NotificationSystem()
@@ -769,10 +768,16 @@ class SQLiteManagement:
                 receiver = self.get_user(row[1])
                 sender = self.get_user(row[2])
                 notification = Notification(sender, receiver, row[3])
+                #if notification:
+                #    print(f"Notification created: {notification.get_message()}")
+                #else:
+                #    print("Failed to create notification!"
+                print("Adding notification:", notification.get_message())
                 notification_system.get_notifications().append(notification)
+                print("Notifications count:", len(notification_system.get_notifications()))
             return notification_system
         except sqlite3.Error as e:
-            logger.warning("SQLite error: HATA BURADA", e)
+            logger.warning(f"SQLite error: HATA BURADA - {e}")
         except: 
             logger.warning("There is an error in initialize_notification_system function in SQLiteManagement.py")
             return NotificationSystem()

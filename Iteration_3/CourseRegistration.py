@@ -26,7 +26,6 @@ class CourseRegistration:
         self.courses = self.manager.get_courses()
         self.course_sections = self.manager.get_course_sections()
         self.advisors = self.manager.get_advisors()
-        self.notificationSystem = NotificationSystem()
 
     def init(self):
         logger.info("Course Registration system is started.")
@@ -76,7 +75,7 @@ class CourseRegistration:
         if input() == "1":
             entered_user_id = input("User ID: ")
             entered_password = input("Password: ")
-            return self.check_id_and_password(entered_user_id, entered_password)
+            return self.check_id_and_password(entered_user_id[1:], entered_password)
         else:
             return "exit"
 

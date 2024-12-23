@@ -67,7 +67,7 @@ class AdvisorInterface(UserInterface):
     def reject_course(self, student, course_section):
         try:
             self.advisor.reject_course(student, course_section)
-            self.notification_system.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_name() + " has been rejected.")
+            self.notification_system.create_notification(sender=self, receiver=student, message="Your registeration to " + course_section.get_section_id() + " has been rejected.")
         except Exception as e:
             print(str(e))
 
@@ -79,7 +79,7 @@ class AdvisorInterface(UserInterface):
             course_section = None
 
             for section in student.get_transcript().get_waited_sections():
-                if section.get_parent_course().get_course_id == parent_course.get_course_id:
+                if section.get_parent_course().get_course_id() == parent_course.get_course_id():
                     course_section = section
 
             # Check for section conflict
