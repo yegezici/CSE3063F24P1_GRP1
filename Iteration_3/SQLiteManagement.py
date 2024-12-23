@@ -90,9 +90,7 @@ class SQLiteManagement:
             self.cursor.execute("SELECT userType FROM User where userID = ?", (row[0],))
             advisorRow = self.cursor.fetchone()
             if advisorRow:
-                print("USERTYPE: ", advisorRow[0])
                 if advisorRow[0] == 'A':
-                    print("Advisor is already in the advisors list.")
                     continue
             lecturer = Lecturer(
                     ssn=row[0],
@@ -582,9 +580,7 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
             row = self.cursor.fetchone()
-            print("Advisor row: buldu mu ")
             if row:
-                print("buraya girdi mi")
                 # Change string date value into the Date object.
                 birthdate_str = row[3]  
                 birthdate = None
@@ -605,7 +601,6 @@ class SQLiteManagement:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
                 advisor.set_interface(AdvisorInterface(advisor, self.__notificationSystem))
-                print("Advisor row: buldu mu 2")
                 self.advisors.append(advisor)
                 return advisor
             else:
@@ -773,17 +768,9 @@ class SQLiteManagement:
             row = self.cursor.fetchone()
             if row:
                 if row[0] == 'S':
-                    print("USERTYPE: ", row[0])
-                    print("USERID: ", userID)
-                    student = self.get_student(userID)
-                    print("STUDENT: ", student.get_id())
-                    return student
+                    return self.get_student(userID)
                 if row[0] == 'A':
-                    print("USERTYPE: ", row[0])
-                    print("USERID: ", userID)
-                    advisor = self.get_advisor(userID)
-                    print("ADVISOR: ", advisor.get_ssn())
-                    return advisor
+                    return self.get_advisor(userID)
                 if row[0] == 'D':
                     return self.get_deparment_scheduler(userID)
                 if row[0] == 'H':
@@ -803,16 +790,13 @@ class SQLiteManagement:
             for row in rows:
                 receiver = self.get_user(row[1])
                 sender = self.get_user(row[2])
-                print("Receiver")
                 notification = Notification(sender, receiver, row[3])
                 
                 #if notification:
                 #    print(f"Notification created: {notification.get_message()}")
                 #else:
                 #    print("Failed to create notification!"
-                print("Adding notification:", notification.get_message())
                 notification_system.get_notifications().append(notification)
-                print("Notifications count:", len(notification_system.get_notifications()))
             return notification_system
         except sqlite3.Error as e:
             logger.warning(f"SQLite error: HATA BURADA - {e}")
