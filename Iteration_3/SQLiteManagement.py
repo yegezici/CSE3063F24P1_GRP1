@@ -629,7 +629,7 @@ class SQLiteManagement:
                 else:
                     birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
 
-                dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4], ssn=headID, manager = self)
+                dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4], ssn=headID)
                 #BURADAKI self.advisors LECTURER LISTI OLDUGUNDA DUZELTILECEK
                 dephead.set_interface(DepartmentHeadInterface(dephead,self.courseSections, self.lecturers ,self.__notificationSystem))
                 return dephead
