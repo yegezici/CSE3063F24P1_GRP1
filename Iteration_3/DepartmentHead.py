@@ -45,11 +45,15 @@ class DepartmentHead(Staff):
         print("Capacity has been set successfully.")
 
     def manage_capacity(self, course_section, new_capacity, notification_system: NotificationSystem):
-        if new_capacity < course_section.capacity:
-            raise ValueError("New capacity cannot be smaller than the old capacity.")
-        size_increase = new_capacity - course_section.get_capacity()
-        course_section.set_capacity(new_capacity)
-        self.manage_waitlist(course_section, size_increase, notification_system)
+        
+        if new_capacity < course_section.get_capacity():
+            print("New capacity cannot be less than the current capacity.")
+            return False
+        else:
+            size_increase = new_capacity - course_section.get_capacity()
+            course_section.set_capacity(new_capacity)
+            self.manage_waitlist(course_section, size_increase, notification_system)
+            return True
 
     def manage_waitlist(self, course_section: CourseSection, size, notification_system: NotificationSystem):
         try:
