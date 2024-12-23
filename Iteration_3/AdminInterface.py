@@ -20,7 +20,7 @@ class AdminInterface:
             if new_student is None:
                 print("No matching advisor found.")
             else:
-                print("Student successfully added. {new_student.get_name()} {new_student.get_surname()} with ID {new_student.get_id()}")
+                print(f"Student successfully added. {new_student.get_name()} {new_student.get_surname()} with ID {new_student.get_id()}")
                 self.admin.add_student(new_student)
                 self.manager.add_student(new_student, password)
         elif choice == 2:

@@ -2,7 +2,7 @@ import logging
 import os
 
 # Log dosyasının tutulacağı klasör
-log_folder = "logs"
+log_folder = "Iteration_3/logs"
 os.makedirs(log_folder, exist_ok=True)  # Klasör yoksa oluştur
 
 # Log dosyasının yolu

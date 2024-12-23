@@ -1,0 +1,5 @@
+2024-12-23 12:59:37,974 - CourseRegistrationSystem - WARNING - There is an error in check_advisor_exists function.
+2024-12-23 12:59:37,979 - CourseRegistrationSystem - WARNING - There is an error in check_student_exists function: 'SQLiteManagement' object has no attribute 'students'
+2024-12-23 12:59:37,979 - CourseRegistrationSystem - WARNING - Exception type: AttributeError
+2024-12-23 12:59:37,981 - CourseRegistrationSystem - WARNING - There is an error in initialize_notification_system function in SQLiteManagement.py
+2024-12-23 12:59:38,002 - CourseRegistrationSystem - INFO - Course Registration system is started.
