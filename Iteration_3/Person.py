@@ -29,7 +29,6 @@ class Person(ABC):
         """Get the gender of the person"""
         pass
 
-    @abstractmethod
     def get_ssn(self):
-        """Get the SSN of the person"""
-        pass
+        return self._ssn
+        
