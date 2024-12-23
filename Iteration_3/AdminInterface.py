@@ -14,7 +14,7 @@ class AdminInterface:
         log_out = False
         choice = self.get_choice()
         if choice == 1:
-            logger.info(f"Choice 1:  Add Student is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
+            logger.info(f"Choice 1: Add Student is selected - {self.admin.get_name()} {self.admin.get_surname()}")
             password = input("Enter new password: ")
             new_student = self.student_to_add()
             if new_student is None:
@@ -24,47 +24,114 @@ class AdminInterface:
                 self.admin.add_student(new_student)
                 self.manager.add_student(new_student, password)
         elif choice == 2:
-            logger.info(f"Choice 2:  Delete Student is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
+            logger.info(f"Choice 2: Delete Student is selected - {self.admin.get_name()} {self.admin.get_surname()}")
             student_id_to_be_deleted = input("Enter student ID to be deleted: ")
-            self.admin.delete_student(student_id_to_be_deleted)
-            self.manager.delete_student(student_id_to_be_deleted)
+            try:
+                # İlk admin tarafında silme işlemi
+                self.admin.delete_student(student_id_to_be_deleted)
+                # Daha sonra manager tarafında silme işlemi
+                self.manager.delete_student(student_id_to_be_deleted)
+                print(f"Student with ID {student_id_to_be_deleted} successfully deleted.")
+            except KeyError:  # Eğer öğrenci ID'si bulunamazsa
+                logger.error(f"Student ID {student_id_to_be_deleted} not found in records.")
+                print("Error: Student ID not found.")
+            except Exception as e:  # Genel bir hata yakalayıcı
+                logger.error(f"An unexpected error occurred while deleting the student: {str(e)}")
+                print("An unexpected error occurred. Please try again.")
+
         elif choice == 3:
-            logger.info(f"Choice 3:  Add Advisor is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
+            logger.info(f"Choice 3: Add Advisor is selected - {self.admin.get_name()} {self.admin.get_surname()}")
             advisor = self.advisor_to_add()
-            self.admin.add_advisor(advisor)
-            self.manager.add_advisor(advisor)
+            try:
+                self.admin.add_advisor(advisor)
+                self.manager.add_advisor(advisor)
+                print(f"Advisor {advisor.get_name()} {advisor.get_surname()} successfully added.")
+            except KeyError:
+                logger.error("Advisor information is invalid or duplicate.")
+                print("Error: Could not add advisor. Please check the details.")
+            except Exception as e:
+                logger.error(f"An unexpected error occurred while adding the advisor: {str(e)}")
+                print("An unexpected error occurred. Please try again.")
+
         elif choice == 4:
-            logger.info(f"Choice 4:  Delete Advisor is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
-            advisor_id_to_be_deleted = input("Enter student ID to be deleted: ")
-            self.admin.delete_advisor(advisor_id_to_be_deleted)
-            self.manager.delete_student(advisor_id_to_be_deleted)
+            logger.info(f"Choice 4: Delete Advisor is selected - {self.admin.get_name()} {self.admin.get_surname()}")
+            advisor_id_to_be_deleted = input("Enter advisor ID to be deleted: ")
+            try:
+                self.admin.delete_advisor(advisor_id_to_be_deleted)
+                self.manager.delete_advisor(advisor_id_to_be_deleted)
+                print(f"Advisor with ID {advisor_id_to_be_deleted} successfully deleted.")
+            except KeyError:
+                logger.error(f"Advisor ID {advisor_id_to_be_deleted} not found.")
+                print("Error: Advisor ID not found.")
+            except Exception as e:
+                logger.error(f"An unexpected error occurred while deleting the advisor: {str(e)}")
+                print("An unexpected error occurred. Please try again.")
+
         elif choice == 5:
-            logger.info(f"Choice 5:  Add Lecturer is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
+            logger.info(f"Choice 5: Add Lecturer is selected - {self.admin.get_name()} {self.admin.get_surname()}")
             lecturer = self.lecturer_to_add()
-            self.admin.add_lecturer(lecturer)
-            self.manager.add_lecturer(lecturer)
+            try:
+                self.admin.add_lecturer(lecturer)
+                self.manager.add_lecturer(lecturer)
+                print(f"Lecturer {lecturer.get_name()} {lecturer.get_surname()} successfully added.")
+            except KeyError:
+                logger.error("Lecturer information is invalid or duplicate.")
+                print("Error: Could not add lecturer. Please check the details.")
+            except Exception as e:
+                logger.error(f"An unexpected error occurred while adding the lecturer: {str(e)}")
+                print("An unexpected error occurred. Please try again.")
+
         elif choice == 6:
-            logger.info(f"Choice 6:  Delete Lecturer is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
+            logger.info(f"Choice 6: Delete Lecturer is selected - {self.admin.get_name()} {self.admin.get_surname()}")
             lecturer_id_to_be_deleted = input("Enter lecturer ID to be deleted: ")
-            self.admin.delete_lecturer(lecturer_id_to_be_deleted)
-            self.manager.delete_lecturer(lecturer_id_to_be_deleted)
+            try:
+                self.admin.delete_lecturer(lecturer_id_to_be_deleted)
+                self.manager.delete_lecturer(lecturer_id_to_be_deleted)
+                print(f"Lecturer with ID {lecturer_id_to_be_deleted} successfully deleted.")
+            except KeyError:
+                logger.error(f"Lecturer ID {lecturer_id_to_be_deleted} not found.")
+                print("Error: Lecturer ID not found.")
+            except Exception as e:
+                logger.error(f"An unexpected error occurred while deleting the lecturer: {str(e)}")
+                print("An unexpected error occurred. Please try again.")
+
         elif choice == 7:
-            logger.info(f"Choice 7: Add Department Scheduler is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
+            logger.info(f"Choice 7: Add Department Scheduler is selected - {self.admin.get_name()} {self.admin.get_surname()}")
             scheduler = self.scheduler_to_add()
-            self.admin.add_department_scheduler(scheduler)
-            self.manager.add_department_scheduler(scheduler)
+            try:
+                self.admin.add_department_scheduler(scheduler)
+                self.manager.add_department_scheduler(scheduler)
+                print(f"Department Scheduler {scheduler.get_name()} {scheduler.get_surname()} successfully added.")
+            except KeyError:
+                logger.error("Scheduler information is invalid or duplicate.")
+                print("Error: Could not add department scheduler. Please check the details.")
+            except Exception as e:
+                logger.error(f"An unexpected error occurred while adding the department scheduler: {str(e)}")
+                print("An unexpected error occurred. Please try again.")
+
         elif choice == 8:
-            logger.info(f"Choice 8: Delete Department Scheduler is selected     - {self.admin.get_name()} {self.admin.get_surname()}")
+            logger.info(f"Choice 8: Delete Department Scheduler is selected - {self.admin.get_name()} {self.admin.get_surname()}")
             scheduler_id_to_be_deleted = input("Enter scheduler ID to be deleted: ")
-            self.admin.delete_department_scheduler(scheduler_id_to_be_deleted)
-            self.manager.delete_department_scheduler(scheduler_id_to_be_deleted)
+            try:
+                self.admin.delete_department_scheduler(scheduler_id_to_be_deleted)
+                self.manager.delete_department_scheduler(scheduler_id_to_be_deleted)
+                print(f"Department Scheduler with ID {scheduler_id_to_be_deleted} successfully deleted.")
+            except KeyError:
+                logger.error(f"Scheduler ID {scheduler_id_to_be_deleted} not found.")
+                print("Error: Scheduler ID not found.")
+            except Exception as e:
+                logger.error(f"An unexpected error occurred while deleting the department scheduler: {str(e)}")
+                print("An unexpected error occurred. Please try again.")
+
         elif choice == 9:
-            logger.info(f"{self.admin.get_name()} {self.admin.get_surname()} succesfully logged out.")
+            logger.info(f"{self.admin.get_name()} {self.admin.get_surname()} successfully logged out.")
             log_out = True
         else:
             logger.warning("Invalid choice")
-            print("Enter 1, 2, 3, 4, 5, 6, or 7.")
+            print("Enter a valid choice (1, 2, 3, 4, 5, 6, 7, or 8).")
         return log_out
+
+
 
     
     def get_choice(self):
