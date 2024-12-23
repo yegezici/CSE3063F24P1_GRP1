@@ -40,7 +40,7 @@ class DepartmentSchedulerInterface(UserInterface):
             print("Choose a new classroom:")
             chosen_time_slot.set_classroom(available_classrooms[int(input()) - 1])
             print("Classroom has been updated successfully.")
-            self.notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Classroom of " + chosen_section.get_name() + " has been updated.")
+            self.notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Classroom of " + chosen_section.get_section_id() + " has been updated.")
         except (ValueError, IndexError):
             print("Enter a valid integer.")
 

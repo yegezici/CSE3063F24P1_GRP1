@@ -29,13 +29,15 @@ class SQLiteManagement:
         self.courses = self.initialize_courses()            
         self.courseSections = self.initialize_courseSections()
         self.set_prerequisites()
-        self.__notificationSystem = self.initialize_notification_system()
         self.students = []
         self.advisors = []
+        self.__notificationSystem = None
+        self.__notificationSystem = self.initialize_notification_system()
         self.initiate_advisors()
         self.assign_advisor_to_students()
         self.lecturers = self.initialize_lecturers()
         self.set_lecturer_to_sections()
+
 
         
     def get_students(self) -> list[Student]:
@@ -88,9 +90,7 @@ class SQLiteManagement:
             self.cursor.execute("SELECT userType FROM User where userID = ?", (row[0],))
             advisorRow = self.cursor.fetchone()
             if advisorRow:
-                print("USERTYPE: ", advisorRow[0])
                 if advisorRow[0] == 'A':
-                    print("Advisor is already in the advisors list.")
                     continue
             lecturer = Lecturer(
                     ssn=row[0],
@@ -107,8 +107,7 @@ class SQLiteManagement:
         rows = self.cursor.fetchall()
         for row in rows:
             self.cursor.execute("SELECT * FROM Lecturer where ssn = ?", (row[0],))
-            advisor = self.get_advisor(row[0])
-            self.advisors.append(advisor)
+            self.get_advisor(row[0])
 
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
@@ -577,8 +576,6 @@ class SQLiteManagement:
         exist_advisor = self.check_advisor_exists(id)
         if exist_advisor is not None:
             return exist_advisor
-        
-        
         from AdvisorInterface import AdvisorInterface
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer a WHERE a.ssn = '{id}'")
@@ -604,6 +601,7 @@ class SQLiteManagement:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
                 advisor.set_interface(AdvisorInterface(advisor, self.__notificationSystem))
+                self.advisors.append(advisor)
                 return advisor
             else:
                 return None
@@ -786,7 +784,6 @@ class SQLiteManagement:
         
     def initialize_notification_system(self)-> NotificationSystem:
         try:
-            print("initialize_notification_system function is called!")
             self.cursor.execute(f"SELECT * FROM Notification")
             rows = self.cursor.fetchall()
             notification_system = NotificationSystem()
@@ -794,13 +791,12 @@ class SQLiteManagement:
                 receiver = self.get_user(row[1])
                 sender = self.get_user(row[2])
                 notification = Notification(sender, receiver, row[3])
+                
                 #if notification:
                 #    print(f"Notification created: {notification.get_message()}")
                 #else:
                 #    print("Failed to create notification!"
-                print("Adding notification:", notification.get_message())
                 notification_system.get_notifications().append(notification)
-                print("Notifications count:", len(notification_system.get_notifications()))
             return notification_system
         except sqlite3.Error as e:
             logger.warning(f"SQLite error: HATA BURADA - {e}")
