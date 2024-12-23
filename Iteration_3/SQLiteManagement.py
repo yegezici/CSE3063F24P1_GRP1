@@ -695,10 +695,10 @@ class SQLiteManagement:
             logger.warning("SQLite error:", e)
             
         #Delete that student from Student table
-    def delete_student(self, student: Student) -> None:
+    def delete_student(self, studentID) -> None:
         try:
-            self.cursor.execute(f"DELETE FROM Student WHERE studentID = '{student.get_id()}'")
-            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{student.get_id()}'")
+            self.cursor.execute(f"DELETE FROM Student WHERE studentID = '{studentID}'")
+            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{studentID}'")
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -718,18 +718,17 @@ class SQLiteManagement:
             logger.warning("SQLite error:", e)
             
     #Delete that advisor from Advisor table
-    def delete_advisor(self, advisor: Advisor) -> None:   
+    def delete_advisor(self, advisorID) -> None:   
         try:
-            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{advisor.get_ssn()}'")
-            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{advisor.get_ssn()}'")
-            for student in advisor.get_students():
-                self.cursor.execute(f"DELETE FROM StudentOfAdvisor WHERE advisorID = '{advisor.get_ssn()}'")         
+            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{advisorID}'")
+            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{advisorID}'")
+            self.cursor.execute(f"DELETE FROM StudentOfAdvisor WHERE advisorID = '{advisorID}'")         
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_advisor function in SQLiteManagement.py\nAdvisor is not deleted.\nSQLite error:", e)
     
     #Add new lecturer to Lecturer table
-    def add_lecturer(self, lecturer: Lecturer) -> None:
+    def add_lecturer(self, lecturer: Lecturer, password) -> None:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
                                 (lecturer.get_id(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
@@ -738,26 +737,29 @@ class SQLiteManagement:
             logger.warning("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
             
     #Delete that lecturer from Lecturer table
-    def delete_lecturer(self, lecturer: Lecturer) -> None:
+    def delete_lecturer(self, lecturerID) -> None:
         try:
-            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{lecturer.get_ssn()}'")
+            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{lecturerID}'")
+            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{lecturerID}'")
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_lecturer function in SQLiteManagement.py\nLecturer is not deleted.\nSQLite error:", e)
     
     #Add new department scheduler to DepartmentScheduler table
-    def add_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
+    def add_department_scheduler(self, department_schedulerID, password) -> None:
         try:
-            self.cursor.execute(f"INSERT INTO DepartmentScheduler (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (department_scheduler.get_ssn(), department_scheduler.get_name(), department_scheduler.get_surname(), str(department_scheduler.get_birthdate()), department_scheduler.get_gender()))
+            self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);",
+                                (department_schedulerID, password, 'D'))
+            
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_department_scheduler function.\nDepartment Scheduler is not added.\nSQLite error:", e)
     
     #Delete that department scheduler from DepartmentScheduler table
-    def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:     
+    def delete_department_scheduler(self, department_schedulerID) -> None:     
         try:
-            self.cursor.execute(f"DELETE FROM DepartmentScheduler WHERE ssn = '{department_scheduler.get_ssn()}'")
+            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{department_schedulerID}'")
+            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{department_schedulerID}'")
             self.conn.commit()        
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_department_scheduler function in SQLiteManagement.py\nDepartment Scheduler is not deleted.\nSQLite error:", e)
@@ -822,7 +824,7 @@ class SQLiteManagement:
             
     def delete_notification(self, notification : Notification)-> None:
         try:
-            self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}' AND senderID = '{notification.get_sender().get_ssn()}' AND notificationMessage = '{notification.get_message()}'")
+            self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}'")
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
