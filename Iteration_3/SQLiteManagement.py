@@ -655,7 +655,7 @@ class SQLiteManagement:
                                              schedulerID,
                                              self.courseSections,
                                              self.init_time_intervals())
-                depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch,course_sections= self.courseSections, lecturers= self.advisors, notification_system= self.__notificationSystem))
+                depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch,course_sections= self.courseSections, lecturers= self.lecturers, notification_system= self.__notificationSystem))
                 return depsch
             else:
                 return None
