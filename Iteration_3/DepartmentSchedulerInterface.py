@@ -21,7 +21,8 @@ class DepartmentSchedulerInterface(UserInterface):
             #chosen_section.get_time_slots().pop(int(input()) - 1)
             self.set_time_slot(chosen_section)
             print("Time slot has been updated successfully.")
-            self.notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Time slot of " + chosen_section.get_name() + " has been updated.")
+            message = f"Time slot of {chosen_section.get_section_id()} has been updated."
+            self.notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message=message)
         except (ValueError, IndexError):
             print("Enter a valid integer within the list range.")
 
