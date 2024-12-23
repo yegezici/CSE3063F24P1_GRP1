@@ -581,7 +581,8 @@ class SQLiteManagement:
                 for row in rows:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
-                advisor.set_interface(AdvisorInterface(advisor, self.__notificationSystem))
+                
+                advisor.set_interface(AdvisorInterface(advisor, self.get_notification_system()))
                 self.advisors.append(advisor)
                 return advisor
             else:
@@ -674,10 +675,10 @@ class SQLiteManagement:
             logger.warning("SQLite error:", e)
             
         #Delete that student from Student table
-    def delete_student(self, student: Student) -> None:
+    def delete_student(self, studentID) -> None:
         try:
-            self.cursor.execute(f"DELETE FROM Student WHERE studentID = '{student.get_id()}'")
-            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{student.get_id()}'")
+            self.cursor.execute(f"DELETE FROM Student WHERE studentID = '{studentID}'")
+            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{studentID}'")
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -697,18 +698,17 @@ class SQLiteManagement:
             logger.warning("SQLite error:", e)
             
     #Delete that advisor from Advisor table
-    def delete_advisor(self, advisor: Advisor) -> None:   
+    def delete_advisor(self, advisorID) -> None:   
         try:
-            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{advisor.get_ssn()}'")
-            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{advisor.get_ssn()}'")
-            for student in advisor.get_students():
-                self.cursor.execute(f"DELETE FROM StudentOfAdvisor WHERE advisorID = '{advisor.get_ssn()}'")         
+            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{advisorID}'")
+            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{advisorID}'")
+            self.cursor.execute(f"DELETE FROM StudentOfAdvisor WHERE advisorID = '{advisorID}'")         
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_advisor function in SQLiteManagement.py\nAdvisor is not deleted.\nSQLite error:", e)
     
     #Add new lecturer to Lecturer table
-    def add_lecturer(self, lecturer: Lecturer) -> None:
+    def add_lecturer(self, lecturer: Lecturer, password) -> None:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
                                 (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
@@ -717,26 +717,29 @@ class SQLiteManagement:
             logger.warning("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
             
     #Delete that lecturer from Lecturer table
-    def delete_lecturer(self, lecturer: Lecturer) -> None:
+    def delete_lecturer(self, lecturerID) -> None:
         try:
-            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{lecturer.get_ssn()}'")
+            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{lecturerID}'")
+            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{lecturerID}'")
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_lecturer function in SQLiteManagement.py\nLecturer is not deleted.\nSQLite error:", e)
     
     #Add new department scheduler to DepartmentScheduler table
-    def add_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:
+    def add_department_scheduler(self, department_schedulerID, password) -> None:
         try:
-            self.cursor.execute(f"INSERT INTO DepartmentScheduler (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (department_scheduler.get_ssn(), department_scheduler.get_name(), department_scheduler.get_surname(), str(department_scheduler.get_birthdate()), department_scheduler.get_gender()))
+            self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);",
+                                (department_schedulerID, password, 'D'))
+            
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_department_scheduler function.\nDepartment Scheduler is not added.\nSQLite error:", e)
     
     #Delete that department scheduler from DepartmentScheduler table
-    def delete_department_scheduler(self, department_scheduler: DepartmentScheduler) -> None:     
+    def delete_department_scheduler(self, department_schedulerID) -> None:     
         try:
-            self.cursor.execute(f"DELETE FROM DepartmentScheduler WHERE ssn = '{department_scheduler.get_ssn()}'")
+            self.cursor.execute(f"DELETE FROM Lecturer WHERE ssn = '{department_schedulerID}'")
+            self.cursor.execute(f"DELETE FROM User WHERE UserID = '{department_schedulerID}'")
             self.conn.commit()        
         except sqlite3.Error as e:
             logger.warning("There is an error in delete_department_scheduler function in SQLiteManagement.py\nDepartment Scheduler is not deleted.\nSQLite error:", e)
@@ -778,25 +781,52 @@ class SQLiteManagement:
             logger.warning("There is an error in initialize_notification_system function in SQLiteManagement.py")
             return NotificationSystem()
             
-    def save_all_notifications(self)-> None:
+    def save_all_notifications(self) -> None:
         try:
+            # Önce tüm bildirimleri sil
+            self.cursor.execute("DELETE FROM Notification")
+            self.conn.commit()  # Silme işlemini veritabanına uygula
+            
+            # Daha sonra güncel bildirimleri kaydet
             for notification in self.__notificationSystem.get_notifications():
-                self.save_notification(notification.get_receiver(), notification.get_sender(), notification.get_message())
+                #print(self.__notificationSystem.print_user_notifications())
+                self.save_notification(
+                    receiver=notification.get_receiver(),
+                    sender=notification.get_sender(),
+                    message=notification.get_message()
+                )
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
-    def save_notification(self, receiver : Person, sender : Person, message : str)-> None:
+        except Exception as e:
+            logger.warning(f"There is an error in save_all_notifications function: {e}")
+
+
+    def save_notification(self, receiver: Person, sender: Person, message: str) -> None:
         try:
-            self.cursor.execute(f"INSERT INTO Notification (receiverID, senderID, notificationMessage) VALUES (?, ?, ?);",
-                                (receiver.get_ssn(), sender.get_ssn(), message))
-            self.conn.commit()
+            # Bildirimin mevcut olup olmadığını kontrol et
+            self.cursor.execute(
+                "SELECT COUNT(*) FROM Notification WHERE receiverID = ? AND senderID = ? AND notificationMessage = ?",
+                (receiver.get_ssn(), sender.get_ssn(), message)
+            )
+            exists = self.cursor.fetchone()[0]  # Eğer kayıt varsa 1 döner
+
+            if exists == 0:  # Eğer böyle bir bildirim yoksa ekle
+                self.cursor.execute(
+                    "INSERT INTO Notification (receiverID, senderID, notificationMessage) VALUES (?, ?, ?);",
+                    (receiver.get_ssn(), sender.get_ssn(), message)
+                )
+                self.conn.commit()
+            #else    
+                #print(f"Notification already exists for receiver: {receiver.get_ssn()}, sender: {sender.get_ssn()}")
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
-        except:
-            logger.warning("There is an error in save_notification function in SQLiteManagement.py")
+        except Exception as e:
+            logger.warning(f"There is an error in save_notification function: {e}")
+
             
     def delete_notification(self, notification : Notification)-> None:
         try:
-            self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}' AND senderID = '{notification.get_sender().get_ssn()}' AND notificationMessage = '{notification.get_message()}'")
+            self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}'")
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)

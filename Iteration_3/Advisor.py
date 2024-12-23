@@ -6,6 +6,7 @@ class Advisor(Lecturer):
     def __init__(self, name: str = "", surname: str = "", birthdate: date = None, gender: str = '', ssn: str = '', courses=None, students=None):
         super().__init__(name, surname, birthdate, gender, ssn, courses)
         self.__students = students or []
+        self.__interface = None
 
     def approve_course(self, student, course_section):
         try:

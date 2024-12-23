@@ -21,7 +21,8 @@ class DepartmentSchedulerInterface(UserInterface):
             #chosen_section.get_time_slots().pop(int(input()) - 1)
             self.set_time_slot(chosen_section)
             print("Time slot has been updated successfully.")
-            self.notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Time slot of " + chosen_section.get_name() + " has been updated.")
+            message = f"Time slot of {chosen_section.get_section_id()} has been updated."
+            self.notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message=message)
         except (ValueError, IndexError):
             print("Enter a valid integer within the list range.")
 
@@ -65,7 +66,10 @@ class DepartmentSchedulerInterface(UserInterface):
         self.show_available_course_sections()
         try:
             print("Choose a course section:")
+            print("If you want to return main menu press \'0\'.")
             section_no = int(input()) - 1
+            if section_no == -1:
+                return -1
             chosen_section = self.course_sections[section_no]
             if not chosen_section.get_lecturer():
                 print("Selected course does not have any lecturer yet.")
@@ -79,28 +83,33 @@ class DepartmentSchedulerInterface(UserInterface):
             return None
 
     def show_menu(self):
-        print("Enter 1 to access course configuration menu. If you want to quit press any button.")
-        choice = input()
-        if choice == "1":
-            while True:
-                chosen_section = None
-                while chosen_section is None:
-                    chosen_section = self.choose_course_section()
+        while True:
+            print("Enter 1 to access course configuration menu. If you want to quit press any button.")
+            choice = input()
+            if choice == "1":
+                while True:
+                    chosen_section = None
+                    while chosen_section is None:
+                        chosen_section = self.choose_course_section()
+                    if chosen_section == -1:
+                        break
                     
-                match self.get_choice():
-                    case 1:
-                        self.update_time_interval(chosen_section)
-                    case 2:
-                        self.update_classroom(chosen_section)
-                    case 3: 
-                        self.update_lecturer(chosen_section)
-                    case _:
-                        print("Enter a number between 1 and 3.")
-        else:
-            return True
+                    match self.get_choice():
+                        case 1:
+                            self.update_time_interval(chosen_section)
+                        case 2:
+                            self.update_classroom(chosen_section)
+                        case 3: 
+                            self.update_lecturer(chosen_section)
+                        case 4:
+                            break
+                        case _:
+                            print("Enter a number between 1 and 4.")
+            else:
+                return True
 
     def get_choice(self):
-        print("Choose an operation:\n1- Update time interval\n2- Update classroom\n3- Assign lecturer")
+        print("Choose an operation:\n1- Update time interval\n2- Update classroom\n3- Assign lecturer\n4- Back to previous menu")
         try:
             return int(input())
         except ValueError:
@@ -157,13 +166,13 @@ class DepartmentSchedulerInterface(UserInterface):
         chosen_section.get_time_slots().append(TimeSlot(day, time_interval, classroom))
         while(True):
             print("Choose a lecturer:")
-            for index in self.lecturers:
-                print(self.lecturers[index].get_id() + "  " + self.lecturers[index].get_name())
-            lecturer = self.lecturers[input()]
+            for i, lecturer in enumerate(self.lecturers, start=1):
+                print(f"{i}-  {lecturer.get_name()}")
+            lecturer = self.lecturers[(int)(input())]
             if (self.department_scheduler.handle_lecturer_conflict(lecturer, chosen_section) == False):
                 print("Selected lecturer has a conflict with the course section. Please choose another one.")
                 continue
             else:
                 chosen_section.set_lecturer(lecturer)
                 break
-        print("Selected time slot and classroom has been assigned.")
+        print("Selected time slot, classroom and lecturer has been assigned.")
