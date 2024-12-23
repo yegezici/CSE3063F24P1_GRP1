@@ -22,7 +22,7 @@ class Advisor(Lecturer):
 
                 student.get_transcript().delete_from_waited_sections(course_section)
 
-            course_section.current_students.append(student)
+            course_section.get_current_students().append(student)
             print("The course has been approved.")
         except Exception as e:
             print(str(e))
@@ -56,7 +56,8 @@ class Advisor(Lecturer):
                 for existing_section in course_sections_of_student:
                     for existing_time_slot in existing_section.get_time_slots():
                         if time_slot.get_time_interval() == existing_time_slot.get_time_interval():
-                            return False
+                            if time_slot.get_day() == existing_time_slot.get_day():
+                                return False
             return True
         except Exception as e:
             print(str(e))

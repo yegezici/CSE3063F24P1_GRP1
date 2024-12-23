@@ -26,7 +26,6 @@ class CourseRegistration:
         self.courses = self.manager.get_courses()
         self.course_sections = self.manager.get_course_sections()
         self.advisors = self.manager.get_advisors()
-        self.notificationSystem = NotificationSystem()
 
     def init(self):
         logger.info("Course Registration system is started.")

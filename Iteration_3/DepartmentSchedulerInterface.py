@@ -18,7 +18,7 @@ class DepartmentSchedulerInterface(UserInterface):
             print(f"{idx}- {slot.get_day()} {slot.get_time_interval()} {slot.get_classroom()}")
         try:
             print("Which time slot do you want to update?")
-            chosen_section.get_time_slots().pop(int(input()) - 1)
+            #chosen_section.get_time_slots().pop(int(input()) - 1)
             self.set_time_slot(chosen_section)
             print("Time slot has been updated successfully.")
             self.notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Time slot of " + chosen_section.get_name() + " has been updated.")
@@ -107,9 +107,10 @@ class DepartmentSchedulerInterface(UserInterface):
             return 0
 
     def show_days(self, semester):
-        available_days = self.department_scheduler.get_available_days(
-            self.department_scheduler.semester_x_courses(semester)
-        )
+        print("SHOW DAYS GIRDI MI 1")
+        semester_courses = self.department_scheduler.semester_x_courses(semester)
+        available_days = self.department_scheduler.get_available_days(semester_courses)
+        print("SHOW DAYS GIRDI MI 2")
         print("Available days:")
         for idx, day in enumerate(available_days, 1):
             print(f"{idx}- {day}")
@@ -125,17 +126,20 @@ class DepartmentSchedulerInterface(UserInterface):
     def show_classrooms(self, day, time_interval):
         available_classrooms = self.department_scheduler.handle_classroom_conflict(day, time_interval)
         print(f"Available classrooms for {day} {time_interval}:")
+        print("len(available_classrooms): ", len(available_classrooms))
         for idx, room in enumerate(available_classrooms, 1):
             print(f"{idx}- {room}")
 
-    def show_available_course_sections(self):
+    def show_available_course_sections(self) -> None:
         print("All available course sections are listed below:")
         for idx, section in enumerate(self.course_sections, 1):
             course = section.get_parent_course()
-            print(f"{idx}- {course.get_course_id()}.{section.get_section_id()}")
+            print(f"{idx}-{section.get_section_id()}")
 
     def set_time_slot(self, chosen_section):
+        print("GIRDI MI")
         semester = chosen_section.get_parent_course().get_semester()
+        print("GIRDI MI1")
         self.show_days(semester)
         print("Choose a day:")
         day = self.department_scheduler.get_available_days(
