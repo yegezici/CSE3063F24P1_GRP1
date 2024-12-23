@@ -70,7 +70,7 @@ class DepartmentHeadInterface(UserInterface):
 
             if course[3] not in ["m", "te", "nte"]:
                 raise ValueError("Invalid choice!")
-            if course [3]  != "m":
+            if course [3]  != "nte":
                 course[6] = int(input("Enter the semester of cours: "))
                 course[7] = input("Enter the prerequisite course code: ")
             else:

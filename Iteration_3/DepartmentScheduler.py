@@ -12,13 +12,18 @@ class DepartmentScheduler(Lecturer):
         gender: str = None, 
         ssn: str = None, 
         course_sections=None, 
-        all_time_intervals=None
+        all_time_intervals=None,
+        manager = None
     ):
         super().__init__(name, surname, birthdate, gender, ssn)
         self.__course_sections = course_sections or []
         self.__all_time_intervals = all_time_intervals or []
         self.__interface = None
         self.__all_classrooms = ["M2Z09", "M2Z10", "M2Z11", "M2Z12", "M2Z04"]
+        self.__manager = manager
+        
+    def get_manager(self):
+        return self.__manager
 
     def assign_time_slot_to_section(self, course_section, time_slot):
         if not course_section or not time_slot:
@@ -100,7 +105,7 @@ class DepartmentScheduler(Lecturer):
         return semester_x_courses
 
     def get_id(self):
-        return super().get_ssn()
+        return super().get_id()
 
     def get_name(self):
         return super().get_name()
