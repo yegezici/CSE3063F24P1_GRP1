@@ -75,7 +75,7 @@ class CourseRegistration:
         if input() == "1":
             entered_user_id = input("User ID: ")
             entered_password = input("Password: ")
-            return self.check_id_and_password(entered_user_id[1:], entered_password)
+            return self.check_id_and_password(entered_user_id, entered_password)
         else:
             return "exit"
 
