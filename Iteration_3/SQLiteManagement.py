@@ -791,7 +791,7 @@ class SQLiteManagement:
                 receiver = self.get_user(row[1])
                 sender = self.get_user(row[2])
                 notification = Notification(sender, receiver, row[3])
-                
+                print("hi")
                 #if notification:
                 #    print(f"Notification created: {notification.get_message()}")
                 #else:
@@ -804,21 +804,47 @@ class SQLiteManagement:
             logger.warning("There is an error in initialize_notification_system function in SQLiteManagement.py")
             return NotificationSystem()
             
-    def save_all_notifications(self)-> None:
+    def save_all_notifications(self) -> None:
         try:
+            # Önce tüm bildirimleri sil
+            self.cursor.execute("DELETE FROM Notification")
+            self.conn.commit()  # Silme işlemini veritabanına uygula
+            
+            # Daha sonra güncel bildirimleri kaydet
             for notification in self.__notificationSystem.get_notifications():
-                self.save_notification(notification.get_receiver(), notification.get_sender(), notification.get_message())
+                self.save_notification(
+                    receiver=notification.get_receiver(),
+                    sender=notification.get_sender(),
+                    message=notification.get_message()
+                )
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
-    def save_notification(self, receiver : Person, sender : Person, message : str)-> None:
+        except Exception as e:
+            logger.warning(f"There is an error in save_all_notifications function: {e}")
+
+
+    def save_notification(self, receiver: Person, sender: Person, message: str) -> None:
         try:
-            self.cursor.execute(f"INSERT INTO Notification (receiverID, senderID, notificationMessage) VALUES (?, ?, ?);",
-                                (receiver.get_ssn(), sender.get_ssn(), message))
-            self.conn.commit()
+            # Bildirimin mevcut olup olmadığını kontrol et
+            self.cursor.execute(
+                "SELECT COUNT(*) FROM Notification WHERE receiverID = ? AND senderID = ? AND notificationMessage = ?",
+                (receiver.get_ssn(), sender.get_ssn(), message)
+            )
+            exists = self.cursor.fetchone()[0]  # Eğer kayıt varsa 1 döner
+
+            if exists == 0:  # Eğer böyle bir bildirim yoksa ekle
+                self.cursor.execute(
+                    "INSERT INTO Notification (receiverID, senderID, notificationMessage) VALUES (?, ?, ?);",
+                    (receiver.get_ssn(), sender.get_ssn(), message)
+                )
+                self.conn.commit()
+            #else    
+                #print(f"Notification already exists for receiver: {receiver.get_ssn()}, sender: {sender.get_ssn()}")
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
-        except:
-            logger.warning("There is an error in save_notification function in SQLiteManagement.py")
+        except Exception as e:
+            logger.warning(f"There is an error in save_notification function: {e}")
+
             
     def delete_notification(self, notification : Notification)-> None:
         try:
