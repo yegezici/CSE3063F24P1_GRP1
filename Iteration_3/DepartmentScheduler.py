@@ -1,9 +1,9 @@
 from datetime import date
 from CourseSection import CourseSection
 from typing import List, Optional
-from Staff import Staff
+from Lecturer import Lecturer
 
-class DepartmentScheduler(Staff):
+class DepartmentScheduler(Lecturer):
     def __init__(
         self, 
         name: str = None, 

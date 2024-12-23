@@ -5,6 +5,9 @@ class Staff(Person):
     def __init__(self, _name: str = None, _surname: str = None, _birthdate: date = None, _gender: str = None, _ssn: str = None):
         super().__init__(_name, _surname, _birthdate, _gender, _ssn)
 
+    def initialize_interface(self, interface):
+        pass
+
     def get_ssn(self):
         """Override abstract method to return the SSN"""
         return self._ssn

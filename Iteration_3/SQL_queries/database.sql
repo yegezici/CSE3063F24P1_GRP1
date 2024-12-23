@@ -120,7 +120,7 @@ INSERT INTO Lecturer VALUES ('789013', 'Elif', 'Dogan', '1992-01-30', 'F');
 INSERT INTO Lecturer VALUES ('890124', 'Zeynep', 'Korkmaz', '1979-04-18', 'F');
 INSERT INTO Lecturer VALUES ('96321', 'Arda', 'Ülkü', '1987-04-21', 'M');
 INSERT INTO Lecturer VALUES ('85213', 'Esra', 'Bilir', '1991-08-10', 'F');
-INSERT INTO Lecturer VALUES ('1453', 'Volkan', 'Bakırel', '1985-02-14', 'M');
+INSERT INTO Lecturer VALUES ('1453', 'Volkan', 'Bakirel', '1985-02-14', 'M');
 INSERT INTO Lecturer VALUES ('1071', 'Anastasya', 'Aras', '1992-11-07', 'F');
 
 
@@ -137,7 +137,7 @@ CREATE TABLE Student (
 INSERT INTO Student VALUES ('150121031', 'Hasan', 'Erzincanli', 'M', '2002-09-18', '123456',3);
 INSERT INTO Student VALUES ('150121032', 'Enis', 'Destan', 'M', '1999-02-14', '123456',3);
 INSERT INTO Student VALUES ('150121033', 'Oguz', 'Aydin', 'M', '2001-03-12', '123456',3);
-INSERT INTO Student VALUES ('150121034', 'Aslı', 'Cakir', 'F', '2001-05-20', '123456',2);
+INSERT INTO Student VALUES ('150121034', 'Asli', 'Cakir', 'F', '2001-05-20', '123456',2);
 INSERT INTO Student VALUES ('150121035', 'Necip', 'Uysal', 'M', '2002-06-30', '123456',2);
 INSERT INTO Student VALUES ('150122036', 'Berkan', 'Kutlu', 'M', '2002-08-15', '654321',2);
 INSERT INTO Student VALUES ('150122037', 'Ferdi', 'Kadioglu', 'M', '2001-10-22', '654321',4);

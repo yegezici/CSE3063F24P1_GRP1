@@ -48,8 +48,8 @@ class DepartmentHeadInterface(UserInterface):
         course_params = self.ask_course_parameters()
         try:
             new_course = self.department_head.create_course(
-                course_params[0], course_params[1], course_params[3], int(course_params[2]), int(course_params[4]), int(course_params[5])
-            )
+                course_params[0], course_params[1], course_params[3], int(course_params[2]), int(course_params[4]), int(course_params[5]),
+                int(course_params[6]),course_params[7])
             for section in self.course_sections:
                 for i in range(len(new_course.get_course_sections())):
                     if(section.get_section_id() == new_course.get_course_sections()[i].get_section_id()):
@@ -57,12 +57,11 @@ class DepartmentHeadInterface(UserInterface):
                         return
             print(f"{new_course.get_course_id()} - {new_course.get_course_name()} - {new_course.get_credits()} - {new_course.get_course_type()} - This course has been added.")
             self.course_sections.extend(new_course.get_course_sections())
-            # JsonManagement.getInstance().write_course_to_json()  # Uncomment when implementing JSON handling
         except ValueError:
             print("Enter an integer value for course code and course credits.")
 
     def ask_course_parameters(self):
-        course = [None] * 6
+        course = [None] * 8
         try:
             course[0] = input("Enter course name: ")
             course[1] = input("Enter course code: ")
@@ -71,7 +70,11 @@ class DepartmentHeadInterface(UserInterface):
 
             if course[3] not in ["m", "te", "nte"]:
                 raise ValueError("Invalid choice!")
-
+            if course [3]  != "m":
+                course[6] = int(input("Enter the semester of cours: "))
+                course[7] = input("Enter the prerequisite course code: ")
+            else:
+                course[6] = 0
             course[4] = input("How many sections does the course have?: ")
             course[5] = input("Enter section capacity: ")
             
@@ -99,7 +102,7 @@ class DepartmentHeadInterface(UserInterface):
         print("All available course sections are listed below:")
         for idx, section in enumerate(self.course_sections, 1):
             course = section.get_parent_course()
-            print(f"{idx}- {course.get_course_id()}.{section.get_section_id()}")
+            print(f"{idx}- {section.get_section_id()}")
 
 
     def set_interface(self, interface):
