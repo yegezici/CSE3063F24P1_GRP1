@@ -28,7 +28,7 @@ class Advisor(Lecturer):
         except Exception as e:
             print(str(e))
 
-    def reject_course(self, student, course_section):
+    def reject_course(self, student, course_section)-> bool :
         try:
             student.get_transcript().delete_from_waited_course(course_section.get_parent_course())
             student.get_transcript().delete_from_waited_sections(course_section)
@@ -70,16 +70,16 @@ class Advisor(Lecturer):
     def get_courses(self):
         return super().get_courses()
     
-    def get_gender(self):
+    def get_gender(self) -> str:
         return super().get_gender()
-    
-    def get_name(self):
+
+    def get_name(self) -> str:
         return super().get_name()
-    
-    def get_surname(self):
+
+    def get_surname(self) -> str:
         return super().get_surname()
-    
-    def get_id(self):
+
+    def get_id(self) -> str:
         return super().get_id()
 
     def set_interface(self, interface):
