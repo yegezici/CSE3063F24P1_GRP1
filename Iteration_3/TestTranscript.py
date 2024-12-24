@@ -54,9 +54,6 @@ class TestTranscript(unittest.TestCase):
         self.assertAlmostEqual(gpa, 3.7, places=1)
 
     def calculate_gpa(self, courses):
-        """
-        Basit bir GPA hesaplama fonksiyonu.
-        """
         total_points = 0
         total_credits = 0
         grade_to_points = {"AA": 4.0, "BA": 3.5, "BB": 3.0, "CB": 2.5, "CC": 2.0, "DC": 1.5, "DD": 1.0, "FF": 0.0}
