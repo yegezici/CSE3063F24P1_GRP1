@@ -49,6 +49,7 @@ class SQLiteManagement:
     def get_lecturers(self) ->list[Lecturer]:
         return self.lecturers
     
+    
 
     
     def set_lecturer_to_sections(self) -> None:
@@ -604,6 +605,9 @@ class SQLiteManagement:
     
     def get_department_head(self, headID: str) -> DepartmentHead:
         from DepartmentHeadInterface import DepartmentHeadInterface
+        for exist_lecturer in self.lecturers:
+            if exist_lecturer.get_id() == headID:
+                return exist_lecturer
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{headID}'")
             row = self.cursor.fetchone()
@@ -632,6 +636,9 @@ class SQLiteManagement:
 
     def get_deparment_scheduler(self, schedulerID: str) -> DepartmentScheduler:
         from DepartmentSchedulerInterface import DepartmentSchedulerInterface
+        for exist_lecturer in self.lecturers:
+            if(exist_lecturer.get_id() == schedulerID):
+                return exist_lecturer
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{schedulerID}'")
             row = self.cursor.fetchone()
