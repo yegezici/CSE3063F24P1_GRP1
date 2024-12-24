@@ -1,7 +1,7 @@
 from datetime import date
 from typing import List
 from Lecturer import Lecturer
-
+from Logging_Config import logger
 class Advisor(Lecturer):
     def __init__(self, name: str = "", surname: str = "", birthdate: date = None, gender: str = '', ssn: str = '', courses=None, students=None):
         super().__init__(name, surname, birthdate, gender, ssn, courses)
@@ -25,6 +25,7 @@ class Advisor(Lecturer):
 
             course_section.add_student_to_section(student)
             print("The course has been approved.")
+            logger.info(f"{course_section.get_parent_course().get_course_name()} has been approved.----------------------{student.get_name()} {student.get_surname()} {course_section.get_parent_course().get_course_name()}")
         except Exception as e:
             print(str(e))
 
@@ -33,20 +34,21 @@ class Advisor(Lecturer):
             student.get_transcript().delete_from_waited_course(course_section.get_parent_course())
             student.get_transcript().delete_from_waited_sections(course_section)
             print("The course has been rejected.")
+            logger.info(f"{course_section.get_parent_course().get_course_name()} has been rejected.----------------------{student.get_name()} {student.get_surname()} {course_section.get_parent_course().get_course_name()}")
         except Exception as e:
-            print(str(e))
+            logger.warning(str(e))
 
     def add_student(self, student):
         try:
             self.__students.append(student)
         except Exception as e:
-            print(str(e))
+            logger.warning(str(e))
 
     def get_students(self) -> List:
         try:
             return self.__students
         except Exception as e:
-            print(str(e))
+            logger.warning(str(e))
             return []
 
     def check_section_conflict(self, student, course_section):
@@ -61,7 +63,7 @@ class Advisor(Lecturer):
                                 return False
             return True
         except Exception as e:
-            print(str(e))
+            logger.error(f"{e}")
             return False
 
     def get_birthdate(self):
