@@ -40,8 +40,9 @@ class AdminInterface:
             advisor: Optional['Advisor'] = self.advisor_to_add()
             try:
                 if advisor:
+                    password = input("Enter new password for the advisor: ")
                     self.admin.add_advisor(advisor)
-                    self.manager.add_advisor(advisor)
+                    self.manager.add_advisor(advisor, password)
                     print(f"Advisor {advisor.get_name()} {advisor.get_surname()} successfully added.")
                 else:
                     print("Error: Could not add advisor. Please check the details.")
@@ -66,8 +67,9 @@ class AdminInterface:
             lecturer: Optional['Lecturer'] = self.lecturer_to_add()
             try:
                 if lecturer:
+                    password = input("Enter new password for the lecturer: ")
                     self.admin.add_lecturer(lecturer)
-                    self.manager.add_lecturer(lecturer)
+                    self.manager.add_lecturer(lecturer, password)
                     print(f"Lecturer {lecturer.get_name()} {lecturer.get_surname()} successfully added.")
                 else:
                     print("Error: Could not add lecturer. Please check the details.")
@@ -92,8 +94,9 @@ class AdminInterface:
             scheduler: Optional['DepartmentScheduler'] = self.scheduler_to_add()
             try:
                 if scheduler:
+                    password = input("Enter new password for the department scheduler: ")
                     self.admin.add_department_scheduler(scheduler)
-                    self.manager.add_department_scheduler(scheduler)
+                    self.manager.add_department_scheduler(scheduler, password)
                     print(f"Department Scheduler {scheduler.get_name()} {scheduler.get_surname()} successfully added.")
                 else:
                     print("Error: Could not add department scheduler. Please check the details.")
@@ -152,7 +155,7 @@ class AdminInterface:
 
     def advisor_to_add(self) -> Optional['Advisor']:
         lecturer_id: str = input("Enter lecturer ID to be promoted to Advisor: ")
-        lecturer: Optional['Lecturer'] = self.find_lecturer_by_id(lecturer_id)
+        lecturer = self.find_lecturer_by_id(lecturer_id)
         if lecturer:
             from Advisor import Advisor
             advisor: 'Advisor' = Advisor(ssn=lecturer.get_id(), name=lecturer.get_name(), surname=lecturer.get_surname(), birthdate=lecturer.get_birthdate(), gender=lecturer.get_gender(), courses=None, students=None)
@@ -161,7 +164,9 @@ class AdminInterface:
         return None
 
     def find_lecturer_by_id(self, lecturer_id: str) -> Optional['Lecturer']:
+        print(len(self.admin.get_lecturers()))
         for lecturer in self.admin.get_lecturers():
+            print(lecturer.get_id())
             if lecturer.get_id() == lecturer_id:
                 return lecturer
         return None

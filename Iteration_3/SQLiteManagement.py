@@ -558,8 +558,7 @@ class SQLiteManagement:
             row = self.cursor.fetchone()
             if row:
 
-                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=None, department_schedulers=None)
-                print(self.advisors)
+                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=self.lecturers, department_schedulers=None)
 
                 admin.set_interface(AdminInterface(admin, self.__notificationSystem))
                 return admin
@@ -679,8 +678,10 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (student.get_id(), password, 'S')),
-            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
-                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
+            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, semester) VALUES (?, ?, ?, ?, ?, ?);", 
+                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender(), student.get_transcript().get_semester()))
+            self.cursor.execute(f"INSERT INTO StudentsOfAdvisor (studentID, advisorID) VALUES (?, ?);",
+                                (student.get_id(), student.get_advisor().get_id()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -699,8 +700,6 @@ class SQLiteManagement:
         try: 
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (advisor.get_id(), password, 'A'))
-            self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                advisor.get_id(), advisor.get_name(), advisor.get_surname(), str(advisor.get_birthdate()), advisor.get_gender())
             for student in advisor.get_students():
                 self.cursor.execute(f"INSERT INTO StudentOfAdvisor (studentID, advisorID) VALUES (?, ?);",
                                     (student.get_id(), advisor.get_id()))
