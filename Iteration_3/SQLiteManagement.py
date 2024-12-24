@@ -804,7 +804,7 @@ class SQLiteManagement:
             
             # Daha sonra güncel bildirimleri kaydet
             for notification in self.__notificationSystem.get_notifications():
-                #print(self.__notificationSystem.print_user_notifications())
+                
                 self.save_notification(
                     receiver=notification.get_receiver(),
                     sender=notification.get_sender(),
