@@ -18,7 +18,7 @@ class Lecturer(Staff):
 
 
     def get_id(self):
-        return super().get_ssn()
+        return super().get_id()
       
     def get_name(self):
         return super().get_name()

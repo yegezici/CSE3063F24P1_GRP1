@@ -32,6 +32,6 @@ class Person(ABC):
     def initialize_interface(self, interface):
         pass
 
-    def get_ssn(self):
+    def get_id(self):
         return self._ssn
         
