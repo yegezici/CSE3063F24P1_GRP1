@@ -1,3 +1,4 @@
+from Logging_Config import logger
 class WeeklySchedule:
     def __init__(self, student):
         self.__student = student
@@ -26,4 +27,4 @@ class WeeklySchedule:
                             course_name = section.get_parent_course().get_course_name()
                             print(f"  {course_name}  {time_slot.get_classroom()}  {time_interval}")
                 else:
-                    print(f"No time slots available for section {section.get_section_id()}")
+                    logger.warning(f"No time slots available for section {section.get_section_id()}")

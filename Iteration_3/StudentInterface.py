@@ -56,6 +56,7 @@ class StudentInterface(UserInterface):
                 logger.warning(
                     f"{self.student.get_name()} {self.student.get_surname()} have reached the maximum number of courses")
                 print("You have reached the maximum number of courses.")
+                logger.warning(f"{self.student.get_name()} {self.student.get_surname()} have reached the maximum number of courses")
                 print("Redirecting to the main menu.")
                 break
 
@@ -63,7 +64,7 @@ class StudentInterface(UserInterface):
                 logger.warning(
                     f"There are no available courses for {self.student.get_name()} {self.student.get_surname()}")
                 break
-
+            
             print("These are the courses available for registration:")
             self.print_list(available_courses)
             course_choice = input("Select a course or press '0' to exit: ")
