@@ -86,7 +86,7 @@ class StudentInterface(UserInterface):
                     raise IndexError("Invalid section choice!")
                 selected_section = selected_course.get_course_sections()[section_choice]
                 self.student.register_course(selected_section)
-                print(f"You have successfully registered to {selected_course.get_course_name()} - {selected_section.get_section_id()}")
+                print(f"You have successfully sent the {selected_course.get_course_name()} - {selected_section.get_section_id()} to the advisor")
                 self.notification_system.create_notification(self.student, self.student.get_advisor(),"Student with ID " + self.student.get_id() + " has registered to" + selected_section.get_section_id() + ".")
                 logger.info(f"{self.student.get_name()} {self.student.get_surname()} your {selected_course.get_course_name()} Section {selected_section.get_section_id()} "
                             f"is sent to your advisor for approval.")
