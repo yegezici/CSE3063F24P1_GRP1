@@ -21,8 +21,7 @@ from NotificationSystem import NotificationSystem
 
 
 class SQLiteManagement:
-
-
+    
     def __init__(self):
         self.conn = sqlite3.connect('Iteration_3/database/CourseRegSys.db')
         self.cursor = self.conn.cursor()

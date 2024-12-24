@@ -84,10 +84,9 @@ class StudentInterface(UserInterface):
                 if section_choice < 0 or section_choice >= len(selected_course.get_course_sections()):
                     print("Invalid section choice. Please select a section from the list.")
                     raise IndexError("Invalid section choice!")
-
                 selected_section = selected_course.get_course_sections()[section_choice]
                 self.student.register_course(selected_section)
-                self.notification_system.create_notification(self.student, self.student.get_advisor(),"Student with ID " + self.student.get_id() + " has registered to" + section_choice.get_section_id() + ".")
+                self.notification_system.create_notification(self.student, self.student.get_advisor(),"Student with ID " + self.student.get_id() + " has registered to" + selected_section.get_section_id() + ".")
                 logger.info(f"{self.student.get_name()} {self.student.get_surname()} your {selected_course.get_course_name()} Section {selected_section.get_section_id()} "
                             f"is sent to your advisor for approval.")
                 available_courses.pop(course_choice - 1)
