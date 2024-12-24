@@ -324,10 +324,8 @@ class SQLiteManagement:
 
     
     def save_courseSection(self, courseSection: CourseSection) -> None:
-        print("Saving course section...")
         try:
             if courseSection.get_lecturer() is not  None:
-                print("Lecturer is not None")
                 sql = '''
                 INSERT INTO CourseSection (sectionID, capacity, courseID, lecturerSSN)
                 VALUES (?, ?, ?, ?)
@@ -337,7 +335,6 @@ class SQLiteManagement:
                                       courseSection.get_parent_course().get_course_id(),
                                       courseSection.get_lecturer().get_id()))
             else:
-                print("Lecturer is None")
                 sql = '''
                 INSERT INTO CourseSection (sectionID, capacity, courseID)
                 VALUES (?, ?, ?)
@@ -371,9 +368,7 @@ class SQLiteManagement:
                 INSERT INTO Course (courseID, name, credit, prerequisiteID, courseType, semester)
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', (course.get_course_id(), course.get_course_name(), course.get_credits(), prerequisite_course_id, course_type, semester))
-            print("length of sections: " ,len(course.get_course_sections()))
             for section in course.get_course_sections():
-                print("GITTI MI SECTION")
                 self.save_courseSection(section)
             self.conn.commit()
             print("Course saved successfully.")
