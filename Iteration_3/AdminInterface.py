@@ -186,7 +186,7 @@ class AdminInterface:
         lecturer: Optional['Lecturer'] = self.find_lecturer_by_id(lecturer_id)
         if lecturer:
             from DepartmentScheduler import DepartmentScheduler
-            scheduler: 'DepartmentScheduler' = DepartmentScheduler(id=lecturer.get_id(), name=lecturer.get_name(), surname=lecturer.get_surname(), birthdate=lecturer.get_birthdate(), gender=lecturer.get_gender(), course_sections=self.course_sections, all_time_intervals=None)
+            scheduler: 'DepartmentScheduler' = DepartmentScheduler(ssn=lecturer.get_id(), name=lecturer.get_name(), surname=lecturer.get_surname(), birthdate=lecturer.get_birthdate(), gender=lecturer.get_gender(), course_sections=self.course_sections, all_time_intervals=None)
             return scheduler
         logger.warning("Lecturer ID not found.")
         return None
