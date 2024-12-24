@@ -49,6 +49,7 @@ class SQLiteManagement:
     def get_lecturers(self) ->list[Lecturer]:
         return self.lecturers
     
+    
 
     
     def set_lecturer_to_sections(self) -> None:
@@ -558,8 +559,7 @@ class SQLiteManagement:
             row = self.cursor.fetchone()
             if row:
 
-                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=None, department_schedulers=None)
-                print(self.advisors)
+                admin = Admin(_name=row[1], _surname=row[2], _birthdate=row[3], _gender=row[4], _ssn=row[0],students=self.students, advisors=self.advisors, lecturers=self.lecturers, department_schedulers=None)
 
                 admin.set_interface(AdminInterface(admin, self.__notificationSystem))
                 return admin
@@ -605,6 +605,9 @@ class SQLiteManagement:
     
     def get_department_head(self, headID: str) -> DepartmentHead:
         from DepartmentHeadInterface import DepartmentHeadInterface
+        for exist_lecturer in self.lecturers:
+            if exist_lecturer.get_id() == headID:
+                return exist_lecturer
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{headID}'")
             row = self.cursor.fetchone()
@@ -633,6 +636,9 @@ class SQLiteManagement:
 
     def get_deparment_scheduler(self, schedulerID: str) -> DepartmentScheduler:
         from DepartmentSchedulerInterface import DepartmentSchedulerInterface
+        for exist_lecturer in self.lecturers:
+            if(exist_lecturer.get_id() == schedulerID):
+                return exist_lecturer
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{schedulerID}'")
             row = self.cursor.fetchone()
@@ -679,8 +685,10 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (student.get_id(), password, 'S')),
-            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
-                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
+            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, semester) VALUES (?, ?, ?, ?, ?, ?);", 
+                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender(), student.get_transcript().get_semester()))
+            self.cursor.execute(f"INSERT INTO StudentsOfAdvisor (studentID, advisorID) VALUES (?, ?);",
+                                (student.get_id(), student.get_advisor().get_id()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -699,8 +707,6 @@ class SQLiteManagement:
         try: 
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (advisor.get_id(), password, 'A'))
-            self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                advisor.get_id(), advisor.get_name(), advisor.get_surname(), str(advisor.get_birthdate()), advisor.get_gender())
             for student in advisor.get_students():
                 self.cursor.execute(f"INSERT INTO StudentOfAdvisor (studentID, advisorID) VALUES (?, ?);",
                                     (student.get_id(), advisor.get_id()))
