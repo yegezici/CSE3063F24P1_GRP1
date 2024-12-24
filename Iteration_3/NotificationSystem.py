@@ -12,13 +12,14 @@ class NotificationSystem:
         remaining_notifications = []  # Yazdırılmayan bildirimler için yeni liste
         count = 0
 
-        for notification in self.get_notifications():
-            receiver = notification.get_receiver()
-            if receiver is not None and receiver.get_ssn() == user.get_ssn():
-                count += 1
-                user_notifications.append(notification.get_message())
-            else:
-                remaining_notifications.append(notification)  # Yazdırılmayan bildirimleri sakla
+        if(self.get_notifications() is not None):
+            for notification in self.get_notifications():
+                receiver = notification.get_receiver()
+                if receiver is not None and receiver.get_ssn() == user.get_ssn():
+                    count += 1
+                    user_notifications.append(notification.get_message())
+                else:
+                    remaining_notifications.append(notification)  # Yazdırılmayan bildirimleri sakla
 
         # Eski listeyi kalan bildirimlerle güncelle
         self.__notifications = remaining_notifications
