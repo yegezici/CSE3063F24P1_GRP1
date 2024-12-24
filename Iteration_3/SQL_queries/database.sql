@@ -260,6 +260,7 @@ CREATE TABLE TimeSlot(
     FOREIGN KEY (sectionID) REFERENCES CourseSection(sectionID) ON DELETE SET NULL
 );
 
+INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('9:30-10:20', 'Monday', 'M2Z10', 'MATH1001.1');
 INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('10:30-11:20', 'Monday', 'M2Z10', 'MATH1001.2');
 INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('11:30-12:20', 'Monday', 'M2Z10', 'CSE1200.1');
 INSERT INTO TimeSlot (timeInterval, day, classroom, sectionID) VALUES ('12:30-13:20', 'Tuesday', 'M2Z10', 'CSE1241.1');
