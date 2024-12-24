@@ -7,7 +7,7 @@ from DepartmentHead import DepartmentHead
 from Lecturer import Lecturer
 from NotificationSystem import NotificationSystem
 class DepartmentHeadInterface(UserInterface):
-    def __init__(self, department_head: DepartmentHead, course_sections: 'List[CourseSection]'):
+    def __init__(self, department_head: DepartmentHead):
         self.department_head = department_head
         self.course_sections = department_head.get_manager().get_course_sections()
         self.lecturers = department_head.get_manager().get_lecturers()
