@@ -6,6 +6,7 @@ from UserInterface import UserInterface
 from DepartmentHead import DepartmentHead
 from Lecturer import Lecturer
 from NotificationSystem import NotificationSystem
+from Logging_Config import logger
 class DepartmentHeadInterface(UserInterface):
     def __init__(self, department_head: DepartmentHead):
         self.department_head = department_head
@@ -66,8 +67,10 @@ class DepartmentHeadInterface(UserInterface):
                 for i in range(len(new_course.get_course_sections())):
                     if(section.get_section_id() == new_course.get_course_sections()[i].get_section_id()):
                         print("Course already exists.")
-                        return
+                        logger.warning("Course already exists.")
+                        return  
             print(f"{new_course.get_course_id()} - {new_course.get_course_name()} - {new_course.get_credits()} - {new_course.get_course_type()} - This course has been added.")
+            logger.warning(f"{new_course.get_course_id()} - {new_course.get_course_name()} - {new_course.get_credits()} - {new_course.get_course_type()} - This course has been added.---------{self.department_head.get_name()} {self.department_head.get_surname()}")
             self.course_sections.extend(new_course.get_course_sections())
             department_scheduler = None
             for lecturer in self.lecturers:
@@ -76,7 +79,7 @@ class DepartmentHeadInterface(UserInterface):
             self.__notification_system.create_notification(self.department_head, department_scheduler, f"Course with ID: {new_course.get_course_id()} has been added and is waiting to get scheduled.")
         except ValueError:
             print("Enter an integer value for course code and course credits.")
-
+            logger.error("Invalid input for course code and course credits.")
     def ask_course_parameters(self):
         course = [None] * 8
         try:
@@ -97,6 +100,7 @@ class DepartmentHeadInterface(UserInterface):
             
         except ValueError as e:
             print(f"{e} Please enter a valid choice!")
+            logger.error(f"{e} Please enter a valid choice!")
         return course
 
     def remove_course(self):
@@ -108,8 +112,10 @@ class DepartmentHeadInterface(UserInterface):
             print(f"The {removed_course.get_course_id()} course has been removed.")
         except ValueError:
             print("Enter an integer value.")
+            logger.warning("Invalid input for course selection.")
         except IndexError:
             print("Invalid course selection.")
+            logger.warning("Invalid course selection.")
 
     def print_courses(self):
         for i, course in enumerate(self.courses, 1):

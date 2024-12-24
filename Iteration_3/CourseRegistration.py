@@ -22,10 +22,7 @@ class CourseRegistration:
 
     def __init__(self):
         self.manager = SQLiteManagement()
-        self.students = self.manager.get_students()
-        self.courses = self.manager.get_courses()
-        self.course_sections = self.manager.get_course_sections()
-        self.advisors = self.manager.get_advisors()
+
 
     def init(self):
         logger.info("Course Registration system is started.")
