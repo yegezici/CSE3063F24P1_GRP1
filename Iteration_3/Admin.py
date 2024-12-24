@@ -102,7 +102,7 @@ class Admin(Staff):
 
     # Getter and Setter for ssn
     def get_id(self):
-        return super().get_ssn()
+        return super().get_id()
     
      # Getter and Setter for students
     def get_students(self):
