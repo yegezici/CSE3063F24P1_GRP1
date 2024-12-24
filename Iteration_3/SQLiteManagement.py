@@ -36,7 +36,8 @@ class SQLiteManagement:
         self.students = []
         self.__notificationSystem = self.initialize_notification_system()
         self.set_lecturer_and_notification_system_to_scheduler_and_head()
-    
+        self.assign_students_to_sections()
+        
     def set_lecturer_and_notification_system_to_scheduler_and_head(self)->None:
         for head in self.lecturers:
             if isinstance(head, DepartmentHead):
@@ -50,7 +51,11 @@ class SQLiteManagement:
                 interface.set_lecturers(self.lecturers)
                 interface.set_notification_system(self.__notificationSystem)
                 
-            
+    def assign_students_to_sections(self) ->None:
+        for student in self.students:
+            for current_section in student.get_transcript().get_current_sections():
+                current_section.add_student_to_section(student)
+        
         
     def get_students(self) -> list[Student]:
         return self.students
@@ -158,11 +163,11 @@ class SQLiteManagement:
         rows = self.cursor.fetchall()
         for row in rows:
             if row[4] == 'm':
-                course =  MandatoryCourse(course_id=row[0], course_name=row[1], credits=row[2])
+                course =  MandatoryCourse(course_id=row[0], course_name=row[1], credits=row[2], semester = row[5])
             elif row[4] == 'te':
                 course = NonTechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
             elif row[4] == 'nte':
-                course = TechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
+                course = TechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2], semester= row[5])
             courses.append(course)
         return courses
 
