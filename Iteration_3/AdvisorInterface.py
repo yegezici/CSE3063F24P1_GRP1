@@ -112,7 +112,7 @@ class AdvisorInterface(UserInterface):
         try:
             while True:
                 if not student.get_transcript().get_waited_courses():
-                    print("All waited courses have been approved. You will be directed to main menu.")
+                    print("No courses waiting to be approved. You will be directed to main menu.")
                     break
 
                 student.get_transcript().show_waited_courses()
