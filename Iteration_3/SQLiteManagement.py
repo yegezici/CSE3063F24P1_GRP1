@@ -163,11 +163,11 @@ class SQLiteManagement:
         rows = self.cursor.fetchall()
         for row in rows:
             if row[4] == 'm':
-                course =  MandatoryCourse(course_id=row[0], course_name=row[1], credits=row[2])
+                course =  MandatoryCourse(course_id=row[0], course_name=row[1], credits=row[2], semester = row[5])
             elif row[4] == 'te':
                 course = NonTechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
             elif row[4] == 'nte':
-                course = TechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2])
+                course = TechnicalElectiveCourse(course_id=row[0], course_name=row[1], credits=row[2], semester= row[5])
             courses.append(course)
         return courses
 
