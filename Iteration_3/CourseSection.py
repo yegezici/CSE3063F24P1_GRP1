@@ -10,8 +10,8 @@ class CourseSection:
         self.__lecturer = lecturer
         self.__current_students: List['Student'] = []
         self.section_id = section_id
-        self.time_slots: List[TimeSlot] = []  # Initialize time_slots
-        self.wait_list: List[Student] = []    # Initialize wait_list
+        self.time_slots: List['TimeSlot'] = []  # Initialize time_slots
+        self.wait_list: List['Student'] = []    # Initialize wait_list
 
     def get_capacity(self) -> int:
         return self.__capacity

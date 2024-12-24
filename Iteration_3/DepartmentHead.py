@@ -7,6 +7,7 @@ from TechnicalElectiveCourse import TechnicalElectiveCourse
 from datetime import date
 from typing import List
 from NotificationSystem import NotificationSystem
+from Logging_Config import logger
 
 class DepartmentHead(Lecturer):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None, manager = None):
@@ -44,17 +45,19 @@ class DepartmentHead(Lecturer):
                 self.__manager.get_course_sections().append(course_section)   
             return sections
         except Exception as e:
-            print(str(e))
+            logger.error(f"{e}")
 
     def set_capacity(self, chosen_section):
         print("Enter a capacity:")
         chosen_section.set_capacity(int(input()))
         print("Capacity has been set successfully.")
+        logger.info("Capacity has changed")
 
     def manage_capacity(self, course_section, new_capacity, notification_system: NotificationSystem):
         
         if new_capacity < course_section.get_capacity():
             print("New capacity cannot be less than the current capacity.")
+            logger.warning("Invalid capacity")
             return False
         else:
             size_increase = new_capacity - course_section.get_capacity()
@@ -78,7 +81,7 @@ class DepartmentHead(Lecturer):
                 notification_system.create_notification(sender=self, receiver=student, message="Capacity of " + course_section.get_section_id() + " has been updated, You are now registered to the course.")
             course_section.set_wait_list(waitlist)
         except Exception as e:
-            print(str(e))
+            logger.warning(str(e))
         
     def get_id(self):
         return super().get_id()
