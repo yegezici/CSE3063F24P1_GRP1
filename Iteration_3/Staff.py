@@ -8,7 +8,7 @@ class Staff(Person):
     def initialize_interface(self, interface):
         pass
 
-    def get_ssn(self):
+    def get_id(self):
         """Override abstract method to return the SSN"""
         return self._ssn
 
