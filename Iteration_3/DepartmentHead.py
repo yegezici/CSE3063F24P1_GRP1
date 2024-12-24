@@ -40,9 +40,8 @@ class DepartmentHead(Lecturer):
                 course_section = CourseSection(capacity, parent_course, None, str(i + 1))
                 course_section.set_capacity(capacity)
                 course_section.set_parent_course(parent_course)
-                course_section.set_section_id(str(i + 1))
+                course_section.set_section_id(parent_course.get_course_name() + "." + str(i + 1))
                 sections.append(course_section)
-                #burada hata olabilir
                 self.__manager.get_course_sections().append(course_section)   
             return sections
         except Exception as e:
