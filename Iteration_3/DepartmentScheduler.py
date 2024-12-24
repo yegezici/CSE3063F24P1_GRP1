@@ -124,3 +124,6 @@ class DepartmentScheduler(Lecturer):
 
     def initialize_interface(self):
         return self.__interface
+    
+    def get_manager(self):
+        return self.__manager

@@ -6,13 +6,14 @@ from DepartmentScheduler import DepartmentScheduler
 from Lecturer import Lecturer
 from UserInterface import UserInterface
 class DepartmentSchedulerInterface(UserInterface):
-    def __init__(self, department_scheduler: 'DepartmentScheduler', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]', notification_system: 'NotificationSystem' = None):
-        
+    def __init__(self, department_scheduler: 'DepartmentScheduler'):
         self.__department_scheduler = department_scheduler
-        self.__course_sections = course_sections
-        self.__lecturers = lecturers
-        self.__notification_system = notification_system
+        self.__course_sections = department_scheduler.get_manager().get_course_sections()
+        self.__lecturers = department_scheduler.get_manager().get_lecturers()
+        self.__notification_system =  department_scheduler.get_manager().get_notification_system()
 
+    def set_lecturers(self, lecturers: list[Lecturer]):
+        self.__lecturers = lecturers
     def update_time_interval(self, chosen_section):
         print("Time slots of the selected course are listed below:")
         for idx, slot in enumerate(chosen_section.get_time_slots(), 1):

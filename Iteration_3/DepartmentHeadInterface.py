@@ -7,12 +7,17 @@ from DepartmentHead import DepartmentHead
 from Lecturer import Lecturer
 from NotificationSystem import NotificationSystem
 class DepartmentHeadInterface(UserInterface):
-    def __init__(self, department_head: 'DepartmentHead', course_sections: 'List[CourseSection]', lecturers: 'List[Lecturer]', notification_system: 'NotificationSystem' = None):
+    def __init__(self, department_head: DepartmentHead, course_sections: 'List[CourseSection]'):
         self.department_head = department_head
-        self.course_sections = course_sections
+        self.course_sections = department_head.get_manager().get_course_sections()
+        self.lecturers = department_head.get_manager().get_lecturers()
+        self.__notification_system = department_head.get_manager().get_notification_system()
+        
+    def set_lecturers(self, lecturers: list[Lecturer]) ->None:
         self.lecturers = lecturers
+    def set_notification_system(self, notification_system: NotificationSystem):
         self.__notification_system = notification_system
-        self.__interface = None
+        
     def show_menu(self):
         while True:
             choice = self.get_choice()

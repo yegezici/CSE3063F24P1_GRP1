@@ -34,7 +34,6 @@ class SQLiteManagement:
         self.set_lecturer_to_sections()
         self.students = []
         self.__notificationSystem = self.initialize_notification_system()
-        
 
         
     def get_students(self) -> list[Student]:
@@ -47,6 +46,10 @@ class SQLiteManagement:
         return self.advisors
     def get_notification_system(self) -> NotificationSystem:
         return self.__notificationSystem
+    def get_lecturers(self) ->list[Lecturer]:
+        return self.lecturers
+    
+
     
     def set_lecturer_to_sections(self) -> None:
         for section in self.courseSections:
@@ -620,8 +623,7 @@ class SQLiteManagement:
                     birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
 
                 dephead = DepartmentHead(name=row[1], surname=row[2], birthdate=birthdate, gender=row[4], ssn=headID, manager = self)
-                #BURADAKI self.advisors LECTURER LISTI OLDUGUNDA DUZELTILECEK
-                dephead.set_interface(DepartmentHeadInterface(dephead,self.courseSections, self.lecturers ,self.__notificationSystem))
+                dephead.set_interface(DepartmentHeadInterface(dephead))
                 return dephead
             else:
                 return None
@@ -653,7 +655,7 @@ class SQLiteManagement:
                                              self.courseSections,
                                              self.init_time_intervals(),
                                              manager = self)
-                depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch,course_sections= self.courseSections, lecturers= self.lecturers, notification_system= self.__notificationSystem))
+                depsch.set_interface(DepartmentSchedulerInterface(department_scheduler = depsch))
                 return depsch
             else:
                 return None
@@ -865,4 +867,3 @@ class SQLiteManagement:
             print("Course section lecturer updated successfully.")
         except sqlite3.Error as e:
             print("SQLite error:", e)
-
