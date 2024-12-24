@@ -14,7 +14,7 @@ class NotificationSystem:
 
         for notification in self.get_notifications():
             receiver = notification.get_receiver()
-            if receiver is not None and receiver.get_ssn() == user.get_ssn():
+            if receiver is not None and receiver.get_id() == user.get_id():
                 count += 1
                 user_notifications.append(notification.get_message())
             else:
