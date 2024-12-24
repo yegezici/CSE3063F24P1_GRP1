@@ -1,22 +1,20 @@
 import logging
 import os
 
-# Log dosyasının tutulacağı klasör
-log_folder = "Iteration_3/logs"
-os.makedirs(log_folder, exist_ok=True)  # Klasör yoksa oluştur
 
-# Log dosyasının yolu
+log_folder = "Iteration_3/logs"
+os.makedirs(log_folder, exist_ok=True)  
+
 log_file = os.path.join(log_folder, "course_registration.log")
 
-# Logging yapılandırması
+
 logging.basicConfig(
-    level=logging.INFO,  # Log seviyesini belirle (INFO, DEBUG, WARNING, ERROR, CRITICAL)
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",  # Log formatı
+    level=logging.INFO,  # (INFO, DEBUG, WARNING, ERROR, CRITICAL)
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", 
     handlers=[
-        logging.FileHandler(log_file),  # Logları dosyaya yaz
-        #logging.StreamHandler()  # Aynı zamanda konsola yaz
+        logging.FileHandler(log_file),  
     ]
 )
 
-# Logger nesnesi oluştur
+
 logger = logging.getLogger("CourseRegistrationSystem")

@@ -589,6 +589,11 @@ class SQLiteManagement:
     def get_student(self, student_id: str) -> Student:
         exist_student = self.check_student_exists(student_id)
         if exist_student is not None:
+            self.cursor.execute(f"SELECT * FROM StudentsOfAdvisor")
+            rows = self.cursor.fetchall()
+            for row in rows:
+                advisor = self.get_advisor(row[1])
+                exist_student.set_advisor(advisor)
             return exist_student
         student = self.get_student_without_advisor(student_id)
         self.cursor.execute(f"SELECT * FROM StudentsOfAdvisor")

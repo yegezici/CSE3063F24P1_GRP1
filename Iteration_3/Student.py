@@ -3,6 +3,7 @@ from Person import Person
 from Advisor import Advisor
 from Transcript import Transcript
 from CourseSection import CourseSection
+from Logging_Config import logger
 
 class Student(Person):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, transcript: 'Transcript' = None, student_id: str = None,):
@@ -39,17 +40,17 @@ class Student(Person):
     def set_interface(self, interface):
         self.__interface = interface
 
-    def register_course(self, course_section: 'CourseSection'):  # String tip kullanımı
+    def register_course(self, course_section: 'CourseSection'): 
         try:
             self.__transcript.add_waited_course(course_section.get_parent_course())
             self.__transcript.get_waited_sections().append(course_section)
         except Exception as e:
-            print(str(e))
+            logger.warning(str(e))
             
     def get_advisor(self):
         return self.__advisor
 
-    def set_advisor(self, advisor: 'Advisor'):  # String tip kullanımı
+    def set_advisor(self, advisor: 'Advisor'):  
         self.__advisor = advisor
         
     def initialize_interface(self):
