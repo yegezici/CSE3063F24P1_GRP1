@@ -55,7 +55,7 @@ class SQLiteManagement:
             row = self.cursor.fetchone()
             if row:
                 for lecturer in self.lecturers:
-                    if lecturer.get_ssn() == row[0]:
+                    if lecturer.get_id() == row[0]:
                         section.set_lecturer(lecturer)
             
         
@@ -82,7 +82,7 @@ class SQLiteManagement:
         for row in rows:
             lecturer_id = row[0]  # Assuming the first column is the lecturer's ID
             # Check if the lecturer is already in the advisors list
-            if not any(advisor.get_ssn() == lecturer_id for advisor in self.advisors):
+            if not any(advisor.get_id() == lecturer_id for advisor in self.advisors):
                 lecturer = Lecturer(
                     ssn=row[0],
                     name=row[1],
@@ -181,7 +181,7 @@ class SQLiteManagement:
                 student.get_surname(), 
                 student.get_gender(), 
                 str(student.get_birthdate()), 
-                student.get_advisor().get_ssn()
+                student.get_advisor().get_id()
             ))
             self.conn.commit()        
        
@@ -702,12 +702,12 @@ class SQLiteManagement:
     def add_advisor(self, advisor: Advisor, password: str) -> None:
         try: 
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
-                                (advisor.get_ssn(), password, 'A'))
+                                (advisor.get_id(), password, 'A'))
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                advisor.get_ssn(), advisor.get_name(), advisor.get_surname(), str(advisor.get_birthdate()), advisor.get_gender())
+                                advisor.get_id(), advisor.get_name(), advisor.get_surname(), str(advisor.get_birthdate()), advisor.get_gender())
             for student in advisor.get_students():
                 self.cursor.execute(f"INSERT INTO StudentOfAdvisor (studentID, advisorID) VALUES (?, ?);",
-                                    (student.get_id(), advisor.get_ssn()))
+                                    (student.get_id(), advisor.get_id()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
@@ -726,7 +726,7 @@ class SQLiteManagement:
     def add_lecturer(self, lecturer: Lecturer, password) -> None:
         try:
             self.cursor.execute(f"INSERT INTO Lecturer (ssn, name, surname, birthdate, gender) VALUES (?, ?, ?, ?, ?);",
-                                (lecturer.get_ssn(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
+                                (lecturer.get_id(), lecturer.get_name(), lecturer.get_surname(), str(lecturer.get_birthdate()), lecturer.get_gender()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("There is an error in add_lecturer function.\nLecturer is not added.\nSQLite error:", e)
@@ -821,18 +821,18 @@ class SQLiteManagement:
             # Bildirimin mevcut olup olmadığını kontrol et
             self.cursor.execute(
                 "SELECT COUNT(*) FROM Notification WHERE receiverID = ? AND senderID = ? AND notificationMessage = ?",
-                (receiver.get_ssn(), sender.get_ssn(), message)
+                (receiver.get_id(), sender.get_id(), message)
             )
             exists = self.cursor.fetchone()[0]  # Eğer kayıt varsa 1 döner
 
             if exists == 0:  # Eğer böyle bir bildirim yoksa ekle
                 self.cursor.execute(
                     "INSERT INTO Notification (receiverID, senderID, notificationMessage) VALUES (?, ?, ?);",
-                    (receiver.get_ssn(), sender.get_ssn(), message)
+                    (receiver.get_id(), sender.get_id(), message)
                 )
                 self.conn.commit()
             #else    
-                #print(f"Notification already exists for receiver: {receiver.get_ssn()}, sender: {sender.get_ssn()}")
+                #print(f"Notification already exists for receiver: {receiver.get_id()}, sender: {sender.get_id()}")
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
         except Exception as e:
@@ -841,7 +841,7 @@ class SQLiteManagement:
             
     def delete_notification(self, notification : Notification)-> None:
         try:
-            self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_ssn()}'")
+            self.cursor.execute(f"DELETE FROM Notification WHERE receiverID = '{notification.get_receiver().get_id()}'")
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
