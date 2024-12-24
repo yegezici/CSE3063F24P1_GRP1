@@ -2,7 +2,7 @@ from datetime import date
 from CourseSection import CourseSection
 from typing import List, Optional
 from Lecturer import Lecturer
-
+from Logging_Config import logger
 class DepartmentScheduler(Lecturer):
     def __init__(
         self, 
@@ -59,7 +59,7 @@ class DepartmentScheduler(Lecturer):
                         available_times.remove(time_slot.get_time_interval())
             return available_times
         except Exception as e:
-            print(str(e))
+            logger.warning(str(e))
 
     def handle_classroom_conflict(self, day, time_interval):
         try:

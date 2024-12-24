@@ -56,6 +56,7 @@ class StudentInterface(UserInterface):
                 logger.warning(
                     f"{self.student.get_name()} {self.student.get_surname()} have reached the maximum number of courses")
                 print("You have reached the maximum number of courses.")
+                logger.warning(f"{self.student.get_name()} {self.student.get_surname()} have reached the maximum number of courses")
                 print("Redirecting to the main menu.")
                 break
 
@@ -63,7 +64,7 @@ class StudentInterface(UserInterface):
                 logger.warning(
                     f"There are no available courses for {self.student.get_name()} {self.student.get_surname()}")
                 break
-
+            
             print("These are the courses available for registration:")
             self.print_list(available_courses)
             course_choice = input("Select a course or press '0' to exit: ")
@@ -109,8 +110,11 @@ class StudentInterface(UserInterface):
             is_waited = self.check_course_exist_in_list(course, transcript.get_waited_courses())
             is_current = self.check_course_exist_in_list(course, transcript.get_current_courses())
 
-            if not is_completed and not is_waited and not is_current and self.check_prerequisite(course) and self.check_engineering_project_availability:
+            if not is_completed and not is_waited and not is_current and self.check_prerequisite(course) and course.get_course_id() != "CSE4297" and course.get_course_id() != "CSE4298": 
                 registrable_courses.append(course)
+            if not is_completed and not is_waited and not is_current and self.check_prerequisite(course) and (course.get_course_id() == "CSE4297" or course.get_course_id() == "CSE4298") and self.check_engineering_project_availability():
+                registrable_courses.append(course)
+
         # Remove courses from future semesters
         registrable_courses = [
             course for course in registrable_courses if course.get_semester() <= transcript.get_semester()
@@ -149,5 +153,7 @@ class StudentInterface(UserInterface):
     def check_engineering_project_availability(self):
         if self.student.get_transcript().get_total_credits() >= 165:
             return True
+        else:
+            return False
         
         

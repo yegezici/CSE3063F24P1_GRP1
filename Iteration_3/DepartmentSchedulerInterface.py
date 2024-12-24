@@ -5,6 +5,7 @@ from NotificationSystem import NotificationSystem
 from DepartmentScheduler import DepartmentScheduler
 from Lecturer import Lecturer
 from UserInterface import UserInterface
+from Logging_Config import logger
 class DepartmentSchedulerInterface(UserInterface):
     def __init__(self, department_scheduler: 'DepartmentScheduler'):
         self.__department_scheduler = department_scheduler
@@ -30,11 +31,13 @@ class DepartmentSchedulerInterface(UserInterface):
             chosen_section.get_time_slots().pop(int(input()) - 1)
             self.set_time_slot(chosen_section)
             print("Time slot has been updated successfully.")
+            logger.info("Time slot has been updated.")
             message = f"Time slot of {chosen_section.get_section_id()} has been updated."
             self.__notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message=message)
             self.__department_scheduler.get_manager().save_time_slots()
         except (ValueError, IndexError):
             print("Enter a valid integer within the list range.")
+            logger.warning("Invalid input in update_time_interval of Department Scheduler Interface.")
 
     def update_classroom(self, chosen_section):
         print("Time slots of the selected course are listed below:")
@@ -55,6 +58,7 @@ class DepartmentSchedulerInterface(UserInterface):
             self.__notification_system.create_notification(sender=self, receiver=chosen_section.get_current_students(), message="Classroom of " + chosen_section.get_section_id() + " has been updated.")
         except (ValueError, IndexError):
             print("Enter a valid integer.")
+            logger.warning("Invalid input in update_classroom of Department Scheduler Interface.")
 
     def update_lecturer(self, chosen_section):
         if chosen_section.get_lecturer():    
@@ -72,8 +76,10 @@ class DepartmentSchedulerInterface(UserInterface):
                 print("Selected lecturer has a conflict with the course section.")
         except (ValueError, IndexError):
             print("Enter a valid integer.")
+            logger.warning("Invalid input in update_lecturer of Department Scheduler Interface.")
         except:
             print("There is an error in update_lecturer of DSI.")
+            logger.warning("Error in update_lecturer of Department Scheduler Interface.")
 
     def choose_course_section(self):
         self.show_available_course_sections()
@@ -94,6 +100,7 @@ class DepartmentSchedulerInterface(UserInterface):
             return chosen_section
         except (ValueError, IndexError):
             print("Enter a valid integer within the list range.")
+            logger.warning("Invalid input in choose_course_section of Department Scheduler Interface.")
             return None
 
     def show_menu(self):
@@ -128,6 +135,7 @@ class DepartmentSchedulerInterface(UserInterface):
             return int(input())
         except ValueError:
             print("Enter a valid integer.")
+            logger.warning("Invalid input in get_choice of Department Scheduler Interface.")
             return 0
 
     def show_days(self, semester):
@@ -174,4 +182,5 @@ class DepartmentSchedulerInterface(UserInterface):
         classroom = self.__department_scheduler.handle_classroom_conflict(day, time_interval)[int(input()) - 1]
         chosen_section.get_time_slots().append(TimeSlot(day, time_interval, classroom))
         print("Selected time slot and classroom has been assigned.")
+        logger.info("Time slot and classroom has been assigned.")
         self.__department_scheduler.get_manager().save_time_slots()
