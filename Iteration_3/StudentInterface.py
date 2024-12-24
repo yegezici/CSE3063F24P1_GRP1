@@ -49,12 +49,13 @@ class StudentInterface(UserInterface):
     def register_course(self):
         available_courses = self.show_registrable_courses()
         while True:
-            print(f"Your total credit is: {self.student.get_transcript().get_total_credits()}")
+            
             total_number_of_courses = len(self.student.get_transcript().get_current_courses()) + \
                                       len(self.student.get_transcript().get_waited_courses())
             if total_number_of_courses >= 5:
                 logger.warning(
                     f"{self.student.get_name()} {self.student.get_surname()} have reached the maximum number of courses")
+                print("You have reached the maximum number of courses.")
                 print("Redirecting to the main menu.")
                 break
 
@@ -72,6 +73,7 @@ class StudentInterface(UserInterface):
                 if course_choice == 0:
                     break
                 if course_choice < 1 or course_choice > len(available_courses):
+                    print("Invalid choice. Please select a course from the list.")
                     logger.warning(f"Invalid choice for course choice     - {self.student.get_name()} {self.student.get_surname()}")
                     continue
 
@@ -80,6 +82,7 @@ class StudentInterface(UserInterface):
                 section_choice = int(input("Select a section: ")) - 1
 
                 if section_choice < 0 or section_choice >= len(selected_course.get_course_sections()):
+                    print("Invalid section choice. Please select a section from the list.")
                     raise IndexError("Invalid section choice!")
 
                 selected_section = selected_course.get_course_sections()[section_choice]
