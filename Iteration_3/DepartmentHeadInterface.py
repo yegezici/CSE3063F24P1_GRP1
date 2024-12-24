@@ -47,6 +47,7 @@ class DepartmentHeadInterface(UserInterface):
     def add_course(self):
         course_params = self.ask_course_parameters()
         try:
+            from DepartmentScheduler import DepartmentScheduler
             new_course = self.department_head.create_course(
                 course_params[0], course_params[1], course_params[3], int(course_params[2]), int(course_params[4]), int(course_params[5]),
                 int(course_params[6]),course_params[7])
@@ -57,6 +58,11 @@ class DepartmentHeadInterface(UserInterface):
                         return
             print(f"{new_course.get_course_id()} - {new_course.get_course_name()} - {new_course.get_credits()} - {new_course.get_course_type()} - This course has been added.")
             self.course_sections.extend(new_course.get_course_sections())
+            department_scheduler = None
+            for lecturer in self.lecturers:
+                if isinstance(lecturer, DepartmentScheduler):
+                    department_scheduler = lecturer
+            self.__notification_system.create_notification(self.department_head, department_scheduler, f"Course with ID: {new_course.get_course_id()} has been added and is waiting to get scheduled.")
         except ValueError:
             print("Enter an integer value for course code and course credits.")
 
