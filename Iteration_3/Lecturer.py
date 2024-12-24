@@ -31,4 +31,5 @@ class Lecturer(Staff):
 
     def get_gender(self):
         return super().get_gender()
+    
 

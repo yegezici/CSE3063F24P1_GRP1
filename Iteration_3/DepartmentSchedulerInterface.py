@@ -10,7 +10,14 @@ class DepartmentSchedulerInterface(UserInterface):
         self.__department_scheduler = department_scheduler
         self.__course_sections = department_scheduler.get_manager().get_course_sections()
         self.__lecturers = department_scheduler.get_manager().get_lecturers()
-        self.__notification_system =  department_scheduler.get_manager().get_notification_system()
+        self.__notification_system =  None
+    
+    def set_notification_system(self, notification_system: NotificationSystem):
+        self.__notification_system = notification_system
+    
+    def set_lecturers(self, lecturers: list[Lecturer]):
+        self.lecturers = lecturers
+        
 
     def set_lecturers(self, lecturers: list[Lecturer]):
         self.__lecturers = lecturers

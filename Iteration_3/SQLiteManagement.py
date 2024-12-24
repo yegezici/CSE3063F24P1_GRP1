@@ -30,11 +30,27 @@ class SQLiteManagement:
         self.set_prerequisites()
         self.advisors = []
         self.initiate_advisors()
+        self.lecturers = []
         self.lecturers = self.initialize_lecturers()
         self.set_lecturer_to_sections()
         self.students = []
         self.__notificationSystem = self.initialize_notification_system()
-
+        self.set_lecturer_and_notification_system_to_scheduler_and_head()
+    
+    def set_lecturer_and_notification_system_to_scheduler_and_head(self)->None:
+        for head in self.lecturers:
+            if isinstance(head, DepartmentHead):
+                interface = head.get_interface()
+                interface.set_lecturers(self.lecturers)
+                interface.set_notification_system(self.__notificationSystem)
+        
+        for scheduler in self.lecturers:
+            if isinstance(scheduler, DepartmentHead):
+                interface = scheduler.get_interface()
+                interface.set_lecturers(self.lecturers)
+                interface.set_notification_system(self.__notificationSystem)
+                
+            
         
     def get_students(self) -> list[Student]:
         return self.students
@@ -50,7 +66,6 @@ class SQLiteManagement:
         return self.lecturers
     
     
-
     
     def set_lecturer_to_sections(self) -> None:
         for section in self.courseSections:
@@ -81,10 +96,28 @@ class SQLiteManagement:
         # Fetch remaining lecturers from the database
         self.cursor.execute("SELECT * FROM Lecturer")
         rows = self.cursor.fetchall()
+        
+        self.cursor.execute("SELECT * FROM User where userType = 'D'")
+        department_schedulers = self.cursor.fetchall()
+        
+        self.cursor.execute("SELECT * FROM User where userType = 'H'")
+        department_heads = self.cursor.fetchall()       
     
         for row in rows:
             lecturer_id = row[0]  # Assuming the first column is the lecturer's ID
-            # Check if the lecturer is already in the advisors list
+            
+            for department_scheduler in department_schedulers:
+                if lecturer_id == department_scheduler[0]:
+                    dsch = self.get_deparment_scheduler(lecturer_id)
+                    lecturers.append(dsch)
+                    continue
+            
+            for department_head in department_heads:
+                if lecturer_id == department_head[0]:
+                    dh = self.get_department_head(lecturer_id)
+                    lecturers.append(dh)
+                    continue
+            
             if not any(advisor.get_id() == lecturer_id for advisor in self.advisors):
                 lecturer = Lecturer(
                     ssn=row[0],
@@ -427,7 +460,6 @@ class SQLiteManagement:
         except sqlite3.Error as e:
             logger.warning(f"SQLite error while saving TimeSlot: {e}")
 
-
     
     def get_courses_of_transcript(self, student_id: str, courseList_type: str)-> list:
         courses = []
@@ -606,7 +638,7 @@ class SQLiteManagement:
     def get_department_head(self, headID: str) -> DepartmentHead:
         from DepartmentHeadInterface import DepartmentHeadInterface
         for exist_lecturer in self.lecturers:
-            if exist_lecturer.get_id() == headID:
+            if exist_lecturer.get_id() == headID and isinstance(exist_lecturer, DepartmentHead):
                 return exist_lecturer
         try:
             self.cursor.execute(f"SELECT * FROM Lecturer d WHERE d.ssn = '{headID}'")

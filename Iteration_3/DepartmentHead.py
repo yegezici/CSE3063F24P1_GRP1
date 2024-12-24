@@ -7,7 +7,6 @@ from TechnicalElectiveCourse import TechnicalElectiveCourse
 from datetime import date
 from typing import List
 from NotificationSystem import NotificationSystem
-from Staff import Staff
 
 class DepartmentHead(Lecturer):
     def __init__(self, name: str = None, surname: str = None, birthdate: date = None, gender: str = None, ssn: str = None, manager = None):
