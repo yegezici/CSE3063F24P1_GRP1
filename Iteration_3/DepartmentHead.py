@@ -71,7 +71,11 @@ class DepartmentHead(Lecturer):
                 if not waitlist:
                     break
                 student = waitlist.pop(0)
-                student.get_transcript().add_current_course(course_section.parent_course)
+                student.get_transcript().add_current_course(course_section.get_parent_course())
+                student.get_transcript().delete_from_waited_course(course_section.get_parent_course())
+                student.get_transcript().add_current_section(course_section)
+                student.get_transcript().delete_from_waited_sections(course_section)
+                course_section.add_student_to_section(student)
                 notification_system.create_notification(sender=self, receiver=student, message="Capacity of " +course_section.get_name() + " has been updated, You are now registered to the course.")
             course_section.set_wait_list(waitlist)
         except Exception as e:

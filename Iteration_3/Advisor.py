@@ -11,7 +11,7 @@ class Advisor(Lecturer):
     def approve_course(self, student, course_section):
         try:
             if not course_section.has_capacity():
-                course_section.wait_list.append(student)
+                course_section.get_wait_list().append(student)
                 print("Capacity is full. You are listed in waitlist.")
             else:
                 student.get_transcript().add_current_course(course_section.get_parent_course())
@@ -23,7 +23,7 @@ class Advisor(Lecturer):
 
                 student.get_transcript().delete_from_waited_sections(course_section)
 
-            course_section.get_current_students().append(student)
+            course_section.add_student_to_section(student)
             print("The course has been approved.")
         except Exception as e:
             print(str(e))
