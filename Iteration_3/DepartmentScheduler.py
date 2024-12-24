@@ -25,17 +25,20 @@ class DepartmentScheduler(Lecturer):
     def get_manager(self):
         return self.__manager
 
+    # Adds given time slot to the course section
     def assign_time_slot_to_section(self, course_section, time_slot):
         if not course_section or not time_slot:
             raise ValueError("CourseSection or TimeSlot cannot be null.")
         time_slot.assign_time_slot(course_section)
 
+    # Adds given lecturer to the course section
     def assign_lecturer_to_section(self, course_section, lecturer):
         if not course_section or not lecturer:
             raise ValueError("CourseSection or Lecturer cannot be null.")
         if self.handle_lecturer_conflict(lecturer, course_section):
             course_section.set_lecturer(lecturer)
 
+    # Returns the available classrooms for the given time slot
     def get_available_classrooms(self, time_slot):
         if not time_slot:
             raise ValueError("TimeSlot cannot be None.")
@@ -50,6 +53,7 @@ class DepartmentScheduler(Lecturer):
         print(f"Available classrooms: {available_classrooms}")  # Debugging output
         return available_classrooms
 
+    # Returns the available time intervals for the given day
     def handle_time_conflict(self, semester_courses, day):
         try:
             available_times = self.__all_time_intervals.copy()
@@ -61,6 +65,7 @@ class DepartmentScheduler(Lecturer):
         except Exception as e:
             print(str(e))
 
+    # Returns the available classrooms for the given day and time interval
     def handle_classroom_conflict(self, day, time_interval):
         try:
             available_classrooms = self.__all_classrooms.copy()
@@ -73,6 +78,7 @@ class DepartmentScheduler(Lecturer):
         except Exception as e:
             print(str(e))
 
+    # Checks if the course sections time intervals has any conflict with the lecturer's current sections.
     def handle_lecturer_conflict(self, lecturer, course_section):
         try:
             for section in self.__course_sections:
@@ -85,6 +91,7 @@ class DepartmentScheduler(Lecturer):
         except Exception as e:
             print(str(e))
 
+    # Returns the available days for the given semester courses
     def get_available_days(self, semester_courses: list) -> list:
         all_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
         day_to_times = {day: self.__all_time_intervals.copy() for day in all_days}
@@ -97,6 +104,7 @@ class DepartmentScheduler(Lecturer):
 
         return [day for day, times in day_to_times.items() if times]
 
+    # Returns the course sections of the given semester
     def semester_x_courses(self, x):
         semester_x_courses = []
         for course_section in self.__course_sections:

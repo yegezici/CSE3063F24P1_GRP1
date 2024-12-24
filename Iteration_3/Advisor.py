@@ -8,6 +8,8 @@ class Advisor(Lecturer):
         self.__students = students or []
         self.__interface = None
 
+    # Adds given section to the student's current lists from their waited lists. If the section is full,
+    # adds the student to the waitlist.
     def approve_course(self, student, course_section):
         try:
             if not course_section.has_capacity():
@@ -28,6 +30,7 @@ class Advisor(Lecturer):
         except Exception as e:
             print(str(e))
 
+    # Deletes the course from the student's waited courses and sections.
     def reject_course(self, student, course_section):
         try:
             student.get_transcript().delete_from_waited_course(course_section.get_parent_course())
@@ -36,12 +39,14 @@ class Advisor(Lecturer):
         except Exception as e:
             print(str(e))
 
+    # Adds the student to the list of students that the user is advisor for.
     def add_student(self, student):
         try:
             self.__students.append(student)
         except Exception as e:
             print(str(e))
 
+    # Returns the students that the user is advisor for.
     def get_students(self) -> List:
         try:
             return self.__students
@@ -49,6 +54,7 @@ class Advisor(Lecturer):
             print(str(e))
             return []
 
+    # Checks if the course section has any conflict with the student's current sections.
     def check_section_conflict(self, student, course_section):
         try:
             course_sections_of_student = student.get_transcript().get_current_sections()

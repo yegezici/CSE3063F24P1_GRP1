@@ -6,10 +6,11 @@ class NotificationSystem:
     def __init__(self, notifications: Optional[List['Notification']] = None):
         self.__notifications = notifications or []
 
+    # Prints the notifications of the user.
     def print_user_notifications(self, user: 'Person' = None):
         from Notification import Notification  # Local import to avoid circular dependency
         user_notifications = []
-        remaining_notifications = []  # Yazdırılmayan bildirimler için yeni liste
+        remaining_notifications = []
         count = 0
 
         for notification in self.get_notifications():
@@ -18,18 +19,15 @@ class NotificationSystem:
                 count += 1
                 user_notifications.append(notification.get_message())
             else:
-                remaining_notifications.append(notification)  # Yazdırılmayan bildirimleri sakla
+                remaining_notifications.append(notification)
 
-
-        # Eski listeyi kalan bildirimlerle güncelle
         self.__notifications = remaining_notifications
 
-        # Yazdırma işlemi
         print("You have " + str(count) + " notifications: ")
         for notification in user_notifications:
             print(notification)
             
-        
+    # Creates a notification and adds it to the list of notifications.
     def create_notification(self, sender: Person, receiver: Person, message: str) -> None:
         notification = Notification(sender, receiver, message)
         self.__notifications.append(notification)

@@ -41,6 +41,7 @@ class Course:
     def set_grade(self, grade: str) -> None:
         self.__grade = grade
 
+    # Adds given student to the course
     def add_student(self, student: 'Student') -> None:
         try:
             if student is not None:

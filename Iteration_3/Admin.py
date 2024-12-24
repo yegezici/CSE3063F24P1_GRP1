@@ -24,6 +24,7 @@ class Admin(Staff):
         from SQLiteManagement import SQLiteManagement
         self.manager = SQLiteManagement()
     
+    # Adds student object to the list of students
     def add_student(self, student):
         try:
             self.manager.save_student(student)
@@ -31,6 +32,7 @@ class Admin(Staff):
         except Exception as e:
             logger.warning(str(e))
     
+    # Deletes student object from the list of students
     def delete_student(self, student_id_to_be_deleted: str):
         try:
             #SqliteManager.delete_student(student)
@@ -41,6 +43,7 @@ class Admin(Staff):
         except Exception as e:
             logger.warning(str(e))
     
+    # Adds advisor object to the list of advisors
     def add_advisor(self, advisor):
         try:
             #SqliteManager.add_advisor(advisor)
@@ -48,6 +51,7 @@ class Admin(Staff):
         except Exception as e:
             logger.warning(str(e))
 
+    # Deletes advisor object from the list of advisors
     def delete_advisor(self, advisor_id):
         try:
             for advisor in self._advisors:
@@ -56,6 +60,7 @@ class Admin(Staff):
         except Exception as e:
             logger.warning(str(e))
 
+    # Adds lecturer object to the list of lecturers
     def add_lecturer(self, lecturer):
         try:
             #SqliteManager.add_lecturer(lecturer)
@@ -63,6 +68,7 @@ class Admin(Staff):
         except Exception as e:
             logger.warning(str(e))
     
+    # Deletes lecturer object from the list of lecturers
     def delete_lecturer(self, lecturer):
         try:
             #SqliteManager.delete_lecturer(lecturer)
@@ -72,6 +78,7 @@ class Admin(Staff):
         except Exception as e:
             logger.warning(str(e))
     
+    # Adds department_scheduler object to the list of department_schedulers
     def add_department_scheduler(self, department_scheduler):
         try:
             #SqliteManager.add_department_scheduler(department_scheduler)
@@ -79,6 +86,7 @@ class Admin(Staff):
         except Exception as e:
             logger.warning(str(e))
     
+    # Deletes department_scheduler object from the list of department_schedulers
     def delete_department_scheduler(self, department_scheduler):
         try:
             #SqliteManager.delete_department_scheduler(department_scheduler)

@@ -9,6 +9,7 @@ class StudentInterface(UserInterface):
         self.courses = courses or []
         self.notification_system = notification_system
 
+    # Shows the menu for the student
     def show_menu(self):
         log_out = False
         choice = self.get_choice()
@@ -29,6 +30,7 @@ class StudentInterface(UserInterface):
             print("Enter 1, 2, 3, or 4.")
         return log_out
 
+    # Gets which operation the student wants to do.
     def get_choice(self):
         print("Select an operation:\n1. Transcript\n2. Register for course\n3. Weekly Schedule\n4. Log out")
         try:
@@ -39,6 +41,7 @@ class StudentInterface(UserInterface):
             print("Enter an integer value.")
             return 0
 
+    # Shows the transcript of the student
     def show_transcripts(self):
         transcript = self.student.get_transcript()
         transcript.show_completed_courses()
@@ -46,6 +49,7 @@ class StudentInterface(UserInterface):
         transcript.show_current_courses()
         transcript.show_waited_courses()
 
+    # Registers the course for the student
     def register_course(self):
         available_courses = self.show_registrable_courses()
         while True:
@@ -99,6 +103,7 @@ class StudentInterface(UserInterface):
             except Exception as e:
                 logger.warning(f"An error occured: {e}     - {self.student.get_name()} {self.student.get_surname()}")
 
+    # Shows the courses that the student can register.
     def show_registrable_courses(self):
         registrable_courses = []
         transcript = self.student.get_transcript()
@@ -117,6 +122,7 @@ class StudentInterface(UserInterface):
         ]
         return registrable_courses
 
+    # Checks if the student successfully completed the prerequisite courses of the course.
     def check_prerequisite(self, course):
         prerequisite = course.get_prerequisite_course()
         if not prerequisite:

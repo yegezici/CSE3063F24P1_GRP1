@@ -15,6 +15,7 @@ class DepartmentHead(Lecturer):
         self.__interface = None
         self.__manager = manager
     
+    # Creates a course with the given parameters and saves it to the database.
     def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int, capacity: int, 
                       semester : int , prerequisite_id : str) -> Course:
         course = None
@@ -33,6 +34,7 @@ class DepartmentHead(Lecturer):
         self.__manager.save_course(course)
         return course
     
+    # Creates course sections for the given course.
     def create_course_section(self, number_of_sections: int, parent_course: Course, capacity: int) -> List[CourseSection]:
         try:
             sections = []
@@ -47,11 +49,13 @@ class DepartmentHead(Lecturer):
         except Exception as e:
             print(str(e))
 
+    # Sets the capacity of the given section.
     def set_capacity(self, chosen_section):
         print("Enter a capacity:")
         chosen_section.set_capacity(int(input()))
         print("Capacity has been set successfully.")
 
+    # Changes the capacity of the given course section.
     def manage_capacity(self, course_section, new_capacity, notification_system: NotificationSystem):
         
         if new_capacity < course_section.get_capacity():
@@ -64,6 +68,7 @@ class DepartmentHead(Lecturer):
             self.manage_waitlist(course_section, size_increase, notification_system)
             return True
 
+    # Manages the waitlist and current students according to new capacity.
     def manage_waitlist(self, course_section: CourseSection, size, notification_system: NotificationSystem):
         try:
             waitlist = course_section.get_wait_list()

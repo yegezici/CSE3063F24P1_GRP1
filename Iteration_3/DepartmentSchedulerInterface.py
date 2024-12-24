@@ -13,6 +13,7 @@ class DepartmentSchedulerInterface(UserInterface):
         self.__lecturers = lecturers
         self.__notification_system = notification_system
 
+    # Updates the time interval of the selected course section.
     def update_time_interval(self, chosen_section):
         print("Time slots of the selected course are listed below:")
         for idx, slot in enumerate(chosen_section.get_time_slots(), 1):
@@ -28,6 +29,7 @@ class DepartmentSchedulerInterface(UserInterface):
         except (ValueError, IndexError):
             print("Enter a valid integer within the list range.")
 
+    # Updates the classroom of the selected course section.
     def update_classroom(self, chosen_section):
         print("Time slots of the selected course are listed below:")
         for idx, slot in enumerate(chosen_section.get_time_slots(), 1):
@@ -48,6 +50,7 @@ class DepartmentSchedulerInterface(UserInterface):
         except (ValueError, IndexError):
             print("Enter a valid integer.")
 
+    # Updates the lecturer of the selected course section.
     def update_lecturer(self, chosen_section):
         if chosen_section.get_lecturer():    
             print("Current lecturer is " + chosen_section.get_lecturer().get_name())
@@ -67,6 +70,7 @@ class DepartmentSchedulerInterface(UserInterface):
         except:
             print("There is an error in update_lecturer of DSI.")
 
+    # Chooses a course section from the available course sections.
     def choose_course_section(self):
         self.show_available_course_sections()
         try:
@@ -88,6 +92,7 @@ class DepartmentSchedulerInterface(UserInterface):
             print("Enter a valid integer within the list range.")
             return None
 
+    # Shows the main menu of the department scheduler.
     def show_menu(self):
         while True:
             print("Enter 1 to access course configuration menu. If you want to quit press any button.")
@@ -114,6 +119,7 @@ class DepartmentSchedulerInterface(UserInterface):
             else:
                 return True
 
+    # Gets what the user wants to do.
     def get_choice(self):
         print("Choose an operation:\n1- Update time interval\n2- Update classroom\n3- Assign lecturer\n4- Back to previous menu")
         try:
@@ -122,12 +128,14 @@ class DepartmentSchedulerInterface(UserInterface):
             print("Enter a valid integer.")
             return 0
 
+    # Shows the available days for the given semester.
     def show_days(self, semester):
         semester_courses = self.__department_scheduler.semester_x_courses(semester)
         available_days = self.__department_scheduler.get_available_days(semester_courses)
         for idx, day in enumerate(available_days, 1):
             print(f"{idx}- {day}")
 
+    # Shows the available time intervals for the given day.
     def show_time_intervals(self, semester, day):
         print(f"Available time slots for {day} are listed below:")
         available_slots = self.__department_scheduler.handle_time_conflict(
@@ -136,6 +144,7 @@ class DepartmentSchedulerInterface(UserInterface):
         for idx, slot in enumerate(available_slots, 1):
             print(f"{idx}- {slot}")
 
+    # Shows the available classrooms for the given day and time interval.
     def show_classrooms(self, day, time_interval):
         available_classrooms = self.__department_scheduler.handle_classroom_conflict(day, time_interval)
         print(f"Available classrooms for {day} {time_interval}:")
@@ -143,12 +152,14 @@ class DepartmentSchedulerInterface(UserInterface):
         for idx, room in enumerate(available_classrooms, 1):
             print(f"{idx}- {room}")
 
+    # Shows the available course sections.
     def show_available_course_sections(self) -> None:
         print("All available course sections are listed below:")
         for idx, section in enumerate(self.__course_sections, 1):
             course = section.get_parent_course()
             print(f"{idx}-{section.get_section_id()}")
 
+    # Sets the time slot for the chosen course section.
     def set_time_slot(self, chosen_section: CourseSection) -> None:
         semester = chosen_section.get_parent_course().get_semester()
         self.show_days(semester)

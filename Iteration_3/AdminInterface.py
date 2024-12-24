@@ -9,7 +9,7 @@ class AdminInterface:
         self.course_sections = course_sections
         self.manager = SQLiteManagement()
         
-    
+    # Shows the menu for the admin interface
     def show_menu(self):
         log_out = False
         choice = self.get_choice()
@@ -133,7 +133,7 @@ class AdminInterface:
 
 
 
-    
+    # Gets the choice from the admin
     def get_choice(self):
         print("Select an operation:\n1. Add Student\n2. Delete Student\n3. Add Advisor\n4. Delete Advisor\n5. Add Lecturer\n6. Delete Lecturer\n7. Add Department Scheduler\n8. Delete Department Scheduler\n9. Log out")
         try:
@@ -144,6 +144,7 @@ class AdminInterface:
             print("Enter an integer value.")
             return 0
 
+    # Asks for student information to add
     def student_to_add(self):
         student_id = input("Enter student ID: ")
         student_name = input("Enter student name: ")
@@ -163,6 +164,7 @@ class AdminInterface:
                     break
         return student
 
+    # Asks for advisor information to add
     def advisor_to_add(self):
         lecturer_id = input("Enter lecturer ID to be promoted to Advisor: ")
         lecturer = self.find_lecturer_by_id(lecturer_id)
@@ -174,13 +176,14 @@ class AdminInterface:
             logger.warning("Lecturer ID not found.")
             return None
     
-
+    # Finds the lecturer by ID
     def find_lecturer_by_id(self, lecturer_id: str):
         for lecturer in self.admin.get_lecturers():
             if lecturer.get_id() == lecturer_id:
                 return lecturer
         return None
 
+    # Asks for lecturer information to add
     def lecturer_to_add(self):
         lecturer_id = input("Enter lecturer ID: ")
         lecturer_name = input("Enter lecturer name: ")
@@ -191,7 +194,7 @@ class AdminInterface:
         lecturer = Lecturer(ssn=lecturer_id, name=lecturer_name, surname=lecturer_surname,gender=lecturer_gender,courses=None,birthdate=lecturer_birthdate)
         return lecturer
 
-
+    # Asks for scheduler information to add
     def scheduler_to_add(self):
         lecturer_id = input("Enter scheduler ID to be promoted to Department Scheduler: ")
         lecturer = self.find_lecturer_by_id(lecturer_id)

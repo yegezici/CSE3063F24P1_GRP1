@@ -16,7 +16,6 @@ class Lecturer(Staff):
     def set_courses(self, courses: List['Course']):
         self.__courses = courses
 
-
     def get_id(self):
         return super().get_id()
       

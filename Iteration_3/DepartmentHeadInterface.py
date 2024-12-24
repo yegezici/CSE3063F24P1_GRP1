@@ -13,6 +13,8 @@ class DepartmentHeadInterface(UserInterface):
         self.lecturers = lecturers
         self.__notification_system = notification_system
         self.__interface = None
+
+    # Shows the menu for the department head.
     def show_menu(self):
         while True:
             choice = self.get_choice()
@@ -35,6 +37,7 @@ class DepartmentHeadInterface(UserInterface):
             else:
                 print("Enter 1 or 2.")
 
+    # Gets the choice from the user.
     def get_choice(self):
         print("1-  Add Course\n2-  Manage Capacity\n3-  Log Out\nSelect an operation: ", end="")
         try:
@@ -44,6 +47,7 @@ class DepartmentHeadInterface(UserInterface):
             choice = -1
         return choice
 
+    # Creates a course with the given parameters and saves it to the database.
     def add_course(self):
         course_params = self.ask_course_parameters()
         try:
@@ -66,6 +70,7 @@ class DepartmentHeadInterface(UserInterface):
         except ValueError:
             print("Enter an integer value for course code and course credits.")
 
+    # Asks the department head to enter the course parameters.
     def ask_course_parameters(self):
         course = [None] * 8
         try:
@@ -88,6 +93,7 @@ class DepartmentHeadInterface(UserInterface):
             print(f"{e} Please enter a valid choice!")
         return course
 
+    # Removes the course from the course list.
     def remove_course(self):
         self.print_courses()
         print("Which course do you want to remove?")
@@ -100,10 +106,12 @@ class DepartmentHeadInterface(UserInterface):
         except IndexError:
             print("Invalid course selection.")
 
+    # Prints the courses in the course list.
     def print_courses(self):
         for i, course in enumerate(self.courses, 1):
             print(f"{i}- {course}")
 
+    # Shows the available course sections.
     def show_available_course_sections(self):
         print("All available course sections are listed below:")
         for idx, section in enumerate(self.course_sections, 1):

@@ -7,6 +7,7 @@ class AdvisorInterface(UserInterface):
         self.scanner = None
         self.notification_system = notification_system
 
+    # Shows the menu for the advisor
     def show_menu(self):
         log_out = False
         choice = self.get_choice()
@@ -19,6 +20,7 @@ class AdvisorInterface(UserInterface):
             print("Enter 1 or 2.")
         return log_out
 
+    # Gets the choice from the user
     def get_choice(self):
         print("1- Students Menu\n2- Log Out\nSelect an operation: ", end="")
         try:
@@ -28,6 +30,7 @@ class AdvisorInterface(UserInterface):
             print("Enter an integer value.")
             return 0
 
+    # Shows the students that are getting advised by the advisor
     def show_students_menu(self):
         log_out = False
         students = self.advisor.get_students()
@@ -55,6 +58,7 @@ class AdvisorInterface(UserInterface):
         self.student_operations(current_student)
         return log_out
 
+    # Approves the course for the student
     def approve_course(self, student, course_section):
         try:
             self.advisor.approve_course(student, course_section)
@@ -66,6 +70,7 @@ class AdvisorInterface(UserInterface):
         except Exception as e:
             print(str(e))
 
+    # Rejects the course for the student
     def reject_course(self, student, course_section):
         try:
             self.advisor.reject_course(student, course_section)
@@ -73,6 +78,7 @@ class AdvisorInterface(UserInterface):
         except Exception as e:
             print(str(e))
 
+    # Shows the operations for the chosen course.
     def course_operations(self, student, course_index):
         try:
             log_out = False
@@ -108,6 +114,7 @@ class AdvisorInterface(UserInterface):
         except Exception as e:
             print(str(e))
 
+    # Shows the courses that are waiting to be approved for the student.
     def student_operations(self, student):
         try:
             while True:

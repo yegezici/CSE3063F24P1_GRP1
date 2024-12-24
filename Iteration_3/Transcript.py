@@ -121,11 +121,9 @@ class Transcript:
     def get_total_credits(self):
         total_credits = 0
         
-        # Completed courses için iterasyon
         for comp_course in self.__completed_courses:
             total_credits += comp_course.get_credits()
         
-        # Current courses için iterasyon
         for curr_course in self.__current_courses:
             total_credits += curr_course.get_credits()
         

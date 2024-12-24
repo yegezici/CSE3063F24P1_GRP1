@@ -4,6 +4,7 @@ class TimeSlot:
         self.__time_interval = time_interval
         self.__classroom = classroom
 
+    # Assigns a time slot to the course section.
     def assign_time_slot(self, course_section):
         if course_section and hasattr(course_section, 'get_time_slots'):
             course_section.get_time_slots().append(self)

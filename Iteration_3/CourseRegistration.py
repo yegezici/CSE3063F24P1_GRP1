@@ -27,6 +27,7 @@ class CourseRegistration:
         self.course_sections = self.manager.get_course_sections()
         self.advisors = self.manager.get_advisors()
 
+    # Initializes the course registration system.
     def init(self):
         logger.info("Course Registration system is started.")
         notification_system = self.manager.get_notification_system()  
@@ -50,7 +51,7 @@ class CourseRegistration:
                     break
 
 
-
+    # Asks the user to enter their user id and password.
     def login(self) -> Optional[Union[Student, Advisor, StudentAffairsStaff, DepartmentScheduler]]:
 
         print("Welcome!\n1- Login\nPress any other key to exit")
@@ -61,5 +62,6 @@ class CourseRegistration:
         else:
             return "exit"
 
+    # Checks if a user exists with the given user id and password.
     def check_id_and_password(self, entered_user_id: str, entered_password: str) -> Person:
         return self.manager.check_user(entered_user_id, entered_password)
