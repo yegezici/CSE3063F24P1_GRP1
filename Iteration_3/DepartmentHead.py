@@ -76,7 +76,7 @@ class DepartmentHead(Lecturer):
                 student.get_transcript().add_current_section(course_section)
                 student.get_transcript().delete_from_waited_sections(course_section)
                 course_section.add_student_to_section(student)
-                notification_system.create_notification(sender=self, receiver=student, message="Capacity of " +course_section.get_name() + " has been updated, You are now registered to the course.")
+                notification_system.create_notification(sender=self, receiver=student, message="Capacity of " + course_section.get_section_id() + " has been updated, You are now registered to the course.")
             course_section.set_wait_list(waitlist)
         except Exception as e:
             print(str(e))
