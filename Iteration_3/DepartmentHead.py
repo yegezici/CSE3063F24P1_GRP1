@@ -14,7 +14,7 @@ class DepartmentHead(Lecturer):
         super().__init__(name, surname, birthdate, gender, ssn)
         self.__interface = None
         self.__manager = manager
-    
+        
     def create_course(self, course_name: str, course_id: str, course_type: str, credits: int, number_of_sections: int, capacity: int, 
                       semester : int , prerequisite_id : str) -> Course:
         course = None
@@ -91,6 +91,12 @@ class DepartmentHead(Lecturer):
     
     def get_gender(self):
         return super().get_gender()
+
+    def get_interface(self):
+        return self.__interface
+    
+    def get_manager(self):
+        return self.__manager
     
     def set_interface(self, interface):
         self.__interface = interface
