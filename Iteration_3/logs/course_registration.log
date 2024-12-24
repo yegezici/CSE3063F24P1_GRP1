@@ -1,0 +1,204 @@
+2024-12-23 12:59:37,974 - CourseRegistrationSystem - WARNING - There is an error in check_advisor_exists function.
+2024-12-23 12:59:37,979 - CourseRegistrationSystem - WARNING - There is an error in check_student_exists function: 'SQLiteManagement' object has no attribute 'students'
+2024-12-23 12:59:37,979 - CourseRegistrationSystem - WARNING - Exception type: AttributeError
+2024-12-23 12:59:37,981 - CourseRegistrationSystem - WARNING - There is an error in initialize_notification_system function in SQLiteManagement.py
+2024-12-23 12:59:38,002 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-24 16:43:38,065 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-24 16:43:44,338 - CourseRegistrationSystem - INFO - Hasan Erzincanli with ID 150121031 has succesfully logged in
+2024-12-24 16:43:46,475 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erzincanli
+2024-12-24 16:43:48,150 - CourseRegistrationSystem - INFO - Hasan Erzincanli your Object-Oriented Software Desg. Section CSE3063.1 is sent to your advisor for approval.
+2024-12-24 16:43:50,644 - CourseRegistrationSystem - INFO - Hasan Erzincanli succesfully logged out.
+2024-12-24 16:43:50,670 - CourseRegistrationSystem - INFO - Saving student 150121031
+2024-12-24 16:43:50,681 - CourseRegistrationSystem - INFO - 150121031 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,690 - CourseRegistrationSystem - INFO - 150121031 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,707 - CourseRegistrationSystem - INFO - Saving student 150121032
+2024-12-24 16:43:50,716 - CourseRegistrationSystem - INFO - 150121032 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,717 - CourseRegistrationSystem - INFO - 150121032 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,725 - CourseRegistrationSystem - INFO - Saving student 150121033
+2024-12-24 16:43:50,732 - CourseRegistrationSystem - INFO - 150121033 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,733 - CourseRegistrationSystem - INFO - 150121033 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,741 - CourseRegistrationSystem - INFO - Saving student 150121034
+2024-12-24 16:43:50,748 - CourseRegistrationSystem - INFO - 150121034 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,749 - CourseRegistrationSystem - INFO - 150121034 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,758 - CourseRegistrationSystem - INFO - Saving student 150121035
+2024-12-24 16:43:50,766 - CourseRegistrationSystem - INFO - 150121035 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,767 - CourseRegistrationSystem - INFO - 150121035 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,774 - CourseRegistrationSystem - INFO - Saving student 150122036
+2024-12-24 16:43:50,775 - CourseRegistrationSystem - INFO - 150122036 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,776 - CourseRegistrationSystem - INFO - 150122036 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,777 - CourseRegistrationSystem - INFO - Saving student 150122037
+2024-12-24 16:43:50,785 - CourseRegistrationSystem - INFO - 150122037 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,785 - CourseRegistrationSystem - INFO - 150122037 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,793 - CourseRegistrationSystem - INFO - Saving student 150122038
+2024-12-24 16:43:50,802 - CourseRegistrationSystem - INFO - 150122038 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,803 - CourseRegistrationSystem - INFO - 150122038 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,810 - CourseRegistrationSystem - INFO - Saving student 150122039
+2024-12-24 16:43:50,811 - CourseRegistrationSystem - INFO - 150122039 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,811 - CourseRegistrationSystem - INFO - 150122039 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,812 - CourseRegistrationSystem - INFO - Saving student 150122040
+2024-12-24 16:43:50,820 - CourseRegistrationSystem - INFO - 150122040 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,820 - CourseRegistrationSystem - INFO - 150122040 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,828 - CourseRegistrationSystem - INFO - Saving student 150122041
+2024-12-24 16:43:50,835 - CourseRegistrationSystem - INFO - 150122041 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,836 - CourseRegistrationSystem - INFO - 150122041 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:43:50,844 - CourseRegistrationSystem - INFO - Saving student 150122042
+2024-12-24 16:43:50,845 - CourseRegistrationSystem - INFO - 150122042 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:43:50,845 - CourseRegistrationSystem - INFO - 150122042 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:23,582 - CourseRegistrationSystem - INFO - Enis Destan with ID 150121032 has succesfully logged in
+2024-12-24 16:44:27,094 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Enis Destan
+2024-12-24 16:44:28,721 - CourseRegistrationSystem - INFO - Enis Destan your Database Systems Section CSE3055.1 is sent to your advisor for approval.
+2024-12-24 16:44:30,933 - CourseRegistrationSystem - INFO - Enis Destan succesfully logged out.
+2024-12-24 16:44:30,972 - CourseRegistrationSystem - INFO - Saving student 150121031
+2024-12-24 16:44:30,981 - CourseRegistrationSystem - INFO - 150121031 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:30,990 - CourseRegistrationSystem - INFO - 150121031 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,010 - CourseRegistrationSystem - INFO - Saving student 150121032
+2024-12-24 16:44:31,018 - CourseRegistrationSystem - INFO - 150121032 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,028 - CourseRegistrationSystem - INFO - 150121032 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,047 - CourseRegistrationSystem - INFO - Saving student 150121033
+2024-12-24 16:44:31,057 - CourseRegistrationSystem - INFO - 150121033 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,057 - CourseRegistrationSystem - INFO - 150121033 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,069 - CourseRegistrationSystem - INFO - Saving student 150121034
+2024-12-24 16:44:31,077 - CourseRegistrationSystem - INFO - 150121034 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,078 - CourseRegistrationSystem - INFO - 150121034 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,085 - CourseRegistrationSystem - INFO - Saving student 150121035
+2024-12-24 16:44:31,092 - CourseRegistrationSystem - INFO - 150121035 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,093 - CourseRegistrationSystem - INFO - 150121035 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,100 - CourseRegistrationSystem - INFO - Saving student 150122036
+2024-12-24 16:44:31,101 - CourseRegistrationSystem - INFO - 150122036 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,101 - CourseRegistrationSystem - INFO - 150122036 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,102 - CourseRegistrationSystem - INFO - Saving student 150122037
+2024-12-24 16:44:31,109 - CourseRegistrationSystem - INFO - 150122037 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,110 - CourseRegistrationSystem - INFO - 150122037 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,118 - CourseRegistrationSystem - INFO - Saving student 150122038
+2024-12-24 16:44:31,126 - CourseRegistrationSystem - INFO - 150122038 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,127 - CourseRegistrationSystem - INFO - 150122038 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,137 - CourseRegistrationSystem - INFO - Saving student 150122039
+2024-12-24 16:44:31,137 - CourseRegistrationSystem - INFO - 150122039 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,138 - CourseRegistrationSystem - INFO - 150122039 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,139 - CourseRegistrationSystem - INFO - Saving student 150122040
+2024-12-24 16:44:31,148 - CourseRegistrationSystem - INFO - 150122040 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,149 - CourseRegistrationSystem - INFO - 150122040 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,157 - CourseRegistrationSystem - INFO - Saving student 150122041
+2024-12-24 16:44:31,166 - CourseRegistrationSystem - INFO - 150122041 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,166 - CourseRegistrationSystem - INFO - 150122041 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:31,175 - CourseRegistrationSystem - INFO - Saving student 150122042
+2024-12-24 16:44:31,175 - CourseRegistrationSystem - INFO - 150122042 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:44:31,176 - CourseRegistrationSystem - INFO - 150122042 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:44:44,238 - CourseRegistrationSystem - INFO - Sanem Yilmaz with ID 654321 has succesfully logged in
+2024-12-24 16:57:42,206 - CourseRegistrationSystem - WARNING - There is an error in initialize_notification_system function in SQLiteManagement.py
+2024-12-24 16:57:42,206 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-24 16:57:49,023 - CourseRegistrationSystem - INFO - Hasan Erzincanli with ID 150121031 has succesfully logged in
+2024-12-24 16:57:52,104 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erzincanli
+2024-12-24 16:57:53,347 - CourseRegistrationSystem - INFO - Hasan Erzincanli your Modeling and Disc. Simulation Section IE3081.1 is sent to your advisor for approval.
+2024-12-24 16:57:55,785 - CourseRegistrationSystem - INFO - Hasan Erzincanli succesfully logged out.
+2024-12-24 16:57:55,808 - CourseRegistrationSystem - INFO - Saving student 150121031
+2024-12-24 16:57:55,819 - CourseRegistrationSystem - INFO - 150121031 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,832 - CourseRegistrationSystem - INFO - 150121031 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,853 - CourseRegistrationSystem - INFO - Saving student 150121032
+2024-12-24 16:57:55,864 - CourseRegistrationSystem - INFO - 150121032 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,874 - CourseRegistrationSystem - INFO - 150121032 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,896 - CourseRegistrationSystem - INFO - Saving student 150121033
+2024-12-24 16:57:55,906 - CourseRegistrationSystem - INFO - 150121033 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,907 - CourseRegistrationSystem - INFO - 150121033 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,917 - CourseRegistrationSystem - INFO - Saving student 150121034
+2024-12-24 16:57:55,925 - CourseRegistrationSystem - INFO - 150121034 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,926 - CourseRegistrationSystem - INFO - 150121034 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,932 - CourseRegistrationSystem - INFO - Saving student 150121035
+2024-12-24 16:57:55,938 - CourseRegistrationSystem - INFO - 150121035 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,939 - CourseRegistrationSystem - INFO - 150121035 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,945 - CourseRegistrationSystem - INFO - Saving student 150122036
+2024-12-24 16:57:55,946 - CourseRegistrationSystem - INFO - 150122036 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,946 - CourseRegistrationSystem - INFO - 150122036 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,947 - CourseRegistrationSystem - INFO - Saving student 150122037
+2024-12-24 16:57:55,953 - CourseRegistrationSystem - INFO - 150122037 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,954 - CourseRegistrationSystem - INFO - 150122037 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,959 - CourseRegistrationSystem - INFO - Saving student 150122038
+2024-12-24 16:57:55,966 - CourseRegistrationSystem - INFO - 150122038 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,966 - CourseRegistrationSystem - INFO - 150122038 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,972 - CourseRegistrationSystem - INFO - Saving student 150122039
+2024-12-24 16:57:55,973 - CourseRegistrationSystem - INFO - 150122039 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,973 - CourseRegistrationSystem - INFO - 150122039 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,974 - CourseRegistrationSystem - INFO - Saving student 150122040
+2024-12-24 16:57:55,979 - CourseRegistrationSystem - INFO - 150122040 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,980 - CourseRegistrationSystem - INFO - 150122040 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,986 - CourseRegistrationSystem - INFO - Saving student 150122041
+2024-12-24 16:57:55,992 - CourseRegistrationSystem - INFO - 150122041 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:55,993 - CourseRegistrationSystem - INFO - 150122041 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:57:55,999 - CourseRegistrationSystem - INFO - Saving student 150122042
+2024-12-24 16:57:56,000 - CourseRegistrationSystem - INFO - 150122042 için CurrentSection bilgileri kaydedildi.
+2024-12-24 16:57:56,000 - CourseRegistrationSystem - INFO - 150122042 için WaitedSection bilgileri kaydedildi.
+2024-12-24 16:58:02,906 - CourseRegistrationSystem - INFO - Sanem Yilmaz with ID 654321 has succesfully logged in
+2024-12-24 17:02:05,520 - CourseRegistrationSystem - WARNING - There is an error in initialize_notification_system function in SQLiteManagement.py
+2024-12-24 17:02:05,520 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-24 17:03:30,202 - CourseRegistrationSystem - WARNING - There is an error in initialize_notification_system function in SQLiteManagement.py
+2024-12-24 17:03:30,202 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-24 17:03:36,076 - CourseRegistrationSystem - INFO - Hasan Erzincanli with ID 150121031 has succesfully logged in
+2024-12-24 17:03:39,945 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Hasan Erzincanli
+2024-12-24 17:03:42,158 - CourseRegistrationSystem - INFO - Hasan Erzincanli your Tech. Comm. & Entrepreneurship Section COM2202.1 is sent to your advisor for approval.
+2024-12-24 17:03:42,158 - CourseRegistrationSystem - WARNING - Hasan Erzincanli have reached the maximum number of courses
+2024-12-24 17:03:42,159 - CourseRegistrationSystem - WARNING - Hasan Erzincanli have reached the maximum number of courses
+2024-12-24 17:03:44,592 - CourseRegistrationSystem - INFO - Hasan Erzincanli succesfully logged out.
+2024-12-24 17:03:44,620 - CourseRegistrationSystem - INFO - Saving student 150121031
+2024-12-24 17:03:44,635 - CourseRegistrationSystem - INFO - 150121031 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:03:44,645 - CourseRegistrationSystem - INFO - 150121031 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:03:44,667 - CourseRegistrationSystem - INFO - Saving student 150121032
+2024-12-24 17:03:44,678 - CourseRegistrationSystem - INFO - 150121032 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:03:44,688 - CourseRegistrationSystem - INFO - 150121032 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:03:44,707 - CourseRegistrationSystem - INFO - Saving student 150121033
+2024-12-24 17:03:44,719 - CourseRegistrationSystem - INFO - 150121033 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:03:44,720 - CourseRegistrationSystem - INFO - 150121033 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:03:44,730 - CourseRegistrationSystem - INFO - Saving student 150121034
+2024-12-24 17:03:44,737 - CourseRegistrationSystem - INFO - 150121034 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:03:44,738 - CourseRegistrationSystem - INFO - 150121034 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:03:44,747 - CourseRegistrationSystem - INFO - Saving student 150121035
+2024-12-24 17:03:44,752 - CourseRegistrationSystem - INFO - 150121035 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:03:44,752 - CourseRegistrationSystem - INFO - 150121035 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:03:54,688 - CourseRegistrationSystem - INFO - Enis Destan with ID 150121032 has succesfully logged in
+2024-12-24 17:03:55,988 - CourseRegistrationSystem - INFO - Choice 2:  Register Course is selected     - Enis Destan
+2024-12-24 17:03:58,284 - CourseRegistrationSystem - INFO - Enis Destan your Operating Systems Section CSE3033.1 is sent to your advisor for approval.
+2024-12-24 17:04:00,444 - CourseRegistrationSystem - INFO - Enis Destan succesfully logged out.
+2024-12-24 17:04:00,485 - CourseRegistrationSystem - INFO - Saving student 150121031
+2024-12-24 17:04:00,495 - CourseRegistrationSystem - INFO - 150121031 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:04:00,504 - CourseRegistrationSystem - INFO - 150121031 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:04:00,524 - CourseRegistrationSystem - INFO - Saving student 150121032
+2024-12-24 17:04:00,535 - CourseRegistrationSystem - INFO - 150121032 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:04:00,545 - CourseRegistrationSystem - INFO - 150121032 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:04:00,564 - CourseRegistrationSystem - INFO - Saving student 150121033
+2024-12-24 17:04:00,573 - CourseRegistrationSystem - INFO - 150121033 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:04:00,574 - CourseRegistrationSystem - INFO - 150121033 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:04:00,585 - CourseRegistrationSystem - INFO - Saving student 150121034
+2024-12-24 17:04:00,595 - CourseRegistrationSystem - INFO - 150121034 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:04:00,596 - CourseRegistrationSystem - INFO - 150121034 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:04:00,604 - CourseRegistrationSystem - INFO - Saving student 150121035
+2024-12-24 17:04:00,612 - CourseRegistrationSystem - INFO - 150121035 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:04:00,613 - CourseRegistrationSystem - INFO - 150121035 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:04:06,728 - CourseRegistrationSystem - INFO - Murat Can Ganiz with ID 123456 has succesfully logged in
+2024-12-24 17:06:48,788 - CourseRegistrationSystem - WARNING - There is an error in initialize_notification_system function in SQLiteManagement.py
+2024-12-24 17:06:48,788 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-24 17:06:58,687 - CourseRegistrationSystem - INFO - Murat Can Ganiz with ID 123456 has succesfully logged in
+2024-12-24 17:07:02,739 - CourseRegistrationSystem - INFO - Object-Oriented Software Desg. has been approved.----------------------Hasan Erzincanli Object-Oriented Software Desg.
+2024-12-24 17:07:05,033 - CourseRegistrationSystem - INFO - Modeling and Disc. Simulation has been approved.----------------------Hasan Erzincanli Modeling and Disc. Simulation
+2024-12-24 17:07:06,751 - CourseRegistrationSystem - INFO - Tech. Comm. & Entrepreneurship has been approved.----------------------Hasan Erzincanli Tech. Comm. & Entrepreneurship
+2024-12-24 17:07:07,939 - CourseRegistrationSystem - WARNING - There is an error in save_notification function: 'AdvisorInterface' object has no attribute 'get_id'
+2024-12-24 17:07:07,939 - CourseRegistrationSystem - WARNING - There is an error in save_notification function: 'AdvisorInterface' object has no attribute 'get_id'
+2024-12-24 17:07:07,939 - CourseRegistrationSystem - WARNING - There is an error in save_notification function: 'AdvisorInterface' object has no attribute 'get_id'
+2024-12-24 17:07:07,939 - CourseRegistrationSystem - INFO - Saving student 150121031
+2024-12-24 17:07:07,942 - CourseRegistrationSystem - INFO - 150121031 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:07:07,946 - CourseRegistrationSystem - INFO - 150121031 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:07:07,953 - CourseRegistrationSystem - INFO - Saving student 150121032
+2024-12-24 17:07:07,956 - CourseRegistrationSystem - INFO - 150121032 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:07:07,960 - CourseRegistrationSystem - INFO - 150121032 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:07:07,968 - CourseRegistrationSystem - INFO - Saving student 150121033
+2024-12-24 17:07:07,971 - CourseRegistrationSystem - INFO - 150121033 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:07:07,972 - CourseRegistrationSystem - INFO - 150121033 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:07:07,976 - CourseRegistrationSystem - INFO - Saving student 150121034
+2024-12-24 17:07:07,980 - CourseRegistrationSystem - INFO - 150121034 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:07:07,981 - CourseRegistrationSystem - INFO - 150121034 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:07:07,984 - CourseRegistrationSystem - INFO - Saving student 150121035
+2024-12-24 17:07:07,988 - CourseRegistrationSystem - INFO - 150121035 için CurrentSection bilgileri kaydedildi.
+2024-12-24 17:07:07,988 - CourseRegistrationSystem - INFO - 150121035 için WaitedSection bilgileri kaydedildi.
+2024-12-24 17:07:12,981 - CourseRegistrationSystem - INFO - Hasan Erzincanli with ID 150121031 has succesfully logged in
+2024-12-24 17:10:00,415 - CourseRegistrationSystem - WARNING - Invalid choice    - Hasan Erzincanli
+2024-12-24 17:10:00,417 - CourseRegistrationSystem - WARNING - Invalid choice
+2024-12-24 17:10:11,196 - CourseRegistrationSystem - INFO - Course Registration system is started.
+2024-12-24 17:10:18,731 - CourseRegistrationSystem - INFO - Volkan Bakirel with ID 1453 has succesfully logged in
