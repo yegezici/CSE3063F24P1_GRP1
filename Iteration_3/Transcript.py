@@ -6,7 +6,8 @@ class Transcript:
         self.__waited_courses = waited_courses or []
         self.__current_sections = current_sections or []
         self.__waited_sections = waited_sections or []
-        self.semester = semester
+        self.__semester = semester
+        
 
     def add_completed_course(self, course):
         if course:
@@ -112,11 +113,11 @@ class Transcript:
         return round(total_sum / total_credits, 2) if total_credits > 0 else 0.0
 
     def get_semester(self):
-        return self.semester
+        return self.__semester
 
     def set_semester(self, semester):
-        self.semester = semester
-
+        self.__semester = semester
+    
 
     def get_total_credits(self):
         total_credits = 0

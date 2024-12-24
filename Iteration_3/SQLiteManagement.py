@@ -677,8 +677,10 @@ class SQLiteManagement:
         try:
             self.cursor.execute(f"INSERT INTO User (UserID, password, userType) VALUES (?, ?, ?);", 
                                 (student.get_id(), password, 'S')),
-            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, transcriptID) VALUES (?, ?, ?, ?, ?);", 
-                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender()))
+            self.cursor.execute(f"INSERT INTO Student (studentID, name, surname, birthdate, gender, semester) VALUES (?, ?, ?, ?, ?, ?);", 
+                                (student.get_id(), student.get_name(), student.get_surname(), str(student.get_birthdate()), student.get_gender(), student.get_transcript().get_semester()))
+            self.cursor.execute(f"INSERT INTO StudentsOfAdvisor (studentID, advisorID) VALUES (?, ?);",
+                                (student.get_id(), student.get_advisor().get_id()))
             self.conn.commit()
         except sqlite3.Error as e:
             logger.warning("SQLite error:", e)
