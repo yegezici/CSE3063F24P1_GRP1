@@ -4,9 +4,12 @@ from Logging_Config import logger
 from NotificationSystem import NotificationSystem
 from UserInterface import UserInterface
 class StudentInterface(UserInterface):
-    def __init__(self, student=None, courses=None, notification_system: 'NotificationSystem' = None):
+    def __init__(self, student=None, courses=None):
         self.student = student
         self.courses = courses or []
+        self.notification_system = None
+        
+    def set_notification_system(self, notification_system: NotificationSystem):
         self.notification_system = notification_system
 
     def show_menu(self):

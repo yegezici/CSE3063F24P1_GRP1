@@ -54,3 +54,6 @@ class Student(Person):
         
     def initialize_interface(self):
         return self.__interface
+
+    def get_interface(self):
+        return self.__interface

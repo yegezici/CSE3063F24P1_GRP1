@@ -29,11 +29,11 @@ class SQLiteManagement:
         self.courseSections = self.initialize_courseSections()
         self.set_prerequisites()
         self.advisors = []
+        self.students = []
         self.initiate_advisors()
         self.lecturers = []
         self.lecturers = self.initialize_lecturers()
         self.set_lecturer_to_sections()
-        self.students = []
         self.__notificationSystem = self.initialize_notification_system()
         self.set_lecturer_and_notification_system_to_scheduler_and_head()
         self.assign_students_to_sections()
@@ -50,6 +50,16 @@ class SQLiteManagement:
                 interface = scheduler.get_interface()
                 interface.set_lecturers(self.lecturers)
                 interface.set_notification_system(self.__notificationSystem)
+        
+        for student in self.students:
+            interface = student.get_interface()
+            interface.set_notification_system(self.__notificationSystem)
+        
+        for advisor in self.advisors:
+            interface = advisor.get_interface()
+            interface.set_notification_system(self.__notificationSystem)
+                
+                
                 
     def assign_students_to_sections(self) ->None:
         for student in self.students:
@@ -139,7 +149,7 @@ class SQLiteManagement:
         for row in rows:
             self.cursor.execute("SELECT * FROM Lecturer where ssn = ?", (row[0],))
             lecturer = self.cursor.fetchone()
-            self.advisors.append(Advisor(name=lecturer[1], surname=lecturer[2], birthdate=lecturer[3], gender=lecturer[4], ssn=lecturer[0]))
+            self.advisors.append(self.get_advisor(lecturer[0]))
 
     def check_user(self, user_id: str, password: str) -> Person:
         self.cursor.execute(f"SELECT * FROM User WHERE UserID = '{user_id}' AND password = '{password}'")
@@ -568,7 +578,7 @@ class SQLiteManagement:
                 else:
                     birthdate = date(1970, 1, 1)  # Boşsa varsayılan tarih ata
                 student = Student(name= row[1], surname=row[2], birthdate=birthdate, gender=row[3], transcript=transcript, student_id=row[0])
-                student.set_interface(StudentInterface(student, self.courses, self.__notificationSystem))
+                student.set_interface(StudentInterface(student, self.courses))
                 self.students.append(student)
                 return student
         except sqlite3.Error as e:
@@ -584,8 +594,10 @@ class SQLiteManagement:
         self.cursor.execute(f"SELECT * FROM StudentsOfAdvisor")
         rows = self.cursor.fetchall()
         for row in rows:
-            advisor = self.get_advisor(row[1])
-            student.set_advisor(advisor)
+            for studenti in self.students:
+                if studenti.get_student_id() == row[0]:
+                    studenti.set_advisor(self.get_advisor(row[1]))
+        print(student.get_name())
         return student
 
     def get_admin(self, id: str):
@@ -630,7 +642,7 @@ class SQLiteManagement:
                     student = self.get_student_without_advisor(row[0])
                     advisor.add_student(student)
                 
-                advisor.set_interface(AdvisorInterface(advisor, self.get_notification_system()))
+                advisor.set_interface(AdvisorInterface(advisor))
                 self.advisors.append(advisor)
                 return advisor
             else:

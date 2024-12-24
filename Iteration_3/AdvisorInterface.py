@@ -2,9 +2,12 @@ from NotificationSystem import NotificationSystem
 from UserInterface import UserInterface
 
 class AdvisorInterface(UserInterface):
-    def __init__(self, advisor : 'Advisor', notification_system: NotificationSystem):
+    def __init__(self, advisor : 'Advisor'):
         self.advisor = advisor
         self.scanner = None
+        self.notification_system = None
+        
+    def set_notification_system(self, notification_system: NotificationSystem):
         self.notification_system = notification_system
 
     def show_menu(self):

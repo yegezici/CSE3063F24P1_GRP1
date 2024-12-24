@@ -89,3 +89,6 @@ class Advisor(Lecturer):
 
     def initialize_interface(self):
         return self.__interface
+    
+    def get_interface(self):
+        return self.__interface
