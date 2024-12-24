@@ -20,6 +20,7 @@ class NotificationSystem:
             else:
                 remaining_notifications.append(notification)  # Yazdırılmayan bildirimleri sakla
 
+
         # Eski listeyi kalan bildirimlerle güncelle
         self.__notifications = remaining_notifications
 
