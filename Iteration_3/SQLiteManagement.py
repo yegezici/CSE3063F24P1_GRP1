@@ -581,9 +581,9 @@ class SQLiteManagement:
         if exist_student is not None:
             return exist_student
         student = self.get_student_without_advisor(student_id)
-        self.cursor.execute(f"SELECT * FROM StudentsOfAdvisor s WHERE s.studentID = '{student_id}'")
-        row = self.cursor.fetchone()
-        if row:
+        self.cursor.execute(f"SELECT * FROM StudentsOfAdvisor'")
+        rows = self.cursor.fetchall()
+        for row in rows:
             advisor = self.get_advisor(row[1])
             student.set_advisor(advisor)
         return student
