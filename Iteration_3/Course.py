@@ -1,5 +1,5 @@
 from typing import List, Optional, TYPE_CHECKING
-
+from Logging_Config import logger
 if TYPE_CHECKING:
     from Student import Student
     from CourseSection import CourseSection
@@ -46,11 +46,11 @@ class Course:
             if student is not None:
                 self.__students.append(student)
             else:
-                print("The student object is null")
+                logger.error("The student object is null")
         except AttributeError:
-            print("The students list has not been initialized.")
+            logger.error("The students list has not been initialized.")
         except Exception as e:
-            print(str(e))
+            logger.error(str(e))
 
     def get_prerequisite_course(self) -> Optional['Course']:
         return self.__prerequisite_course
@@ -78,3 +78,6 @@ class Course:
 
     def __str__(self) -> str:
         return f"{self.__course_name} {self.__course_id}"
+    
+    def get_credits(self) -> int:
+        return self.__credits
